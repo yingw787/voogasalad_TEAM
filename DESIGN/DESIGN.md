@@ -11,8 +11,9 @@ CS308 Design: VOOGASalad
 
 ----------
 
-
-
+<p align = "center">
+	<img src = "/DESIGN/voogasalad_TEAM_HighLevelUML.png" />
+</p>
 
 > **Overview**
 
@@ -60,37 +61,3 @@ CS308 Design: VOOGASalad
 
 ----------
 
-
-
-
-
-
-### UML diagrams
-
-You can also render sequence diagrams like this:
-
-```sequence
-Alice->Bob: Hello Bob, how are you?
-Note right of Bob: Bob thinks
-Bob-->Alice: I am good thanks!
-```
-
-And flow charts like this:
-
-```flow
-st=>start: User
-e=>end: oahetusa
-f=>end: aheutonasu
-op=>operation: My Operation
-cond=>condition: Yes or No?
-
-st->op->cond
-cond(yes)->e
-cond(no)->f
-cond(no)->op
-```
-
-> **Note:** You can find more information:
-
-> - about **Sequence diagrams** syntax [here][7],
-> - about **Flow charts** syntax [here][8].
