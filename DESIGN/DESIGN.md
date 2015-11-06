@@ -12,7 +12,7 @@ CS308 Design: VOOGASalad
 ----------
 
 <p align = "center">
-![UML Diagram](/DESIGN/voogasalad_TEAM_HighLevelUML.png)
+	<img src = "/DESIGN/voogasalad_TEAM_HighLevelUML.png" />
 </p>
 
 > **Overview**
