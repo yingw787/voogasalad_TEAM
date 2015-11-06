@@ -11,7 +11,7 @@ CS308 Design: VOOGASalad
 
 ----------
 
-![UML Diagram](/voogasalad_TEAM/DESIGN/voogasalad_TEAM_HighLevelUML.png)
+![UML Diagram](/DESIGN/voogasalad_TEAM_HighLevelUML.png)
 
 
 > **Overview**
