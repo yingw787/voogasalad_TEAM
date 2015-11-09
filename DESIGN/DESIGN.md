@@ -45,6 +45,7 @@ CS308 Design: VOOGASalad
 
 > Describe three example games from your genre in detail that differ significantly. Clearly identify how the functional differences in these games is supported by your design and enabled by your authoring environment. Use these examples to help make concrete the abstractions in your design. This section may be as long as it needs to be and go into as much detail as necessary to cover all your team wants to say.
 
+> One type of tower defense game is the type where enemies are generated to walk around a map on a predetermined map. The player can then place towers alongside the path and defend a main base. Another type of game is that where enemies walk linearly along a map and towers can be placed anywhere, including in their path. Finally, another type of game is that where the player can not only defend a base, but also purchase units to attack an enemy base. 
 ----------
 
 
@@ -60,6 +61,8 @@ CS308 Design: VOOGASalad
 > **Team Responsibilities**
 
 > This section describes the program modules each team member plans to take primary and secondary responsibility for and a high-level plan of how the team will complete the program.
+
+> Ying, Cheng, and Wanning plan to take primary responsibility for the game engine. Dennis, William, and Susan plan to take primary responsibility for the authoring environment. Vanessa, Jaidev, and Abhishek plan to take primary responsibility for the game player. Main leaders from each module will be chosen for ease of communication, and Ying plans to take primary responsibility for high-level logistics of the project. 
 
 ----------
 
