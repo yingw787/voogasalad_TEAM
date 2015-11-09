@@ -9,6 +9,8 @@ CS308 Design: VOOGASalad
 
 > This section describes the problem your team is trying to solve by writing this program, the primary design goals of the project (i.e., where is it most flexible), and the primary architecture of the design (i.e., what is closed and what is open). It should also describe your chosen game genre and what qualities make it unique that your design will need to support. It should be approximately 300-600 words long and discuss the program at a high-level (i.e., without referencing specific classes, data structures, or code).
 
+>Our chosen genre is tower defense games, which are a subset of real-time strategy games. The qualities that make this genre unique is a set level design for each level, but variability in where the user can place towers or turrets to defend a base. Towers can vary in their strength, cost, and abilities. Our design will need to support the user's ability to interact with the game by placing towers in permissible locations, as well as ability for these towers to interact with enemies that walk along a path that is predetermined by the game designer. It will also need to support user defined images for all of these objects (towers, enemies, etc) and keep track of scores, waves, and other elements of tower defense games. 
+
 ----------
 
 <p align = "center">
@@ -19,9 +21,8 @@ CS308 Design: VOOGASalad
 
 > This section serves as a map of your design for other programmers to gain a general understanding of how and why the program was divided up, and how the individual parts work together to provide the desired functionality. As such, it should describe specific modules you intend to create, their purpose with regards to the program's functionality, and how they collaborate with each other, focusing specifically on each one's behavior. It should also include a picture of how the modules are related (these pictures can be hand drawn and scanned in, created with a standard drawing program, or screen shots from a UML design program). This section should be approximately 700-1000 words long and discuss specific classes, methods, and data structures, but not individual lines of code.
 
+> The main modules that we intend to create are the game engine, game player, and authoring environment, as well as a place to hold all the created games called game data. The authoring environment is an interface which allows a user to create a game, which is then exported to the game data once completed. From there, we will have a "store" interface that is populated with user created games, which can then be launched. Games are launched by being sent to the game engine, which serves as the main "back end" of our project. The game engine then interfaces with the game player through a controller, sending the game player objects to be represented in a GUI for a player to interact with. 
 ----------
-
-
 
 
 > **User Interface**
