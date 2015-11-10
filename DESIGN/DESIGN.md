@@ -36,7 +36,13 @@ The attributes of tower defense games narrow down our game development environme
 
 > **User Interface**
 
-> This section describes how the user will interact with your program (keep it simple to start). It should describe the overall appearance of program's user interface components and how users interact with these components (especially those specific to your program, i.e., means of input other than menus or toolbars). It should also include one or more pictures of the user interface (these pictures can be hand drawn and scanned in, created with a standard drawing program, or screen shots from a dummy program that serves as a exemplar). Describe how a game is represented to the designer and what support is provided to make it easy to create a game. Finally, it should describe any erroneous situations that are reported to the user (i.e., bad input data, empty data, etc.). This section may be as long as it needs to be and go into as much detail as necessary to cover all your team wants to say.
+> When the program is initially run, a GUI will pop up that asks the user whether they would like to create a game or play a game. If they choose to create a game, then the authoring environment will open. If they choose to play a game, a file dropdown will appear that is populated with a list of already completed games from game data. From there, selecting a game will load the xml into a new instance of the game engine, which will launch the game player.
+
+###Player
+
+> For the game player, the main interface will include a menu labeled "New Game" which will allow the player to select a new game to play. Clicking it will bring down a drop down with a list of completed games populated from Game Data, and will reload an xml into the game editor and refresh the game player if a new game is selected. When a new game is loaded, on the left of the screen the map will be displayed, with the background image and maps. On the right will be a plane of player information such as health, gold, and the current level/wave. On the bottom of the screen will be two tabs of Troops that can be hired and Towers that can be bought. These tabs will only be present if troops can be hired.
+
+> Clicking these tabs will change the bottom of the window, which is a scrolling bar populated with all the possible towers that can be purchased, or the troops that can be hired. Anything the player does not have enough gold to purchase will be grayed out and unclickable. To place a tower on the board, the player will select a tower which is then highlighted, and then click an area of the map. If this is a legal place to place the tower, it will then appear on the map. To hire a troop, the player will click on a troop, which is then highlighted, and then click a "buy" button. 
 
 ----------
 
