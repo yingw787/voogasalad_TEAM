@@ -11,6 +11,7 @@ CS308 Design: VOOGASalad
 
 > Our chosen genre is tower defense games, which are a subset of real-time strategy games. The qualities that make this genre unique is a set level design for each level, but variability in where the user can place towers or turrets to defend a base. Towers can vary in their strength, cost, and abilities. Our design will need to support the user's ability to interact with the game by placing towers in permissible locations, as well as ability for these towers to interact with enemies that walk along a path that is predetermined by the game designer. It will also need to support user defined images for all of these objects (towers, enemies, etc) and keep track of scores, waves, and other elements of tower defense games. 
 
+ 
 ----------
 
 <p align = "center">
