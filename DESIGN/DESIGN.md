@@ -22,7 +22,7 @@ The attributes of tower defense games narrow down our game development environme
 
 The main modules that we intend to create are the game engine, game player, and authoring environment, as well as a place to hold all the created games called game data. The authoring environment is an interface which allows a user to create a game, which is then exported to the game data once completed. From there, we will have a "store" interface that is populated with user created games, which can then be launched. Games are launched by being sent to the game engine, which serves as the main "back end" of our project. The game engine then interfaces with the game player through a controller, sending the game player objects to be represented in a GUI for a player to interact with. 
 
-###Authoring environment
+###Authoring Environment
 
 The authoring environment is a graphical WYSIWYG editor that can prop up a skeleton “game” and then allow the user to create different types of towers, enemies, units, and other graphical elements. This is done by calling up a dialog that asks for each input necessary to create the needed object. The game’s levels are then defined, in addition to the win conditions. The game is not played within this window. All the parameters of the game are written to XML files in a format that our opening application can interpret and pass into the game player to populate the game. 
 
@@ -34,7 +34,7 @@ It will consist of a graphic class that uses a number of subclasses dedicated to
 
 There will also be a class that validates and prints all XML output into formatted XML files that can be loaded by the game player.
 
-###Game player
+###Game Player
 Game Player module loads the game data and uses game engine to run a particular game. It consists of a view where the game that is created by the user is loaded into and played from. The game player communicates with Game Engine to get the information from the XML to display as well as sends information to the Game Engine with the updates from the player. Game player also has options for player to make changes and add components into the game during runtime. These changes will then be passed onto the game engine to update the XML files for the game. Similarly, if the player wishes to save the game in its current state, then they could do show and open it at the that same state again. To do so, the game player would create a new XML file in the game data for the game, so when the player opens it using game engine, the exact states will be displayed in the view. The communication flow is shown in the high level UML diagram.
 
 It will have a main Player class in the module, as well as a subclass called View that holds the primary UI elements. The View will also have subclasses that manage different aspects of the GUI such as the map, the player information, the scrolling pane of towers/troops, and the menu at the top of the screen. It will use resource files in order to add text to the GUI and will be populated with a list of potential towers/troops from the back end, which is read in from the Game Data XML files. The main Player class takes care of the communication between the Game Player and Game Engine through its API.
@@ -64,7 +64,7 @@ There will likely be a hashed data structure of the different types of tower and
 
 When the program is initially run, a GUI will pop up that asks the user whether they would like to create a game or play a game. If they choose to create a game, then the authoring environment will open. If they choose to play a game, a file dropdown will appear that is populated with a list of already completed games from game data. From there, selecting a game will load the xml into a new instance of the game engine, which will launch the game player.
 
-###Player
+###Game Player
 
 
 <p align = "center">
