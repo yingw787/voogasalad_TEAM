@@ -49,7 +49,9 @@ Clicking these tabs will change the bottom of the window, which is a scrolling b
 
 ###Authoring Environment
 
-
+<p align = "center">
+	<img src = "/DESIGN/editorDiagram.png" />
+</p>
 
 
 ##Design Details
