@@ -22,7 +22,7 @@ public class example4 {
 		 * what type of tower and the coordinates of where the user wants it to be 
 		 * placed.
 		 */
-		gameEngine.placeTower(new Request());
+		gameEngine.update(new ArrayList<Request>());
 		
 		/*If the location is legal, the Engine will create the object at the location
 		 * and then update the front end with the altered list of Units
