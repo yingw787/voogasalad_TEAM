@@ -60,10 +60,9 @@ Clicking tabs change the right side of the screen to represent different configu
 
 ##Example games
 
+One type of tower defense game is the type where enemies are generated to walk around a map on a predetermined map. The player can then place towers alongside the path and defend a main base. Another type of game is that where enemies walk linearly along a map and towers can be placed anywhere, including in their path. Finally, another type of game is that where the player can not only defend a base, but also purchase units to attack an enemy base.
 
-One type of tower defense game is the type where enemies are generated to walk around a map on a predetermined map. The player can then place towers alongside the path and defend a main base. Another type of game is that where enemies walk linearly along a map and towers can be placed anywhere, including in their path. Finally, another type of game is that where the player can not only defend a base, but also purchase units to attack an enemy base. 
-
-
+The main difference between these games is the paths: meandering vs. linear across the screen. This is supported by our design because it is up to the user how paths can be created and how many points it takes to define a path- so they can choose to make multiple paths across the screen, or they can choose to use many points to create one or more paths that wander around the screen. There are also a multitude of winning conditions in these games, such as simply defending a base for a certain number of enemies or perhaps by taking down an enemy base. Our authoring environment will be able to support the ability to define how a win condition is met and how the user plays, such as whether they can purchase supporting troops or not in addition to towers. 
 
 ##Design Considerations
 
