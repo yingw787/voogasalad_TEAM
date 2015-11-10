@@ -1,7 +1,7 @@
 package interfaces;
 import java.util.List;
 
-public interface playerInterface {
+public interface IPlayer {
 	public void populate(List<Unit> store);
 	/*passes the front end a list of all the objects that can be purchased*/
 	

@@ -1,8 +1,8 @@
 package usecases;
 import interfaces.Request;
-import interfaces.engineInterface;
+import interfaces.IEngine;
 
-public class Engine implements engineInterface {
+public class Engine implements IEngine {
 
 	@Override
 	public void placeTower(Request request) {
@@ -24,6 +24,12 @@ public class Engine implements engineInterface {
 
 	@Override
 	public void saveGame() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void startWave(int i) {
 		// TODO Auto-generated method stub
 		
 	}
