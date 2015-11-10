@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tower>
+	<myName>Cannon</myName>
+	<myBuyCost>100</myBuyCost>
+	<mySellCost>50</mySellCost>
+	<myUnit>
+		<myHealth>100.0</myHealth>
+		<myCollisionDamage>1.0</myCollisionDamage>
+		<myImage>AttackTower.jpg</myImage>
+		<myDimensions>
+			<width>20</width>
+			<height>20</height>
+		</myDimensions>
+	</myUnit>
+	<myAttackFrequency>2.0</myAttackFrequency>
+	<myAttackDamage>1.0</myAttackDamage>
+	<myRange>100.0</myRange>
+	<myBulletSpeed>50.0</myBulletSpeed>
+</Tower>

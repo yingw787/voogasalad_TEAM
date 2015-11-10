@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Path>
+	<myCheckPoints>
+		<Point>
+			<X>0</X>
+			<Y>200</Y>
+		</Point>
+		<Point>
+			<X>500</X>
+			<Y>200</X>
+		</Point>
+	</myCheckPoints>
+</Path>

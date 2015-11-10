@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Game>
+	<myHelpPage>Example_Game_Data\help.html</myHelpPage>
+	<myTitle>First Example Game</myTitle>
+	<myGameType>
+		<myGameMode>Infinite</myGameMode>
+		<mySpeedMultipler>1.2</mySpeedMultipler>
+		<myEnemyHealthMultipler>1.2</myEnemyHealthMultipler>
+	</myGameType>
+</Game>
