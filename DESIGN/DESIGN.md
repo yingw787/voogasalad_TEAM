@@ -21,10 +21,6 @@ Our chosen game genre is tower defense games. A subset of real-time strategy gam
 
 The attributes of tower defense games narrow down our game development environment to support a set of traits. For example, since the interaction between the user and the game is limited to placing the units down onto the board, the game development environment should support a toolbar that allows the user to view, choose, purchase, and place any kind of tower that is currently available to them. The game should then support the towers functioning by themselves. The nature of setting a path, or having a specific path, implies the need for the user game developer to create a certain path, and the need to verify a win/lose condition implies that the game needs to check that the path is valid (i.e. connects a given start and end point, and does not cross the path without special path blocks and does not go off the map). The nature of the levels implies that if the game were to save at a particular time, it would save after each wave of opponents is done. 
 
-<p align = "center">
-	<img src = "/DESIGN/voogasalad_TEAM_HighLevelUML.png" />
-</p>
-
 > **Overview**
 
 > This section serves as a map of your design for other programmers to gain a general understanding of how and why the program was divided up, and how the individual parts work together to provide the desired functionality. As such, it should describe specific modules you intend to create, their purpose with regards to the program's functionality, and how they collaborate with each other, focusing specifically on each one's behavior. It should also include a picture of how the modules are related (these pictures can be hand drawn and scanned in, created with a standard drawing program, or screen shots from a UML design program). This section should be approximately 700-1000 words long and discuss specific classes, methods, and data structures, but not individual lines of code.
@@ -32,6 +28,10 @@ The attributes of tower defense games narrow down our game development environme
 > The main modules that we intend to create are the game engine, game player, and authoring environment, as well as a place to hold all the created games called game data. The authoring environment is an interface which allows a user to create a game, which is then exported to the game data once completed. From there, we will have a "store" interface that is populated with user created games, which can then be launched. Games are launched by being sent to the game engine, which serves as the main "back end" of our project. The game engine then interfaces with the game player through a controller, sending the game player objects to be represented in a GUI for a player to interact with. 
 
 ----------
+
+<p align = "center">
+	<img src = "/DESIGN/voogasalad_TEAM_HighLevelUML.png" />
+</p>
 
 
 > **User Interface**
