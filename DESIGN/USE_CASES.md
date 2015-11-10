@@ -1,4 +1,13 @@
 
+CS308 Use Cases: VOOGASalad
+===================
+
+> **Use Cases**
+
+> This section describes the problem your team is trying to solve by writing this program, the primary design goals of the project (i.e., where is it most flexible), and the primary architecture of the design (i.e., what is closed and what is open). It should also describe your chosen game genre and what qualities make it unique that your design will need to support. It should be approximately 300-600 words long and discuss the program at a high-level (i.e., without referencing specific classes, data structures, or code).
+
+----------
+
 1. User can create new enemies with different attributes (health, speed, image, money given per kill, range)
 2. Application will have a game editor GUI (to create the game) and a game player GUI (to play the game)
 3. User can define path(s) that enemies take (default would be no path, for example, pre-defined path, user has to define a 4. path no matter what, including shortest path to target) 
