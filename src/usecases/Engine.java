@@ -22,4 +22,10 @@ public class Engine implements engineInterface {
 		
 	}
 
+	@Override
+	public void saveGame() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
