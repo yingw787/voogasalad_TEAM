@@ -87,21 +87,6 @@ Clicking tabs change the right side of the screen to represent different configu
 
 ##Design Details
 
-###Game Engine
-
-This module Game Engine is the Model in the Model-View-Controller design pattern. The game engine will have a main engine class, as well as an Event class that handles the possible events when somebody is playing the game. The Event class will be an abstract class and must be extended to have real meaning. The subclasses of event might be collision, buying a tower, selling a tower and so on.
-
-The engine updates the front end through a method in the Game Player called update and can be sent information through methods specific to buying towers and purchasing troops:
-```Java
-List<Units> update();
-```
-The first update method will be called by Game Player at a presetted frequency, which is the frequency of each frame. During the interval between two frames, the frontend (Game Player) will create a bunch of events. For example, when the user click at a legal position to buy a tower and put the tower there, the eventhandler of mouse click will be triggered. In this handler, game player will create an event to include all the information of buying a tower. (e.g., how much, what tower type…) When a bullet collides with a troop between these two frames, the front end will create an event of collision. Collision event will also take the record of  which two units collid.
-
-Backend gets the event with necessary information through the aforementioned specific methods. Then we will map these events in our own events repository. In this repository, we will find the run interface of each event (possible realization of the repo and the run method will be discussed below). In the run interface, the backend will modify the units according to the rules that the game designed has specified and we have stored in the XML file. 
-
-We will hold a repo to map the events created by frontend with the corresponding ‘run’ logic. A possible design is to create a hashmap. We hold an interface of run. The key of the hashmap will be the event type, and the value of the hashmap will be the objects that implements run.
-
-Considering that the frontend might want to read the units without updating the model, we create an API for reading the units. 
 
 ###Authoring Environment
 
