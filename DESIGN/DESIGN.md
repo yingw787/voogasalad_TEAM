@@ -2,9 +2,6 @@
 CS308 Design: VOOGASalad
 ===================
 
-
-
-
 ##Introduction
 
 The problem that we are trying to solve by writing this program is to create a game development environment generic enough to design and deploy a tower defense game, that would be simple enough to be used by a non-expert in JavaFX. 
@@ -25,7 +22,15 @@ The attributes of tower defense games narrow down our game development environme
 
 The main modules that we intend to create are the game engine, game player, and authoring environment, as well as a place to hold all the created games called game data. The authoring environment is an interface which allows a user to create a game, which is then exported to the game data once completed. From there, we will have a "store" interface that is populated with user created games, which can then be launched. Games are launched by being sent to the game engine, which serves as the main "back end" of our project. The game engine then interfaces with the game player through a controller, sending the game player objects to be represented in a GUI for a player to interact with. 
 
+####Game Engine
 
+Game Engine is the model where the game state is saved at every point during play. Game Engine is intended to be able to play finished games from a game store (which is a collection of finished games from Game Data), or be able to play prototyped games from the Authoring Environment. Game Engine will send a representation of the game state over to the Game Player such that Game Player will be able to represent the game at any given point in time to the user game player. This includes the pieces that are currently on the board as well as any parameters they have, the status of the user game player including how much money they gave, what level they are currently on, and other information crucial for the logical following of the game. In return, Game Player updates the Game Engine on what the user game player does and what needs to be added to the representation of the game, for example when the user game player adds a tower to the game board. 
+
+Game Engine is intended to be modularized into components that represent corresponding elements on the Game Player. Therefore, besides a top-level GameEngine() class, there will likely also be a GameEngineBoard() class for the back-end representation of the game board, GameEnginePlayerInformationStatus() class for the back-end representation of the user game player, and a GameEngineAvailableUnitToolbar() class for the back-end representation of the toolbar of available units for the user game player to choose from. Finally, helper classes like GameEngineXMLParser() may also be needed in order to process data from Game Data or communicate with other elements of the project. 
+
+The methods that correspond to Game Engine would correspond to what functionality the classes that correspond to Game Engine need. For example, it is likely that there will be a play() class that will instruct the engine to begin playing the game that the game user player has decided to play or test. There will also be a retrieveAndParseGameData() method in order to retrieve and parse data from Game Data in order to create the game state. There may be a saveGameState() where the current game state will be saved into Game State. Most importantly, there will be update() method where the Game Engine will pass the updated game state to the Game Player, as well as a handleRequest() method to handle request methods from the Game Player in terms of player actions. 
+
+There will likely be a hashed data structure of the different types of tower and unit objects available to the player.
 
 
 
@@ -54,22 +59,21 @@ Clicking these tabs will change the bottom of the window, which is a scrolling b
 	<img src = "/DESIGN/editorDiagram.png" />
 </p>
 
+When the authoring environment launches, it consists of a menu bar on the top that has multiple dropdown menus for user configuration options, such as starting over in creating a game and other such options. On the left, it has a blank map, and on the right it has a variety of tabs that denote all the different objects that the user can create for placement on the board. From the menu, the user can choose to load a background image for the map. 
+
+Clicking tabs change the right side of the screen to represent different configuration options. For instance, at first when the user clicks the "Tower" tab, it is an empty scrolling pane that simply has a button that gives the user an option to add a new Tower. Clicking this button brings up a popup, which allows the user to load an image and set the stats of the tower. Saving this tower then populates the right side of the screen with created towers, with options to edit or delete said towers. This is the same for Allies, Enemies, and Bases. Clicking the Player tab brings up options to configure things like player health, lives, and initial gold. Clicking the Config tabs gives the user options to configure things like the goals of the game and what sort of tower defense game the game is. Finally, there will be a paths tab that the user can also select. Paths can be created by clicking on the left map, which will create lines that delineate the paths that the enemies can walk on.
 
 ##Design Details
 
-This section describes each module introduced in the Overview in detail (as well as any other sub-modules that may be needed but are not significant to include in a high-level description of the program). It should describe how each module handles specific features given in the assignment specification, what resources it might use, how it collaborates with other modules, and how each could be extended to include additional requirements (from the assignment specification or discussed by your team). Note, each sub-team should have its own API for others in the overall team or for new team members to write extensions. Finally, justify the decision to create each module with respect to the design's key goals, principles, and abstractions. This section may be as long as it needs to be and go into as much detail as necessary to cover all your team wants to say.
 
 ##Example games
 
-Describe three example games from your genre in detail that differ significantly. Clearly identify how the functional differences in these games is supported by your design and enabled by your authoring environment. Use these examples to help make concrete the abstractions in your design. This section may be as long as it needs to be and go into as much detail as necessary to cover all your team wants to say.
+One type of tower defense game is the type where enemies are generated to walk around a map on a predetermined map. The player can then place towers alongside the path and defend a main base. Another type of game is that where enemies walk linearly along a map and towers can be placed anywhere, including in their path. Finally, another type of game is that where the player can not only defend a base, but also purchase units to attack an enemy base.
 
-One type of tower defense game is the type where enemies are generated to walk around a map on a predetermined map. The player can then place towers alongside the path and defend a main base. Another type of game is that where enemies walk linearly along a map and towers can be placed anywhere, including in their path. Finally, another type of game is that where the player can not only defend a base, but also purchase units to attack an enemy base. 
-
-
+The main difference between these games is the paths: meandering vs. linear across the screen. This is supported by our design because it is up to the user how paths can be created and how many points it takes to define a path- so they can choose to make multiple paths across the screen, or they can choose to use many points to create one or more paths that wander around the screen. There are also a multitude of winning conditions in these games, such as simply defending a base for a certain number of enemies or perhaps by taking down an enemy base. Our authoring environment will be able to support the ability to define how a win condition is met and how the user plays, such as whether they can purchase supporting troops or not in addition to towers. 
 
 ##Design Considerations
 
-This section describes any issues which need to be addressed or resolved before attempting to devise a complete design solution. It should include any design decisions that each sub-team discussed at length (include pros and cons from all sides of the discussion) as well as any ambiguities, assumptions, or dependencies regarding the program that impact the overall design. This section may be as long as it needs to be and go into as much detail as necessary to cover all your team wants to say.
 
 
 ##Team Responsibilities
