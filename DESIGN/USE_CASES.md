@@ -31,7 +31,7 @@ for user)
 27. User can define how the levels differ in terms of difficulty
 28. User can keep track of games' high scores through successive runs of the program until the user clears it
 29. User can replay the game repeatedly without quitting the editor
-30. User can open games repeatedly without quitting (application creates a store, user writes games to save it to the store, store launches game upon user command) 
+30. User can open games repeatedly without quitting (loaded from a file menu at top of GUI) 
 31. User can see which games are available, including at least each game's name, image, and description
 32. User can define the result of lose at a certain level (fall to the previous level or fall down to the very beginning level).
 33. User defines the animation of bullets/units (default should be 
