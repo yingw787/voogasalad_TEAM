@@ -9,25 +9,28 @@ CS308 Use Cases: VOOGASalad
 
 1. User can create new enemies with different attributes (health, speed, image, money given per kill, range)
 2. Application will have a game editor GUI (to create the game) and a game player GUI (to play the game)
-3. User can define path(s) that enemies take (default would be no path, for example, pre-defined path, user has to define a 4. path no matter what, including shortest path to target) 
-5. User can define path components (bridges, tunnels, etc. with appropriate images, sizes, money cost, etc.)
-6. User can define bullet attributes (damage, speed, mapped to which units, etc.)
-7. User can define locations where the player is allowed to place towers (user cannot place towers on the user-defined path)
-8. User can create new types of towers (health, cost, appearance, damage per attack, attack rate, bullet image, upgrades/upgrade costs) 
+3. User can define path(s) that enemies take (default would be no path, for example, pre-defined path, user has to define a path no matter what, including shortest path to target) 
+4. User can define path components (bridges, tunnels, etc. with appropriate images, sizes, money cost, etc.)
+5. User can define bullet attributes (damage, speed, mapped to which units, etc.)
+6. User can define locations where the player is allowed to place towers (user cannot place towers on the user-defined path)
+7. User can create new types of towers (health, cost, appearance, damage per attack, attack rate, bullet image, upgrades/upgrade  costs) 
+8. Editor should have a HTML formatted help page for user to use the components of the editor.
 9. User can save a game he makes (saves the list of towers, enemies, locations of paths, base, images, etc.)
 10. User can load the game that they saved
 11. User can define appearance, health, and location of main base
 12. User can see health of main base and enemies
 13. User can place scenery/aesthetic items on the map
-14. User can upgrade turrets and troops during game (after each wave a popup screen appears that shows options available in-game for user)
-15. User can define spawn rate and spawn order of enemies
-16. User can define the level background image
-17. User can define which towers are available for user control 
-18. User can drag and drop items onto the board during gameplay
-19. User can define to see their money/points
-20. User can define a rate for the player to constantly gain money/points
-21. User can write a ‘Rules’ dialog that the player can open up
-22. User can define the goal of the round (whether to kill all enemies within a time limit, or keep “base” alive within a  23. time limit, or keep “base” alive for a certain number of enemies).
+14. User can upgrade turrets and troops during game (after each wave a popup screen appears that shows options available in-game
+for user)
+15. User can use cheat codes for more gold or more health
+16. User can define spawn rate and spawn order of enemies
+17. User can define the level background image
+18. User can define which towers are available for user control 
+19. User can drag and drop items onto the board during gameplay
+20. User can define to see their money/points
+21. User can define a rate for the player to constantly gain money/points
+22. User can write a �Rules� dialog that the player can open up
+23. User can define the goal of the round (whether to kill all enemies within a time limit, or keep base alive within a time limit, or keep base alive for a certain number of enemies).
 24. User defines win/lose conditions, if any (infinite levels (survival mode), defeat enemy base, campaign mode, etc.)
 25. User can define win/lose scenes that player sees
 26. User can define cheat key (automatically go to win/lose conditions, clear enemies on board, infinite money, etc.)
@@ -45,4 +48,3 @@ CS308 Use Cases: VOOGASalad
 38. User can create troops that the player can buy (define health, speed, cost)
 39. Player can buy his own troops to send out; they travel backward on the path and collide with enemy troops
 40. Editor should have tabs to define aspects of the games (create enemies, create turrets, load image etc)
-41. Editor should have a HTML formatted help page for user to use the components of the editor.
