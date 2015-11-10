@@ -55,6 +55,9 @@ Clicking these tabs will change the bottom of the window, which is a scrolling b
 	<img src = "/DESIGN/editorDiagram.png" />
 </p>
 
+When the authoring environment launches, it consists of a menu bar on the top that has multiple dropdown menus for user configuration options, such as starting over in creating a game and other such options. On the left, it has a blank map, and on the right it has a variety of tabs that denote all the different objects that the user can create for placement on the board. From the menu, the user can choose to load a background image for the map. 
+
+Clicking tabs change the right side of the screen to represent different configuration options. For instance, at first when the user clicks the "Tower" tab, it is an empty scrolling pane that simply has a button that gives the user an option to add a new Tower. Clicking this button brings up a popup, which allows the user to load an image and set the stats of the tower. Saving this tower then populates the right side of the screen with created towers, with options to edit or delete said towers. This is the same for Allies, Enemies, and Bases. Clicking the Player tab brings up options to configure things like player health, lives, and initial gold. Clicking the Config tabs gives the user options to configure things like the goals of the game and what sort of tower defense game the game is. Finally, there will be a paths tab that the user can also select. Paths can be created by clicking on the left map, which will create lines that delineate the paths that the enemies can walk on.
 
 ##Design Details
 
