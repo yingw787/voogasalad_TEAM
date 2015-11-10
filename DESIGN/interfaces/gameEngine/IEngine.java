@@ -4,14 +4,13 @@ import interfaces.Request;
 
 public interface engineInterface {
 
-	public void placeTower(Request request);
-	/*Game Player sends a request with the type of tower and a location on the map. If the placement is legal and the player 
-	 * has enough money then the Engine creates the tower at the location and updates the front end, which will then display 
-	 * the new tower for the player to see and the new gold count.*/
-	
-	public void buyTroop(Request request);
-	/*Game Player sends a request to the Game Engine with the type of unit and the back end verifies that the user can afford 
-	 * the unit. If so, then Engine creates the unit and updates the front end's gold and the units on the map. 
+	public List<Entry<ID, Units> > readAllUnits();
+	/* Game Player refresh the front end scenery, so it will read the units and display them.
+	 */
+
+	public void update(List<Event>);
+	/* Game Player create a list of events to record what have happened during the previous duration.
+	 * Game Engine get the list of events and then run the corresponding logics.
 	 */
 	
 	public void loadNewGame(String title);
