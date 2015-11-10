@@ -1,6 +1,6 @@
 package interfaces;
 
-public interface engineInterface {
+public interface IEngine {
 
 	public void placeTower(Request request);
 	/*Game Player sends a request with the type of tower and a location on the map. If the placement is legal and the player 
@@ -21,6 +21,11 @@ public interface engineInterface {
 	public void saveGame();
 	/*If the user chooses to save their current game state by interacting with the GUI, the Game Player then notifies
 	 * the Game Engine, which then goes and saves the data into an XML and places it into game data as a save file.
+	 */
+
+	void startWave(int i);
+	/*Tells the Engine to begin loading the next wave in the game, specified by 
+	 *a number
 	 */
 }
 

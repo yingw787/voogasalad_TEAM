@@ -3,9 +3,9 @@ import java.util.List;
 
 import interfaces.Unit;
 import interfaces.UserInfoStatus;
-import interfaces.playerInterface;
+import interfaces.IPlayer;
 
-public class Player implements playerInterface{
+public class Player implements IPlayer{
 
 	@Override
 	public void populate(List<Unit> store) {

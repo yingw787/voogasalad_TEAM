@@ -21,5 +21,4 @@ public class example2 {
 		 * with a list of all the units, including this new troop*/
 		gamePlayer.updateMap(new ArrayList<Unit>());
 	}
-	
 }
