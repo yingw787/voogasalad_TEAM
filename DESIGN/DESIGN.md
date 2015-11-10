@@ -91,10 +91,9 @@ Clicking tabs change the right side of the screen to represent different configu
 
 This module Game Engine is the Model in the Model-View-Controller design pattern. The game engine will have a main engine class, as well as an Event class that handles the possible events when somebody is playing the game. The Event class will be an abstract class and must be extended to have real meaning. The subclasses of event might be collision, buying a tower, selling a tower and so on.
 
-The major API of the game engine is like:
+The engine updates the front end through a method in the Game Player called update:
 ```Java
-void update(List<Event> eventsOfFrame);
-List<Units> readAllUnits();
+List<Units> update();
 ```
 The first update method will be called by Game Player at a presetted frequency, which is the frequency of each frame. During the interval between two frames, the frontend (Game Player) will create a bunch of events. For example, when the user click at a legal position to buy a tower and put the tower there, the eventhandler of mouse click will be triggered. In this handler, game player will create an event to include all the information of buying a tower. (e.g., how much, what tower type…) When a bullet collides with a troop between these two frames, the front end will create an event of collision. Collision event will also take the record of  which two units collid.
 
