@@ -65,6 +65,16 @@ Clicking tabs change the right side of the screen to represent different configu
 
 ##Design Details
 
+###Game Player
+
+The player will have a main Player class in the module, as well as a subclass called View that holds the primary UI elements. The View will also have subclasses that manage different aspects of the GUI such as the map, the player information, the scrolling pane of towers/troops, and the menu at the top of the screen. It will use resource files in order to add text to the GUI and will be populated with a list of potential towers/troops from the back end, which is read in from the Game Data XML files. 
+
+Game Player module only communicates with Game Engine module. This is done using observers and observables. Most of the components in the view can be extended to include additional features. The tabs and viewboxes would have an abstract class that could be used if any extension needs to be made. 
+
+The Game Player will support the ability for the player to see game high scores through interfaces in the GUI. It will also have a HUD in the right side of the screen displaying the player stats as the game goes on, which is updated from the back end. The user will also have the option from the menu bar to replay and switch games, and naturally from the menu will be able to see which games are available. We will also try to support save states for the player from the menu bar, which will be done by indicating to the back end that an xml needs to be saved.
+
+We decided to create modules depending on the way it was described in the project description. Having a Game Player module makes sense because this distinguishes between different roles in the project. It also makes each module do one specific work, hence the modules can have extendibility functions individually. It also makes sense to encapsulate the front end of the game in a specific class. Furthermore, the Game Player module’s GUI largely consists of subclasses that are placed into the one main View subclass. so it is easily extensible by adding more subclasses that are in charge of new GUI element.
+
 
 ##Example games
 
