@@ -22,7 +22,19 @@ The attributes of tower defense games narrow down our game development environme
 
 The main modules that we intend to create are the game engine, game player, and authoring environment, as well as a place to hold all the created games called game data. The authoring environment is an interface which allows a user to create a game, which is then exported to the game data once completed. From there, we will have a "store" interface that is populated with user created games, which can then be launched. Games are launched by being sent to the game engine, which serves as the main "back end" of our project. The game engine then interfaces with the game player through a controller, sending the game player objects to be represented in a GUI for a player to interact with. 
 
-###Game player
+###Authoring Environment
+
+The authoring environment is a graphical WYSIWYG editor that can prop up a skeleton “game” and then allow the user to create different types of towers, enemies, units, and other graphical elements. This is done by calling up a dialog that asks for each input necessary to create the needed object. The game’s levels are then defined, in addition to the win conditions. The game is not played within this window. All the parameters of the game are written to XML files in a format that our opening application can interpret and pass into the game player to populate the game. 
+
+It will consist of a graphic class that uses a number of subclasses dedicated to constructing XML specifications for generating game rules. This includes factories that will generate:
+
+* XML code dedicated to generating lists of buyable towers and their costs
+* XML code defining the attributes of all units that show up in the game (enemies, towers, and allies)
+* XML code defining the levels, including their paths, background images, enemy wave data, and win conditions
+
+There will also be a class that validates and prints all XML output into formatted XML files that can be loaded by the game player.
+
+###Game Player
 Game Player module loads the game data and uses game engine to run a particular game. It consists of a view where the game that is created by the user is loaded into and played from. The game player communicates with Game Engine to get the information from the XML to display as well as sends information to the Game Engine with the updates from the player. Game player also has options for player to make changes and add components into the game during runtime. These changes will then be passed onto the game engine to update the XML files for the game. Similarly, if the player wishes to save the game in its current state, then they could do show and open it at the that same state again. To do so, the game player would create a new XML file in the game data for the game, so when the player opens it using game engine, the exact states will be displayed in the view. The communication flow is shown in the high level UML diagram.
 
 It will have a main Player class in the module, as well as a subclass called View that holds the primary UI elements. The View will also have subclasses that manage different aspects of the GUI such as the map, the player information, the scrolling pane of towers/troops, and the menu at the top of the screen. It will use resource files in order to add text to the GUI and will be populated with a list of potential towers/troops from the back end, which is read in from the Game Data XML files. The main Player class takes care of the communication between the Game Player and Game Engine through its API.
@@ -52,7 +64,7 @@ There will likely be a hashed data structure of the different types of tower and
 
 When the program is initially run, a GUI will pop up that asks the user whether they would like to create a game or play a game. If they choose to create a game, then the authoring environment will open. If they choose to play a game, a file dropdown will appear that is populated with a list of already completed games from game data. From there, selecting a game will load the xml into a new instance of the game engine, which will launch the game player.
 
-###Player
+###Game Player
 
 
 <p align = "center">
@@ -74,6 +86,43 @@ When the authoring environment launches, it consists of a menu bar on the top th
 Clicking tabs change the right side of the screen to represent different configuration options. For instance, at first when the user clicks the "Tower" tab, it is an empty scrolling pane that simply has a button that gives the user an option to add a new Tower. Clicking this button brings up a popup, which allows the user to load an image and set the stats of the tower. Saving this tower then populates the right side of the screen with created towers, with options to edit or delete said towers. This is the same for Allies, Enemies, and Bases. Clicking the Player tab brings up options to configure things like player health, lives, and initial gold. Clicking the Config tabs gives the user options to configure things like the goals of the game and what sort of tower defense game the game is. Finally, there will be a paths tab that the user can also select. Paths can be created by clicking on the left map, which will create lines that delineate the paths that the enemies can walk on.
 
 ##Design Details
+
+###Game Engine
+
+This module Game Engine is the Model in the Model-View-Controller design pattern. The game engine will have a main engine class, as well as an Event class that handles the possible events when somebody is playing the game. The Event class will be an abstract class and must be extended to have real meaning. The subclasses of event might be collision, buying a tower, selling a tower and so on.
+
+The engine updates the front end through a method in the Game Player called update and can be sent information through methods specific to buying towers and purchasing troops:
+```Java
+List<Units> update();
+```
+The first update method will be called by Game Player at a presetted frequency, which is the frequency of each frame. During the interval between two frames, the frontend (Game Player) will create a bunch of events. For example, when the user click at a legal position to buy a tower and put the tower there, the eventhandler of mouse click will be triggered. In this handler, game player will create an event to include all the information of buying a tower. (e.g., how much, what tower type…) When a bullet collides with a troop between these two frames, the front end will create an event of collision. Collision event will also take the record of  which two units collid.
+
+Backend gets the event with necessary information through the aforementioned specific methods. Then we will map these events in our own events repository. In this repository, we will find the run interface of each event (possible realization of the repo and the run method will be discussed below). In the run interface, the backend will modify the units according to the rules that the game designed has specified and we have stored in the XML file. 
+
+We will hold a repo to map the events created by frontend with the corresponding ‘run’ logic. A possible design is to create a hashmap. We hold an interface of run. The key of the hashmap will be the event type, and the value of the hashmap will be the objects that implements run.
+
+Considering that the frontend might want to read the units without updating the model, we create an API for reading the units. 
+
+###Authoring Environment
+
+The authoring environment is independent from the game player and game engine, so its API for communicating with those is simple. Mainly, the authoring environment just needs to be able to be launched, and write the game data to XML files.
+
+The authoring environment’s ToolBar module has buttons which allow the user to create a new game, open a game to edit, save the game they are currently working on, and access a help page. It is open for extension - the EditorController can add a new button to the ToolBar through its interface - but other than that it is closed for modification.
+
+The GameBoard module is a SubScene that serves as a visual representation of the game. The user can:
+
+* Select an object to edit
+* Drag and drop an object to reposition it within the game
+* Click anywhere to add a point, which can be combined with other points to create a path for objects to follow
+* Add or change the game background image
+
+The GameBoard also has public add/remove methods, so that if a node is added or removed elsewhere in the authoring environment, these changes can be easily visually reflected on the GameBoard.
+
+The EditorController module deals with the game data. As the user makes changes in the WYSIWYG editor - for example, dragging their base further to the left on the GameBoard - these need to change the actual game data, and this is done through the EditorController. The EditorController then has the ability to save the game by writing to GameData so that it can be played or further edited.
+
+The TabPane module handles letting the user create and edit all the different possible towers, troops, levels, and other game actors and configurations. It does this by containing multiple tabs that deal with creating new instances of the different types of game actors. For example, the Towers tab lets the user add and edit new towers in the game. To add a new tower, the user clicks a button and is presented with a new window with multiple input boxes. The user can fill out the input boxes with the desired tower parameters and create a new tower that can be used in the game. The Levels, Troops, Paths, and Base tabs are similar, except with different input parameters. The General tab allows the user to edit the miscellaneous information a game may contain, such as the specific game type (ex: infinite survival vs. passing all levels)
+
+Each tab is contained as an independent submodule with its own specifications on how to add and remove items. This design separates the TabPane structure from the content of the tabs, so the TabPane is closed to modification but open for extension. To extend the TabPane to provide options for the user to create new kinds of game objects, a developer can write a class for a new submodule and call `addOption()` from the EditorController to add a new tab. 
 
 ###Game Player
 
@@ -108,6 +157,20 @@ One type of tower defense game is the type where enemies are generated to walk a
 The main difference between these games is the paths: meandering vs. linear across the screen. This is supported by our design because it is up to the user how paths can be created and how many points it takes to define a path- so they can choose to make multiple paths across the screen, or they can choose to use many points to create one or more paths that wander around the screen. There are also a multitude of winning conditions in these games, such as simply defending a base for a certain number of enemies or perhaps by taking down an enemy base. Our authoring environment will be able to support the ability to define how a win condition is met and how the user plays, such as whether they can purchase supporting troops or not in addition to towers. 
 
 ##Design Considerations
+
+While class inheritance will definitely be closely observed and critiqued by all developers (if it is implemented at all), there is debate about whether inherited interfaces should be used. Since classes are not tied to an interface the same way they are tied to a superclass, inheritance hierarchies are less rigid than class hierarchies. However, given that any interface with an implementation anywhere cannot be easily revised without changing all classes that implement that interface, there is still a degree of inflexibility with regards to interfaces. One solution to this dilemma is the idea of composition. With composition, specific classes create specific implementations of a particular interface, and other classes include those classes as their specific implementation of the interface. For example, Solid would implement KeepShape while Fluid would implement NoShape, where KeepShape and NoShape are implementations of IShapeUnderPressure. Composition should prove useful as modules can be swapped out and yet remain standardized according to the interface declaration. 
+
+While we added several functions to our API, we will need to ensure that the API remains flexible enough in order to fit in functions as the needs are discovered during our basic implementation and extensions. We were careful to not add in too much functionality into the API, especially if we did not know with certainty that the function is needed. Functionality can always be built in later, but public APIs are effectively eternal and must be supported forever. We plan on wrapping most of the functionality in Controller classes in the MVC ideal, so that additional functionality wouldn’t need to change too much either in the Game Player or the Game Engine. 
+
+Observables will be heavily used in the Game Engine as well as the Game Player, as they provide an intuitive way in order to communicate between the two modules. By setting an Observable, the view would automatically be able to look for the object instead of having to generate an event or explicitly send it. Observables would likely be a primary way of communicating if not objects, then that objects are ready for transfer. 
+
+Reflections, while immensely useful in generating objects, should be used carefully since they do not obey standard class scopes. If the class of the object is not known at compile time, reflections are a handy way in order to generate those objects at runtime. This is definitely useful for generating user-defined objects like specific towers created in game, or searching for a particular tower to create in a series of packages. Reflections should be limited in their scope of use since they give unfettered access to an object, of course; they may cause security issues with code and thus may not be good practice.
+
+Event handling logic will be prevalent particularly in the front-end with the use of I/O interrupts. Additional cases beyond that should be handled by regular functions without the need to pass methods in as parameters. We do not foresee a situation where other design patterns will not suffice in taking care of all other communications methods. 
+
+Exception handling logic will be simplified without the consistent use of event handling logic, and we aim to create our own exceptions extending from both Exception and RuntimeException. We will strive to ensure that no control flows will operate through the use of exceptions, in that any case generating exceptions will require user input to handle. 
+
+The team also heavily discussed the purpose and the scope of the Game Data object; will that be a relatively simple collection of game XML files, or whether it will be that collection in addition to a controller that will help return requests and store data. In the end, the team decided to go with a simple collection of game XML files and have all parsing and handling done within the modules. If it turns out a controller is needed, we will add it later; by then we should have most of the pieces in play and it should be a case of refactoring. 
 
 
 

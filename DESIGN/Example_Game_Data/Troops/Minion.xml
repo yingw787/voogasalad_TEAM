@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Troop>
+    <myName>Minion</myName>
+    <Unit>
+        <myHealth>1.0</myHealth>
+        <myCollisionDamage>1.0</myCollisionDamage>
+        <myImage>Troop.jpg</myImage>
+        <Dimensions>
+            <width>50.0</width>
+            <height>50.0</height>
+        </Dimensions>
+    </Unit>
+    <myMoveSpeed>3.0</myMoveSpeed>
+    <myBounty>20</myBounty>
+</Troop>

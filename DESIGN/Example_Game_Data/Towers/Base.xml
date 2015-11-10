@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tower>
+	<myName>Home Base</myName>
+	<myUnit>
+		<myHealth>200.0</myHealth>
+		<myCollisionDamage>1.0</myCollisionDamage>
+		<myImage>HomeBase.jpg</myImage>
+		<myDimensions>
+			<width>50</width>
+			<weight>50</height>
+		</myDimensions>
+	</myUnit>
+</Tower>

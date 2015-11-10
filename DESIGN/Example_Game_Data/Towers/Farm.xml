@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tower>
+	<myName>Farm</myName>
+	<myBuyCost>200</myBuyCost>
+	<mySellCost>100</mySellCost>
+	<myUnit>
+		<myHealth>100.0</myHealth>
+		<myCollisionDamage>1.0</myCollisionDamage>
+		<myImage>FarmTower.jpg</myImage>
+		<myDimensions>
+			<width>20</width>
+			<height>20</height>
+		</myDimensions>
+	</myUnit>
+	<myEarnRate>2.0</myEarnRate>
+</Tower>

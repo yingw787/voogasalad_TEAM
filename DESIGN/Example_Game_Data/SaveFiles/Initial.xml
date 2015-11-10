@@ -1,0 +1,6 @@
+<?xml version="1.0" ecncoding="UTF-8"?>
+
+<Player>
+	<myMoney>200</myMoney>
+	<myCurrentLevel>Level1</myCurrentLevel>
+</Player>
