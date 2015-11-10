@@ -1,20 +1,11 @@
 package usecases;
 import interfaces.Request;
+
+import java.util.List;
+
 import interfaces.IEngine;
 
 public class Engine implements IEngine {
-
-	@Override
-	public void placeTower(Request request) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void buyTroop(Request request) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void loadNewGame(String title) {
@@ -30,6 +21,12 @@ public class Engine implements IEngine {
 	
 	@Override
 	public void startWave(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(List<Request> requests) {
 		// TODO Auto-generated method stub
 		
 	}
