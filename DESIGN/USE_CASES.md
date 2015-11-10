@@ -1,12 +1,6 @@
 CS308 Use Cases: VOOGASalad
 ===================
 
-> **Use Cases**
-
-> This section describes the problem your team is trying to solve by writing this program, the primary design goals of the project (i.e., where is it most flexible), and the primary architecture of the design (i.e., what is closed and what is open). It should also describe your chosen game genre and what qualities make it unique that your design will need to support. It should be approximately 300-600 words long and discuss the program at a high-level (i.e., without referencing specific classes, data structures, or code).
-
-----------
-
 1. User can create new enemies with different attributes (health, speed, image, money given per kill, range)
 2. Application will have a game editor GUI (to create the game) and a game player GUI (to play the game)
 3. User can define path(s) that enemies take (default would be no path, for example, pre-defined path, user has to define a path no matter what, including shortest path to target) 
@@ -29,7 +23,7 @@ for user)
 19. User can drag and drop items onto the board during gameplay
 20. User can define to see their money/points
 21. User can define a rate for the player to constantly gain money/points
-22. User can write a ‘Rules’ dialog that the player can open up
+22. User can write a â€˜Rulesâ€™ dialog that the player can open up
 23. User can define the goal of the round (whether to kill all enemies within a time limit, or keep base alive within a time limit, or keep base alive for a certain number of enemies).
 24. User defines win/lose conditions, if any (infinite levels (survival mode), defeat enemy base, campaign mode, etc.)
 25. User can define win/lose scenes that player sees
