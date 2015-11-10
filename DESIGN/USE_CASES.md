@@ -1,4 +1,3 @@
-
 CS308 Use Cases: VOOGASalad
 ===================
 
@@ -47,4 +46,3 @@ CS308 Use Cases: VOOGASalad
 39. Player can buy his own troops to send out; they travel backward on the path and collide with enemy troops
 40. Editor should have tabs to define aspects of the games (create enemies, create turrets, load image etc)
 41. Editor should have a HTML formatted help page for user to use the components of the editor.
-
