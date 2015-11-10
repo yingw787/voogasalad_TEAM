@@ -87,6 +87,27 @@ Clicking tabs change the right side of the screen to represent different configu
 
 ##Design Details
 
+###Authoring Environment
+
+The authoring environment is independent from the game player and game engine, so its API for communicating with those is simple. Mainly, the authoring environment just needs to be able to be launched, and write the game data to XML files.
+
+The authoring environment’s ToolBar module has buttons which allow the user to create a new game, open a game to edit, save the game they are currently working on, and access a help page. It is open for extension - the EditorController can add a new button to the ToolBar through its interface - but other than that it is closed for modification.
+
+The GameBoard module is a SubScene that serves as a visual representation of the game. The user can:
+
+* Select an object to edit
+* Drag and drop an object to reposition it within the game
+* Click anywhere to add a point, which can be combined with other points to create a path for objects to follow
+* Add or change the game background image
+
+The GameBoard also has public add/remove methods, so that if a node is added or removed elsewhere in the authoring environment, these changes can be easily visually reflected on the GameBoard.
+
+The EditorController module deals with the game data. As the user makes changes in the WYSIWYG editor - for example, dragging their base further to the left on the GameBoard - these need to change the actual game data, and this is done through the EditorController. The EditorController then has the ability to save the game by writing to GameData so that it can be played or further edited.
+
+The TabPane module handles letting the user create and edit all the different possible towers, troops, levels, and other game actors and configurations. It does this by containing multiple tabs that deal with creating new instances of the different types of game actors. For example, the Towers tab lets the user add and edit new towers in the game. To add a new tower, the user clicks a button and is presented with a new window with multiple input boxes. The user can fill out the input boxes with the desired tower parameters and create a new tower that can be used in the game. The Levels, Troops, Paths, and Base tabs are similar, except with different input parameters. The General tab allows the user to edit the miscellaneous information a game may contain, such as the specific game type (ex: infinite survival vs. passing all levels)
+
+Each tab is contained as an independent submodule with its own specifications on how to add and remove items. This design separates the TabPane structure from the content of the tabs, so the TabPane is closed to modification but open for extension. To extend the TabPane to provide options for the user to create new kinds of game objects, a developer can write a class for a new submodule and call `addOption()` from the EditorController to add a new tab. 
+
 ###Game Player
 
 The player will have a main Player class in the module, as well as a subclass called View that holds the primary UI elements. The View will also have subclasses that manage different aspects of the GUI such as the map, the player information, the scrolling pane of towers/troops, and the menu at the top of the screen. It will use resource files in order to add text to the GUI and will be populated with a list of potential towers/troops from the back end, which is read in from the Game Data XML files. 
