@@ -20,9 +20,17 @@ The attributes of tower defense games narrow down our game development environme
 	<img src = "/DESIGN/voogasalad_TEAM_HighLevelUML.png" />
 </p>
 
-
 The main modules that we intend to create are the game engine, game player, and authoring environment, as well as a place to hold all the created games called game data. The authoring environment is an interface which allows a user to create a game, which is then exported to the game data once completed. From there, we will have a "store" interface that is populated with user created games, which can then be launched. Games are launched by being sent to the game engine, which serves as the main "back end" of our project. The game engine then interfaces with the game player through a controller, sending the game player objects to be represented in a GUI for a player to interact with. 
 
+####Game Engine
+
+Game Engine is the model where the game state is saved at every point during play. Game Engine is intended to be able to play finished games from a game store (which is a collection of finished games from Game Data), or be able to play prototyped games from the Authoring Environment. Game Engine will send a representation of the game state over to the Game Player such that Game Player will be able to represent the game at any given point in time to the user game player. This includes the pieces that are currently on the board as well as any parameters they have, the status of the user game player including how much money they gave, what level they are currently on, and other information crucial for the logical following of the game. In return, Game Player updates the Game Engine on what the user game player does and what needs to be added to the representation of the game, for example when the user game player adds a tower to the game board. 
+
+Game Engine is intended to be modularized into components that represent corresponding elements on the Game Player. Therefore, besides a top-level GameEngine() class, there will likely also be a GameEngineBoard() class for the back-end representation of the game board, GameEnginePlayerInformationStatus() class for the back-end representation of the user game player, and a GameEngineAvailableUnitToolbar() class for the back-end representation of the toolbar of available units for the user game player to choose from. Finally, helper classes like GameEngineXMLParser() may also be needed in order to process data from Game Data or communicate with other elements of the project. 
+
+The methods that correspond to Game Engine would correspond to what functionality the classes that correspond to Game Engine need. For example, it is likely that there will be a play() class that will instruct the engine to begin playing the game that the game user player has decided to play or test. There will also be a retrieveAndParseGameData() method in order to retrieve and parse data from Game Data in order to create the game state. There may be a saveGameState() where the current game state will be saved into Game State. Most importantly, there will be update() method where the Game Engine will pass the updated game state to the Game Player, as well as a handleRequest() method to handle request methods from the Game Player in terms of player actions. 
+
+There will likely be a hashed data structure of the different types of tower and unit objects available to the player.
 
 
 
