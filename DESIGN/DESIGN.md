@@ -30,9 +30,18 @@ The main modules that we intend to create are the game engine, game player, and 
 
 ##User Interface
 
+<p align = "center">
+	<img src = "/DESIGN/launcherDiagram.png" />
+</p>
+
 When the program is initially run, a GUI will pop up that asks the user whether they would like to create a game or play a game. If they choose to create a game, then the authoring environment will open. If they choose to play a game, a file dropdown will appear that is populated with a list of already completed games from game data. From there, selecting a game will load the xml into a new instance of the game engine, which will launch the game player.
 
 ###Player
+
+
+<p align = "center">
+	<img src = "/DESIGN/playerDiagram.png" />
+</p>
 
 For the game player, the main interface will include a menu labeled "New Game" which will allow the player to select a new game to play. Clicking it will bring down a drop down with a list of completed games populated from Game Data, and will reload an xml into the game editor and refresh the game player if a new game is selected. When a new game is loaded, on the left of the screen the map will be displayed, with the background image and maps. On the right will be a plane of player information such as health, gold, and the current level/wave. On the bottom of the screen will be two tabs of Troops that can be hired and Towers that can be bought. These tabs will only be present if troops can be hired.
 
