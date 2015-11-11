@@ -1,10 +1,10 @@
 package units;
 
 public class Unit {
-	private double myHealth;
-	private double myCollisionDamage;
-	private String myImage;
-	private Dimension myDimensions;
-	private Point myPosition;
-	private int myID;
+	protected double myHealth;
+	protected double myCollisionDamage;
+	protected String myImage;
+	protected Dimension myDimensions;
+	protected Point myPosition;
+	protected int myID;
 }
