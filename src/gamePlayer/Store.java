@@ -18,12 +18,11 @@ public class Store implements IViewNode {
 	public VBox initialize(){
 		VBox myVBox = new VBox();
 		myScrollPane = new StoreManager().initialize();
-		myTabPane = new TabManager();
+		myTabPane = new TabManager().initialize();
 		myVBox.getChildren().addAll(myTabPane, myScrollPane);
 		return myVBox;
 	}
-	
-	
+
 	@Override
 	public void setHeight(double height){
 		myScrollPane.setPrefHeight(height*.8);

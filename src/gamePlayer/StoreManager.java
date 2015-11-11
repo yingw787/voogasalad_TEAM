@@ -24,8 +24,12 @@ public class StoreManager {
 	}
 	private void populate(){
 		List<ToggleButton> list = new ArrayList<ToggleButton>();
-		for (int i = 0; i < 10; i++) {
-			list.add(buttonFactory());
+		for (int i = 0; i < 8; i++) {
+			ToggleButton button = buttonFactory("turret_transparent.png");
+			list.add(button);
+			if (i==7){
+				button.setDisable(true);
+			}
 		}
 		ToggleGroup group = new ToggleGroup();
 		for (ToggleButton tb : list) {
@@ -35,10 +39,10 @@ public class StoreManager {
 		myHBox.getChildren().addAll(list);
 	}
 	
-	private ToggleButton buttonFactory(){
-		Image image = new Image("turret_transparent.png");
+	private ToggleButton buttonFactory(String url){
+		Image image = new Image(url);
 		ImageView imageview = new ImageView(image);
-		imageview.setFitHeight(82);
+		imageview.setFitHeight(73);
 		imageview.setPreserveRatio(true);
 		ToggleButton button = new ToggleButton("Turret", imageview);
 		return button;
