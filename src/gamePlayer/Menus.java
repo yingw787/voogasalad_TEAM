@@ -3,7 +3,7 @@ package gamePlayer;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 
-public class Menus implements IViewNode {
+public class Menus extends MenuBar implements IViewNode {
 	private MenuBar myMenuBar;
 	
 	public MenuBar initialize(){
@@ -13,19 +13,18 @@ public class Menus implements IViewNode {
 	}
 	
 	private void populate(){
-		myMenuBar.getMenus().add(new Menu("File"));
+		myMenuBar.getMenus().addAll(new Menu("New Game"), new Menu("Save"));
 	}
 	
 	@Override
 	public void setWidth(double width) {
 		// TODO Auto-generated method stub
-		
+		this.setPrefWidth(width);
 	}
 
 	@Override
 	public void setHeight(double height) {
-		// TODO Auto-generated method stub
-		
+		this.setPrefHeight(height);		
 	}
 
 }

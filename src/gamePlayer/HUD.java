@@ -1,21 +1,27 @@
 package gamePlayer;
 
-import javafx.scene.layout.StackPane;
+import javafx.geometry.Pos;
+import javafx.scene.layout.VBox;
 
 public class HUD implements IViewNode{
-	private StackPane myStackPane;
-	public StackPane initialize(){
-		myStackPane = new StackPane();
-		return myStackPane;
+	private VBox myVBox;
+	public VBox initialize(){
+		myVBox = new VBox();
+		myVBox.setAlignment(Pos.CENTER);
+		populate();
+		return myVBox;
+	}
+	
+	private void populate(){
 	}
 	
 	@Override
 	public void setHeight(double height){
-		myStackPane.setPrefHeight(height);
+		myVBox.setPrefHeight(height);
 	}
 	
 	@Override
 	public void setWidth(double width){
-		myStackPane.setPrefWidth(width);
+		myVBox.setPrefWidth(width);
 	}
 }
