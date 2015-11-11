@@ -1,11 +1,11 @@
 package usecases;
 import java.util.List;
 
-import interfaces.Unit;
-import interfaces.UserInfoStatus;
 import interfaces.IPlayer;
+import interfaces.Unit;
+import units.PlayerInfo;
 
-public class Player implements IPlayer{
+public class PlayerObject implements IPlayer{
 
 	@Override
 	public void populate(List<Unit> store) {
@@ -20,12 +20,6 @@ public class Player implements IPlayer{
 	}
 
 	@Override
-	public void updateUserInfo(UserInfoStatus uis) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void showWin() {
 		// TODO Auto-generated method stub
 		
@@ -33,6 +27,12 @@ public class Player implements IPlayer{
 
 	@Override
 	public void showLose() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateUserInfo(PlayerInfo player) {
 		// TODO Auto-generated method stub
 		
 	}

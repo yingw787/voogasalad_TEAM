@@ -7,11 +7,11 @@ package usecases;
 
 public class example1 {
 	private Engine gameEngine;
-	private Player gamePlayer;
+	private PlayerObject gamePlayer;
 	
 	private void implementation(){
 		gameEngine = new Engine();
-		gamePlayer = new Player();
+		gamePlayer = new PlayerObject();
 	
 		/*The player interacts with a file menu dropdown populated with a list of games that are already completed
 		If the player selects a new game to load, including the current game playing, the Player passes the string 

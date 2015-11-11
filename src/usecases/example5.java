@@ -3,18 +3,18 @@ package usecases;
 import java.util.ArrayList;
 
 import interfaces.Unit;
-import interfaces.UserInfoStatus;
+import units.PlayerInfo;
 
 public class example5 {
 	/*User can see health of main base and enemies
 	 */
 	
 	private Engine gameEngine;
-	private Player gamePlayer;
+	private PlayerObject gamePlayer;
 	
 	private void implementation(){
 		gameEngine = new Engine();
-		gamePlayer = new Player();
+		gamePlayer = new PlayerObject();
 		
 		/*The health of the enemies is implicit to the update function 
 		 * in the front end, as each individual enemy holds its own health which will
@@ -26,7 +26,7 @@ public class example5 {
 		 *method in the Player called by the Engine. This passes the Player relevant 
 		 *information in a wrapper class to be updated in the GUI.
 		 */
-		gamePlayer.updateUserInfo(new UserInfoStatus());
+		gamePlayer.updateUserInfo(new PlayerInfo());
 		
 	}
 		
