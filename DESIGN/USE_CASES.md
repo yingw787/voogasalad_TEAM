@@ -42,3 +42,4 @@ for user)
 38. User can create troops that the player can buy (define health, speed, cost)
 39. Player can buy his own troops to send out; they travel backward on the path and collide with enemy troops
 40. Editor should have tabs to define aspects of the games (create enemies, create turrets, load image etc)
+
