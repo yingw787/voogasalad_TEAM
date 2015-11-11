@@ -1,6 +1,6 @@
 package units;
 
-public class Player {
+public class PlayerInfo {
 	private int myMoney;
 	private int myLives;
 	private Level myCurrentLevel;

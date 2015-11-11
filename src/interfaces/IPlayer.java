@@ -1,6 +1,8 @@
 package interfaces;
 import java.util.List;
 
+import units.PlayerInfo;
+
 public interface IPlayer {
 	public void populate(List<Unit> store);
 	/*passes the front end a list of all the objects that can be purchased*/
@@ -10,7 +12,7 @@ public interface IPlayer {
 	update the front end. This allows the front end to display all the objects
 	that exist in the back end*/
 	
-	public void updateUserInfo(UserInfoStatus uis);
+	public void updateUserInfo(PlayerInfo player);
 	/*passes the player the user's current information like gold, health, 
 	 etc.*/
 
