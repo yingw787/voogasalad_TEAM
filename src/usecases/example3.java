@@ -10,11 +10,11 @@ public class example3 {
 	 */
 	
 	private Engine gameEngine;
-	private Player gamePlayer;
+	private PlayerObject gamePlayer;
 	
 	private void implementation(){
 		gameEngine = new Engine();
-		gamePlayer = new Player();
+		gamePlayer = new PlayerObject();
 		
 		/*The user can define the content of different waves in the Authoring 
 		 * Environment. When the game is actually run, the front end will have a 

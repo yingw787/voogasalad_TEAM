@@ -10,11 +10,11 @@ public class example4 {
 	 */
 	
 	private Engine gameEngine;
-	private Player gamePlayer;
+	private PlayerObject gamePlayer;
 	
 	private void implementation(){
 		gameEngine = new Engine();
-		gamePlayer = new Player();
+		gamePlayer = new PlayerObject();
 		
 		/*The Player can select a tower and then click on the map. An event handler
 		 * will handle for clicks on the map, and in such a case call a method

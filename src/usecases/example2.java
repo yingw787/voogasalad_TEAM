@@ -8,11 +8,11 @@ import interfaces.Unit;
 
 public class example2 {
 	private Engine gameEngine;
-	private Player gamePlayer;
+	private PlayerObject gamePlayer;
 	
 	private void implementation(){
 		gameEngine = new Engine();
-		gamePlayer = new Player();
+		gamePlayer = new PlayerObject();
 	
 		/*The player interacts with the GUI to purchase a new troop. The Player then sends a Request to the Engine
 		 * detailing the type of Troop*/  
