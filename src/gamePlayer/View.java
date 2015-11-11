@@ -2,6 +2,8 @@ package gamePlayer;
 
 import java.util.ResourceBundle;
 
+import com.sun.prism.paint.Color;
+
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -19,9 +21,6 @@ public class View {
 	
 	public View(Stage stage){
 		this.myStage = stage;
-	}
-	
-	public void initialize(){
 		Group root = new Group();
 		myHUD = new HUD();
 		myMap = new Map();
@@ -34,17 +33,6 @@ public class View {
 		myStage.setScene(scene);
 	}
 	
-	private void configure(){
-		myStore.setWidth(myWidth);
-		myStore.setHeight(myHeight*.2);
-		myHUD.setWidth(myWidth*.25);
-		myHUD.setHeight(myHeight*.7);
-		myMap.setWidth(myWidth*.75);
-		myMap.setHeight(myHeight*.7);
-//		myMenus.setWidth(myWidh);
-		myMenus.setHeight(myHeight*.05);
-	}
-	
 	private void populate(BorderPane bp){
 		bp.setTop(myMenus.initialize());
 		bp.setLeft(myMap.initialize());
@@ -52,4 +40,15 @@ public class View {
 		bp.setBottom(myStore.initialize());
 		configure();
 	}
+	
+	private void configure(){
+		myStore.setWidth(myWidth);
+		myStore.setHeight(myHeight*.2);
+		myHUD.setWidth(myWidth*.25);
+		myHUD.setHeight(myHeight*.7);
+		myMap.setWidth(myWidth*.75);
+		myMap.setHeight(myHeight*.7);
+		myMenus.setHeight(myHeight*.05);
+	}
+
 }

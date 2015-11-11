@@ -6,36 +6,23 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 
 public class Store implements IViewNode {
-	//	private List<Towers> possibleTowers;
-	//  private List<Troops> possibleTroops;
-	private int myWidth;
 	private ScrollPane myScrollPane;
 	private TabPane myTabPane;
 //	private HashMap<String, List<Actor>>()
 	
 	public Store(){
+		initialize();
 		//need hashmap of String (tab text) to the population inside the store
 	}
 	
 	public VBox initialize(){
-		VBox vbox = new VBox();
-		myTabPane = new TabPane();
-		populate(myTabPane);
-		myTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-		myScrollPane = new ScrollPane();
-		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-		myScrollPane.setPrefWidth(myWidth);
-		
-		vbox.getChildren().addAll(myTabPane, myScrollPane);
-		return vbox;
+		VBox myVBox = new VBox();
+		myScrollPane = new StoreManager().initialize();
+		myTabPane = new TabManager();
+		myVBox.getChildren().addAll(myTabPane, myScrollPane);
+		return myVBox;
 	}
 	
-	private void populate(TabPane myTabPane){
-		//just for now
-		Tab towerTab = new Tab("Towers");
-		Tab allyTab = new Tab("Allies");
-		myTabPane.getTabs().addAll(towerTab, allyTab);
-	}
 	
 	@Override
 	public void setHeight(double height){

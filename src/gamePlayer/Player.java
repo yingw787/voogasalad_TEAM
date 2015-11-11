@@ -14,7 +14,6 @@ public class Player extends Application {
 		stage.setWidth(Integer.parseInt(myDefaults.getString("Width")));
 		stage.setHeight(Integer.parseInt(myDefaults.getString("Height")));
 		myView = new View(stage);
-		myView.initialize();
 		stage.show();
 	}
 	
