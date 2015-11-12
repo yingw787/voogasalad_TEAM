@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import units.PlayerInfo;
 import units.Unit;
 
 public class View {
@@ -21,6 +22,7 @@ public class View {
 	private Store myStore;
 	private Map myMap;
 	private Menus myMenus;
+	private PlayerInfo myPlayerInfo;
 	
 	public View(Stage stage){
 		this.myStage = stage;
@@ -28,7 +30,7 @@ public class View {
 		myHUD = new HUD();
 		myMap = new Map();
 		myMenus = new Menus();
-		myStore = new Store();
+		myStore = new Store(this);
 		BorderPane borderPane = new BorderPane();
 		populate(borderPane);
 		root.getChildren().add(borderPane);
@@ -61,7 +63,16 @@ public class View {
 
 	public void updateMap(List<Unit> units) {
 		myMap.updateMap(units);
-		
+	}
+
+	public void updateUserInfo(PlayerInfo player) {
+		myHUD.populate(player);
+		myPlayerInfo = player;
+	}
+
+	public int getMoney() {
+		// TODO Auto-generated method stub
+		return myPlayerInfo.getMoney();
 	}
 
 }

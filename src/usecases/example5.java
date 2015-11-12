@@ -26,7 +26,7 @@ public class example5 {
 		 *method in the Player called by the Engine. This passes the Player relevant 
 		 *information in a wrapper class to be updated in the GUI.
 		 */
-		gamePlayer.updateUserInfo(new PlayerInfo());
+//		gamePlayer.updateUserInfo(new PlayerInfo());
 		
 	}
 		
