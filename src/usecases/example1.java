@@ -6,11 +6,11 @@ package usecases;
  */
 
 public class example1 {
-	private Engine gameEngine;
+	private EngineObject gameEngine;
 	private PlayerObject gamePlayer;
 	
 	private void implementation(){
-		gameEngine = new Engine();
+		gameEngine = new EngineObject();
 		gamePlayer = new PlayerObject();
 	
 		/*The player interacts with a file menu dropdown populated with a list of games that are already completed

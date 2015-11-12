@@ -28,7 +28,6 @@ public class StoreManager {
 		myHBox = new HBox();
 		myScrollPane.setContent(myHBox);
 		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-		populate("Towers");
 		return myScrollPane;
 	}
 	
@@ -64,5 +63,10 @@ public class StoreManager {
 
 	public void setWidth(double width) {
 		myScrollPane.setPrefWidth(width);
+	}
+
+	public void setStock(HashMap<String, List<Unit>> store) {
+		this.myPopulation = store;
+		populate("Towers");
 	}
 }

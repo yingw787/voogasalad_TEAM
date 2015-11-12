@@ -2,10 +2,8 @@ package units;
 
 public class Troop extends Unit {
 	
-	//constructor only for Store testing
-	public Troop(String name, String img, int bc){
-		this.myName = name;
-		this.myImage= img;
-		this.myBuyCost = bc;
+	public Troop(String name, double health, double cd, String img, 
+			Point p, int ID, int bc, int sc){
+		super(name, health, cd, img, p, ID, bc, sc);
 	}
 }

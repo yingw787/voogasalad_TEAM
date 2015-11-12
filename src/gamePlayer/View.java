@@ -1,5 +1,7 @@
 package gamePlayer;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.sun.prism.paint.Color;
@@ -8,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import units.Unit;
 
 public class View {
 	private ResourceBundle myDefaults = ResourceBundle.getBundle("resources/Default");
@@ -49,6 +52,16 @@ public class View {
 		myMap.setWidth(myWidth*.75);
 		myMap.setHeight(myHeight*.7);
 		myMenus.setHeight(myHeight*.05);
+	}
+
+	public void populateStore(HashMap<String, List<Unit>> store) {
+		myStore.setStock(store);
+		
+	}
+
+	public void updateMap(List<Unit> units) {
+		myMap.updateMap(units);
+		
 	}
 
 }
