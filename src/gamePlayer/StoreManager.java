@@ -34,10 +34,12 @@ public class StoreManager {
 	public void populate(String key){
 		myHBox.getChildren().clear();
 		List<ToggleButton> list = new ArrayList<ToggleButton>();
-		//tester
 		List<Unit> storeItems = myPopulation.get(key);
 		for (Unit unit : storeItems) {
 			StoreButton button = buttonFactory(unit);
+			if (myStore.getMoney() < unit.getCost()) {
+				button.setDisable(true);
+			}
 			list.add(button);
 		}
 		ToggleGroup group = new ToggleGroup();
@@ -69,4 +71,6 @@ public class StoreManager {
 		this.myPopulation = store;
 		populate("Towers");
 	}
+
+	
 }

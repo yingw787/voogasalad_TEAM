@@ -13,10 +13,10 @@ public class Store implements IViewNode {
 	private StoreManager myStoreManager;
 	private TabManager myTabManager;
 	private HashMap<String, List<Unit>> myTestMap;
+	private View myView;
 	
-	
-	public Store(){
-		initialize();
+	public Store(View view){
+		this.myView = view;
 	}
 	
 
@@ -49,4 +49,11 @@ public class Store implements IViewNode {
 		// TODO Auto-generated method stub
 		myStoreManager.setStock(store);
 	}
+
+
+
+	public int getMoney() {
+		return myView.getMoney();
+	}
+
 }

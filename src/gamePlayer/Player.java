@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import interfaces.IPlayer;
-import units.Unit;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import units.Dimension;
 import units.PlayerInfo;
 import units.Point;
 import units.Tower;
 import units.Troop;
+import units.Unit;
 
 public class Player extends Application implements IPlayer {
 	private ResourceBundle myDefaults = ResourceBundle.getBundle("resources/Default");
@@ -29,6 +28,8 @@ public class Player extends Application implements IPlayer {
 	}
 	
 	private void testCaseMaker(){
+		PlayerInfo playerinfo = new PlayerInfo(200, 3, 1);
+		updateUserInfo(playerinfo);
 		HashMap<String, List<Unit>> myTestMap = new HashMap<String, List<Unit>>();
 		List<Unit> TowerList = new ArrayList<Unit>();
 		Tower t1 = new Tower("Basic Turret", 100.0, 10.0, "turret_transparent.png", 
@@ -61,6 +62,7 @@ public class Player extends Application implements IPlayer {
 		mapUnits.addAll(TroopList);
 		mapUnits.addAll(TowerList);
 		updateMap(mapUnits);
+
 	}
 
 
@@ -72,7 +74,7 @@ public class Player extends Application implements IPlayer {
 
 	@Override
 	public void updateUserInfo(PlayerInfo player) {
-		// TODO Auto-generated method stub
+		myView.updateUserInfo(player);
 	}
 
 	@Override
