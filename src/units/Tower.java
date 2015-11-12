@@ -1,6 +1,15 @@
 package units;
 
 public class Tower extends Unit {
-	private int myBuyCost;
-	private int mySellCost;
+
+	
+	//constructor only for Store testing
+	public Tower(String name, String img, int bc){
+		this.myName = name;
+		this.myImage= img;
+		this.myBuyCost = bc;
+	}
+	
 }
+
+

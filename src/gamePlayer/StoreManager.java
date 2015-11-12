@@ -1,6 +1,7 @@
 package gamePlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javafx.scene.control.ScrollPane;
@@ -9,42 +10,59 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import units.Unit;
 
 public class StoreManager {
 	private ScrollPane myScrollPane;
+	private HashMap<String, List<Unit>> myPopulation;
+	private Store myStore;
 	private HBox myHBox;
+	
+	public StoreManager(Store s, HashMap<String, List<Unit>> myTestMap) {
+		this.myStore = s;
+		this.myPopulation = myTestMap;
+	}
 	
 	public ScrollPane initialize(){
 		myScrollPane = new ScrollPane();
 		myHBox = new HBox();
 		myScrollPane.setContent(myHBox);
 		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-		populate();
+		populate("Towers");
 		return myScrollPane;
 	}
-	private void populate(){
+	
+	public void populate(String key){
+		myHBox.getChildren().clear();
 		List<ToggleButton> list = new ArrayList<ToggleButton>();
-		for (int i = 0; i < 8; i++) {
-			ToggleButton button = buttonFactory("turret_transparent.png");
+		//tester
+		List<Unit> storeItems = myPopulation.get(key);
+		for (Unit unit : storeItems) {
+			StoreButton button = buttonFactory(unit);
 			list.add(button);
-			if (i==7){
-				button.setDisable(true);
-			}
 		}
 		ToggleGroup group = new ToggleGroup();
 		for (ToggleButton tb : list) {
 			tb.setToggleGroup(group);
 		}
-//		myHBox.getChildren().add(buttonFactory());
 		myHBox.getChildren().addAll(list);
 	}
 	
-	private ToggleButton buttonFactory(String url){
-		Image image = new Image(url);
+	private StoreButton buttonFactory(Unit unit){
+		Image image = new Image(unit.getImage());
 		ImageView imageview = new ImageView(image);
 		imageview.setFitHeight(73);
 		imageview.setPreserveRatio(true);
-		ToggleButton button = new ToggleButton("Turret", imageview);
+		String text = unit.getName() + "\n Gold: " + unit.getCost();
+		StoreButton button = new StoreButton(text, imageview);
 		return button;
+	}
+
+	public void setHeight(double height) {
+		myScrollPane.setPrefHeight(height);
+	}
+
+	public void setWidth(double width) {
+		myScrollPane.setPrefWidth(width);
 	}
 }

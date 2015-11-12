@@ -11,6 +11,7 @@ public class Map implements IViewNode {
 	public Pane initialize(){
 		myPane = new Pane();
 		myPane.setStyle("-fx-background-color: green;");
+		
 		myPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent arg0) {
