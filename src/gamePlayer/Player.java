@@ -1,13 +1,17 @@
 package gamePlayer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import interfaces.IPlayer;
-import interfaces.Unit;
+import units.Unit;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import units.PlayerInfo;
+import units.Tower;
+import units.Troop;
 
 public class Player extends Application implements IPlayer {
 	private ResourceBundle myDefaults = ResourceBundle.getBundle("resources/Default");
@@ -19,17 +23,25 @@ public class Player extends Application implements IPlayer {
 		stage.setHeight(Integer.parseInt(myDefaults.getString("Height")));
 		myView = new View(stage);
 		stage.show();
+		testCaseMaker();
 	}
 	
-	public static void main(String[] args) {
-		launch(args);
+	private void testCaseMaker(){
+		HashMap<String, List<Unit>> myTestMap = new HashMap<String, List<Unit>>();
+		List<Unit> TowerList = new ArrayList<Unit>();
+		TowerList.add(new Tower("Basic Turret", "turret_transparent.png", 150));
+		TowerList.add(new Tower("Basic Turret", "turret_transparent.png", 150));
+		TowerList.add(new Tower("Basic Turret", "turret_transparent.png", 150));
+		TowerList.add(new Tower("Attack Turret", "turret.png", 250));
+		myTestMap.put("Towers", TowerList);
+		List<Unit> TroopList = new ArrayList<Unit>();
+		TroopList.add(new Troop("Basic Minion", "purpleminion.png", 150));
+		TroopList.add(new Troop("Basic Minion", "purpleminion.png", 150));
+		TroopList.add(new Troop("Caster Minion", "casterminion.png", 300));
+		myTestMap.put("Troops", TroopList);
+		populate(myTestMap);
 	}
 
-	@Override
-	public void populate(List<Unit> store) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void updateMap(List<Unit> units) {
@@ -40,7 +52,6 @@ public class Player extends Application implements IPlayer {
 	@Override
 	public void updateUserInfo(PlayerInfo player) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -54,4 +65,16 @@ public class Player extends Application implements IPlayer {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void populate(HashMap<String, List<Unit>> store) {
+		myView.populateStore(store);
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+
 }

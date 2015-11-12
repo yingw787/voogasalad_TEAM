@@ -20,7 +20,7 @@ public class example5 {
 		 * in the front end, as each individual enemy holds its own health which will
 		 * be accesed by a getter function for the Player to display graphically.
 		 */
-		gamePlayer.updateMap(new ArrayList<Unit>());
+//		gamePlayer.updateMap(new ArrayList<Unit>());
 		
 		/*the health of the actual user is displayed through a separate 
 		 *method in the Player called by the Engine. This passes the Player relevant 

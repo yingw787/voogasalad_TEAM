@@ -1,10 +1,11 @@
 package interfaces;
+import java.util.HashMap;
 import java.util.List;
-
+import units.Unit;
 import units.PlayerInfo;
 
 public interface IPlayer {
-	public void populate(List<Unit> store);
+	public void populate(HashMap<String, List<Unit>> store);
 	/*passes the front end a list of all the objects that can be purchased*/
 	
 	public void updateMap(List<Unit> units);

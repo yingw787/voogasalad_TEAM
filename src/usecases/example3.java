@@ -29,7 +29,7 @@ public class example3 {
 		/*Afterwards, the Engine will begin to load new enemies, which are 
 		 * displayed in the front end through the update method.
 		 */
-		gamePlayer.updateMap(new ArrayList<Unit>());
+//		gamePlayer.updateMap(new ArrayList<Unit>());
 	}
 	
 	

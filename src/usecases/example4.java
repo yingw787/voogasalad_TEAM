@@ -27,6 +27,6 @@ public class example4 {
 		/*If the location is legal, the Engine will create the object at the location
 		 * and then update the front end with the altered list of Units
 		 */
-		gamePlayer.updateMap(new ArrayList<Unit>());
+//		gamePlayer.updateMap(new ArrayList<Unit>());
 	}
 }
