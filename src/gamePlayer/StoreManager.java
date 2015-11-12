@@ -55,7 +55,17 @@ public class StoreManager {
 		imageview.setPreserveRatio(true);
 		String text = unit.getName() + "\n Gold: " + unit.getCost();
 		StoreButton button = new StoreButton(text, imageview);
+		button.setOnAction(e -> {
+			buttonManager();
+		});
 		return button;
+	}
+
+	private void buttonManager() {
+		// TODO method to have the object that is clicked to appear in the main pane
+		System.out.println("I presssed");
+		
+		
 	}
 
 	public void setHeight(double height) {

@@ -13,7 +13,7 @@ public class Menus extends MenuBar implements IViewNode {
 	}
 	
 	private void populate(){
-		myMenuBar.getMenus().addAll(new Menu("New Game"), new Menu("Save"));
+		myMenuBar.getMenus().addAll(new Menu("New Game"), new Menu("Save"), new Menu("Help"));
 	}
 	
 	@Override

@@ -2,8 +2,6 @@ package gamePlayer;
 
 import java.util.ResourceBundle;
 
-import com.sun.prism.paint.Color;
-
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
