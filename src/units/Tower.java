@@ -2,13 +2,11 @@ package units;
 
 public class Tower extends Unit {
 
-	
-	//constructor only for Store testing
-	public Tower(String name, String img, int bc){
-		this.myName = name;
-		this.myImage= img;
-		this.myBuyCost = bc;
+	public Tower(String name, double health, double cd, String img, 
+			Point p, int ID, int bc, int sc){
+		super(name, health, cd, img, p, ID, bc, sc);
 	}
+	
 	
 }
 

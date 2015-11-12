@@ -13,27 +13,13 @@ public class Store implements IViewNode {
 	private StoreManager myStoreManager;
 	private TabManager myTabManager;
 	private HashMap<String, List<Unit>> myTestMap;
+	private View myView;
 	
-	
-	public Store(){
-		testCaseMaker();
-		initialize();
+	public Store(View view){
+		this.myView = view;
 	}
 	
-	private void testCaseMaker(){
-		myTestMap = new HashMap<String, List<Unit>>();
-		List<Unit> TowerList = new ArrayList<Unit>();
-		TowerList.add(new Tower("Basic Turret", "turret_transparent.png", 150));
-		TowerList.add(new Tower("Basic Turret", "turret_transparent.png", 150));
-		TowerList.add(new Tower("Basic Turret", "turret_transparent.png", 150));
-		TowerList.add(new Tower("Attack Turret", "turret.png", 250));
-		myTestMap.put("Towers", TowerList);
-		List<Unit> TroopList = new ArrayList<Unit>();
-		TroopList.add(new Troop("Basic Minion", "purpleminion.png", 150));
-		TroopList.add(new Troop("Basic Minion", "purpleminion.png", 150));
-		TroopList.add(new Troop("Caster Minion", "casterminion.png", 300));
-		myTestMap.put("Troops", TroopList);
-	}
+
 	
 	public VBox initialize(){
 		VBox myVBox = new VBox();
@@ -58,4 +44,16 @@ public class Store implements IViewNode {
 	public void changeStock(String unitType) {
 		myStoreManager.populate(unitType);
 	}
+
+	public void setStock(HashMap<String, List<Unit>> store) {
+		// TODO Auto-generated method stub
+		myStoreManager.setStock(store);
+	}
+
+
+
+	public int getMoney() {
+		return myView.getMoney();
+	}
+
 }
