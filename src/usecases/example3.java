@@ -9,11 +9,11 @@ public class example3 {
 	 * advance to the next round/level
 	 */
 	
-	private Engine gameEngine;
+	private EngineObject gameEngine;
 	private PlayerObject gamePlayer;
 	
 	private void implementation(){
-		gameEngine = new Engine();
+		gameEngine = new EngineObject();
 		gamePlayer = new PlayerObject();
 		
 		/*The user can define the content of different waves in the Authoring 

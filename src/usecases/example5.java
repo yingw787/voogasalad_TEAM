@@ -9,11 +9,11 @@ public class example5 {
 	/*User can see health of main base and enemies
 	 */
 	
-	private Engine gameEngine;
+	private EngineObject gameEngine;
 	private PlayerObject gamePlayer;
 	
 	private void implementation(){
-		gameEngine = new Engine();
+		gameEngine = new EngineObject();
 		gamePlayer = new PlayerObject();
 		
 		/*The health of the enemies is implicit to the update function 

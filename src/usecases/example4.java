@@ -9,11 +9,11 @@ public class example4 {
 	/*User can drag and drop items onto the board during gameplay
 	 */
 	
-	private Engine gameEngine;
+	private EngineObject gameEngine;
 	private PlayerObject gamePlayer;
 	
 	private void implementation(){
-		gameEngine = new Engine();
+		gameEngine = new EngineObject();
 		gamePlayer = new PlayerObject();
 		
 		/*The Player can select a tower and then click on the map. An event handler

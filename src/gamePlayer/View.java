@@ -59,4 +59,9 @@ public class View {
 		
 	}
 
+	public void updateMap(List<Unit> units) {
+		myMap.updateMap(units);
+		
+	}
+
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import interfaces.IEngine;
 
-public class Engine implements IEngine {
+public class EngineObject implements IEngine {
 
 	@Override
 	public void loadNewGame(String title) {

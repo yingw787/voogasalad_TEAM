@@ -8,7 +8,6 @@ import units.Unit;
 
 public class PlayerObject implements IPlayer{
 
-
 	@Override
 	public void updateMap(List<Unit> units) {
 		// TODO Auto-generated method stub
