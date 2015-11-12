@@ -9,11 +9,11 @@ public class example4 {
 	/*User can drag and drop items onto the board during gameplay
 	 */
 	
-	private Engine gameEngine;
+	private EngineObject gameEngine;
 	private PlayerObject gamePlayer;
 	
 	private void implementation(){
-		gameEngine = new Engine();
+		gameEngine = new EngineObject();
 		gamePlayer = new PlayerObject();
 		
 		/*The Player can select a tower and then click on the map. An event handler
@@ -27,6 +27,6 @@ public class example4 {
 		/*If the location is legal, the Engine will create the object at the location
 		 * and then update the front end with the altered list of Units
 		 */
-		gamePlayer.updateMap(new ArrayList<Unit>());
+//		gamePlayer.updateMap(new ArrayList<Unit>());
 	}
 }

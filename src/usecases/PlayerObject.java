@@ -1,17 +1,12 @@
 package usecases;
+import java.util.HashMap;
 import java.util.List;
 
 import interfaces.IPlayer;
-import interfaces.Unit;
 import units.PlayerInfo;
+import units.Unit;
 
 public class PlayerObject implements IPlayer{
-
-	@Override
-	public void populate(List<Unit> store) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void updateMap(List<Unit> units) {
@@ -33,6 +28,12 @@ public class PlayerObject implements IPlayer{
 
 	@Override
 	public void updateUserInfo(PlayerInfo player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void populate(HashMap<String, List<Unit>> store) {
 		// TODO Auto-generated method stub
 		
 	}

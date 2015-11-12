@@ -28,17 +28,18 @@ public class StoreManager {
 		myHBox = new HBox();
 		myScrollPane.setContent(myHBox);
 		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-		populate("Towers");
 		return myScrollPane;
 	}
 	
 	public void populate(String key){
 		myHBox.getChildren().clear();
 		List<ToggleButton> list = new ArrayList<ToggleButton>();
-		//tester
 		List<Unit> storeItems = myPopulation.get(key);
 		for (Unit unit : storeItems) {
 			StoreButton button = buttonFactory(unit);
+			if (myStore.getMoney() < unit.getCost()) {
+				button.setDisable(true);
+			}
 			list.add(button);
 		}
 		ToggleGroup group = new ToggleGroup();
@@ -65,4 +66,11 @@ public class StoreManager {
 	public void setWidth(double width) {
 		myScrollPane.setPrefWidth(width);
 	}
+
+	public void setStock(HashMap<String, List<Unit>> store) {
+		this.myPopulation = store;
+		populate("Towers");
+	}
+
+	
 }
