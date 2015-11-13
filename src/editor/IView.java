@@ -6,4 +6,5 @@ public interface IView {
 
 	public Node getView();
 	
+	//public void addView();
 }

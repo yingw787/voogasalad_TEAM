@@ -1,5 +1,6 @@
 package editor;
 
+import editor.attributes.AttributesBox;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
@@ -53,7 +54,7 @@ public class MainGUI {
 		GameBoard gb = new GameBoard(myGroup, 675, 490);
 		myBoard = (SubScene) gb.getView();
 		// initialize tabs list
-		String[] tabOptions = {"Scenes", "Towers", "Bullets", "Troops", "Game"};
+		String[] tabOptions = {"Scenes", "Towers", "Bullets", "Troops", "Level", "Game"};
 		TabsList tl = new TabsList(tabOptions);
 		myTabs = (TabPane) tl.getView();
 		// initialize rules box
@@ -71,7 +72,8 @@ public class MainGUI {
 				new ColumnConstraints(225));
 		myPane.getRowConstraints().addAll(
 				new RowConstraints(38),
-				new RowConstraints(252),
-				new RowConstraints(238));
+				//new RowConstraints(38),
+				//new RowConstraints(252),
+				new RowConstraints(240));
 	}
 }
