@@ -3,8 +3,7 @@ package editor;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 
 public class TabsList implements IView {
 	
@@ -12,12 +11,9 @@ public class TabsList implements IView {
 	
 	public TabsList(String[] tabs) {
 		myTabs = new TabPane();
+		myTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		for (String name : tabs) {
-			Tab tab = new Tab(name);
-			VBox vbox = new VBox();
-			vbox.getChildren().add(new Text(name));
-			tab.setContent(vbox);
-			myTabs.getTabs().add(tab);
+			myTabs.getTabs().add(new Tab(name));
 		}
 	}
 
