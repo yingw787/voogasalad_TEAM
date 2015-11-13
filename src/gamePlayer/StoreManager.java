@@ -10,6 +10,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import units.Point;
 import units.Unit;
 
 public class StoreManager {
@@ -65,6 +66,7 @@ public class StoreManager {
 	private void buttonManager() {
 		// TODO method to have the object that is clicked to appear in the main pane
 		System.out.println("I presssed");
+		
 		
 		
 	}
