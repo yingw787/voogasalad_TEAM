@@ -5,10 +5,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import editor.IView;
+import editor.tabData.ITabData;
 
-public class TowersTab implements IView {
+public class TowersTab implements IView, ITab {
 	private ScrollPane myTabView;
 	private VBox myTabContent;
+	private ITabData myData;
 	
 	public TowersTab(){
 		myTabView = new ScrollPane();
@@ -22,6 +24,12 @@ public class TowersTab implements IView {
 	@Override
 	public Node getView() {
 		return myTabView;
+	}
+
+
+	@Override
+	public void setData(ITabData data) {
+		myData = data;
 	}
 
 }

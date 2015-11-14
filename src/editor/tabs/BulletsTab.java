@@ -4,10 +4,13 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import editor.IView;
+import editor.tabData.DataController;
+import editor.tabData.ITabData;
 
-public class BulletsTab implements IView {
+public class BulletsTab implements IView, ITab {
 	private ScrollPane myTabView;
 	private VBox myTabContent;
+	private ITabData myData;
 
 	public BulletsTab(){
 		myTabView = new ScrollPane();
@@ -19,6 +22,11 @@ public class BulletsTab implements IView {
 	@Override
 	public Node getView() {
 		return myTabView;
+	}
+
+	@Override
+	public void setData(ITabData data) {
+		myData = data;
 	}
 
 }

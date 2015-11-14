@@ -1,6 +1,7 @@
 package editor;
 
 import editor.attributes.AttributesBox;
+import editor.tabData.DataController;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
@@ -25,6 +26,7 @@ public class MainGUI {
 	ScrollPane myAttributes;
 	ScrollPane myRules;
 	Group myGroup;
+	DataController myDataController;
 	
 	public MainGUI() {
 		myStage = new Stage();
@@ -53,11 +55,13 @@ public class MainGUI {
 		myGroup = new Group();
 		GameBoard gb = new GameBoard(myGroup, 675, 490);
 		myBoard = (SubScene) gb.getView();
+		// intialize game data holders
+		myDataController = new DataController();
 		// initialize tabs list
 //		String[] tabOptions = {"Scenes", "Towers", "Bullets", "Troops", "Level", "Game"};
 //		TabsList tl = new TabsList(tabOptions);
 //		myTabs = (TabPane) tl.getView();
-		TabsListController tabController = new TabsListController();
+		TabsListController tabController = new TabsListController(myDataController);
 		myTabs = (TabPane) tabController.getView();
 		// initialize rules box
 		RulesBox rb = new RulesBox();
