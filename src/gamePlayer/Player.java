@@ -47,11 +47,11 @@ public class Player extends Application implements IPlayer {
 		myTestMap.put("Towers", TowerList);
 		List<Unit> TroopList = new ArrayList<Unit>();
 		Troop tr1 = new Troop("Basic Minion", 50.0, 2.0, "purpleminion.png",
-				new Point(30,30), 5, 50, 0);
+				new Point(290,30), 5, 50, 0);
 		Troop tr2 = new Troop("Basic Minion", 50.0, 2.0, "purpleminion.png",
 				new Point(130,130), 6, 50, 0);
 		Troop tr3 = new Troop("Caster Minion", 150.0, 5.0, "casterminion.png",
-				new Point(230,230), 7, 150, 0);
+				new Point(230,230), 7, 250, 0);
 		TroopList.add(tr1);
 		TroopList.add(tr2);
 		TroopList.add(tr3);

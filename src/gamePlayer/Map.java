@@ -14,19 +14,23 @@ import units.Unit;
 
 public class Map implements IViewNode {
 	private Pane myPane;
-	private HashMap<Integer, ImageView> myImageMap;
-
+	private HashMap<Integer, MapUnit> myImageMap;
+	private View myView;
+	
+	public Map(View v){
+		this.myView = v;
+	}
+	
 	public Pane initialize(){
 		myPane = new Pane();
 		myPane.setStyle("-fx-background-color: green;");
 		myPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				System.out.println(arg0.getSceneX() + " " + arg0.getSceneY());
 			}
 		});
-		myImageMap = new HashMap<Integer, ImageView>();
+		myImageMap = new HashMap<Integer, MapUnit>();
 		return myPane;
 	}
 
@@ -47,13 +51,14 @@ public class Map implements IViewNode {
 		List<Integer> removeUnits = new ArrayList<Integer>();
 		for (Unit unit : units) {
 			if (!myImageMap.containsKey(unit.getID())){
-				ImageView imageview = new ImageView(new Image(unit.getImage()));
-				imageview.setPreserveRatio(true);
-				imageview.setFitHeight(50);
-				myImageMap.put(unit.getID(), imageview);
-				myPane.getChildren().add(imageview);
-				imageview.setX(unit.getPoint().getX());
-				imageview.setY(unit.getPoint().getY());
+				MapUnit mapUnit = new MapUnit(new Image(unit.getImage()),unit);
+				mapUnit.setPreserveRatio(true);
+				mapUnit.setFitHeight(50);
+				myImageMap.put(unit.getID(), mapUnit);
+				myPane.getChildren().add(mapUnit);
+				mapUnit.setX(unit.getPoint().getX());
+				mapUnit.setY(unit.getPoint().getY());
+				mapUnit.setOnMouseClicked(e->enableSelling(mapUnit));
 				onMap.add(unit.getID());
 			} else if (myImageMap.containsKey(unit.getID())) {
 				ImageView imageview = myImageMap.get(unit.getID());
@@ -62,7 +67,7 @@ public class Map implements IViewNode {
 				onMap.add(unit.getID());
 			}
 		}
-		for (Entry<Integer, ImageView> entry : myImageMap.entrySet()){
+		for (Entry<Integer, MapUnit> entry : myImageMap.entrySet()){
 			if (!onMap.contains(entry.getKey())){
 				removeUnits.add(entry.getKey());
 			}
@@ -72,5 +77,11 @@ public class Map implements IViewNode {
 			myImageMap.remove(i);
 		}
 		
+	}
+
+	private void enableSelling(MapUnit mapUnit){
+		if (mapUnit.getUnit().getClass().toString().equals("class units.Tower")){
+			myView.enableSell();
+		}
 	}
 }

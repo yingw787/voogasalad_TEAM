@@ -5,6 +5,11 @@ import javafx.scene.control.MenuBar;
 
 public class Menus extends MenuBar implements IViewNode {
 	private MenuBar myMenuBar;
+	private View myView;
+	
+	public Menus(View v){
+		this.myView = v;
+	}
 	
 	public MenuBar initialize(){
 		myMenuBar = new MenuBar();

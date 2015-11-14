@@ -46,4 +46,5 @@ public class TabManager {
 	public void setWidth(double width) {
 		myTabPane.setPrefWidth(width);
 	}
+
 }
