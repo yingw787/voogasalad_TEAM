@@ -68,6 +68,12 @@ public class MainGUI {
 		// initialize attributes box
 		AttributesBox ab = new AttributesBox(myDataController);
 		myAttributes = ab.getView();
+		
+		
+		TabsList tl = tabController.getTabsList();
+		// Make observer/observable relationships
+		tl.addObserver(ab);
+		tl.addObserver(rb);
 	}
 	
 	private void setConstraints() {

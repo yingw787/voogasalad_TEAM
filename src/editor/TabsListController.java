@@ -2,6 +2,7 @@ package editor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 import javafx.scene.Node;
 import editor.tabData.DataController;
@@ -32,6 +33,7 @@ public class TabsListController {
 				System.out.println(tabName);
 				e.printStackTrace();
 			}
+			((Observable) tab).addObserver(myTabsList);
 			myTabsList.addTab(tabName, tabContent);
 		}
 	}

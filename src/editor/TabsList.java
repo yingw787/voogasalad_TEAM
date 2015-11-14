@@ -2,13 +2,15 @@ package editor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 
-public class TabsList implements IView {
+public class TabsList extends Observable implements IView, Observer {
 	
 	TabPane myTabs;
 	Map<String, Node> myTabMap;
@@ -19,9 +21,11 @@ public class TabsList implements IView {
 		myTabMap = new HashMap<String, Node>();
 		
 		
-		// Event listener for changing tabs
+		// Event listener for changing tabs, notify observers
 		myTabs.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
 			System.out.println(newTab.getId());
+			setChanged();
+			notifyObservers(newTab.getId());
 		});
 	}
 	
@@ -49,5 +53,11 @@ public class TabsList implements IView {
 	@Override
 	public Node getView() {
 		return myTabs;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		setChanged();
+		notifyObservers((String) arg);
 	}
 }
