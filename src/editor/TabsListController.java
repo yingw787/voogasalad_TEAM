@@ -1,5 +1,6 @@
 package editor;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javafx.scene.Node;
@@ -14,6 +15,7 @@ public class TabsListController {
 	
 	public TabsListController(DataController data) {
 		myTabsList = new TabsList();
+		myTabs = new HashMap<String, ITab>();
 		initiateTabs(data);
 	}
 	
