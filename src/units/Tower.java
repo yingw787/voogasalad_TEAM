@@ -7,7 +7,9 @@ public class Tower extends Unit {
 		super(name, health, cd, img, p, ID, bc, sc);
 	}
 	
-	
+	public Tower(){
+		super();
+	}
 }
 
 

@@ -6,4 +6,8 @@ public class Troop extends Unit {
 			Point p, int ID, int bc, int sc){
 		super(name, health, cd, img, p, ID, bc, sc);
 	}
+	
+	public Troop(){
+		super();
+	}
 }
