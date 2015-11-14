@@ -26,7 +26,6 @@ public class View {
 	private Map myMap;
 	private Menus myMenus;
 	private PlayerInfo myPlayerInfo;
-	private MapOnOffCheckBox myMapCheckBox;
 	
 	public View(Stage stage){
 		this.myStage = stage;
@@ -35,7 +34,6 @@ public class View {
 		myMap = new Map(this);
 		myMenus = new Menus(this);
 		myStore = new Store(this);
-		myMapCheckBox = new MapOnOffCheckBox();
 		BorderPane borderPane = new BorderPane();
 		populate(borderPane);
 		root.getChildren().add(borderPane);
@@ -53,22 +51,12 @@ public class View {
 	
 	private Node topMenuBar(){
 		HBox result = new HBox();
-		result.getChildren().addAll(myMenus.initialize(), myMapCheckBox);
-		checkBoxAction();
+		result.getChildren().addAll(myMenus.initialize());
 		return result;
 			
 	}
 	
 
-	private void checkBoxAction() {
-	myMapCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-        public void changed(ObservableValue<? extends Boolean> ov,
-            Boolean old_val, Boolean new_val) {
-                myMap.show(new_val);
-        }
-    });
-	}
-	
 	private void configure(){
 		myStore.setWidth(myWidth);
 		myStore.setHeight(myHeight*.2);

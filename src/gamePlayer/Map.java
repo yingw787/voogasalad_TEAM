@@ -98,8 +98,4 @@ public class Map implements IViewNode {
 		}
 	}
 
-	public void show(Boolean new_val) {
-			myPane.setVisible(new_val);
-		
-	}
 }
