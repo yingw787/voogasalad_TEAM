@@ -13,4 +13,6 @@ public class Bullet {
 		myY = y;
 	}
 	
+	//Insert method to check collision condition and apply damage
+	
 }
