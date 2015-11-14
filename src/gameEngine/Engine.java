@@ -3,6 +3,7 @@ package gameEngine;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import controller.Controller;
 import interfaces.IEngine;
@@ -22,13 +23,24 @@ public class Engine implements IEngine {
 	public static final int FRAMES_PER_SECOND = 60;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-	private List<Unit> myCurrentUnits;
 	
+	private List<Unit> myCurrentUnits;
+	private Map<String, List<Unit>> myStoreMap; 
+	private Map<Integer,Unit> myUnitsMap;
+	InitialEnvironment myInitialEnviron;
 	
 	public Engine(Controller controller, Timeline timeline) {
 		myController = controller;
 		myTimeline = timeline;
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
+		myUnitsMap = new HashMap<Integer,Unit>();
+		myStoreMap = new HashMap<String, List<Unit> >();
+		
+		myInitialEnviron = new InitialEnvironment();
+		XMLParser parser = new XMLParser();
+		parser.writeEnviroment(myInitialEnviron);
+		myInitialEnviron = parser.readEnvironment();
+		
 	}
 	
 	public void playAnimation(boolean on){
@@ -50,6 +62,34 @@ public class Engine implements IEngine {
 		myController.updateMap(myCurrentUnits);
 	}
 
+
+	
+	@Override
+	public void update(List<Request> requests) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void loadNewGame(String title) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveGame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void startWave(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
 	public void testCaseMaker(){
 		PlayerInfo playerinfo = new PlayerInfo(200, 3, 1);
 		myController.updateUserInfo(playerinfo);
@@ -89,28 +129,7 @@ public class Engine implements IEngine {
 
 	}
 	
-	@Override
-	public void update(List<Request> requests) {
-		// TODO Auto-generated method stub
-		
+	public static void main(String[] args){
+		Engine e = new Engine(null,new Timeline());
 	}
-
-	@Override
-	public void loadNewGame(String title) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void saveGame() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void startWave(int i) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
