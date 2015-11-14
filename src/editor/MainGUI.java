@@ -1,6 +1,5 @@
 package editor;
 
-import editor.attributes.AttributesBox;
 import editor.tabData.DataController;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -64,10 +63,10 @@ public class MainGUI {
 		TabsListController tabController = new TabsListController(myDataController);
 		myTabs = (TabPane) tabController.getView();
 		// initialize rules box
-		RulesBox rb = new RulesBox();
+		RulesBox rb = new RulesBox(myDataController);
 		myRules = rb.getView();
 		// initialize attributes box
-		AttributesBox ab = new AttributesBox();
+		AttributesBox ab = new AttributesBox(myDataController);
 		myAttributes = ab.getView();
 	}
 	
