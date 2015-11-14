@@ -1,5 +1,8 @@
 package units;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Unit {
 	protected String myName;
 	protected double myHealth;
@@ -10,6 +13,7 @@ public class Unit {
 	protected int myID;
 	protected int myBuyCost;
 	protected int mySellCost;
+	protected Map<String, Double> myAttributes;
 	
 	public Unit(String name, double health, double cd, String img, 
 			Point p, int ID, int bc, int sc){
@@ -21,8 +25,22 @@ public class Unit {
 		this.myID = ID;
 		this.myBuyCost = bc;
 		this.mySellCost = sc;
+		
+		myAttributes = new HashMap<String, Double>();
+		myAttributes.put("Health", health);
+		myAttributes.put("CollisionDamage", cd);
+		myAttributes.put("ID", (double)ID);
+		myAttributes.put("BuyCost", (double)bc);
+		myAttributes.put("SellCost", (double)sc);
 	}
 	
+	public double getAttribute(String attribute){
+		return myAttributes.get(attribute);
+	}
+	
+	public void setAttribute(String attribute, double value){
+		myAttributes.put(attribute, value);
+	}
 	
 	public String getImage() {
 		return myImage;
