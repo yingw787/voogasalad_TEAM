@@ -7,6 +7,9 @@ import java.util.List;
 import controller.Controller;
 import interfaces.IEngine;
 import interfaces.Request;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import units.PlayerInfo;
 import units.Point;
 import units.Tower;
@@ -15,11 +18,36 @@ import units.Unit;
 
 public class Engine implements IEngine {
 	private Controller myController;
+	private Timeline myTimeline;
+	public static final int FRAMES_PER_SECOND = 60;
+	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+	private List<Unit> myCurrentUnits;
 	
-	public Engine(Controller controller) {
+	
+	public Engine(Controller controller, Timeline timeline) {
 		myController = controller;
-		//read in XML
-		//populate the View
+		myTimeline = timeline;
+		myTimeline.setCycleCount(Timeline.INDEFINITE);
+	}
+	
+	public void playAnimation(boolean on){
+		if (on){
+			KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+					e -> step());
+			myTimeline.setCycleCount(Timeline.INDEFINITE);
+			myTimeline.getKeyFrames().addAll(frame);
+			myTimeline.play();
+		}
+	}
+	
+	
+	private void step(){
+		for (Unit unit : myCurrentUnits) {
+			Point newPoint = new Point(unit.getPoint().getX()+1, unit.getPoint().getY());
+			unit.setPoint(newPoint);
+		}
+		myController.updateMap(myCurrentUnits);
 	}
 
 	public void testCaseMaker(){
@@ -56,6 +84,7 @@ public class Engine implements IEngine {
 		List<Unit> mapUnits2 = new ArrayList<Unit>();
 		mapUnits.addAll(TroopList);
 		mapUnits.addAll(TowerList);
+		myCurrentUnits = mapUnits;
 		myController.updateMap(mapUnits);
 
 	}

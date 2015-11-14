@@ -5,6 +5,7 @@ import java.util.List;
 
 import gameEngine.Engine;
 import gamePlayer.Player;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import units.PlayerInfo;
@@ -20,9 +21,11 @@ public class Controller extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		myEngine = new Engine(this);
+		myEngine = new Engine(this, new Timeline());
 		myPlayer = new Player(this, primaryStage);
+		//myEngine.readXML();
 		myEngine.testCaseMaker();
+		myEngine.playAnimation(true);
 	}
 
 	public void populateStore(HashMap<String, List<Unit>> myTestMap) {
