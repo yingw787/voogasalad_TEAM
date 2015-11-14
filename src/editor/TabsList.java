@@ -17,6 +17,12 @@ public class TabsList implements IView {
 		myTabs = new TabPane();
 		myTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		myTabMap = new HashMap<String, Node>();
+		
+		
+		// Event listener for changing tabs
+		myTabs.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+			System.out.println(newTab.getId());
+		});
 	}
 	
 	public TabsList(String[] tabs) {
@@ -32,6 +38,7 @@ public class TabsList implements IView {
 		myTabMap.put(tabName, content);
 		Tab tabToAdd = new Tab(tabName);
 		tabToAdd.setContent(content);
+		tabToAdd.setId(tabName);
 		myTabs.getTabs().add(tabToAdd);
 	}
 	

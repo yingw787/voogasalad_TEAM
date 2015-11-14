@@ -29,4 +29,8 @@ public class TabsListController {
 	public Node getView(){
 		return myTabsList.getView();
 	}
+	
+	public TabsList getTabsList(){
+		return myTabsList;
+	}
 }
