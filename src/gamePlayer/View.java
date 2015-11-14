@@ -25,9 +25,9 @@ public class View {
 	public View(Stage stage){
 		this.myStage = stage;
 		Group root = new Group();
-		myHUD = new HUD();
-		myMap = new Map();
-		myMenus = new Menus();
+		myHUD = new HUD(this);
+		myMap = new Map(this);
+		myMenus = new Menus(this);
 		myStore = new Store(this);
 		BorderPane borderPane = new BorderPane();
 		populate(borderPane);
@@ -69,8 +69,16 @@ public class View {
 	}
 
 	public int getMoney() {
-		// TODO Auto-generated method stub
 		return myPlayerInfo.getMoney();
+	}
+
+	public void enableBuyButton(Unit unit) {
+		myHUD.enableBuyButton(unit);
+	}
+
+	public void enableSell() {
+		myHUD.enableSell();
+		
 	}
 
 }

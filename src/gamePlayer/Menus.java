@@ -1,7 +1,5 @@
 package gamePlayer;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 
@@ -11,6 +9,12 @@ public class Menus extends MenuBar implements IViewNode {
 	private Menu saveMenu;
 	private Menu helpMenu;
 
+	private View myView;
+	
+	public Menus(View v){
+		this.myView = v;
+	}
+	
 	public MenuBar initialize(){
 		myMenuBar = new MenuBar();
 		newMenu = new Menu("New Game");

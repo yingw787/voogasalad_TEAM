@@ -34,7 +34,7 @@ public class StoreManager {
 	
 	public void populate(String key){
 		myHBox.getChildren().clear();
-		List<ToggleButton> list = new ArrayList<ToggleButton>();
+		List<StoreButton> list = new ArrayList<StoreButton>();
 		List<Unit> storeItems = myPopulation.get(key);
 		for (Unit unit : storeItems) {
 			StoreButton button = buttonFactory(unit);
@@ -44,8 +44,9 @@ public class StoreManager {
 			list.add(button);
 		}
 		ToggleGroup group = new ToggleGroup();
-		for (ToggleButton tb : list) {
-			tb.setToggleGroup(group);
+		for (StoreButton sb : list) {
+			sb.setToggleGroup(group);
+			sb.setOnMouseClicked(e->myStore.enableBuyButton(sb.getUnit()));
 		}
 		myHBox.getChildren().addAll(list);
 	}
@@ -56,10 +57,13 @@ public class StoreManager {
 		imageview.setFitHeight(73);
 		imageview.setPreserveRatio(true);
 		String text = unit.getName() + "\n Gold: " + unit.getCost();
-		StoreButton button = new StoreButton(text, imageview);
-		button.setOnAction(e -> {
-			buttonManager();
-		});
+//<<<<<<< HEAD
+//		StoreButton button = new StoreButton(text, imageview);
+//		button.setOnAction(e -> {
+//			buttonManager();
+//		});
+//=======
+		StoreButton button = new StoreButton(text, imageview, unit);
 		return button;
 	}
 
