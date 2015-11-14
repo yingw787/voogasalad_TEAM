@@ -44,8 +44,11 @@ public class Engine implements IEngine {
 	
 	private void step(){
 		for (Unit unit : myCurrentUnits) {
+			//testing animation
 			Point newPoint = new Point(unit.getPoint().getX()+1, unit.getPoint().getY());
 			unit.setPoint(newPoint);
+			System.out.println(unit.getHealth());
+			unit.setHealth(unit.getHealth()-0.5);
 		}
 		myController.updateMap(myCurrentUnits);
 	}

@@ -74,6 +74,7 @@ public class Map implements IViewNode {
 				ProgressBar health = myHealthMap.get(unit.getID());
 				health.setLayoutX(unit.getPoint().getX());
 				health.setLayoutY(unit.getPoint().getY()-20);
+				health.setProgress(unit.getHealth()/unit.getMaxHealth());
 				//reset health value here
 				onMap.add(unit.getID());
 			}

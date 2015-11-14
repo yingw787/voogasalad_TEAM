@@ -10,11 +10,13 @@ public class Unit {
 	protected int myID;
 	protected int myBuyCost;
 	protected int mySellCost;
+	private double myMaxHealth;
 	
 	public Unit(String name, double health, double cd, String img, 
 			Point p, int ID, int bc, int sc){
 		this.myName = name;
 		this.myHealth = health;
+		this.myMaxHealth = health;
 		this.myCollisionDamage = cd;
 		this.myImage = img;
 		this.myPosition = p;
@@ -52,5 +54,18 @@ public class Unit {
 	public void setPoint(Point p){
 		myPosition = p;
 	}
+	
+	public void setHealth(double h){
+		myHealth = h;
+	}
+	
+	public double getHealth(){
+		return myHealth;
+	}
+	
+	public double getMaxHealth(){
+		return myMaxHealth;
+	}
 
+	
 }
