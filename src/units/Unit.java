@@ -48,5 +48,9 @@ public class Unit {
 		// TODO Auto-generated method stub
 		return myPosition;
 	}
+	
+	public void setPoint(Point p){
+		myPosition = p;
+	}
 
 }
