@@ -56,4 +56,11 @@ public class Store implements IViewNode {
 		return myView.getMoney();
 	}
 
+
+
+	public void enableBuyButton(Unit unit) {
+		// TODO Auto-generated method stub
+		myView.enableBuyButton(unit);
+	}
+
 }

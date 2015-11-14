@@ -20,7 +20,7 @@ public interface IEngine {
 	 * the Game Engine, which then goes and saves the data into an XML and places it into game data as a save file.
 	 */
 
-	void startWave(int i);
+	public void startWave(int i);
 	/*Tells the Engine to begin loading the next wave in the game, specified by 
 	 *a number
 	 */
