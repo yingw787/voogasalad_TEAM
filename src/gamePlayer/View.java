@@ -4,9 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import units.PlayerInfo;
 import units.Unit;
@@ -21,6 +26,7 @@ public class View {
 	private Map myMap;
 	private Menus myMenus;
 	private PlayerInfo myPlayerInfo;
+	private MapOnOffCheckBox myMapCheckBox;
 	
 	public View(Stage stage){
 		this.myStage = stage;
@@ -29,6 +35,7 @@ public class View {
 		myMap = new Map(this);
 		myMenus = new Menus(this);
 		myStore = new Store(this);
+		myMapCheckBox = new MapOnOffCheckBox();
 		BorderPane borderPane = new BorderPane();
 		populate(borderPane);
 		root.getChildren().add(borderPane);
@@ -37,11 +44,29 @@ public class View {
 	}
 	
 	private void populate(BorderPane bp){
-		bp.setTop(myMenus.initialize());
+		bp.setTop(topMenuBar());
 		bp.setLeft(myMap.initialize());
 		bp.setRight(myHUD.initialize());
 		bp.setBottom(myStore.initialize());
 		configure();
+	}
+	
+	private Node topMenuBar(){
+		HBox result = new HBox();
+		result.getChildren().addAll(myMenus.initialize(), myMapCheckBox);
+		checkBoxAction();
+		return result;
+			
+	}
+	
+
+	private void checkBoxAction() {
+	myMapCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+        public void changed(ObservableValue<? extends Boolean> ov,
+            Boolean old_val, Boolean new_val) {
+                myMap.show(new_val);
+        }
+    });
 	}
 	
 	private void configure(){

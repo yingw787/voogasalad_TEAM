@@ -14,6 +14,7 @@ import units.Unit;
 
 public class Map implements IViewNode {
 	private Pane myPane;
+
 	private HashMap<Integer, MapUnit> myImageMap;
 	private View myView;
 	
@@ -83,5 +84,10 @@ public class Map implements IViewNode {
 		if (mapUnit.getUnit().getClass().toString().equals("class units.Tower")){
 			myView.enableSell();
 		}
+	}
+
+	public void show(Boolean new_val) {
+			myPane.setVisible(new_val);
+		
 	}
 }
