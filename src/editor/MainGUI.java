@@ -54,9 +54,11 @@ public class MainGUI {
 		GameBoard gb = new GameBoard(myGroup, 675, 490);
 		myBoard = (SubScene) gb.getView();
 		// initialize tabs list
-		String[] tabOptions = {"Scenes", "Towers", "Bullets", "Troops", "Level", "Game"};
-		TabsList tl = new TabsList(tabOptions);
-		myTabs = (TabPane) tl.getView();
+//		String[] tabOptions = {"Scenes", "Towers", "Bullets", "Troops", "Level", "Game"};
+//		TabsList tl = new TabsList(tabOptions);
+//		myTabs = (TabPane) tl.getView();
+		TabsListController tabController = new TabsListController();
+		myTabs = (TabPane) tabController.getView();
 		// initialize rules box
 		RulesBox rb = new RulesBox();
 		myRules = rb.getView();

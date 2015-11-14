@@ -13,6 +13,12 @@ public class TabsList implements IView {
 	TabPane myTabs;
 	Map<String, Node> myTabMap;
 	
+	public TabsList(){
+		myTabs = new TabPane();
+		myTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		myTabMap = new HashMap<String, Node>();
+	}
+	
 	public TabsList(String[] tabs) {
 		myTabs = new TabPane();
 		myTabMap = new HashMap<String, Node>();

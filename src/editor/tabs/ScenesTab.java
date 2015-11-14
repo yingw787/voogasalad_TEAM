@@ -5,12 +5,16 @@ import javafx.scene.control.ScrollPane;
 import editor.IView;
 
 public class ScenesTab implements IView {
-	private ScrollPane myScenesView;	
+	private ScrollPane myTabView;
+	
+	public ScenesTab(){
+		myTabView = new ScrollPane();
+	}
 	
 	
 	@Override
 	public Node getView() {
-		return myScenesView;
+		return myTabView;
 	}
 
 }
