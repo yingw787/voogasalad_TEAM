@@ -1,4 +1,4 @@
-package gamePlayer;
+package gamePlayer.map;
 
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;

@@ -1,20 +1,22 @@
 package gamePlayer;
 
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.layout.HBox;
 
 public class Menus extends MenuBar implements IViewNode {
 	private MenuBar myMenuBar;
 	private Menu newMenu;
 	private Menu saveMenu;
 	private Menu helpMenu;
-
 	private View myView;
-	
+
 	public Menus(View v){
 		this.myView = v;
 	}
-	
+
 	public MenuBar initialize(){
 		myMenuBar = new MenuBar();
 		newMenu = new Menu("New Game");
@@ -28,7 +30,7 @@ public class Menus extends MenuBar implements IViewNode {
 		newMenu.setOnAction(event -> {newMenuAction();});
 		saveMenu.setOnAction(actionEvent -> savemenuAction());
 		helpMenu.setOnAction(actionEvent -> helpMenuAction());
-		
+
 		myMenuBar.getMenus().addAll(newMenu, saveMenu, helpMenu);
 	}
 

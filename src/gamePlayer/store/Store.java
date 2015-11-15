@@ -1,8 +1,11 @@
-package gamePlayer;
+package gamePlayer.store;
 
 import java.util.HashMap;
 import java.util.List;
 
+import gamePlayer.IViewNode;
+import gamePlayer.TabManager;
+import gamePlayer.View;
 import javafx.scene.layout.VBox;
 import units.Unit;
 

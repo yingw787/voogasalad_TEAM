@@ -27,8 +27,6 @@ public class Player implements IPlayer {
 	}
 	
 
-
-
 	@Override
 	public void updateMap(List<Unit> units) {
 		myView.updateMap(units);

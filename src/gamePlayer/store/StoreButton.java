@@ -1,4 +1,4 @@
-package gamePlayer;
+package gamePlayer.store;
 
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;

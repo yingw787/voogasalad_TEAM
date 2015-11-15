@@ -1,4 +1,4 @@
-package gamePlayer;
+package gamePlayer.store;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,10 +67,7 @@ public class StoreManager {
 
 	private void buttonManager() {
 		// TODO method to have the object that is clicked to appear in the main pane
-		System.out.println("I presssed");
-		
-		
-		
+		System.out.println("I presssed");	
 	}
 
 	public void setHeight(double height) {

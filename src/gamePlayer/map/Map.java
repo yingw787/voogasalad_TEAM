@@ -1,21 +1,30 @@
-package gamePlayer;
+package gamePlayer.map;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import gamePlayer.IViewNode;
+import gamePlayer.View;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.stage.FileChooser;
 import units.Unit;
 
 public class Map implements IViewNode {
 	private Pane myPane;
-
+	private Line path;
 	private HashMap<Integer, MapUnit> myImageMap;
 	private HashMap<Integer, ProgressBar> myHealthMap;
 	private View myView;
@@ -26,6 +35,7 @@ public class Map implements IViewNode {
 	
 	public Pane initialize(){
 		myPane = new Pane();
+
 		myPane.setStyle("-fx-background-color: green;");
 		myPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
@@ -35,6 +45,8 @@ public class Map implements IViewNode {
 		});
 		myImageMap = new HashMap<Integer, MapUnit>();
 		myHealthMap = new HashMap<Integer, ProgressBar>();
+		path = new Line();
+
 		return myPane;
 	}
 
@@ -61,7 +73,7 @@ public class Map implements IViewNode {
 				ProgressBar health = mapUnit.getHealth();
 				myImageMap.put(unit.getID(), mapUnit);
 				myHealthMap.put(unit.getID(), health);
-				myPane.getChildren().addAll(mapUnit, health);
+				myPane.getChildren().addAll(mapUnit, health);//
 				mapUnit.setX(unit.getPoint().getX());
 				mapUnit.setY(unit.getPoint().getY());
 				health.setLayoutX(unit.getPoint().getX());
@@ -92,15 +104,45 @@ public class Map implements IViewNode {
 		
 	}
 
-	// need to create a way to add map in the background
-	// allow the player to create their own background and add it to the pane
-	
-	private void addBackGround(){
-		Image grassBG = new Image(getClass().getClassLoader().getResourceAsStream("grass.jpg"));
-		ImageView background = new ImageView(grassBG);
-		myPane.getChildren().add(background);
+	public void uploadMap() {
+
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+        Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		
+		String label = null;
+        String fileName;
+        
+        if (selectedFile != null) {
+            fileName = selectedFile.getName();
+            setBackgroundMap(new Image(getClass().getClassLoader().getResourceAsStream(fileName)));
+        }
+        else {
+            if (selectedFile == null) {
+            	label = "UploadCanceled";
+				alert.setContentText(label);
+				alert.showAndWait();
+            }
+        }
 	}
+
+	public void setBackgroundMap(Image image) {
+		ImageView myImage = new ImageView(image);
+		myPane.getChildren().addAll(myImage);
+	}
+
 	
+	private Node drawPath(double[] startLoc, double[] endLoc){
+		path.setStartX(startLoc[0]);
+		path.setStartY(startLoc[1]);
+		path.setEndX(endLoc[0]);
+		path.setEndY(endLoc[1]);
+		path.setStrokeWidth(35);
+		path.setStroke(Color.AZURE);
+		return path;
+		
+	}
 	
 	private void enableSelling(MapUnit mapUnit){
 		if (mapUnit.getUnit().getClass().toString().equals("class units.Tower")){
@@ -108,4 +150,5 @@ public class Map implements IViewNode {
 		}
 	}
 
+	
 }
