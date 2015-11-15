@@ -92,6 +92,16 @@ public class Map implements IViewNode {
 		
 	}
 
+	// need to create a way to add map in the background
+	// allow the player to create their own background and add it to the pane
+	
+	private void addBackGround(){
+		Image grassBG = new Image(getClass().getClassLoader().getResourceAsStream("grass.jpg"));
+		ImageView background = new ImageView(grassBG);
+		myPane.getChildren().add(background);
+	}
+	
+	
 	private void enableSelling(MapUnit mapUnit){
 		if (mapUnit.getUnit().getClass().toString().equals("class units.Tower")){
 			myView.enableSell();

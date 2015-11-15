@@ -1,7 +1,4 @@
 package usecases;
-import java.util.ArrayList;
-
-import interfaces.Unit;
 
 public class example3 {
 	/*User can define rounds/levels with different/modified enemies; 

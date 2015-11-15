@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Map;
+
 import org.w3c.dom.Document;
 
 import com.thoughtworks.xstream.XStream;

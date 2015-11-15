@@ -3,7 +3,6 @@ package usecases;
 import java.util.ArrayList;
 
 import interfaces.Request;
-import interfaces.Unit;
 
 public class example4 {
 	/*User can drag and drop items onto the board during gameplay

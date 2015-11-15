@@ -2,7 +2,6 @@ package usecases;
 import java.util.ArrayList;
 
 import interfaces.Request;
-import interfaces.Unit;
 
 /*Player can buy his own troops to send out; they travel backward on the path and collide with enemy troops*/
 

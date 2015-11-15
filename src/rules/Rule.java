@@ -1,8 +1,8 @@
 package rules;
 
-import units.Unit;
 import actions.IAction;
 import conditions.ICondition;
+import units.Unit;
 
 public class Rule {
 	private ICondition myCondition;

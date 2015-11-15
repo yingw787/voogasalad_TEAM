@@ -1,12 +1,9 @@
 package gamePlayer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javafx.scene.layout.VBox;
-import units.Tower;
-import units.Troop;
 import units.Unit;
 
 public class Store implements IViewNode {
