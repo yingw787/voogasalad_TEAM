@@ -1,6 +1,6 @@
 package editor;
 
-import editor.attributes.AttributesBox;
+import editor.tabData.DataController;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
@@ -25,6 +25,7 @@ public class MainGUI {
 	ScrollPane myAttributes;
 	ScrollPane myRules;
 	Group myGroup;
+	DataController myDataController;
 	
 	public MainGUI() {
 		myStage = new Stage();
@@ -53,16 +54,26 @@ public class MainGUI {
 		myGroup = new Group();
 		GameBoard gb = new GameBoard(myGroup, 675, 490);
 		myBoard = (SubScene) gb.getView();
+		// intialize game data holders
+		myDataController = new DataController();
 		// initialize tabs list
-		String[] tabOptions = {"Scenes", "Towers", "Bullets", "Troops", "Level", "Game"};
-		TabsList tl = new TabsList(tabOptions);
-		myTabs = (TabPane) tl.getView();
+//		String[] tabOptions = {"Scenes", "Towers", "Bullets", "Troops", "Level", "Game"};
+//		TabsList tl = new TabsList(tabOptions);
+//		myTabs = (TabPane) tl.getView();
+		TabsListController tabController = new TabsListController(myDataController);
+		myTabs = (TabPane) tabController.getView();
 		// initialize rules box
-		RulesBox rb = new RulesBox();
+		RulesBox rb = new RulesBox(myDataController);
 		myRules = rb.getView();
 		// initialize attributes box
-		AttributesBox ab = new AttributesBox();
+		AttributesBox ab = new AttributesBox(myDataController);
 		myAttributes = ab.getView();
+		
+		
+		TabsList tl = tabController.getTabsList();
+		// Make observer/observable relationships
+		tl.addObserver(ab);
+		tl.addObserver(rb);
 	}
 	
 	private void setConstraints() {
