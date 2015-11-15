@@ -1,6 +1,7 @@
 <Salad__T.E.A.M>
   <gameEngine.InitialEnvironment>
     <myGameName>Salad</myGameName>
+    <myRules/>
     <myTowerType/>
     <myTroopType/>
     <myLevels/>
