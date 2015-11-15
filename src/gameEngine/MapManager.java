@@ -11,4 +11,22 @@ public class MapManager {
 	 * 
 	 */
 	
+	// graph for storing a path model. 
+	
+	// tuple class for storing path coordinates 
+	private class PathPoint{
+		
+		double myXPosition, myYPosition; 
+		
+		public PathPoint(double x, double y){
+			myXPosition = x; 
+			myYPosition = y; 
+		}
+		
+		public double[] returnPosition(){
+			return new double[] {myXPosition, myYPosition}; 
+		}
+	}
+	
+	
 }
