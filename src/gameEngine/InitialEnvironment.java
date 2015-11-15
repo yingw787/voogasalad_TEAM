@@ -12,23 +12,23 @@ import units.Troop;
 
 public class InitialEnvironment {
 	String myGameName;
-	List<Rule> myRules;
 	List<Tower> myTowerType;
 	List<Troop> myTroopType;
 	List<Level> myLevels;
 	List<Path> myPaths;
 	PlayerInfo myPlayerInfo;
 	GameConfiguration myConfig;
+	List<Rule> myRules;
 	
 	public InitialEnvironment() {
 		myGameName = "Salad";
-		myRules = new ArrayList<Rule>();
 		myTowerType = new ArrayList<Tower>();
 		myTroopType = new ArrayList<Troop>();
 		myLevels = new ArrayList<Level>();
-		List<Path> myPaths =new ArrayList<Path>();
+		myPaths =new ArrayList<Path>();
 		myPlayerInfo = new PlayerInfo(0, 0, 0);
 		myConfig = new GameConfiguration();
+		myRules = new ArrayList<Rule>();
 	}
 
 	public List<Rule> getRules() {
