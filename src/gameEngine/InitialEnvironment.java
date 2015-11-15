@@ -3,6 +3,7 @@ package gameEngine;
 import java.util.ArrayList;
 import java.util.List;
 
+import rules.Rule;
 import units.Level;
 import units.Path;
 import units.PlayerInfo;
@@ -11,6 +12,7 @@ import units.Troop;
 
 public class InitialEnvironment {
 	String myGameName;
+	List<Rule> myRules;
 	List<Tower> myTowerType;
 	List<Troop> myTroopType;
 	List<Level> myLevels;
@@ -20,12 +22,21 @@ public class InitialEnvironment {
 	
 	public InitialEnvironment() {
 		myGameName = "Salad";
+		myRules = new ArrayList<Rule>();
 		myTowerType = new ArrayList<Tower>();
 		myTroopType = new ArrayList<Troop>();
 		myLevels = new ArrayList<Level>();
 		List<Path> myPaths =new ArrayList<Path>();
 		myPlayerInfo = new PlayerInfo(0, 0, 0);
 		myConfig = new GameConfiguration();
+	}
+
+	public List<Rule> getRules() {
+		return myRules;
+	}
+
+	public void setRules(List<Rule> myRules) {
+		this.myRules = myRules;
 	}
 
 	public String getGameName() {
