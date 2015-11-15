@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Unit {
 	protected String myName;
+	protected String myType;
 	protected double myHealth;
 	protected double myCollisionDamage;
 	protected String myImage;
@@ -16,9 +17,10 @@ public class Unit {
 	protected Map<String, Double> myAttributes;
 	protected Map<String, String> myStringAttributes;
 	
-	public Unit(String name, double health, double cd, String img, 
+	public Unit(String name, String type, double health, double cd, String img, 
 			Point p, int ID, int bc, int sc){
 		this.myName = name;
+		this.myType = type;
 		this.myHealth = health;
 		this.myCollisionDamage = cd;
 		this.myImage = img;
@@ -37,6 +39,7 @@ public class Unit {
 		myAttributes.put("Y", (double)p.getY());
 		myStringAttributes = new HashMap<String, String>();
 		myStringAttributes.put("Name", name);
+		myStringAttributes.put("Type", type);
 		myStringAttributes.put("Image", img);
 	}
 	
