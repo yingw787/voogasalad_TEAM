@@ -7,7 +7,7 @@ import java.util.Map;
 
 import controller.Controller;
 import interfaces.IEngine;
-import interfaces.Request;
+import interfaces.IRequest;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -65,7 +65,7 @@ public class Engine implements IEngine {
 
 	
 	@Override
-	public void update(List<Request> requests) {
+	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
 		
 	}
