@@ -18,14 +18,52 @@ public class MapManager {
 	PathModel pathModel; 
 	
 	public void initialize(){
-		// read data from the XML file; where to get that information 
+		// TODO: read data from the static XML file; where to get that information? 
+		// TODO: what kind of data is available from the static XML file? 
+		// TODO: 
+		
+		
 	}
 	
-	public void convertToPathModel(List<List<PathPoint>> allAvailablePaths){
+	
+	
+	
+	// convert the Path object to the PathPoint object; 
+	public List<List<PathPoint>> convertToListOfListOfPathPoints(){
+		return null;
 		
+	}
+	
+	// convert the List<List<PathPoint>> into a graph PathModel for future reference
+	// TODO: do all list<list<pathpoint>> start from the same start point and end at the same end point? 
+	// TODO: if there is, then map the first point to the start and the last point to the end, and sequential order; 
+	// if not, there has to be a way to tell where is the start and the end. 
+	private void convertToPathModel(List<List<PathPoint>> allAvailablePaths){
+		for(List<PathPoint> path : allAvailablePaths){
+			for(int i = 0; i < path.size(); i++){
+				
+			}
+			
+		}
 		
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/*
 	 *  PathModel is an extremely basic graph implementation for storing a path model. 
@@ -36,7 +74,6 @@ public class MapManager {
 	private class PathModel{
 		HashSet<PathPoint> points; 
 		HashSet<PathEdge> edges; 
-		
 		PathPoint start, end; 
 		
 		
@@ -77,6 +114,7 @@ public class MapManager {
 			
 		}
 		
+		// methods below only if you have a particular start point and a particular end point
 		public PathPoint getStartPoint(){
 			return start; 
 		}
