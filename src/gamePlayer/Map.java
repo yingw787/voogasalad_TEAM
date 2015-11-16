@@ -13,6 +13,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import units.Unit;
 
+/*
+ * Map.java is the actual game board where the game pieces are put into play. 
+ */
+
 public class Map implements IViewNode {
 	private Pane myPane;
 
