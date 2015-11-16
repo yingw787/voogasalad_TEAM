@@ -23,8 +23,8 @@ public class Controller extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		myEngine = new Engine(this, new Timeline());
 		myPlayer = new Player(this, primaryStage);
-		//myEngine.readXML();
 		myEngine.testCaseMaker();
+		//myEngine.readXML();
 		myEngine.playAnimation(true);
 	}
 

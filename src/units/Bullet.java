@@ -1,6 +1,6 @@
 package units;
 
-public class Bullet {
+public class Bullet extends Unit {
 	
 	private double myDamage;
 	private int myHealth = 1;
