@@ -6,9 +6,14 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import units.PlayerInfo;
 import units.Unit;
@@ -39,13 +44,21 @@ public class View implements Observer {
 	}
 	
 	private void populate(BorderPane bp){
-		bp.setTop(myMenus.initialize());
+		bp.setTop(topMenuBar());
 		bp.setLeft(myMap.initialize());
 		bp.setRight(myHUD.initialize());
 		bp.setBottom(myStore.initialize());
 		configure();
 	}
 	
+	private Node topMenuBar(){
+		HBox result = new HBox();
+		result.getChildren().addAll(myMenus.initialize());
+		return result;
+			
+	}
+	
+
 	private void configure(){
 		myStore.setWidth(myWidth);
 		myStore.setHeight(myHeight*.2);

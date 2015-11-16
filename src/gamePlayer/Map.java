@@ -15,7 +15,11 @@ import javafx.scene.layout.Pane;
 import units.Unit;
 
 public class Map extends Observable implements IViewNode {
+/*
+ * Map.java is the actual game board where the game pieces are put into play. 
+ */
 	private Pane myPane;
+
 	private HashMap<Integer, MapUnit> myImageMap;
 	private HashMap<Integer, ProgressBar> myHealthMap;
 	private View myView;
@@ -98,4 +102,5 @@ public class Map extends Observable implements IViewNode {
 			myView.enableSell();
 		}
 	}
+
 }

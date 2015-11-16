@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface IEngine {
 
-	public void update(List<Request> requests);
+	public void update(List<IRequest> requests);
 	/*Game Player sends a request with the type of tower and a location on the map. If the placement is legal and the player 
 	 * has enough money then the Engine creates the tower at the location and updates the front end, which will then display 
 	 * the new tower for the player to see and the new gold count.*/

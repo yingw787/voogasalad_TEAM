@@ -1,18 +1,13 @@
 package gamePlayer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import controller.Controller;
 import interfaces.IPlayer;
-import javafx.application.Application;
 import javafx.stage.Stage;
 import units.PlayerInfo;
-import units.Point;
-import units.Tower;
-import units.Troop;
 import units.Unit;
 
 public class Player implements IPlayer {

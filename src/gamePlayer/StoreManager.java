@@ -10,6 +10,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import units.Point;
 import units.Unit;
 
 public class StoreManager {
@@ -56,8 +57,22 @@ public class StoreManager {
 		imageview.setFitHeight(73);
 		imageview.setPreserveRatio(true);
 		String text = unit.getName() + "\n Gold: " + unit.getCost();
+//<<<<<<< HEAD
+//		StoreButton button = new StoreButton(text, imageview);
+//		button.setOnAction(e -> {
+//			buttonManager();
+//		});
+//=======
 		StoreButton button = new StoreButton(text, imageview, unit);
 		return button;
+	}
+
+	private void buttonManager() {
+		// TODO method to have the object that is clicked to appear in the main pane
+		System.out.println("I presssed");
+		
+		
+		
 	}
 
 	public void setHeight(double height) {
