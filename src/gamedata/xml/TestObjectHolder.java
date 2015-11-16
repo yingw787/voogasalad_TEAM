@@ -1,4 +1,4 @@
-package editor.xml;
+package gamedata.xml;
 
 import java.util.ArrayList;
 import java.util.List;
