@@ -18,10 +18,12 @@ public class MapManager {
 	PathModel pathModel; 
 	
 	public void initialize(){
-		
+		// read data from the XML file; where to get that information 
 	}
 	
-	public void convertToPathModel(){
+	public void convertToPathModel(List<List<PathPoint>> allAvailablePaths){
+		
+		
 		
 	}
 	
