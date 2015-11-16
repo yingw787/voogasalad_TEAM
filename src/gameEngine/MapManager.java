@@ -15,9 +15,13 @@ public class MapManager {
 	 * 
 	 */
 	
-	PathModel model; 
+	PathModel pathModel; 
 	
 	public void initialize(){
+		
+	}
+	
+	public void convertToPathModel(){
 		
 	}
 	
@@ -31,11 +35,12 @@ public class MapManager {
 		HashSet<PathPoint> points; 
 		HashSet<PathEdge> edges; 
 		
+		PathPoint start, end; 
 		
 		
 		public PathModel(double myStartXCoordinate, double myStartYCoordinate, double myEndXCoordinate, double myEndYCoordinate){
-			PathPoint start = new PathPoint(myStartXCoordinate, myStartYCoordinate); 
-			PathPoint end = new PathPoint(myEndXCoordinate, myEndYCoordinate);
+			start = new PathPoint(myStartXCoordinate, myStartYCoordinate); 
+			end = new PathPoint(myEndXCoordinate, myEndYCoordinate);
 			points.add(start);
 			points.add(end);
 			
@@ -68,6 +73,14 @@ public class MapManager {
 			}
 			return false; 
 			
+		}
+		
+		public PathPoint getStartPoint(){
+			return start; 
+		}
+		
+		public PathPoint getEndPoint(){
+			return end; 
 		}
 		
 	}
