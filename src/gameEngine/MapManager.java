@@ -9,17 +9,20 @@ public class MapManager {
 	 * MapManager.java is the backend engine module for Map.java, the GamePlayer module in the front-end. 
 	 * Responsibilities: (keep adding to this as responsibilities grow and diverge: 
 	 * 
-	 * TODO still (update as needed:) 
-	 * 
+	 * TODO still (update as needed)
+	 * Make sure that everything in engine that the mapmanager needs to handle, that mapmanager can handle 
 	 * 
 	 */
+	
+	
+	
+	
 	
 	/*
 	 *  PathModel is an extremely basic graph implementation for storing a path model. 
 	 *  There is no need for indexes, direction, distance, etc.
 	 *  PathModel must be initialized with a start PathPoint and an end PathPoint. 
-	 *   
-	 *   
+	 *  There should never be a need to make PathModel, PathPoint, or PathEdge public or protected because units need to be added to the MapManager anyways 
 	 */
 	private class PathModel{
 		HashSet<PathPoint> points; 
