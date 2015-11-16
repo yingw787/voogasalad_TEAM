@@ -24,7 +24,7 @@ public class HUD extends Observable implements IViewNode{
 
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private VBox myVBox;
-	private Button myBuyButton, mySellButton; 
+	private Button myBuyButton, mySellButton, myWaveButton; 
 	private View myView;
 	private ResourceBundle myResource;
 
@@ -85,6 +85,16 @@ public class HUD extends Observable implements IViewNode{
 		return myHBox;		
 	}
 	
+	public Node waveButton(){
+		HBox myHBox = new HBox();
+		myHBox.setAlignment(Pos.CENTER);
+		myWaveButton = new Button("Start Wave");
+		myWaveButton.setOnMouseClicked(e->startWave());
+        myHBox.getChildren().add(myWaveButton);
+        return myHBox;
+	}
+	
+	
 	public Node level(PlayerInfo player){
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
@@ -96,6 +106,7 @@ public class HUD extends Observable implements IViewNode{
 	}
 	
 	public Node buySellButton(){
+		
 		HBox myHBox = new HBox();
 		myHBox.setStyle("-fx-background-color: white;");
 		myBuyButton = new Button("Buy");
@@ -114,7 +125,11 @@ public class HUD extends Observable implements IViewNode{
 	}
 	
 	public void populate(PlayerInfo player){
-		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton());
+		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton(), waveButton());
+	}
+	
+	private void startWave(){
+		//tell game to begin wave
 	}
 
 	private void sellButtonClicked(){
