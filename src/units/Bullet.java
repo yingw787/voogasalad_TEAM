@@ -6,6 +6,7 @@ public class Bullet {
 	private int myHealth = 1;
 	private double myX;
 	private double myY;
+	private Faction myFraction; 
 	
 	public Bullet(int dmg, double x, double y){
 		myDamage = dmg;
