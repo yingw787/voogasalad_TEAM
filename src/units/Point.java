@@ -1,20 +1,20 @@
 package units;
 
 public class Point {
-	private int myX;
-	private int myY;
+	private double myX;
+	private double myY;
 	
-	public Point(int x, int y){
+	public Point(double x, double y){
 		this.myX = x;
 		this.myY = y;
 	}
 	
 	
-	public int getX(){
+	public double getX(){
 		return myX;
 	}
 	
-	public int getY(){
+	public double getY(){
 		return myY;
 	}
 }
