@@ -55,10 +55,11 @@ public class Engine implements IEngine {
 	
 	
 	private void step(){
-		for (Unit unit : myCurrentUnits) {
-			Point newPoint = new Point(unit.getPoint().getX()+1, unit.getPoint().getY());
-			unit.setPoint(newPoint);
-		}
+		//why bullet doesn't extends unit?
+		//bullet should have a member, true represent friend, false represent enemy, it's set by the tower/zombie
+		//
+		
+		
 		myController.updateMap(myCurrentUnits);
 	}
 
@@ -67,6 +68,7 @@ public class Engine implements IEngine {
 	@Override
 	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
+		// request if a CollisionRequest
 		
 	}
 
@@ -84,7 +86,7 @@ public class Engine implements IEngine {
 
 	@Override
 	public void startWave(int i) {
-		// TODO Auto-generated method stub
+		// TODO release a wave of zombies
 		
 	}
 
