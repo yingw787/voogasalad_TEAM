@@ -2,6 +2,7 @@ package gameEngine;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 
 public class MapManager {
 
@@ -14,9 +15,11 @@ public class MapManager {
 	 * 
 	 */
 	
+	PathModel model; 
 	
-	
-	
+	public void initialize(){
+		
+	}
 	
 	/*
 	 *  PathModel is an extremely basic graph implementation for storing a path model. 
@@ -27,6 +30,8 @@ public class MapManager {
 	private class PathModel{
 		HashSet<PathPoint> points; 
 		HashSet<PathEdge> edges; 
+		
+		
 		
 		public PathModel(double myStartXCoordinate, double myStartYCoordinate, double myEndXCoordinate, double myEndYCoordinate){
 			PathPoint start = new PathPoint(myStartXCoordinate, myStartYCoordinate); 
@@ -39,15 +44,23 @@ public class MapManager {
 			
 		}
 		
-		public void addPathPoint(PathPoint newNode){
-			points.add(newNode);
+		public void addPathPoint(PathPoint newPoint){
+			points.add(newPoint);
+		}
+		
+		public void deletePathPoint(PathPoint point){
+			points.remove(point);
 		}
 		
 		public void addPathEdge(PathEdge newEdge){
 			edges.add(newEdge);
 		}
 		
-		public boolean validPathEdgeAvailable(PathPoint a, PathPoint b){
+		public void deletePathEdge(PathEdge edge){
+			edges.remove(edge);
+		}
+		
+		public boolean isValidPath(PathPoint a, PathPoint b){
 			for(PathEdge edge : edges){
 				if(edge.getVertices().contains(a) && edge.getVertices().contains(b)){
 					return true;
@@ -56,7 +69,6 @@ public class MapManager {
 			return false; 
 			
 		}
-		
 		
 	}
 	
