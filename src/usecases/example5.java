@@ -2,7 +2,7 @@ package usecases;
 
 import java.util.ArrayList;
 
-import interfaces.Unit;
+import units.Unit;
 import units.PlayerInfo;
 
 public class example5 {

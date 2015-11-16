@@ -1,15 +1,13 @@
 package gamePlayer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 
 import javafx.scene.layout.VBox;
-import units.Tower;
-import units.Troop;
 import units.Unit;
 
-public class Store implements IViewNode {
+public class Store extends Observable implements IViewNode {
 	private StoreManager myStoreManager;
 	private TabManager myTabManager;
 	private HashMap<String, List<Unit>> myTestMap;
@@ -54,6 +52,13 @@ public class Store implements IViewNode {
 
 	public int getMoney() {
 		return myView.getMoney();
+	}
+
+
+
+	public void enableBuyButton(Unit unit) {
+		// TODO Auto-generated method stub
+		myView.enableBuyButton(unit);
 	}
 
 }

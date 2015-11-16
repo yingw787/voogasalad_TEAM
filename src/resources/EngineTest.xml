@@ -1,0 +1,19 @@
+<Salad__T.E.A.M>
+  <gameEngine.environments.InitialEnvironment>
+    <myGameName>Salad</myGameName>
+    <myTowerType/>
+    <myTroopType/>
+    <myLevels/>
+    <myPaths/>
+    <myPlayerInfo>
+      <myMoney>0</myMoney>
+      <myLives>0</myLives>
+      <myCurrentLevel>0</myCurrentLevel>
+    </myPlayerInfo>
+    <myConfig>
+      <myFramePerSecond>0</myFramePerSecond>
+    </myConfig>
+    <myRules/>
+    <myStoreMap/>
+  </gameEngine.environments.InitialEnvironment>
+</Salad__T.E.A.M>

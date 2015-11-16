@@ -2,18 +2,23 @@ package gamePlayer;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
-import com.sun.prism.paint.Color;
-
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import units.PlayerInfo;
 import units.Unit;
 
-public class View {
+public class View implements Observer {
 	private ResourceBundle myDefaults = ResourceBundle.getBundle("resources/Default");
 	private int myWidth = Integer.parseInt(myDefaults.getString("Width"));
 	private int myHeight = Integer.parseInt(myDefaults.getString("Height"));
@@ -27,9 +32,9 @@ public class View {
 	public View(Stage stage){
 		this.myStage = stage;
 		Group root = new Group();
-		myHUD = new HUD();
-		myMap = new Map();
-		myMenus = new Menus();
+		myHUD = new HUD(this);
+		myMap = new Map(this);
+		myMenus = new Menus(this);
 		myStore = new Store(this);
 		BorderPane borderPane = new BorderPane();
 		populate(borderPane);
@@ -39,13 +44,21 @@ public class View {
 	}
 	
 	private void populate(BorderPane bp){
-		bp.setTop(myMenus.initialize());
+		bp.setTop(topMenuBar());
 		bp.setLeft(myMap.initialize());
 		bp.setRight(myHUD.initialize());
 		bp.setBottom(myStore.initialize());
 		configure();
 	}
 	
+	private Node topMenuBar(){
+		HBox result = new HBox();
+		result.getChildren().addAll(myMenus.initialize());
+		return result;
+			
+	}
+	
+
 	private void configure(){
 		myStore.setWidth(myWidth);
 		myStore.setHeight(myHeight*.2);
@@ -71,8 +84,22 @@ public class View {
 	}
 
 	public int getMoney() {
-		// TODO Auto-generated method stub
 		return myPlayerInfo.getMoney();
+	}
+
+	public void enableBuyButton(Unit unit) {
+		myHUD.enableBuyButton(unit);
+	}
+
+	public void enableSell() {
+		myHUD.enableSell();
+		
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

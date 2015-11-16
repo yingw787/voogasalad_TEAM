@@ -1,5 +1,5 @@
 package usecases;
-import interfaces.Request;
+import interfaces.IRequest;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class EngineObject implements IEngine {
 	}
 
 	@Override
-	public void update(List<Request> requests) {
+	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
 		
 	}

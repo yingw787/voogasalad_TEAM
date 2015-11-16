@@ -10,6 +10,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import units.Point;
 import units.Unit;
 
 public class StoreManager {
@@ -33,30 +34,42 @@ public class StoreManager {
 	
 	public void populate(String key){
 		myHBox.getChildren().clear();
-		List<ToggleButton> list = new ArrayList<ToggleButton>();
+		List<StoreButton> list = new ArrayList<StoreButton>();
 		List<Unit> storeItems = myPopulation.get(key);
 		for (Unit unit : storeItems) {
 			StoreButton button = buttonFactory(unit);
-			if (myStore.getMoney() < unit.getCost()) {
+			if (myStore.getMoney() < unit.getAttribute("BuyCost")) {
 				button.setDisable(true);
 			}
 			list.add(button);
 		}
 		ToggleGroup group = new ToggleGroup();
-		for (ToggleButton tb : list) {
-			tb.setToggleGroup(group);
+		for (StoreButton sb : list) {
+			sb.setToggleGroup(group);
+			sb.setOnMouseClicked(e->myStore.enableBuyButton(sb.getUnit()));
 		}
 		myHBox.getChildren().addAll(list);
 	}
 	
 	private StoreButton buttonFactory(Unit unit){
-		Image image = new Image(unit.getImage());
+		Image image = new Image(unit.getStringAttribute("Image"));
 		ImageView imageview = new ImageView(image);
 		imageview.setFitHeight(73);
 		imageview.setPreserveRatio(true);
-		String text = unit.getName() + "\n Gold: " + unit.getCost();
-		StoreButton button = new StoreButton(text, imageview);
+		String text = unit.getStringAttribute("Name") + "\n Gold: " + unit.getAttribute("BuyCost");
+		StoreButton button = new StoreButton(text, imageview, unit);
+		button.setOnAction(e -> {
+			buttonManager();
+		});
 		return button;
+	}
+
+	private void buttonManager() {
+		// TODO method to have the object that is clicked to appear in the main pane
+		System.out.println("I presssed");
+		
+		
+		
 	}
 
 	public void setHeight(double height) {
