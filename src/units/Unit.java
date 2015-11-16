@@ -8,13 +8,12 @@ public class Unit {
 	protected Map<String, String> myStringAttributes;
 	
 	public Unit(String name, double health, double cd, String img, 
-			Point p, int ID, int bc, int sc){
-		
+			Point p, int ID, int bc, int sc){		
 		myAttributes = new HashMap<String, Double>();
 		myAttributes.put("Health", health);
 		myAttributes.put("MaxHealth", health);
 		myAttributes.put("CollisionDamage", cd);
-		myAttributes.put("ID", (double)ID);
+		myAttributes.put("ID", (double) ID);
 		myAttributes.put("BuyCost", (double)bc);
 		myAttributes.put("SellCost", (double)sc);
 		myAttributes.put("X", (double)p.getX());

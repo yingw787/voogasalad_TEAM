@@ -121,6 +121,7 @@ public class Engine implements IEngine {
 		TroopList.add(tr1);
 		TroopList.add(tr2);
 		TroopList.add(tr3);
+		myTestMap.put("Towers", TowerList);
 		myTestMap.put("Troops", TroopList);
 		myController.populateStore(myTestMap);
 		List<Unit> mapUnits = new ArrayList<Unit>();

@@ -28,6 +28,7 @@ public class Controller extends Application {
 		myEngine.playAnimation(true);
 	}
 
+	// store is in-game purchases of towers and units and the like 
 	public void populateStore(HashMap<String, List<Unit>> myTestMap) {
 		myPlayer.populate(myTestMap);
 	}
