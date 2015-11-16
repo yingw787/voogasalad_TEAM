@@ -1,9 +1,11 @@
 package gamePlayer;
 
+import java.util.Observable;
+
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 
-public class Menus extends MenuBar implements IViewNode {
+public class Menus extends Observable implements IViewNode {
 	private MenuBar myMenuBar;
 	private Menu newMenu;
 	private Menu saveMenu;
@@ -47,12 +49,12 @@ public class Menus extends MenuBar implements IViewNode {
 	@Override
 	public void setWidth(double width) {
 		// TODO Auto-generated method stub
-		this.setPrefWidth(width);
+		myMenuBar.setPrefWidth(width);
 	}
 
 	@Override
 	public void setHeight(double height) {
-		this.setPrefHeight(height);		
+		myMenuBar.setPrefHeight(height);		
 	}
 
 }
