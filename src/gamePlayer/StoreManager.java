@@ -38,7 +38,7 @@ public class StoreManager {
 		List<Unit> storeItems = myPopulation.get(key);
 		for (Unit unit : storeItems) {
 			StoreButton button = buttonFactory(unit);
-			if (myStore.getMoney() < unit.getCost()) {
+			if (myStore.getMoney() < unit.getAttribute("BuyCost")) {
 				button.setDisable(true);
 			}
 			list.add(button);
@@ -52,18 +52,15 @@ public class StoreManager {
 	}
 	
 	private StoreButton buttonFactory(Unit unit){
-		Image image = new Image(unit.getImage());
+		Image image = new Image(unit.getStringAttribute("Image"));
 		ImageView imageview = new ImageView(image);
 		imageview.setFitHeight(73);
 		imageview.setPreserveRatio(true);
-		String text = unit.getName() + "\n Gold: " + unit.getCost();
-//<<<<<<< HEAD
-//		StoreButton button = new StoreButton(text, imageview);
-//		button.setOnAction(e -> {
-//			buttonManager();
-//		});
-//=======
+		String text = unit.getStringAttribute("Name") + "\n Gold: " + unit.getAttribute("BuyCost");
 		StoreButton button = new StoreButton(text, imageview, unit);
+		button.setOnAction(e -> {
+			buttonManager();
+		});
 		return button;
 	}
 

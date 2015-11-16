@@ -20,8 +20,8 @@ public class Map extends Observable implements IViewNode {
  */
 	private Pane myPane;
 
-	private HashMap<Integer, MapUnit> myImageMap;
-	private HashMap<Integer, ProgressBar> myHealthMap;
+	private HashMap<Double, MapUnit> myImageMap;
+	private HashMap<Double, ProgressBar> myHealthMap;
 	private View myView;
 	
 	public Map(View v){
@@ -37,8 +37,8 @@ public class Map extends Observable implements IViewNode {
 				System.out.println(arg0.getSceneX() + " " + arg0.getSceneY());
 			}
 		});
-		myImageMap = new HashMap<Integer, MapUnit>();
-		myHealthMap = new HashMap<Integer, ProgressBar>();
+		myImageMap = new HashMap<Double, MapUnit>();
+		myHealthMap = new HashMap<Double, ProgressBar>();
 		return myPane;
 	}
 
@@ -55,44 +55,44 @@ public class Map extends Observable implements IViewNode {
 
 
 	public void updateMap(List<Unit> units) {
-		List<Integer> onMap = new ArrayList<Integer>();
-		List<Integer> removeUnits = new ArrayList<Integer>();
+		List<Double> onMap = new ArrayList<Double>();
+		List<Double> removeUnits = new ArrayList<Double>();
 		for (Unit unit : units) {
-			if (!myImageMap.containsKey(unit.getID())){
-				MapUnit mapUnit = new MapUnit(new Image(unit.getImage()),unit);
+			if (!myImageMap.containsKey(unit.getAttribute("ID"))){
+				MapUnit mapUnit = new MapUnit(new Image(unit.getStringAttribute("Image")),unit);
 				mapUnit.setPreserveRatio(true);
 				mapUnit.setFitHeight(50);
 				ProgressBar health = mapUnit.getHealth();
-				myImageMap.put(unit.getID(), mapUnit);
-				myHealthMap.put(unit.getID(), health);
+				myImageMap.put(unit.getAttribute("ID"), mapUnit);
+				myHealthMap.put(unit.getAttribute("ID"), health);
 				myPane.getChildren().addAll(mapUnit, health);
-				mapUnit.setX(unit.getPoint().getX());
-				mapUnit.setY(unit.getPoint().getY());
-				health.setLayoutX(unit.getPoint().getX());
-				health.setLayoutY(unit.getPoint().getY()-20);
+				mapUnit.setX(unit.getAttribute("X"));
+				mapUnit.setY(unit.getAttribute("Y"));
+				health.setLayoutX(unit.getAttribute("X"));
+				health.setLayoutY(unit.getAttribute("Y")-20);
 				mapUnit.setOnMouseClicked(e->enableSelling(mapUnit));
-				onMap.add(unit.getID());
-			} else if (myImageMap.containsKey(unit.getID())) {
-				ImageView imageview = myImageMap.get(unit.getID());
-				imageview.setX(unit.getPoint().getX());
-				imageview.setY(unit.getPoint().getY());
-				ProgressBar health = myHealthMap.get(unit.getID());
-				health.setLayoutX(unit.getPoint().getX());
-				health.setLayoutY(unit.getPoint().getY()-20);
-				health.setProgress(unit.getHealth()/unit.getMaxHealth());
+				onMap.add(unit.getAttribute("ID"));
+			} else if (myImageMap.containsKey(unit.getAttribute("ID"))) {
+				ImageView imageview = myImageMap.get(unit.getAttribute("ID"));
+				imageview.setX(unit.getAttribute("X"));
+				imageview.setY(unit.getAttribute("Y"));
+				ProgressBar health = myHealthMap.get(unit.getAttribute("ID"));
+				health.setLayoutX(unit.getAttribute("X"));
+				health.setLayoutY(unit.getAttribute("Y")-20);
+				health.setProgress(unit.getAttribute("Health")/unit.getAttribute("MaxHealth"));
 				//reset health value here
-				onMap.add(unit.getID());
+				onMap.add(unit.getAttribute("ID"));
 			}
 		}
-		for (Entry<Integer, MapUnit> entry : myImageMap.entrySet()){
+		for (Entry<Double, MapUnit> entry : myImageMap.entrySet()){
 			if (!onMap.contains(entry.getKey())){
 				removeUnits.add(entry.getKey());
 			}
 		}
-		for (int i : removeUnits) {
-			myPane.getChildren().remove(myImageMap.get(i));
-			myImageMap.remove(i);
-			myHealthMap.remove(i);
+		for (double d : removeUnits) {
+			myPane.getChildren().remove(myImageMap.get(d));
+			myImageMap.remove(d);
+			myHealthMap.remove(d);
 		}
 		
 	}
