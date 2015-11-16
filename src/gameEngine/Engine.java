@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import controller.Controller;
+import gameEngine.environments.InitialEnvironment;
+import gameEngine.environments.RuntimeEnvironment;
 import interfaces.IEngine;
 import interfaces.IRequest;
 import javafx.animation.KeyFrame;
@@ -25,18 +27,15 @@ public class Engine implements IEngine {
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
 	private List<Unit> myCurrentUnits;
-	private Map<String, List<Unit>> myStoreMap; 
-	private Map<Integer,Unit> myUnitsMap;
-	InitialEnvironment myInitialEnviron;
+	private InitialEnvironment myInitialEnviron;
+	private RuntimeEnvironment myRuntimeEnviron;
 	
 	public Engine(Controller controller, Timeline timeline) {
 		myController = controller;
 		myTimeline = timeline;
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
-		myUnitsMap = new HashMap<Integer,Unit>();
-		myStoreMap = new HashMap<String, List<Unit> >();
-		
 		myInitialEnviron = new InitialEnvironment();
+		myRuntimeEnviron = new RuntimeEnvironment();
 		XMLParser parser = new XMLParser();
 		parser.writeEnviroment(myInitialEnviron);
 		myInitialEnviron = parser.readEnvironment();
