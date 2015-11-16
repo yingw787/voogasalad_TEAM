@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Observable;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.ProgressBar;
@@ -13,7 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import units.Unit;
 
-public class Map implements IViewNode {
+public class Map extends Observable implements IViewNode {
 	private Pane myPane;
 	private HashMap<Integer, MapUnit> myImageMap;
 	private HashMap<Integer, ProgressBar> myHealthMap;

@@ -47,7 +47,6 @@ public class Engine implements IEngine {
 			//testing animation
 			Point newPoint = new Point(unit.getPoint().getX()+1, unit.getPoint().getY());
 			unit.setPoint(newPoint);
-			System.out.println(unit.getHealth());
 			unit.setHealth(unit.getHealth()-0.5);
 		}
 		myController.updateMap(myCurrentUnits);
@@ -84,12 +83,10 @@ public class Engine implements IEngine {
 		myTestMap.put("Troops", TroopList);
 		myController.populateStore(myTestMap);
 		List<Unit> mapUnits = new ArrayList<Unit>();
-		List<Unit> mapUnits2 = new ArrayList<Unit>();
 		mapUnits.addAll(TroopList);
 		mapUnits.addAll(TowerList);
 		myCurrentUnits = mapUnits;
 		myController.updateMap(mapUnits);
-
 	}
 	
 	@Override

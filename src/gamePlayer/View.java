@@ -2,9 +2,9 @@ package gamePlayer;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
-
-import com.sun.prism.paint.Color;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import units.PlayerInfo;
 import units.Unit;
 
-public class View {
+public class View implements Observer {
 	private ResourceBundle myDefaults = ResourceBundle.getBundle("resources/Default");
 	private int myWidth = Integer.parseInt(myDefaults.getString("Width"));
 	private int myHeight = Integer.parseInt(myDefaults.getString("Height"));
@@ -80,6 +80,12 @@ public class View {
 
 	public void enableSell() {
 		myHUD.enableSell();
+		
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
 		
 	}
 

@@ -1,5 +1,7 @@
 package gamePlayer;
 
+import java.util.Observable;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -7,7 +9,7 @@ import javafx.scene.text.Text;
 import units.PlayerInfo;
 import units.Unit;
 
-public class HUD implements IViewNode{
+public class HUD extends Observable implements IViewNode{
 	private VBox myVBox;
 	private Button myBuyButton, mySellButton; 
 	private View myView;
