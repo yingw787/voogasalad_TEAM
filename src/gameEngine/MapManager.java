@@ -1,8 +1,11 @@
 package gameEngine;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+
+import gamePlayer.MapUnit;
 
 public class MapManager {
 
@@ -16,6 +19,7 @@ public class MapManager {
 	 */
 	
 	PathModel pathModel; 
+	ArrayList<MapUnit> unitsOnBoard; // TODO: do we need to distinguish between the different types of units on the board, or use polymorphism in order to det. action? 
 	
 	public void initialize(){
 		// TODO: read data from the static XML file; where to get that information? 
@@ -25,8 +29,10 @@ public class MapManager {
 		
 	}
 	
-	
-	
+	public void handleRequests(){
+		// TODO: when a request object comes into the map, pass it into this method 
+		
+	}
 	
 	// convert the Path object to the PathPoint object; 
 	public List<List<PathPoint>> convertToListOfListOfPathPoints(){
