@@ -21,10 +21,6 @@ public class MapUnit extends ImageView {
 		return myHealth;
 	}
 	
-	public void updateHealth(double health){
-		myHealth.setProgress(health);
-	}
-	
 	public Unit getUnit(){
 		return myUnit;
 	}

@@ -1,5 +1,6 @@
 package gamePlayer;
 
+import java.util.Observable;
 import java.util.ResourceBundle;
 
 import javafx.geometry.Pos;
@@ -13,13 +14,14 @@ import javafx.scene.text.Text;
 import units.PlayerInfo;
 import units.Unit;
 
+public class HUD extends Observable implements IViewNode{
+
 /*
  * HUD.java is the class displaying the heads-up display for the player. 
  * This contains the information the player needs in order to play the game, including money, lives, and level progress for some instances of the game.
  */
 
 
-public class HUD implements IViewNode{
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private VBox myVBox;
 	private Button myBuyButton, mySellButton; 

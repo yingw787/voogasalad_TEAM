@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Observable;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.ProgressBar;
@@ -13,11 +14,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import units.Unit;
 
+public class Map extends Observable implements IViewNode {
 /*
  * Map.java is the actual game board where the game pieces are put into play. 
  */
-
-public class Map implements IViewNode {
 	private Pane myPane;
 
 	private HashMap<Integer, MapUnit> myImageMap;
@@ -79,6 +79,7 @@ public class Map implements IViewNode {
 				ProgressBar health = myHealthMap.get(unit.getID());
 				health.setLayoutX(unit.getPoint().getX());
 				health.setLayoutY(unit.getPoint().getY()-20);
+				health.setProgress(unit.getHealth()/unit.getMaxHealth());
 				//reset health value here
 				onMap.add(unit.getID());
 			}

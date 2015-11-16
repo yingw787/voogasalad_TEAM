@@ -14,6 +14,7 @@ public class Unit {
 	protected int myID;
 	protected int myBuyCost;
 	protected int mySellCost;
+	private double myMaxHealth;
 	protected Map<String, Double> myAttributes;
 	protected Map<String, String> myStringAttributes;
 	
@@ -22,6 +23,7 @@ public class Unit {
 		this.myName = name;
 		this.myType = type;
 		this.myHealth = health;
+		this.myMaxHealth = health;
 		this.myCollisionDamage = cd;
 		this.myImage = img;
 		this.myPosition = p;
@@ -92,5 +94,18 @@ public class Unit {
 	public void setPoint(Point p){
 		myPosition = p;
 	}
+	
+	public void setHealth(double h){
+		myHealth = h;
+	}
+	
+	public double getHealth(){
+		return myHealth;
+	}
+	
+	public double getMaxHealth(){
+		return myMaxHealth;
+	}
 
+	
 }
