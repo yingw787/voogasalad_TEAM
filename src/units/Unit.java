@@ -1,6 +1,5 @@
 package units;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +12,6 @@ public class Unit {
 	protected Map<String, Double> myAttributes;
 	protected Map<String, String> myStringAttributes;
 	protected Map<String, Rule> myRules;
-	protected Faction myFaction;
 	
 	public Unit(String name, double health, double cd, String img, 
 			Point p, int ID, int bc, int sc){		
@@ -55,12 +53,12 @@ public class Unit {
 		return myRules.get(key);
 	}
 	
-	public Set<String> getRuleSet(){
-		return myRules.keySet();
+	public void removeRules(String key){
+		myRules.remove(key);
 	}
 	
-	public Collection<Rule> getRules(){
-		return myRules.values();
+	public Set<String> getRuleSet(){
+		return myRules.keySet();
 	}
 	
 	public Set<String> getStringAttributeSet(){
@@ -69,6 +67,15 @@ public class Unit {
 	
 	public Set<String> getAttributeSet(){
 		return myAttributes.keySet();
+	}
+	
+	public String[] getAttributeArray(){
+		String[] arr = new String[myAttributes.keySet().size()];
+		int i=0;
+		for(String attr : myAttributes.keySet()){
+			arr[i++] = attr;
+		}
+		return arr;
 	}
 	
 	public double getAttribute(String attribute){
@@ -87,6 +94,10 @@ public class Unit {
 		myStringAttributes.put(attribute, value);
 	}
 	
+	public void removeAttribute(String attribute){
+		myAttributes.remove(attribute);
+	}
+	
 	public void setPoint(Point p){
 		myAttributes.put("X", p.getX());
 		myAttributes.put("Y", p.getY());
@@ -94,36 +105,5 @@ public class Unit {
 	
 	public void setHealth(double h){
 		myAttributes.put("Health", h);
-	}
-	
-	public int getID(){
-		
-		return (new Double(myAttributes.get("ID"))).intValue();
-	}
-	
-	public void setID(int id){
-		myAttributes.put("ID", (double) id);
-	}
-	
-	public Unit clone(){
-		Unit unit = new Unit();
-		unit.myAttributes = new HashMap<String, Double>(this.myAttributes);
-		unit.myRules = new HashMap<String, Rule>(this.myRules);
-		unit.myStringAttributes = new HashMap<String, String>(this.myStringAttributes);
-		unit.myAttributes.put("ID", (double)IDGenerator.getID());
-		return unit;
-	}
-
-	public Faction getFaction() {
-		return myFaction;
-	}
-
-	public void setFaction(Faction Faction) {
-		this.myFaction = Faction;
-	}
-
-	public double getHealth() {
-		// TODO Auto-generated method stub
-		return myAttributes.get("Health");
 	}
 }

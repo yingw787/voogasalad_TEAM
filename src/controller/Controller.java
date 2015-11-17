@@ -25,9 +25,10 @@ public class Controller extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		myEngine = new Engine(this, new Timeline());
 		myPlayer = new Player(this, primaryStage);
-		myEngine.testCaseMaker();
-		myEngine.writeEnvironment();
-		myEngine.playAnimation(true);
+//		myEngine.testCaseMaker();
+//		myEngine.writeEnvironment();
+		myEngine.readXML();
+		myEngine.initialize();
 	}
 	
 	// store is in-game purchases of towers and units and the like 
@@ -41,6 +42,10 @@ public class Controller extends Application {
 
 	public void updateUserInfo(PlayerInfo playerinfo) {
 		myPlayer.updateUserInfo(playerinfo);
+	}
+	
+	public void startWave(int i){
+		myEngine.startWave(i);
 	}
 }
 

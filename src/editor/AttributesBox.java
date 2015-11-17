@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import units.Tower;
 import units.Unit;
-import editor.attributes.ImageBox;
 import editor.tabData.DataController;
 import editor.tabData.ITabData;
 import javafx.scene.control.Alert;
@@ -68,7 +67,7 @@ public class AttributesBox extends Observable implements IView, Observer {
 			clearAttributes();
 		}
 		else if(arg1 instanceof Unit){
-			System.out.println("Attributes box: user selected tower: " + ((Tower)arg1).getStringAttribute("Name"));
+			System.out.println("Attributes box: user selected Unit: " + ((Unit)arg1).getStringAttribute("Name"));
 			myCurrentUnit = (Unit) arg1;
 			clearAttributes();
 			showAttributes();

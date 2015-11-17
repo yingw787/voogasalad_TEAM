@@ -3,9 +3,9 @@ package units;
 public class PlayerInfo {
 	private int myMoney;
 	private int myLives;
-	private int myCurrentLevel;
+	private String myCurrentLevel;
 	
-	public PlayerInfo(int money, int lives, int lvl){
+	public PlayerInfo(int money, int lives, String lvl){
 		this.myMoney = money;
 		this.myLives = lives;
 		this.myCurrentLevel = lvl;
@@ -19,19 +19,11 @@ public class PlayerInfo {
 		return myLives;
 	}
 	
-	public int getLevel(){
+	public String getLevel(){
 		return myCurrentLevel;
 	}
-
-	public void setMoney(int Money) {
-		this.myMoney = Money;
-	}
-
-	public void setLives(int Lives) {
-		this.myLives = Lives;
-	}
-
-	public void setLevel(int Level) {
-		this.myCurrentLevel = Level;
+	
+	public void setLevel(String s){
+		myCurrentLevel = s;
 	}
 }

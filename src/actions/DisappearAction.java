@@ -9,8 +9,6 @@ public class DisappearAction implements IAction{
 	public void act(Unit unit,RuntimeEnvironment re) {
 		// TODO Remove/delete the actor from the game scene
 		
-		re.removeUnit(unit.getID());
-		
 	}
 
 }

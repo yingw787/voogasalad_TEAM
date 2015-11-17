@@ -44,7 +44,9 @@ public class StoreManager {
 		ToggleGroup group = new ToggleGroup();
 		for (StoreButton sb : list) {
 			sb.setToggleGroup(group);
-			sb.setOnMouseClicked(e->myStore.enableBuyButton(sb.getUnit()));
+			if (sb.getUnit().getStringAttribute("Type").equals("Troop")){
+				sb.setOnMouseClicked(e->myStore.enableBuyButton(sb.getUnit()));	
+			}
 		}
 		myHBox.getChildren().addAll(list);
 	}
@@ -64,7 +66,7 @@ public class StoreManager {
 
 	private void buttonManager() {
 		// TODO method to have the object that is clicked to appear in the main pane
-		System.out.println("I presssed");	
+		System.out.println("I presssed");
 	}
 
 	public void setHeight(double height) {

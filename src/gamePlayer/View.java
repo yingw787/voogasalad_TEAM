@@ -22,14 +22,16 @@ public class View implements Observer {
 	private int myHeight = Integer.parseInt(myDefaults.getString("Height"));
 	private Stage myStage;
 	private HUD myHUD;
+	private Player myPlayer;
 	private Store myStore;
 	private Map myMap;
 	private Menus myMenus;
 	private PlayerInfo myPlayerInfo;
 	private Button addMapButton;
 
-	public View(Stage stage){
+	public View(Stage stage, Player p){
 		this.myStage = stage;
+		this.myPlayer = p;
 		Group root = new Group();
 		myHUD = new HUD(this);
 		myMap = new Map(this);
@@ -102,6 +104,10 @@ public class View implements Observer {
 	
 	public void updateSelected(MapUnit myUnit){
 		myHUD.updateSelected(myUnit);
+	}
+	
+	public void startWave(int i){
+		myPlayer.startWave(i);
 	}
 	
 	@Override
