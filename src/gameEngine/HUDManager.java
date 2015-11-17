@@ -1,5 +1,8 @@
 package gameEngine;
 
+import controller.Controller;
+import units.PlayerInfo;
+
 public class HUDManager {
 
 	/*
@@ -9,7 +12,19 @@ public class HUDManager {
 	 * 
 	 * TODO: (update as needed) 
 	 */
+	Controller myController;
+	
+	PlayerInfo myInfo;
+	public HUDManager(Controller controller , PlayerInfo info){
+		this.myController = controller;
+		this.myInfo = info;
+		
+		this.updateUserInfo();
+	}
 	
 	
+	private void updateUserInfo(){
+		myController.updateUserInfo(myInfo);
+	}
 	
 }
