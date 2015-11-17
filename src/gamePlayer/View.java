@@ -55,7 +55,6 @@ public class View implements Observer {
 		HBox result = new HBox();
 		result.getChildren().addAll(myMenus.initialize());
 		return result;
-			
 	}
 	
 
@@ -91,9 +90,8 @@ public class View implements Observer {
 		myHUD.enableBuyButton(unit);
 	}
 
-	public void enableSell() {
-		myHUD.enableSell();
-		
+	public void enableSell(MapUnit mapUnit) {
+		myHUD.enableSell(mapUnit);
 	}
 
 	@Override

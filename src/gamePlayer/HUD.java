@@ -24,6 +24,7 @@ public class HUD extends Observable implements IViewNode{
 
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private VBox myVBox;
+	private Selected selectedDisplay;
 	private Button myBuyButton, mySellButton, myWaveButton; 
 	private View myView;
 	private ResourceBundle myResource;
@@ -51,7 +52,11 @@ public class HUD extends Observable implements IViewNode{
 		money.setStyle("-fx-font: 30px Tahoma;");
 		myHBox.getChildren().addAll(imageView,money);
 		return myHBox;
-
+	}
+	
+	public Node selectedDisplay(){
+		selectedDisplay = new Selected(myView);
+		return selectedDisplay.getDisplay();
 	}
 
 	public Node lives(PlayerInfo player){
@@ -125,7 +130,7 @@ public class HUD extends Observable implements IViewNode{
 	}
 	
 	public void populate(PlayerInfo player){
-		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton(), waveButton());
+		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton(), waveButton(), selectedDisplay());
 	}
 	
 	private void startWave(){
@@ -156,8 +161,12 @@ public class HUD extends Observable implements IViewNode{
 		myBuyButton.setDisable(false);
 	}
 
-	public void enableSell() {
-		mySellButton.setDisable(false);
+	public void enableSell(MapUnit myUnit) {
+		if (myUnit.getUnit().getClass().toString().equals("class units.Tower")){
+			mySellButton.setDisable(false);
+		}
+
+		selectedDisplay.update(myUnit);
 	}
 
 }
