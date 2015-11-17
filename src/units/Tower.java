@@ -8,7 +8,9 @@ public class Tower extends Unit {
 		myStringAttributes.put("Type", "Tower");
 	}
 	
-	
+	public Tower(){
+		super();
+	}
 }
 
 

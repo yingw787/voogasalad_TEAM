@@ -4,17 +4,16 @@ import gameEngine.environments.RuntimeEnvironment;
 import units.*;
 
 public class CollisionRequest {
-	private int myUnitId1;
-	private int myUnitId2;
+	private Unit myUnit1 ;
+	private Unit myUnit2;
 	
-	public CollisionRequest (int unitId1, int unitId2) {
+	public CollisionRequest (Unit unit1, Unit unit2) {
 		super();
-		myUnitId1 = unitId1;
-		myUnitId2 = unitId2;
+		myUnit1 = unit1;
+		myUnit2 = unit2;
 	}
 	
 	protected void execute(RuntimeEnvironment re) {
-		Unit unit1 = re.getUnit(myUnitId1);
-		Unit unit2 = re.getUnit(myUnitId2);
+
 	}
 }

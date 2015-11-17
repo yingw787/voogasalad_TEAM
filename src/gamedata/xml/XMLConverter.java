@@ -10,6 +10,8 @@ import java.util.List;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
+import units.Unit;
+
 public class XMLConverter {
 	
 	XStream myXStream = new XStream(new StaxDriver());
@@ -40,18 +42,17 @@ public class XMLConverter {
 	 * @params: type of object that has been converted to XML previously 
 	 * and is stored in the games folder under a subfolder 
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List fromXML(String type) throws IOException {
-		List myObjects = new ArrayList();
+	public List<Unit> fromXML(String type) throws IOException {
+		List<Unit> myObjects = new ArrayList<Unit>();
 		try {
 		 final File folder = new File("games/"+type+File.separator);
-		    for (final File fileEntry : folder.listFiles()) {
-		    	myObjects.add((myXStream.fromXML(fileEntry)));
+		    for (File fileEntry : folder.listFiles()) {
+		    	myObjects.add(((Unit) myXStream.fromXML(fileEntry)));
 		    }
 		}
 		
 		catch (Exception e) {
-			System.out.println("Cannot convert" + type + "from XML");
+			System.out.println("Cannot convert " + type + " from XML");
 		}
 		return myObjects;
 	}
