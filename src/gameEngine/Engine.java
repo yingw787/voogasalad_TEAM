@@ -14,6 +14,7 @@ import interfaces.IRequest;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import units.IDGenerator;
 import units.Level;
 import units.PlayerInfo;
 import units.Point;
@@ -39,6 +40,7 @@ public class Engine implements IEngine {
 	private ToolbarManager myTBManager;
 	private MapManager myMapManager;
 	private HUDManager myHUDManager;
+	private IDGenerator myIDGenerator;
 	private int delay = 0;
 	
 	public Engine(Controller controller, Timeline timeline) {
@@ -66,7 +68,8 @@ public class Engine implements IEngine {
 	public void initialize(){
 		myController.updateUserInfo(myPlayerInfo.get(0));
 		myController.populateStore(myPossibleUnits);
-		myMapManager = new MapManager(this, myPossibleUnits.get("Troops"), myPaths);
+		myIDGenerator = new IDGenerator();
+		myMapManager = new MapManager(this, myPossibleUnits.get("Troops"), myPaths, myIDGenerator);
 		myHUDManager = new HUDManager(this, myPlayerInfo.get(0));
 		myInitialEnviron = new InitialEnvironment();
 		myRuntimeEnviron = new RuntimeEnvironment();
@@ -81,27 +84,33 @@ public class Engine implements IEngine {
 	
 	public void playAnimation(boolean on){
 		delay = 0;
-		myMapManager.spawnNewEnemy();
 		if (on){
+			myMapManager.spawnNewEnemy();
 			KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 					e -> step());
 			myTimeline.setCycleCount(Timeline.INDEFINITE);
 			myTimeline.getKeyFrames().addAll(frame);
 			myTimeline.play();
+		} 
+		if (!on){
+			myTimeline.stop();
 		}
 	}
 	
 	
 	private void step(){
-		delay++;
-		if (delay % 120 == 0) {
-			myMapManager.spawnNewEnemy();
+		if (myMapManager.hasMoreEnemies()){
+			if (delay % 60 == 0) {
+				myMapManager.spawnNewEnemy();
+			}
 		}
-//		for (Unit unit : myMapManager.getUnitsOnBoard()) {
-//		}
-//		myController.updateMap(myMapManager.getUnitsOnBoard());
+		delay++;
+		
+		for (Unit unit : myMapManager.getUnitsOnBoard()) {
+			unit.setAttribute("X", unit.getAttribute("X")+0.5);
+		}
+		myController.updateMap(myMapManager.getUnitsOnBoard());
 	}
-
 
 	
 	@Override

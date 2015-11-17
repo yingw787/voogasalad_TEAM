@@ -1,14 +1,13 @@
 package gameEngine;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import gamePlayer.MapUnit;
-import gamedata.xml.XMLConverter;
+import units.IDGenerator;
 import units.Level;
 import units.Point;
+import units.Troop;
 import units.Unit;
 
 public class MapManager {
@@ -23,6 +22,7 @@ public class MapManager {
 	 * Make sure that everything in engine that the mapmanager needs to handle, that mapmanager can handle 
 	 * 
 	 */
+	private IDGenerator myIDGenerator;
 	PathModel pathModel; 
 	private List<Unit> unitsOnBoard; // TODO: do we need to distinguish between the different types of units on the board, or use polymorphism in order to det. action? 
 	private List<Unit> myPossibleTroops;
@@ -31,12 +31,14 @@ public class MapManager {
 	private Point start, end;
 	private int currentEnemy;
 	
-	public MapManager(Engine e, List<Unit> list, List<Point> paths){
+	public MapManager(Engine e, List<Unit> list, List<Point> paths, IDGenerator id){
 		myEngine = e;
+		myIDGenerator = id;
 		myPossibleTroops = list;
 		myPaths = paths;
 		start = myPaths.get(0);
 		end = myPaths.get(myPaths.size()-1);
+		unitsOnBoard = new ArrayList<Unit>();
 		currentEnemy = 0;
 	}
 	
@@ -45,8 +47,20 @@ public class MapManager {
 		
 	}
 	
+	public boolean hasMoreEnemies(){
+		if (currentEnemy == myCurrentLevel.getTroops().size()){
+			return false;
+		}
+		return true;
+	}
+	
 	public void spawnNewEnemy(){
 		System.out.println(myCurrentLevel.getTroops().get(currentEnemy).getStringAttribute("Name"));
+		Troop t = new Troop(myCurrentLevel.getTroops().get(currentEnemy));
+		t.setAttribute("ID", myIDGenerator.getID());
+		t.setAttribute("X", 0.0);
+		t.setAttribute("Y", 50.0);
+		unitsOnBoard.add(t);
 		currentEnemy++;
 	}
 	
