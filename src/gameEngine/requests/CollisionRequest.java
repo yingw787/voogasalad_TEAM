@@ -3,7 +3,7 @@ package gameEngine.requests;
 import gameEngine.environments.RuntimeEnvironment;
 import units.*;
 
-public class CollisionRequest {
+public class CollisionRequest extends Request {
 	private Unit myUnit1 ;
 	private Unit myUnit2;
 	
@@ -13,7 +13,11 @@ public class CollisionRequest {
 		myUnit2 = unit2;
 	}
 	
-	protected void execute(RuntimeEnvironment re) {
-
+	@Override
+	public void execute(RuntimeEnvironment re) {
+		if(myUnit1.getFaction() != myUnit2.getFaction()){
+			myUnit1.setHealth(myUnit1.getHealth() - myUnit2.getAttribute("CollisionDamage"));
+			myUnit2.setHealth(myUnit2.getHealth() - myUnit1.getAttribute("CollisionDamage"));
+		}
 	}
 }

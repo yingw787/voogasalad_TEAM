@@ -7,12 +7,14 @@ import java.util.List;
 
 import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
+import gameEngine.requests.Request;
 import gamedata.xml.XMLConverter;
 import interfaces.IEngine;
 import interfaces.IRequest;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import rules.Rule;
 import units.IDGenerator;
 import units.Level;
 import units.PlayerInfo;
@@ -72,8 +74,15 @@ public class Engine implements IEngine {
 		myRuntimeEnviron = new RuntimeEnvironment();
 	}
 	
+	private void flush() {
+		List<Unit> l = new ArrayList<Unit>();
+		l.addAll(myRuntimeEnviron.getUnits());
+		myController.updateMap(l);
+		myHUDManager.updateUserInfo();
+	}
+	
 	public void writeEnvironment() throws IOException{
-		myTBManager = new ToolbarManager(this);
+		myTBManager = new ToolbarManager(myController);
 	}
 	
 	public void playAnimation(boolean on){
@@ -93,6 +102,15 @@ public class Engine implements IEngine {
 	
 	
 	private void step(){
+		for (Unit unit : myRuntimeEnviron.getUnits()) {
+			//testing animation
+			
+			for(Rule rule : unit.getRules()){
+				
+				rule.run(unit, myRuntimeEnviron);
+			}
+		}
+		
 		if (myMapManager.hasMoreEnemies()){
 			if (delay % 60 == 0) {
 				myMapManager.spawnNewEnemy();
@@ -104,6 +122,8 @@ public class Engine implements IEngine {
 			unit.setAttribute("X", unit.getAttribute("X")+0.5);
 		}
 		myController.updateMap(myMapManager.getUnitsOnBoard());
+		
+//		flush();
 	}
 
 	
@@ -118,7 +138,9 @@ public class Engine implements IEngine {
 	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
-		
+		for (IRequest r : requests) {
+			r.execute(myRuntimeEnviron);
+		}
 	}
 
 	@Override
