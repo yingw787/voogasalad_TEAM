@@ -1,15 +1,13 @@
-package gamePlayer.store;
+package gamePlayer;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 
-import gamePlayer.IViewNode;
-import gamePlayer.TabManager;
-import gamePlayer.View;
 import javafx.scene.layout.VBox;
 import units.Unit;
 
-public class Store implements IViewNode {
+public class Store extends Observable implements IViewNode {
 	private StoreManager myStoreManager;
 	private TabManager myTabManager;
 	private HashMap<String, List<Unit>> myTestMap;

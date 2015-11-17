@@ -23,3 +23,13 @@ public class Rule {
 		}
 	}
 }
+
+//collision request{unit ID1, unit ID2}
+//find in map: Unit unit1(bullet1), Unit unit2(tower2)
+//collison_rule.run(unit1)
+//collision_rule {
+// myCondiiton = collison _condition
+// myAction = 
+//}
+//
+

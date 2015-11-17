@@ -1,6 +1,5 @@
 package gamePlayer;
 
-import gamePlayer.store.Store;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Tab;

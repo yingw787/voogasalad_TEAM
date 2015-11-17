@@ -1,5 +1,6 @@
 package gamePlayer;
 
+import java.util.Observable;
 import java.util.ResourceBundle;
 
 import javafx.geometry.Pos;
@@ -13,10 +14,18 @@ import javafx.scene.text.Text;
 import units.PlayerInfo;
 import units.Unit;
 
-public class HUD implements IViewNode{
+public class HUD extends Observable implements IViewNode{
+
+/*
+ * HUD.java is the class displaying the heads-up display for the player. 
+ * This contains the information the player needs in order to play the game, including money, lives, and level progress for some instances of the game.
+ */
+
+
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private VBox myVBox;
-	private Button myBuyButton, mySellButton; 
+	private Selected selectedDisplay;
+	private Button myBuyButton, mySellButton, myWaveButton; 
 	private View myView;
 	private ResourceBundle myResource;
 
@@ -43,7 +52,11 @@ public class HUD implements IViewNode{
 		money.setStyle("-fx-font: 30px Tahoma;");
 		myHBox.getChildren().addAll(imageView,money);
 		return myHBox;
-
+	}
+	
+	public Node selectedDisplay(){
+		selectedDisplay = new Selected(myView);
+		return selectedDisplay.getDisplay();
 	}
 
 	public Node lives(PlayerInfo player){
@@ -77,6 +90,16 @@ public class HUD implements IViewNode{
 		return myHBox;		
 	}
 	
+	public Node waveButton(){
+		HBox myHBox = new HBox();
+		myHBox.setAlignment(Pos.CENTER);
+		myWaveButton = new Button("Start Wave");
+		myWaveButton.setOnMouseClicked(e->startWave());
+        myHBox.getChildren().add(myWaveButton);
+        return myHBox;
+	}
+	
+	
 	public Node level(PlayerInfo player){
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
@@ -88,6 +111,7 @@ public class HUD implements IViewNode{
 	}
 	
 	public Node buySellButton(){
+		
 		HBox myHBox = new HBox();
 		myHBox.setStyle("-fx-background-color: white;");
 		myBuyButton = new Button("Buy");
@@ -106,7 +130,11 @@ public class HUD implements IViewNode{
 	}
 	
 	public void populate(PlayerInfo player){
-		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton());
+		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton(), waveButton(), selectedDisplay());
+	}
+	
+	private void startWave(){
+		//tell game to begin wave
 	}
 
 	private void sellButtonClicked(){
@@ -133,8 +161,12 @@ public class HUD implements IViewNode{
 		myBuyButton.setDisable(false);
 	}
 
-	public void enableSell() {
-		mySellButton.setDisable(false);
+	public void enableSell(MapUnit myUnit) {
+		if (myUnit.getUnit().getClass().toString().equals("class units.Tower")){
+			mySellButton.setDisable(false);
+		}
+
+		selectedDisplay.update(myUnit);
 	}
 
 }

@@ -12,6 +12,8 @@ import org.w3c.dom.Document;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
+import gameEngine.environments.InitialEnvironment;
+
 public class XMLParser {
 	private final static String SALADNAME = "Salad_T.E.A.M";
     private final static String DEFAULTFILE= "src/resources/EngineTest.xml";

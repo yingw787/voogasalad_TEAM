@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import controller.Controller;
+import gameEngine.environments.InitialEnvironment;
+import gameEngine.environments.RuntimeEnvironment;
 import interfaces.IEngine;
-import interfaces.Request;
+import interfaces.IRequest;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -25,18 +27,15 @@ public class Engine implements IEngine {
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
 	private List<Unit> myCurrentUnits;
-	private Map<String, List<Unit>> myStoreMap; 
-	private Map<Integer,Unit> myUnitsMap;
-	InitialEnvironment myInitialEnviron;
+	private InitialEnvironment myInitialEnviron;
+	private RuntimeEnvironment myRuntimeEnviron;
 	
 	public Engine(Controller controller, Timeline timeline) {
 		myController = controller;
 		myTimeline = timeline;
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
-		myUnitsMap = new HashMap<Integer,Unit>();
-		myStoreMap = new HashMap<String, List<Unit> >();
-		
 		myInitialEnviron = new InitialEnvironment();
+		myRuntimeEnviron = new RuntimeEnvironment();
 		XMLParser parser = new XMLParser();
 		parser.writeEnviroment(myInitialEnviron);
 		myInitialEnviron = parser.readEnvironment();
@@ -56,17 +55,23 @@ public class Engine implements IEngine {
 	
 	private void step(){
 		for (Unit unit : myCurrentUnits) {
-			Point newPoint = new Point(unit.getPoint().getX()+1, unit.getPoint().getY());
+			//testing animation
+			Point newPoint = new Point(unit.getAttribute("X")+1, unit.getAttribute("Y"));
 			unit.setPoint(newPoint);
+			unit.setHealth(unit.getAttribute("Health")-0.5);
 		}
+		//why bullet doesn't extends unit?
+		//bullet should have a member, true represent friend, false represent enemy, it's set by the tower/zombie
+		//
 		myController.updateMap(myCurrentUnits);
 	}
 
 
 	
 	@Override
-	public void update(List<Request> requests) {
+	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
+		// request if a CollisionRequest
 		
 	}
 
@@ -84,12 +89,10 @@ public class Engine implements IEngine {
 
 	@Override
 	public void startWave(int i) {
-		// TODO Auto-generated method stub
-		
+		// TODO release a wave of zombies		
 	}
 
-	
-	
+
 	public void testCaseMaker(){
 		PlayerInfo playerinfo = new PlayerInfo(200, 3, 1);
 		myController.updateUserInfo(playerinfo);
@@ -118,18 +121,17 @@ public class Engine implements IEngine {
 		TroopList.add(tr1);
 		TroopList.add(tr2);
 		TroopList.add(tr3);
+		myTestMap.put("Towers", TowerList);
 		myTestMap.put("Troops", TroopList);
 		myController.populateStore(myTestMap);
 		List<Unit> mapUnits = new ArrayList<Unit>();
-		List<Unit> mapUnits2 = new ArrayList<Unit>();
 		mapUnits.addAll(TroopList);
 		mapUnits.addAll(TowerList);
 		myCurrentUnits = mapUnits;
 		myController.updateMap(mapUnits);
-
 	}
 	
-	public static void main(String[] args){
-		Engine e = new Engine(null,new Timeline());
-	}
+//	public static void main(String[] args){
+//		Engine e = new Engine(null,new Timeline());
+//	}
 }

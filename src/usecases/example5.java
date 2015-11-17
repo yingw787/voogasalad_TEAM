@@ -1,5 +1,10 @@
 package usecases;
 
+import java.util.ArrayList;
+
+import units.Unit;
+import units.PlayerInfo;
+
 public class example5 {
 	/*User can see health of main base and enemies
 	 */

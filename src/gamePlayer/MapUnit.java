@@ -1,4 +1,4 @@
-package gamePlayer.map;
+package gamePlayer;
 
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -19,10 +19,6 @@ public class MapUnit extends ImageView {
 	
 	public ProgressBar getHealth(){
 		return myHealth;
-	}
-	
-	public void updateHealth(double health){
-		myHealth.setProgress(health);
 	}
 	
 	public Unit getUnit(){
