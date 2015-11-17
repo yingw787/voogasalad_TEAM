@@ -53,6 +53,10 @@ public class Unit {
 		return myRules.get(key);
 	}
 	
+	public void removeRules(String key){
+		myRules.remove(key);
+	}
+	
 	public Set<String> getRuleSet(){
 		return myRules.keySet();
 	}
@@ -63,6 +67,15 @@ public class Unit {
 	
 	public Set<String> getAttributeSet(){
 		return myAttributes.keySet();
+	}
+	
+	public String[] getAttributeArray(){
+		String[] arr = new String[myAttributes.keySet().size()];
+		int i=0;
+		for(String attr : myAttributes.keySet()){
+			arr[i++] = attr;
+		}
+		return arr;
 	}
 	
 	public double getAttribute(String attribute){
@@ -79,6 +92,10 @@ public class Unit {
 	
 	public void setAttribute(String attribute, String value){
 		myStringAttributes.put(attribute, value);
+	}
+	
+	public void removeAttribute(String attribute){
+		myAttributes.remove(attribute);
 	}
 	
 	public void setPoint(Point p){

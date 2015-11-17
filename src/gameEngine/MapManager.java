@@ -2,13 +2,18 @@ package gameEngine;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
-import gamePlayer.MapUnit;
+import units.IDGenerator;
+import units.Level;
+import units.Point;
+import units.Troop;
+import units.Unit;
 
 public class MapManager {
-
+	
+	
+	private Engine myEngine;
 	/*
 	 * MapManager.java is the backend engine module for Map.java, the GamePlayer module in the front-end. 
 	 * Responsibilities: (keep adding to this as responsibilities grow and diverge: 
@@ -17,21 +22,57 @@ public class MapManager {
 	 * Make sure that everything in engine that the mapmanager needs to handle, that mapmanager can handle 
 	 * 
 	 */
-	
+	private IDGenerator myIDGenerator;
 	PathModel pathModel; 
-	ArrayList<MapUnit> unitsOnBoard; // TODO: do we need to distinguish between the different types of units on the board, or use polymorphism in order to det. action? 
+	private List<Unit> unitsOnBoard; // TODO: do we need to distinguish between the different types of units on the board, or use polymorphism in order to det. action? 
+	private List<Unit> myPossibleTroops;
+	private List<Point> myPaths;
+	private Level myCurrentLevel;
+	private Point start, end;
+	private int currentEnemy;
 	
-	public void initialize(){
-		// TODO: read data from the static XML file; where to get that information? 
-		// TODO: what kind of data is available from the static XML file? 
-		// TODO: 
-		
+	public MapManager(Engine e, List<Unit> list, List<Point> paths, IDGenerator id){
+		myEngine = e;
+		myIDGenerator = id;
+		myPossibleTroops = list;
+		myPaths = paths;
+		start = myPaths.get(0);
+		end = myPaths.get(myPaths.size()-1);
+		unitsOnBoard = new ArrayList<Unit>();
+		currentEnemy = 0;
+	}
+	
+	public void startWave(Level level) {
+		myCurrentLevel = level;
 		
 	}
+	
+	public boolean hasMoreEnemies(){
+		if (currentEnemy == myCurrentLevel.getTroops().size()){
+			return false;
+		}
+		return true;
+	}
+	
+	public void spawnNewEnemy(){
+		System.out.println(myCurrentLevel.getTroops().get(currentEnemy).getStringAttribute("Name"));
+		Troop t = new Troop(myCurrentLevel.getTroops().get(currentEnemy));
+		t.setAttribute("ID", myIDGenerator.getID());
+		t.setAttribute("X", 0.0);
+		t.setAttribute("Y", 50.0);
+		unitsOnBoard.add(t);
+		currentEnemy++;
+	}
+	
+
 	
 	public void handleRequests(){
 		// TODO: when a request object comes into the map, pass it into this method 
 		
+	}
+	
+	public List<Unit> getUnitsOnBoard(){
+		return unitsOnBoard;
 	}
 	
 	// convert the Path object to the PathPoint object; 
@@ -91,7 +132,6 @@ public class MapManager {
 			
 			PathEdge primaryEdge = new PathEdge(start, end);
 			edges.add(primaryEdge);
-			
 		}
 		
 		public void addPathPoint(PathPoint newPoint){
@@ -162,5 +202,6 @@ public class MapManager {
 			return new double[] {myXPosition, myYPosition}; 
 		}
 	}
+
 	
 }

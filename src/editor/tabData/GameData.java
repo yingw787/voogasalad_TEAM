@@ -1,13 +1,26 @@
 package editor.tabData;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class GameData implements ITabData {
+import units.Game;
 
+public class GameData implements ITabData {
+	private Game myGame;
+	
+	public GameData(){
+		myGame = new Game();
+	}
+	
+	public Game getGame(){
+		return myGame;
+	}
+	
 	@Override
 	public List<Object> getData() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Object> gameList = new ArrayList<Object>();
+		gameList.add(myGame);
+		return gameList;
 	}
 
 }

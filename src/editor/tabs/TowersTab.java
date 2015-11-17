@@ -73,6 +73,7 @@ public class TowersTab extends Observable implements IView, ITab, Observer {
 		Tower tower = new Tower();
 		String towerName = "Tower " + myTowerID++;
 		tower.setAttribute("Name", towerName);
+		tower.setAttribute("Image", "turret.png");
 		myEntriesToShow.add(towerName);
 		myData.add(towerName, tower);
 	}

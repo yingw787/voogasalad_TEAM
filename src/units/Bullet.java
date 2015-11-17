@@ -8,4 +8,15 @@ public class Bullet extends Unit{
 	//Insert method to check collision condition and apply damage
 	
 	}
+	
+
+	public Bullet(){
+		super();
+	}
+	
+
+	public Bullet(Bullet b){
+		super(b.getStringAttribute("Name"),b.getAttribute("Health"), b.getAttribute("CollisionDamage"),b.getStringAttribute("Image"),
+			new Point(0,0), (int) b.getAttribute("ID"), (int) b.getAttribute("BuyCost"), (int) b.getAttribute("SellCost"));
+	}
 }
