@@ -8,11 +8,13 @@ import java.util.Map;
 import controller.Controller;
 import gameEngine.environments.InitialEnvironment;
 import gameEngine.environments.RuntimeEnvironment;
+import gameEngine.requests.Request;
 import interfaces.IEngine;
 import interfaces.IRequest;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import rules.Rule;
 import units.PlayerInfo;
 import units.Point;
 import units.Tower;
@@ -26,22 +28,16 @@ public class Engine implements IEngine {
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
-	private List<Unit> myCurrentUnits;
 	private InitialEnvironment myInitialEnviron;
 	private RuntimeEnvironment myRuntimeEnviron;
 	private ToolbarManager myTBManager;
+	private HUDManager myHUDManager;
 	
 	public Engine(Controller controller, Timeline timeline) {
 		myController = controller;
 		myTimeline = timeline;
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
-		myInitialEnviron = new InitialEnvironment();
-		myRuntimeEnviron = new RuntimeEnvironment();
-		
-		XMLParser parser = new XMLParser();
-		parser.writeEnviroment(myInitialEnviron);
-		myInitialEnviron = parser.readEnvironment();
-		myTBManager = new ToolbarManager(myController,myInitialEnviron);
+
 	}
 	
 	public void playAnimation(boolean on){
@@ -56,30 +52,47 @@ public class Engine implements IEngine {
 	
 	
 	private void step(){
-		for (Unit unit : myCurrentUnits) {
+		
+		for (Unit unit : myRuntimeEnviron.getUnits()) {
 			//testing animation
-			Point newPoint = new Point(unit.getAttribute("X")+1, unit.getAttribute("Y"));
-			unit.setPoint(newPoint);
-			unit.setHealth(unit.getAttribute("Health")-0.5);
+			
+			for(Rule rule : unit.getRules()){
+//			Point newPoint = new Point(unit.getAttribute("X")+1, unit.getAttribute("Y"));
+//			unit.setPoint(newPoint);
+//			unit.setHealth(unit.getAttribute("Health")-0.5);
+				
+				rule.run(unit, myRuntimeEnviron);
+			}
 		}
-		//why bullet doesn't extends unit?
-		//bullet should have a member, true represent friend, false represent enemy, it's set by the tower/zombie
-		//
-		myController.updateMap(myCurrentUnits);
+
+		List<Unit> l = new ArrayList<Unit>();
+		l.addAll(myRuntimeEnviron.getUnits());
+		myController.updateMap(l);
 	}
 
 
 	
 	@Override
-	public void update(List<IRequest> requests) {
+	public void update(List<Request> requests) {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
 		
+		for(Request r :requests){
+			r.execute(myRuntimeEnviron);
+		}
 	}
 
 	@Override
 	public void loadNewGame(String title) {
 		// TODO Auto-generated method stub
+		myInitialEnviron = new InitialEnvironment();
+		myRuntimeEnviron = new RuntimeEnvironment();
+		
+		XMLParser parser = new XMLParser();
+		//parser.writeEnviroment(myInitialEnviron);
+		myInitialEnviron = parser.readEnvironment();
+		myTBManager = new ToolbarManager(myController,myInitialEnviron);
+		myHUDManager = new HUDManager(myController,myInitialEnviron.getPlayerInfo());
 		
 	}
 
@@ -129,7 +142,7 @@ public class Engine implements IEngine {
 		List<Unit> mapUnits = new ArrayList<Unit>();
 		mapUnits.addAll(TroopList);
 		mapUnits.addAll(TowerList);
-		myCurrentUnits = mapUnits;
+		//myCurrentUnits = mapUnits;
 		myController.updateMap(mapUnits);
 	}
 	
