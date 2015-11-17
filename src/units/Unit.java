@@ -6,6 +6,8 @@ import java.util.Set;
 
 import rules.Rule;
 
+import rules.Rule;
+
 public class Unit {
 	protected Map<String, Double> myAttributes;
 	protected Map<String, String> myStringAttributes;

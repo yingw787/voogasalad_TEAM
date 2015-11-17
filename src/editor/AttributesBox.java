@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 
+
 import units.Tower;
 import units.Unit;
 import editor.attributes.ImageBox;
@@ -12,17 +13,23 @@ import editor.tabData.ITabData;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+
 public class AttributesBox extends Observable implements IView, Observer {
 	
+
 	private ScrollPane myAttributesBox;
+
+
 	private DataController myDataController;
 	private VBox myBoxContent;
 	private HBox myLabel;
@@ -33,9 +40,11 @@ public class AttributesBox extends Observable implements IView, Observer {
 		myAttributesBox = new ScrollPane();
 		myAttributesBox.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		myAttributesBox.setFitToHeight(true);
+
 		myBoxContent = new VBox();
 		myAttributesBox.setContent(myBoxContent);
 		addHeader();
+
 	}
 	
 	private void addHeader() {

@@ -7,6 +7,7 @@ import units.Faction;
 import units.Point;
 import units.Tower;
 import units.Troop;
+import units.Unit;
 import units.UnitType;
 
 public class TestObjectHolder {
@@ -15,8 +16,8 @@ public class TestObjectHolder {
 	Tower tower2;
 	Troop troop1;
 	Troop troop2;
-	List<Tower> myTowers = new ArrayList<Tower>();
-	List<Troop> myTroops = new ArrayList<Troop>();
+	List<Unit> myTowers = new ArrayList<Unit>();
+	List<Unit> myTroops = new ArrayList<Unit>();
 
 	public TestObjectHolder() {
 		tower1 = new Tower("tower1", 100.0, 5.0, "tower1.jpg", new Point(60.0, 80.0), 1, 200, 100);
@@ -29,11 +30,11 @@ public class TestObjectHolder {
 		myTroops.add(troop2);
 	}
 	
-	public List<Tower> getTowers() {
+	public List<Unit> getTowers() {
 		return myTowers;
 	}
 	
-	public List<Troop> getTroops() {
+	public List<Unit> getTroops() {
 		return myTroops;
 	}
 }

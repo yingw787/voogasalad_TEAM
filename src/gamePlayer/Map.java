@@ -98,9 +98,7 @@ public class Map extends Observable implements IViewNode {
 	}
 
 	private void enableSelling(MapUnit mapUnit){
-		if (mapUnit.getUnit().getClass().toString().equals("class units.Tower")){
-			myView.enableSell();
-		}
+		myView.enableSell(mapUnit);
 	}
 
 }
