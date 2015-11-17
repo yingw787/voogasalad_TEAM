@@ -52,7 +52,7 @@ public class XMLConverter {
 		}
 		
 		catch (Exception e) {
-			System.out.println("Cannot convert" + type + " from XML");
+			System.out.println("Cannot convert " + type + " from XML");
 		}
 		return myObjects;
 	}
