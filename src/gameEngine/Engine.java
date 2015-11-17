@@ -69,34 +69,28 @@ public class Engine implements IEngine {
 				unit.setHealth(unit.getAttribute("Health")-0.5);	
 			}
 		}
-<<<<<<< HEAD
 		
 		List<Unit> l = new ArrayList<Unit>();
-		l.addAll(myRuntimeEnviron.getUnits());
-		myController.updateMap(l);
+//		l.addAll(myRuntimeEnviron.getUnits());
+//		myController.updateMap(l);
 
-=======
 		myController.updateMap(myCurrentUnits);
->>>>>>> 9b2aa0a4ca4ab6520139984ddfea469c6a32c0de
 	}
 
 
 	
 	@Override
-<<<<<<< HEAD
-	public void update(List<Request> requests) {
-		// TODO Auto-generated method stub
-		// request if a CollisionRequest
-		
-		for(Request r :requests){
-			r.execute(myRuntimeEnviron);
-		}
-=======
+//	public void update(List<Request> requests) {
+//		// TODO Auto-generated method stub
+//		// request if a CollisionRequest
+//		
+//		for(Request r :requests){
+//			r.execute(myRuntimeEnviron);
+//		}
 	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
 		
->>>>>>> 9b2aa0a4ca4ab6520139984ddfea469c6a32c0de
 	}
 
 	@Override
