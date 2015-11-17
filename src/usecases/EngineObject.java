@@ -4,7 +4,6 @@ import interfaces.IRequest;
 import java.util.List;
 
 import interfaces.IEngine;
-import gameEngine.requests.Request;
 
 public class EngineObject implements IEngine {
 
@@ -27,7 +26,7 @@ public class EngineObject implements IEngine {
 	}
 
 	@Override
-	public void update(List<Request> requests) {
+	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
 		
 	}

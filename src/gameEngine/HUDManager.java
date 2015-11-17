@@ -23,7 +23,7 @@ public class HUDManager {
 	}
 	
 	
-	public void updateUserInfo(){
+	private void updateUserInfo(){
 		myController.updateUserInfo(myInfo);
 	}
 	
