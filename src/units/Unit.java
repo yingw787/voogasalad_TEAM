@@ -65,6 +65,15 @@ public class Unit {
 		return myAttributes.keySet();
 	}
 	
+	public String[] getAttributeArray(){
+		String[] arr = new String[myAttributes.keySet().size()];
+		int i=0;
+		for(String attr : myAttributes.keySet()){
+			arr[i++] = attr;
+		}
+		return arr;
+	}
+	
 	public double getAttribute(String attribute){
 		return myAttributes.get(attribute);
 	}

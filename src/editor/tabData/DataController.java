@@ -30,6 +30,7 @@ public class DataController {
 	}
 	
 	public ITabData getData(String type){
+		System.out.println("Trying to get " + type + " data");
 		return myData.get(type);
 	}
 	
