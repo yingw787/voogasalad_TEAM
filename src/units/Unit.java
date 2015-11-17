@@ -13,6 +13,7 @@ public class Unit {
 	protected Map<String, Double> myAttributes;
 	protected Map<String, String> myStringAttributes;
 	protected Map<String, Rule> myRules;
+	protected Faction myFaction;
 	
 	public Unit(String name, double health, double cd, String img, 
 			Point p, int ID, int bc, int sc){		
@@ -102,5 +103,27 @@ public class Unit {
 	
 	public void setID(int id){
 		myAttributes.put("ID", (double) id);
+	}
+	
+	public Unit clone(){
+		Unit unit = new Unit();
+		unit.myAttributes = new HashMap<String, Double>(this.myAttributes);
+		unit.myRules = new HashMap<String, Rule>(this.myRules);
+		unit.myStringAttributes = new HashMap<String, String>(this.myStringAttributes);
+		unit.myAttributes.put("ID", (double)IDGenerator.getID());
+		return unit;
+	}
+
+	public Faction getFaction() {
+		return myFaction;
+	}
+
+	public void setFaction(Faction Faction) {
+		this.myFaction = Faction;
+	}
+
+	public double getHealth() {
+		// TODO Auto-generated method stub
+		return myAttributes.get("Health");
 	}
 }

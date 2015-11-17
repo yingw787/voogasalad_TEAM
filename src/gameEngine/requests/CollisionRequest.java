@@ -14,6 +14,9 @@ public class CollisionRequest {
 	}
 	
 	protected void execute(RuntimeEnvironment re) {
-
+		if(myUnit1.getFaction() != myUnit2.getFaction()){
+			myUnit1.setHealth(myUnit1.getHealth() - myUnit2.getAttribute("CollisionDamage"));
+			myUnit2.setHealth(myUnit2.getHealth() - myUnit1.getAttribute("CollisionDamage"));
+		}
 	}
 }

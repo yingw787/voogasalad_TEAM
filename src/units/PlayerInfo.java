@@ -22,4 +22,16 @@ public class PlayerInfo {
 	public int getLevel(){
 		return myCurrentLevel;
 	}
+
+	public void setMoney(int Money) {
+		this.myMoney = Money;
+	}
+
+	public void setLives(int Lives) {
+		this.myLives = Lives;
+	}
+
+	public void setLevel(int Level) {
+		this.myCurrentLevel = Level;
+	}
 }
