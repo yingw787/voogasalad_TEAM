@@ -6,6 +6,7 @@ import java.util.List;
 import editor.MainGUI;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -45,7 +46,7 @@ public class Startup {
 	
 	private void addLoadOption(List<String> games) {
 		VBox vbox = new VBox(10);
-		ComboBox<String> cb = new ComboBox<String>();
+		ChoiceBox<String> cb = new ChoiceBox<String>();
 		cb.setValue("Choose a game to load");
 		for (String game : games) {
 			cb.getItems().add(game);
