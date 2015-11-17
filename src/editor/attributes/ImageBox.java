@@ -11,7 +11,7 @@ public class ImageBox {
 	Button myImageBox;
 	
 	public ImageBox(String img) {
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(img));
+		Image image = new Image(img);
 		myImage = new ImageView(image);
 		myImageBox = new Button("Change Image");
 		myImageBox.setGraphic(myImage);
