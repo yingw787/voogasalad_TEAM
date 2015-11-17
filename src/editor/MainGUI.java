@@ -18,16 +18,16 @@ public class MainGUI {
 	
 	private final int width = 1125;
 	private final int height = 528;
-	Stage myStage;
-	Scene myScene;
-	GridPane myPane;
-	ToolBar myToolBar;
-	SubScene myBoard;
-	TabPane myTabs;
-	ScrollPane myAttributes;
-	ScrollPane myRules;
-	Group myGroup;
-	DataController myDataController;
+	private Stage myStage;
+	private Scene myScene;
+	private GridPane myPane;
+	private ToolBar myToolBar;
+	private TabPane myTabs;
+	private ScrollPane myAttributes;
+	private ScrollPane myRules;
+	private Group myGroup;
+	public static SubScene myBoard;
+	private DataController myDataController;
 	
 	public MainGUI() {
 		myStage = new Stage();

@@ -13,6 +13,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import editor.IView;
+import editor.MainGUI;
 import editor.tabData.ITabData;
 
 public class PathsTab extends Observable implements IView, ITab{
@@ -61,9 +62,11 @@ public class PathsTab extends Observable implements IView, ITab{
 		myEntriesToShow.remove(selected);
 	}
 	
-	private void selectPaths() {
-		
-	}
+//	private void selectPaths() {
+//		MainGUI.myBoard.setOnMouseClicked(e -> 
+//			System.out.println("Coordinates: "+MainGUI.myBoard.getLayoutX()+", "+"")
+//			);
+//	}
 	
 	@Override
 	public Node getView() {
