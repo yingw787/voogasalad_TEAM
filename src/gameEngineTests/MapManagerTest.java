@@ -16,7 +16,8 @@ public class MapManagerTest extends TestCase {
 	
 	@Test 
 	public void testAddedXMLCorrectly(){
-		
+		// some functions that use MapManager 
+		// assertEquals(); look over stuff in lab_debuggingderby 
 	}
 	
 }
