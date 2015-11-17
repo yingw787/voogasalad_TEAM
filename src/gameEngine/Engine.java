@@ -10,6 +10,7 @@ import controller.Controller;
 import gameEngine.environments.InitialEnvironment;
 import gameEngine.environments.RuntimeEnvironment;
 import gameEngine.requests.Request;
+import gamedata.xml.XMLConverter;
 import interfaces.IEngine;
 import interfaces.IRequest;
 import javafx.animation.KeyFrame;
@@ -44,10 +45,9 @@ public class Engine implements IEngine {
 	}
 	
 	
-	public void Environment() throws IOException{
-		XMLParser parser = new XMLParser();
-		parser.writeEnviroment(myInitialEnviron);
-		myInitialEnviron = parser.readEnvironment();
+	public void writeEnvironment() throws IOException{
+
+
 		myTBManager = new ToolbarManager(myController,myInitialEnviron);
 		myHUDManager = new HUDManager(myController,myInitialEnviron.getPlayerInfo());
 	}
@@ -69,9 +69,6 @@ public class Engine implements IEngine {
 			//testing animation
 			
 			for(Rule rule : unit.getRules()){
-//			Point newPoint = new Point(unit.getAttribute("X")+1, unit.getAttribute("Y"));
-//			unit.setPoint(newPoint);
-//			unit.setHealth(unit.getAttribute("Health")-0.5);
 				
 				rule.run(unit, myRuntimeEnviron);
 			}
@@ -100,10 +97,12 @@ public class Engine implements IEngine {
 		myInitialEnviron = new InitialEnvironment();
 		myRuntimeEnviron = new RuntimeEnvironment();
 		
-		XMLParser parser = new XMLParser();
-		//parser.writeEnviroment(myInitialEnviron);
-		myInitialEnviron = parser.readEnvironment();
-		
+		try {
+			writeEnvironment();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
