@@ -61,13 +61,12 @@ public class Engine implements IEngine {
 	private void step(){
 		for (Unit unit : myCurrentUnits) {
 			//testing animation
-			Point newPoint = new Point(unit.getAttribute("X")+1, unit.getAttribute("Y"));
-			unit.setPoint(newPoint);
-			unit.setHealth(unit.getAttribute("Health")-0.5);
+			if (unit.getStringAttribute("Type").equals("Troop")){
+				Point newPoint = new Point(unit.getAttribute("X")+1, unit.getAttribute("Y"));
+				unit.setPoint(newPoint);
+				unit.setHealth(unit.getAttribute("Health")-0.5);	
+			}
 		}
-		//why bullet doesn't extends unit?
-		//bullet should have a member, true represent friend, false represent enemy, it's set by the tower/zombie
-		//
 		myController.updateMap(myCurrentUnits);
 	}
 
