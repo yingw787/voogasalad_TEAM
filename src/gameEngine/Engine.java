@@ -74,9 +74,20 @@ public class Engine implements IEngine {
 			}
 		}
 
+
+		
+		for (Unit unit : myRuntimeEnviron.getUnits()) {
+			if (unit.getStringAttribute("Type").equals("Troop")){
+				Point newPoint = new Point(unit.getAttribute("X")+1, unit.getAttribute("Y"));
+				unit.setPoint(newPoint);
+				unit.setHealth(unit.getAttribute("Health")-0.5);	
+			}
+		}
+		
 		List<Unit> l = new ArrayList<Unit>();
 		l.addAll(myRuntimeEnviron.getUnits());
 		myController.updateMap(l);
+
 	}
 
 

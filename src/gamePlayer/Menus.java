@@ -10,28 +10,30 @@ public class Menus extends Observable implements IViewNode {
 	private Menu newMenu;
 	private Menu saveMenu;
 	private Menu helpMenu;
-
+	private Menu addBackgroundMenu;
 	private View myView;
-	
+
 	public Menus(View v){
 		this.myView = v;
 	}
-	
+
 	public MenuBar initialize(){
 		myMenuBar = new MenuBar();
 		newMenu = new Menu("New Game");
 		saveMenu = new Menu("Save");
 		helpMenu = new Menu("Help");
+		addBackgroundMenu = new Menu("Add Background");
 		populate();
 		return myMenuBar;
 	}
 
 	private void populate(){
-		newMenu.setOnAction(event -> {newMenuAction();});
+		newMenu.setOnAction(actionEvent -> newMenuAction());
 		saveMenu.setOnAction(actionEvent -> savemenuAction());
 		helpMenu.setOnAction(actionEvent -> helpMenuAction());
+		addBackgroundMenu.setOnAction(actionEvent -> helpMenuAction());
 		
-		myMenuBar.getMenus().addAll(newMenu, saveMenu, helpMenu);
+		myMenuBar.getMenus().addAll(newMenu, saveMenu, helpMenu,addBackgroundMenu);
 	}
 
 	private void helpMenuAction() {
