@@ -9,14 +9,11 @@ import java.util.Map;
 import controller.Controller;
 import gameEngine.environments.InitialEnvironment;
 import gameEngine.environments.RuntimeEnvironment;
-import gameEngine.requests.Request;
-import gamedata.xml.XMLConverter;
 import interfaces.IEngine;
 import interfaces.IRequest;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-import rules.Rule;
 import units.PlayerInfo;
 import units.Point;
 import units.Tower;
@@ -30,26 +27,26 @@ public class Engine implements IEngine {
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
+	private List<Unit> myCurrentUnits;
 	private InitialEnvironment myInitialEnviron;
 	private RuntimeEnvironment myRuntimeEnviron;
 	private ToolbarManager myTBManager;
-	private HUDManager myHUDManager;
 	
 	public Engine(Controller controller, Timeline timeline) {
 		myController = controller;
 		myTimeline = timeline;
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
-
 		myInitialEnviron = new InitialEnvironment();
 		myRuntimeEnviron = new RuntimeEnvironment();
 	}
 	
-	
 	public void writeEnvironment() throws IOException{
 
-
 		myTBManager = new ToolbarManager(myController,myInitialEnviron);
-		myHUDManager = new HUDManager(myController,myInitialEnviron.getPlayerInfo());
+		XMLParser parser = new XMLParser();
+		parser.writeEnviroment(myInitialEnviron);
+		myInitialEnviron = parser.readEnvironment();
+		myTBManager = new ToolbarManager(myController,myInitialEnviron);
 	}
 	
 	public void playAnimation(boolean on){
@@ -64,35 +61,29 @@ public class Engine implements IEngine {
 	
 	
 	private void step(){
-		
-		for (Unit unit : myRuntimeEnviron.getUnits()) {
+		for (Unit unit : myCurrentUnits) {
 			//testing animation
-			
-			for(Rule rule : unit.getRules()){
-				
-				rule.run(unit, myRuntimeEnviron);
-			}
-		}
-
-
-		
-		for (Unit unit : myRuntimeEnviron.getUnits()) {
 			if (unit.getStringAttribute("Type").equals("Troop")){
 				Point newPoint = new Point(unit.getAttribute("X")+1, unit.getAttribute("Y"));
 				unit.setPoint(newPoint);
 				unit.setHealth(unit.getAttribute("Health")-0.5);	
 			}
 		}
+<<<<<<< HEAD
 		
 		List<Unit> l = new ArrayList<Unit>();
 		l.addAll(myRuntimeEnviron.getUnits());
 		myController.updateMap(l);
 
+=======
+		myController.updateMap(myCurrentUnits);
+>>>>>>> 9b2aa0a4ca4ab6520139984ddfea469c6a32c0de
 	}
 
 
 	
 	@Override
+<<<<<<< HEAD
 	public void update(List<Request> requests) {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
@@ -100,21 +91,17 @@ public class Engine implements IEngine {
 		for(Request r :requests){
 			r.execute(myRuntimeEnviron);
 		}
+=======
+	public void update(List<IRequest> requests) {
+		// TODO Auto-generated method stub
+		// request if a CollisionRequest
+		
+>>>>>>> 9b2aa0a4ca4ab6520139984ddfea469c6a32c0de
 	}
 
 	@Override
 	public void loadNewGame(String title) {
 		// TODO Auto-generated method stub
-		myInitialEnviron = new InitialEnvironment();
-		myRuntimeEnviron = new RuntimeEnvironment();
-		
-		try {
-			writeEnvironment();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		
 	}
 
@@ -164,7 +151,7 @@ public class Engine implements IEngine {
 		List<Unit> mapUnits = new ArrayList<Unit>();
 		mapUnits.addAll(TroopList);
 		mapUnits.addAll(TowerList);
-		//myCurrentUnits = mapUnits;
+		myCurrentUnits = mapUnits;
 		myController.updateMap(mapUnits);
 	}
 	

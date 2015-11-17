@@ -6,5 +6,5 @@ import interfaces.IRequest;
 public abstract class Request implements IRequest {
 	public Request(){};
 	
-	public abstract void execute(RuntimeEnvironment re);
+	protected abstract void execute(RuntimeEnvironment re);
 }
