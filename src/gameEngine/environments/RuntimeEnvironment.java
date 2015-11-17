@@ -28,9 +28,4 @@ public class RuntimeEnvironment extends Environment {
 		// TODO Auto-generated method stub
 		return   myUnitsMap.values();
 	}
-
-	public void addUnit(int id, Unit t) {
-		// TODO Auto-generated method stub
-		myUnitsMap.put(id, t);
-	}
 }
