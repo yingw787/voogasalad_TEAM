@@ -1,13 +1,13 @@
 package gameEngine;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import controller.Controller;
 import gameEngine.environments.InitialEnvironment;
-import units.Tower;
-import units.Troop;
+import gamedata.xml.XMLConverter;
 import units.Unit;
 
 public class ToolbarManager {
@@ -20,17 +20,21 @@ public class ToolbarManager {
 	List<Unit> myTowers;
 	List<Unit> myTroops;
 	
-	public ToolbarManager(Controller controller,InitialEnvironment initialEnviorn){
+	public ToolbarManager(Controller controller,InitialEnvironment initialEnviron) throws IOException{
 		this.myController = controller;
 		
 		myTowers = new ArrayList<Unit>();
 		myTroops = new ArrayList<Unit>();
-		List<Tower>towers = initialEnviorn.getTowerType();
-		List<Troop>troops = initialEnviorn.getTroopType();
+//		List<Tower> towers = initialEnviron.getTowerType();
+//		List<Troop> troops = initialEnviron.getTroopType();
+		
+		XMLConverter myConverter = new XMLConverter();
+		
+		List<Unit> towers = myConverter.fromXML("Tower");
+		List<Unit> troops = myConverter.fromXML("Troop");
 		
 		myTowers.addAll(towers);
 		myTroops.addAll(troops);
-		
 		
 		upLoadStore();
 		
