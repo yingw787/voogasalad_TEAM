@@ -20,13 +20,11 @@ public class ToolbarManager {
 	List<Unit> myTowers;
 	List<Unit> myTroops;
 	
-	public ToolbarManager(Controller controller,InitialEnvironment initialEnviron) throws IOException{
+	public ToolbarManager(Controller controller) throws IOException{
 		this.myController = controller;
 		
 		myTowers = new ArrayList<Unit>();
 		myTroops = new ArrayList<Unit>();
-//		List<Tower> towers = initialEnviron.getTowerType();
-//		List<Troop> troops = initialEnviron.getTroopType();
 		
 		XMLConverter myConverter = new XMLConverter();
 		
@@ -40,7 +38,7 @@ public class ToolbarManager {
 		
 	}
 	
-	private void upLoadStore(){
+	public void upLoadStore(){
 		HashMap<String,List<Unit>>storeMap = new HashMap<String,List<Unit>>();
 		
 		storeMap.put("Towers", myTowers);

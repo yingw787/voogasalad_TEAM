@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
@@ -23,9 +24,11 @@ public class PathsTab extends Observable implements IView, ITab{
 	private ObservableList<String> myEntriesToShow;
 	private Button myAddButton;
 	private Button myDeleteButton;
+	private SubScene myBoard;
 	private int myCurrentPath = 1;
 
 	public PathsTab(){
+		myBoard = 
 		myTabView = new ScrollPane();
 		myTabContent = new VBox();
 		myTabView.setContent(myTabContent);
@@ -36,7 +39,7 @@ public class PathsTab extends Observable implements IView, ITab{
 	private void initializeButtons() {
 		HBox buttons = new HBox();
 		myAddButton = new Button("Add Path");
-		myAddButton.setOnAction(e-> addButton());
+		myAddButton.setOnAction(e-> selectPaths());
 		myDeleteButton = new Button("Delete Path");
 		myDeleteButton.setOnAction(e-> deleteButton());
 		buttons.getChildren().addAll(myAddButton, myDeleteButton);
