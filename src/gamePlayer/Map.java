@@ -1,5 +1,6 @@
 package gamePlayer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,11 +8,17 @@ import java.util.Map.Entry;
 import java.util.Observable;
 
 import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.stage.FileChooser;
 import units.Unit;
 
 public class Map extends Observable implements IViewNode {
@@ -19,6 +26,8 @@ public class Map extends Observable implements IViewNode {
  * Map.java is the actual game board where the game pieces are put into play. 
  */
 	private Pane myPane;
+	private Line path;
+
 	
 	private MapUnit selectedUnit;
 	private HashMap<Double, MapUnit> myImageMap;
@@ -40,6 +49,8 @@ public class Map extends Observable implements IViewNode {
 		});
 		myImageMap = new HashMap<Double, MapUnit>();
 		myHealthMap = new HashMap<Double, ProgressBar>();
+		path = new Line();
+
 		return myPane;
 	}
 
@@ -108,6 +119,44 @@ public class Map extends Observable implements IViewNode {
 		myView.updateSelected(myUnit);
 	}
 
+	public void uploadMap() {
+
+	    FileChooser fileChooser = new FileChooser();
+	    File selectedFile = fileChooser.showOpenDialog(null);
+	    Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		
+		String label = null;
+	    String fileName;
+	    
+	    if (selectedFile != null) {
+	        fileName = selectedFile.getName();
+	        setBackgroundMap(new Image(getClass().getClassLoader().getResourceAsStream(fileName)));
+	    }
+	    else {
+	        if (selectedFile == null) {
+	        	label = "UploadCanceled";
+				alert.setContentText(label);
+				alert.showAndWait();
+	        }
+	    }
+	}
+
+	public void setBackgroundMap(Image image) {
+		ImageView myImage = new ImageView(image);
+		myPane.getChildren().addAll(myImage);
+	}
+
+	private Node drawPath(double[] startLoc, double[] endLoc){
+		path.setStartX(startLoc[0]);
+		path.setStartY(startLoc[1]);
+		path.setEndX(endLoc[0]);
+		path.setEndY(endLoc[1]);
+		path.setStrokeWidth(35);
+		path.setStroke(Color.AZURE);
+		return path;
+	}
+	
 	private void enableSelling(MapUnit mapUnit){
 		myView.enableSell(mapUnit);
 	}

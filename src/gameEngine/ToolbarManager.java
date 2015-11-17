@@ -25,8 +25,7 @@ public class ToolbarManager {
 		
 		myTowers = new ArrayList<Unit>();
 		myTroops = new ArrayList<Unit>();
-//		List<Tower> towers = initialEnviron.getTowerType();
-//		List<Troop> troops = initialEnviron.getTroopType();
+
 		
 		XMLConverter myConverter = new XMLConverter();
 		

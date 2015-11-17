@@ -1,9 +1,6 @@
 package startup;
 
-import java.beans.EventHandler;
-
 import editor.MainGUI;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;

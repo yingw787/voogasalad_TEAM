@@ -1,8 +1,9 @@
 package interfaces;
 import java.util.HashMap;
 import java.util.List;
-import units.Unit;
+
 import units.PlayerInfo;
+import units.Unit;
 
 public interface IPlayer {
 	public void populate(HashMap<String, List<Unit>> store);
