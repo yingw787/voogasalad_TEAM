@@ -45,4 +45,8 @@ public class TabsListController {
 	public TabsList getTabsList(){
 		return myTabsList;
 	}
+	
+	public ITab getTab(String name){
+		return myTabs.get(name);
+	}
 }

@@ -93,7 +93,11 @@ public class View implements Observer {
 	public void enableSell(MapUnit mapUnit) {
 		myHUD.enableSell(mapUnit);
 	}
-
+	
+	public void updateSelected(MapUnit myUnit){
+		myHUD.updateSelected(myUnit);
+	}
+	
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub

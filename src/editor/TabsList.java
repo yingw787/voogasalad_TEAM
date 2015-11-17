@@ -58,6 +58,6 @@ public class TabsList extends Observable implements IView, Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		setChanged();
-		notifyObservers((String) arg);
+		notifyObservers(arg);
 	}
 }

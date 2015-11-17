@@ -19,7 +19,8 @@ public class Map extends Observable implements IViewNode {
  * Map.java is the actual game board where the game pieces are put into play. 
  */
 	private Pane myPane;
-
+	
+	private MapUnit selectedUnit;
 	private HashMap<Double, MapUnit> myImageMap;
 	private HashMap<Double, ProgressBar> myHealthMap;
 	private View myView;
@@ -34,7 +35,7 @@ public class Map extends Observable implements IViewNode {
 		myPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent arg0) {
-				System.out.println(arg0.getSceneX() + " " + arg0.getSceneY());
+//				System.out.println(arg0.getSceneX() + " " + arg0.getSceneY());
 			}
 		});
 		myImageMap = new HashMap<Double, MapUnit>();
@@ -70,7 +71,10 @@ public class Map extends Observable implements IViewNode {
 				mapUnit.setY(unit.getAttribute("Y"));
 				health.setLayoutX(unit.getAttribute("X"));
 				health.setLayoutY(unit.getAttribute("Y")-20);
-				mapUnit.setOnMouseClicked(e->enableSelling(mapUnit));
+				mapUnit.setOnMouseClicked(e->{
+					selectedUnit = mapUnit;
+					enableSelling(selectedUnit);
+				});
 				onMap.add(unit.getAttribute("ID"));
 			} else if (myImageMap.containsKey(unit.getAttribute("ID"))) {
 				ImageView imageview = myImageMap.get(unit.getAttribute("ID"));
@@ -95,6 +99,13 @@ public class Map extends Observable implements IViewNode {
 			myHealthMap.remove(d);
 		}
 		
+		if(selectedUnit!=null)
+			updateSelected(selectedUnit);
+		
+	}
+	
+	private void updateSelected(MapUnit myUnit) {
+		myView.updateSelected(myUnit);
 	}
 
 	private void enableSelling(MapUnit mapUnit){

@@ -29,7 +29,7 @@ public class Selected {
 		unit.setText("Unit: " + myUnit.getUnit().getStringAttribute("Name"));
 		health.setText("Health: " + myUnit.getUnit().getAttribute("Health") 
 				+ "/" + myUnit.getUnit().getAttribute("MaxHealth"));
-		sell.setText("Sell for: " + myUnit.getUnit().getAttribute("SellCost"));
+		sell.setText("Sell for: " + (int) myUnit.getUnit().getAttribute("SellCost"));
 	}
 	
 	public Node getDisplay(){

@@ -160,13 +160,16 @@ public class HUD extends Observable implements IViewNode{
 	public void enableBuyButton(Unit unit) {
 		myBuyButton.setDisable(false);
 	}
+	
+	public void updateSelected(MapUnit myUnit){
+		selectedDisplay.update(myUnit);
+	}
 
 	public void enableSell(MapUnit myUnit) {
 		if (myUnit.getUnit().getClass().toString().equals("class units.Tower")){
 			mySellButton.setDisable(false);
 		}
-
-		selectedDisplay.update(myUnit);
+		updateSelected(myUnit);
 	}
 
 }

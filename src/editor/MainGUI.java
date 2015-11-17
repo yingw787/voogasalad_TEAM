@@ -1,5 +1,7 @@
 package editor;
 
+import java.util.Observer;
+
 import editor.tabData.DataController;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -74,6 +76,7 @@ public class MainGUI {
 		// Make observer/observable relationships
 		tl.addObserver(ab);
 		tl.addObserver(rb);
+		ab.addObserver((Observer) tabController.getTab("Towers"));
 	}
 	
 	private void setConstraints() {
