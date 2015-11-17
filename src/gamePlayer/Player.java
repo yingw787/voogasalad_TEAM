@@ -16,13 +16,14 @@ public class Player implements IPlayer {
 	private Controller myController;
 
 	public Player(Controller controller, Stage s) {
+		this.myController = controller;
 		initialize(s);
 	}
 	
 	public void initialize(Stage stage) {
 		stage.setWidth(Integer.parseInt(myDefaults.getString("Width")));
 		stage.setHeight(Integer.parseInt(myDefaults.getString("Height")));
-		myView = new View(stage);
+		myView = new View(stage, this);
 		stage.show();
 	}
 	
@@ -48,6 +49,10 @@ public class Player implements IPlayer {
 	public void showLose() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void startWave(int i){
+		myController.startWave(i);
 	}
 
 	@Override

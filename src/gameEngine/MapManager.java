@@ -1,14 +1,20 @@
 package gameEngine;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 
 import gamePlayer.MapUnit;
+import gamedata.xml.XMLConverter;
+import units.Level;
+import units.Point;
+import units.Unit;
 
 public class MapManager {
-
+	
+	
+	private Engine myEngine;
 	/*
 	 * MapManager.java is the backend engine module for Map.java, the GamePlayer module in the front-end. 
 	 * Responsibilities: (keep adding to this as responsibilities grow and diverge: 
@@ -17,21 +23,42 @@ public class MapManager {
 	 * Make sure that everything in engine that the mapmanager needs to handle, that mapmanager can handle 
 	 * 
 	 */
-	
 	PathModel pathModel; 
-	ArrayList<MapUnit> unitsOnBoard; // TODO: do we need to distinguish between the different types of units on the board, or use polymorphism in order to det. action? 
+	private List<Unit> unitsOnBoard; // TODO: do we need to distinguish between the different types of units on the board, or use polymorphism in order to det. action? 
+	private List<Unit> myPossibleTroops;
+	private List<Point> myPaths;
+	private Level myCurrentLevel;
+	private Point start, end;
+	private int currentEnemy;
 	
-	public void initialize(){
-		// TODO: read data from the static XML file; where to get that information? 
-		// TODO: what kind of data is available from the static XML file? 
-		// TODO: 
-		
+	public MapManager(Engine e, List<Unit> list, List<Point> paths){
+		myEngine = e;
+		myPossibleTroops = list;
+		myPaths = paths;
+		start = myPaths.get(0);
+		end = myPaths.get(myPaths.size()-1);
+		currentEnemy = 0;
+	}
+	
+	public void startWave(Level level) {
+		myCurrentLevel = level;
 		
 	}
+	
+	public void spawnNewEnemy(){
+		System.out.println(myCurrentLevel.getTroops().get(currentEnemy).getStringAttribute("Name"));
+		currentEnemy++;
+	}
+	
+
 	
 	public void handleRequests(){
 		// TODO: when a request object comes into the map, pass it into this method 
 		
+	}
+	
+	public List<Unit> getUnitsOnBoard(){
+		return unitsOnBoard;
 	}
 	
 	// convert the Path object to the PathPoint object; 
@@ -91,7 +118,6 @@ public class MapManager {
 			
 			PathEdge primaryEdge = new PathEdge(start, end);
 			edges.add(primaryEdge);
-			
 		}
 		
 		public void addPathPoint(PathPoint newPoint){
@@ -162,5 +188,6 @@ public class MapManager {
 			return new double[] {myXPosition, myYPosition}; 
 		}
 	}
+
 	
 }

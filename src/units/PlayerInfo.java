@@ -22,4 +22,8 @@ public class PlayerInfo {
 	public String getLevel(){
 		return myCurrentLevel;
 	}
+	
+	public void setLevel(String s){
+		myCurrentLevel = s;
+	}
 }

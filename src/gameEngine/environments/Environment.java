@@ -27,7 +27,7 @@ public class Environment {
 		myTroopType = new ArrayList<Troop>();
 		myLevels = new ArrayList<Level>();
 		myPaths =new ArrayList<Path>();
-		myPlayerInfo = new PlayerInfo(0, 0, 0);
+		myPlayerInfo = new PlayerInfo(0, 0, "");
 		myConfig = new GameConfiguration();
 		myRules = new ArrayList<Rule>();
 	}

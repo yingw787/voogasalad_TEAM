@@ -24,6 +24,7 @@ public class HUD extends Observable implements IViewNode{
 
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private VBox myVBox;
+	private PlayerInfo myPlayerInfo;
 	private Selected selectedDisplay;
 	private Button myBuyButton, mySellButton, myWaveButton; 
 	private View myView;
@@ -94,7 +95,8 @@ public class HUD extends Observable implements IViewNode{
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
 		myWaveButton = new Button("Start Wave");
-		myWaveButton.setOnMouseClicked(e->startWave());
+		myWaveButton.setOnMouseClicked(e->myView.startWave(
+				Integer.parseInt(myPlayerInfo.getLevel())));
         myHBox.getChildren().add(myWaveButton);
         return myHBox;
 	}
@@ -130,6 +132,8 @@ public class HUD extends Observable implements IViewNode{
 	}
 	
 	public void populate(PlayerInfo player){
+		myPlayerInfo = player;
+		myVBox.getChildren().clear();
 		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton(), waveButton(), selectedDisplay());
 	}
 	
