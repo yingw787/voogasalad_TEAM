@@ -6,7 +6,6 @@ import java.util.Observer;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import editor.attributes.ImageBox;
 import editor.tabData.DataController;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
