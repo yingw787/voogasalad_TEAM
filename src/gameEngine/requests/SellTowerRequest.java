@@ -13,8 +13,9 @@ public class SellTowerRequest extends Request {
 	}
 
 	@Override
-	protected void execute(RuntimeEnvironment re) {
-		// TODO Auto-generated method stub
+	public void execute(RuntimeEnvironment re) {
+		
+		
 		
 	}
 
