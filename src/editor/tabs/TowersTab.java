@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Observer;
 
 import units.Tower;
 import javafx.beans.value.ObservableValue;
@@ -21,11 +22,12 @@ import editor.IView;
 import editor.tabData.ITabData;
 import editor.tabData.TowersData;
 
-public class TowersTab extends Observable implements IView, ITab {
+public class TowersTab extends Observable implements IView, ITab, Observer {
 	private ScrollPane myTabView;
-	private VBox myTabContent;
+	private VBox myTabContent;	
 	private TowersData myData;
 	private Button myAddButton;
+	private Button myDeleteButton;
 	private int myTowerID;
 	
 	private ListView<String> myTowerEntriesList;
@@ -46,7 +48,7 @@ public class TowersTab extends Observable implements IView, ITab {
 		
 		HBox buttons = new HBox();
 		myAddButton = new Button("Make New Tower");
-		Button myDeleteButton = new Button("Delete Tower");
+		myDeleteButton = new Button("Delete Tower");
 		myAddButton.setOnAction(e -> addTower());
 		myDeleteButton.setOnAction(e -> deleteTower());
 		buttons.getChildren().addAll(myAddButton, myDeleteButton);
@@ -58,6 +60,9 @@ public class TowersTab extends Observable implements IView, ITab {
 		myTowerEntriesList.getSelectionModel().selectedItemProperty().addListener(    
 				(ObservableValue<? extends String> ov, String old_val, String new_val) -> {
 	                System.out.println(new_val);    
+	                System.out.println("clicked");
+	                setChanged();
+	                notifyObservers(myData.get(new_val));
 	    });
 		myTabContent.getChildren().add(myTowerEntriesList);
 	}
@@ -93,6 +98,16 @@ public class TowersTab extends Observable implements IView, ITab {
 	@Override
 	public void setData(ITabData data) {
 		myData = (TowersData) data;
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+//		String selected = myTowerEntriesList.getSelectionModel().getSelectedItem();
+//		myEntriesToShow.remove(selected);
+//		myEntriesToShow.add((String) arg1);
+//		Tower temp = myData.get(selected);
+//		myData.remove(selected);
+//		myData.add((String) arg1, temp);
 	}
 
 }

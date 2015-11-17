@@ -22,6 +22,10 @@ public class TowersData implements ITabData {
 		myTowers.remove(id);
 	}
 	
+	public Tower get(String id){
+		return myTowers.get(id);
+	}
+	
 	@Override
 	public List<Object> getData() {
 		List<Object> allTowers = new ArrayList<Object>();
