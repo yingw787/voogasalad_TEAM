@@ -33,6 +33,8 @@ public class Map extends Observable implements IViewNode {
 	private HashMap<Double, MapUnit> myImageMap;
 	private HashMap<Double, ProgressBar> myHealthMap;
 	private View myView;
+	private double[] pointsClicked;
+	
 	
 	public Map(View v){
 		this.myView = v;
@@ -45,7 +47,11 @@ public class Map extends Observable implements IViewNode {
 			@Override
 			public void handle(MouseEvent arg0) {
 				System.out.println(arg0.getSceneX() + " " + arg0.getSceneY());
+				hasBeenClicked();
+				setPointsClicked(new double[]{arg0.getSceneX(),arg0.getSceneY()});
 			}
+
+			
 		});
 		myImageMap = new HashMap<Double, MapUnit>();
 		myHealthMap = new HashMap<Double, ProgressBar>();
@@ -54,6 +60,14 @@ public class Map extends Observable implements IViewNode {
 		return myPane;
 	}
 
+	public double[] getPointsClicked() {
+		System.out.println("twice x-cor: " +pointsClicked[0]*2);
+		return pointsClicked;
+	}
+
+	public void setPointsClicked(double[] pointsClicked) {
+		this.pointsClicked = pointsClicked;
+	}
 
 	@Override
 	public void setWidth(double width) {
@@ -159,6 +173,11 @@ public class Map extends Observable implements IViewNode {
 	
 	private void enableSelling(MapUnit mapUnit){
 		myView.enableSell(mapUnit);
+	}
+
+	public boolean hasBeenClicked() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

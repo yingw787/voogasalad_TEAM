@@ -47,6 +47,10 @@ public class Controller extends Application {
 	public void startWave(int i){
 		myEngine.startWave(i);
 	}
+	
+	public void buyTowerRequest(Unit unit, double[] points){
+		System.out.println("Buy Tower Request initiated");
+	}
 }
 
 

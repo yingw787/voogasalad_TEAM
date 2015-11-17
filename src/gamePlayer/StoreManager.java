@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import controller.Controller;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -16,12 +17,14 @@ public class StoreManager {
 	private HashMap<String, List<Unit>> myPopulation;
 	private Store myStore;
 	private HBox myHBox;
-	
+	private Controller myController;
+	private Map myMap;
+
 	public StoreManager(Store s, HashMap<String, List<Unit>> myTestMap) {
 		this.myStore = s;
 		this.myPopulation = myTestMap;
 	}
-	
+
 	public ScrollPane initialize(){
 		myScrollPane = new ScrollPane();
 		myHBox = new HBox();
@@ -29,7 +32,7 @@ public class StoreManager {
 		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		return myScrollPane;
 	}
-	
+
 	public void populate(String key){
 		myHBox.getChildren().clear();
 		List<StoreButton> list = new ArrayList<StoreButton>();
@@ -50,7 +53,7 @@ public class StoreManager {
 		}
 		myHBox.getChildren().addAll(list);
 	}
-	
+
 	private StoreButton buttonFactory(Unit unit){
 		Image image = new Image(unit.getStringAttribute("Image"));
 		ImageView imageview = new ImageView(image);
@@ -59,14 +62,22 @@ public class StoreManager {
 		String text = unit.getStringAttribute("Name") + "\n Gold: " + unit.getAttribute("BuyCost");
 		StoreButton button = new StoreButton(text, imageview, unit);
 		button.setOnAction(e -> {
-			buttonManager();
+			towerButtonManager(button);
 		});
 		return button;
 	}
 
-	private void buttonManager() {
-		// TODO method to have the object that is clicked to appear in the main pane
-		System.out.println("I presssed");
+	// TODO method to have the object that is clicked to appear in the main pane
+
+	private void towerButtonManager(StoreButton storeButton) {
+
+		if(storeButton.getUnit().getStringAttribute("Name").startsWith("tower") && myMap.hasBeenClicked()){
+			System.out.println("I pressed tower"); // for testing purpose
+			myController.buyTowerRequest(storeButton.getUnit(), myMap.getPointsClicked());
+		}else{
+			System.out.println("I pressed troop"); // for testing purpose
+		}
+
 	}
 
 	public void setHeight(double height) {
@@ -82,5 +93,5 @@ public class StoreManager {
 		populate("Towers");
 	}
 
-	
+
 }
