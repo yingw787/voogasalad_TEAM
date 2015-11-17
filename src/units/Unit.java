@@ -3,9 +3,12 @@ package units;
 import java.util.HashMap;
 import java.util.Map;
 
+import rules.Rule;
+
 public class Unit {
 	protected Map<String, Double> myAttributes;
 	protected Map<String, String> myStringAttributes;
+	protected Map<String, Rule> myRules;
 	
 	public Unit(String name, double health, double cd, String img, 
 			Point p, int ID, int bc, int sc){		
