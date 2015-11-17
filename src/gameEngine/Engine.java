@@ -1,5 +1,6 @@
 package gameEngine;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +38,9 @@ public class Engine implements IEngine {
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 		myInitialEnviron = new InitialEnvironment();
 		myRuntimeEnviron = new RuntimeEnvironment();
-		
+	}
+	
+	public void writeEnvironment() throws IOException{
 		XMLParser parser = new XMLParser();
 		parser.writeEnviroment(myInitialEnviron);
 		myInitialEnviron = parser.readEnvironment();
@@ -125,7 +128,7 @@ public class Engine implements IEngine {
 		TroopList.add(tr3);
 		myTestMap.put("Towers", TowerList);
 		myTestMap.put("Troops", TroopList);
-		myController.populateStore(myTestMap);
+//		myController.populateStore(myTestMap);
 		List<Unit> mapUnits = new ArrayList<Unit>();
 		mapUnits.addAll(TroopList);
 		mapUnits.addAll(TowerList);

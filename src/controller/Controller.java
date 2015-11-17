@@ -1,10 +1,12 @@
 package controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 import gameEngine.Engine;
 import gamePlayer.Player;
+import gamedata.xml.XMLConverter;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -24,10 +26,10 @@ public class Controller extends Application {
 		myEngine = new Engine(this, new Timeline());
 		myPlayer = new Player(this, primaryStage);
 		myEngine.testCaseMaker();
-		//myEngine.readXML();
+		myEngine.writeEnvironment();
 		myEngine.playAnimation(true);
 	}
-
+	
 	// store is in-game purchases of towers and units and the like 
 	public void populateStore(HashMap<String, List<Unit>> myTestMap) {
 		myPlayer.populate(myTestMap);
