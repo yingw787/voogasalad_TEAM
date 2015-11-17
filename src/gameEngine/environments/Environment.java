@@ -19,6 +19,7 @@ public class Environment {
 	List<Path> myPaths;
 	PlayerInfo myPlayerInfo;
 	GameConfiguration myConfig;
+	List<Rule> myRules;
 	
 	public Environment() {
 		myGameName = "Salad";
@@ -28,8 +29,16 @@ public class Environment {
 		myPaths =new ArrayList<Path>();
 		myPlayerInfo = new PlayerInfo(0, 0, 0);
 		myConfig = new GameConfiguration();
+		myRules = new ArrayList<Rule>();
 	}
 
+	public List<Rule> getRules() {
+		return myRules;
+	}
+
+	public void setRules(List<Rule> myRules) {
+		this.myRules = myRules;
+	}
 
 	public String getGameName() {
 		return myGameName;

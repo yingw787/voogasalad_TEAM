@@ -1,6 +1,5 @@
 package units;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -58,10 +57,6 @@ public class Unit {
 		return myRules.keySet();
 	}
 	
-	public Collection<Rule> getRules(){
-		return myRules.values();
-	}
-	
 	public Set<String> getStringAttributeSet(){
 		return myStringAttributes.keySet();
 	}
@@ -93,14 +88,5 @@ public class Unit {
 	
 	public void setHealth(double h){
 		myAttributes.put("Health", h);
-	}
-	
-	public int getID(){
-		
-		return (new Double(myAttributes.get("ID"))).intValue();
-	}
-	
-	public void setID(int id){
-		myAttributes.put("ID", (double) id);
 	}
 }
