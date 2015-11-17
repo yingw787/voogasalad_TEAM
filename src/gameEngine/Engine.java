@@ -47,8 +47,7 @@ public class Engine implements IEngine {
 	
 	public void writeEnvironment() throws IOException{
 
-
-		myTBManager = new ToolbarManager(myController,myInitialEnviron);
+		myTBManager = new ToolbarManager(myController);
 		myHUDManager = new HUDManager(myController,myInitialEnviron.getPlayerInfo());
 	}
 	
@@ -62,6 +61,14 @@ public class Engine implements IEngine {
 		}
 	}
 	
+	private void flushToPlayer(){
+		List<Unit> l = new ArrayList<Unit>();
+		l.addAll(myRuntimeEnviron.getUnits());
+		myController.updateMap(l);
+		myTBManager.upLoadStore();
+		myHUDManager.updateUserInfo();
+		
+	}
 	
 	private void step(){
 		
@@ -84,22 +91,24 @@ public class Engine implements IEngine {
 			}
 		}
 		
-		List<Unit> l = new ArrayList<Unit>();
-		l.addAll(myRuntimeEnviron.getUnits());
-		myController.updateMap(l);
-
+		
+		
+		//TODO : 1. let troops and bullets move 
+		//       2. generate enemy according to level
+		//       3. switch to next wave?
+		flushToPlayer();
 	}
 
 
 	
 	@Override
 	public void update(List<Request> requests) {
-		// TODO Auto-generated method stub
 		// request if a CollisionRequest
 		
 		for(Request r :requests){
 			r.execute(myRuntimeEnviron);
 		}
+		flushToPlayer();
 	}
 
 	@Override
