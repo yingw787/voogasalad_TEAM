@@ -90,4 +90,5 @@ public class MainGUI {
 				//new RowConstraints(252),
 				new RowConstraints(240));
 	}
+	
 }
