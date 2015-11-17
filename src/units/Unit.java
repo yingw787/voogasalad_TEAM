@@ -53,6 +53,10 @@ public class Unit {
 		return myRules.get(key);
 	}
 	
+	public void removeRules(String key){
+		myRules.remove(key);
+	}
+	
 	public Set<String> getRuleSet(){
 		return myRules.keySet();
 	}

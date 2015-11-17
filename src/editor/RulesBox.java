@@ -74,7 +74,12 @@ public class RulesBox implements IView, Observer {
 	}
 	
 	private void deleteRule() {
-		
+		String selected = myCurrentRules.getSelectionModel().getSelectedItem();
+		myEntriesToShow.remove(selected);
+		myCurrentUnit.removeRules(selected);
+		for(String rule : myCurrentUnit.getRuleSet()){
+			System.out.println(rule);
+		}
 	}
 	
 	private ChoiceDialog dialog;
@@ -169,6 +174,8 @@ public class RulesBox implements IView, Observer {
 		System.out.println(ruleKey);
 		rule = new Rule(condition, action);
 		
+		myEntriesToShow.add(ruleKey);
+		myCurrentUnit.setRule(ruleKey, rule);
 		
 	}
 
