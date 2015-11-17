@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import controller.Controller;
-import gameEngine.environments.InitialEnvironment;
 import gameEngine.environments.RuntimeEnvironment;
 import gamedata.xml.XMLConverter;
 import interfaces.IEngine;
@@ -35,7 +34,6 @@ public class Engine implements IEngine {
 	private List<Point> myPaths;
 	private int myCurrentLevelInt;
 	private Level myCurrentLevel;
-	private InitialEnvironment myInitialEnviron;
 	private RuntimeEnvironment myRuntimeEnviron;
 	private ToolbarManager myTBManager;
 	private MapManager myMapManager;
@@ -71,15 +69,11 @@ public class Engine implements IEngine {
 		myIDGenerator = new IDGenerator();
 		myMapManager = new MapManager(this, myPossibleUnits.get("Troops"), myPaths, myIDGenerator);
 		myHUDManager = new HUDManager(this, myPlayerInfo.get(0));
-		myInitialEnviron = new InitialEnvironment();
 		myRuntimeEnviron = new RuntimeEnvironment();
 	}
 	
 	public void writeEnvironment() throws IOException{
 		myTBManager = new ToolbarManager(this);
-		XMLParser parser = new XMLParser();
-		parser.writeEnviroment(myInitialEnviron);
-		myInitialEnviron = parser.readEnvironment();
 	}
 	
 	public void playAnimation(boolean on){
