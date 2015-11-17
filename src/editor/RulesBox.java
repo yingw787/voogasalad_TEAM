@@ -21,10 +21,12 @@ import editor.tabData.BulletsData;
 import editor.tabData.DataController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
@@ -153,19 +155,26 @@ public class RulesBox implements IView, Observer {
 			case "Shoot":
 				double range = 0.0;
 
-//				String[] availableBullets = ((BulletsData) myDataController.getData("Bullets")).getBulletNamesArray();
-//				String bulletName = askUser(availableBullets, "Please select a bullet to shoot");
-//				Bullet bullet = ((BulletsData) myDataController.getData("Bullets")).get(bulletName);
-//				Optional<String> result2 = askUserForText("Tower Range", "Please enter a range (pixels) for the tower to shoot this bullet", "Positive numbers only");
-//				if (result2.isPresent()){
-//					range = Double.parseDouble(result2.get());
-//				} else return;
-//				action = new ShootAction(bullet, range);
-//				actionDescription = "shoot a " + bulletName + " with range " + range;
-				System.out.println("No bullets yet lol");
-				return;
+				String[] availableBullets = ((BulletsData) myDataController.getData("Bullets")).getBulletNamesArray();
 				
-//				break;
+				if(availableBullets.length == 0){
+					Alert warning = new Alert(AlertType.INFORMATION);
+					warning.setTitle("Warning");
+					warning.setHeaderText("You're trying to shoot a bullet...");
+					warning.setContentText("But you haven't made any bullets yet!");
+					warning.show();
+					return;
+				}
+				String bulletName = askUser(availableBullets, "Please select a bullet to shoot");
+				Bullet bullet = ((BulletsData) myDataController.getData("Bullets")).get(bulletName);
+				Optional<String> result2 = askUserForText("Tower Range", "Please enter a range (pixels) for the tower to shoot this bullet", "Positive numbers only");
+				if (result2.isPresent()){
+					range = Double.parseDouble(result2.get());
+				} else return;
+				action = new ShootAction(bullet, range);
+				actionDescription = "shoot a " + bulletName + " with range " + range;
+				
+				break;
 			default:
 				return;
 		}
@@ -229,7 +238,7 @@ public class RulesBox implements IView, Observer {
 			clearRules();
 		}
 		else if(arg instanceof Unit){
-			System.out.println("Rules box: user selected tower: " + ((Tower)arg).getStringAttribute("Name"));
+			System.out.println("Rules box: user selected Unit: " + ((Unit)arg).getStringAttribute("Name"));
 			clearRules();
 			myCurrentUnit = (Unit) arg;
 			showRules((Unit) arg);

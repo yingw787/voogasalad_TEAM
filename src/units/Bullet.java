@@ -8,4 +8,9 @@ public class Bullet extends Unit{
 	//Insert method to check collision condition and apply damage
 	
 	}
+	
+	public Bullet(){
+		super();
+	}
+	
 }

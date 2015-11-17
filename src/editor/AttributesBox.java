@@ -68,7 +68,7 @@ public class AttributesBox extends Observable implements IView, Observer {
 			clearAttributes();
 		}
 		else if(arg1 instanceof Unit){
-			System.out.println("Attributes box: user selected tower: " + ((Tower)arg1).getStringAttribute("Name"));
+			System.out.println("Attributes box: user selected Unit: " + ((Unit)arg1).getStringAttribute("Name"));
 			myCurrentUnit = (Unit) arg1;
 			clearAttributes();
 			showAttributes();

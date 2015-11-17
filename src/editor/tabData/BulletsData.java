@@ -14,8 +14,8 @@ public class BulletsData implements ITabData {
 		myBullets = new HashMap<String, Bullet>();
 	}
 	
-	public void add(String id, Bullet t){
-		myBullets.put(id, t);
+	public void add(String id, Bullet b){
+		myBullets.put(id, b);
 	}
 	
 	public void remove(String id){

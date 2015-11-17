@@ -94,6 +94,10 @@ public class Unit {
 		myStringAttributes.put(attribute, value);
 	}
 	
+	public void removeAttribute(String attribute){
+		myAttributes.remove(attribute);
+	}
+	
 	public void setPoint(Point p){
 		myAttributes.put("X", p.getX());
 		myAttributes.put("Y", p.getY());
