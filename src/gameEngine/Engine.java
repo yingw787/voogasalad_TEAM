@@ -1,5 +1,6 @@
 package gameEngine;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +38,11 @@ public class Engine implements IEngine {
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 		myInitialEnviron = new InitialEnvironment();
 		myRuntimeEnviron = new RuntimeEnvironment();
-		
+	}
+	
+	public void writeEnvironment() throws IOException{
+
+		myTBManager = new ToolbarManager(myController,myInitialEnviron);
 		XMLParser parser = new XMLParser();
 		parser.writeEnviroment(myInitialEnviron);
 		myInitialEnviron = parser.readEnvironment();
@@ -58,19 +63,30 @@ public class Engine implements IEngine {
 	private void step(){
 		for (Unit unit : myCurrentUnits) {
 			//testing animation
-			Point newPoint = new Point(unit.getAttribute("X")+1, unit.getAttribute("Y"));
-			unit.setPoint(newPoint);
-			unit.setHealth(unit.getAttribute("Health")-0.5);
+			if (unit.getStringAttribute("Type").equals("Troop")){
+				Point newPoint = new Point(unit.getAttribute("X")+1, unit.getAttribute("Y"));
+				unit.setPoint(newPoint);
+				unit.setHealth(unit.getAttribute("Health")-0.5);	
+			}
 		}
-		//why bullet doesn't extends unit?
-		//bullet should have a member, true represent friend, false represent enemy, it's set by the tower/zombie
-		//
+		
+		List<Unit> l = new ArrayList<Unit>();
+//		l.addAll(myRuntimeEnviron.getUnits());
+//		myController.updateMap(l);
+
 		myController.updateMap(myCurrentUnits);
 	}
 
 
 	
 	@Override
+//	public void update(List<Request> requests) {
+//		// TODO Auto-generated method stub
+//		// request if a CollisionRequest
+//		
+//		for(Request r :requests){
+//			r.execute(myRuntimeEnviron);
+//		}
 	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
@@ -125,7 +141,7 @@ public class Engine implements IEngine {
 		TroopList.add(tr3);
 		myTestMap.put("Towers", TowerList);
 		myTestMap.put("Troops", TroopList);
-		myController.populateStore(myTestMap);
+//		myController.populateStore(myTestMap);
 		List<Unit> mapUnits = new ArrayList<Unit>();
 		mapUnits.addAll(TroopList);
 		mapUnits.addAll(TowerList);

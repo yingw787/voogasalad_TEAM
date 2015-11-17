@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import units.Tower;
 import units.Unit;
-import editor.attributes.ImageBox;
 import editor.tabData.DataController;
 import editor.tabData.ITabData;
 import javafx.scene.control.Alert;

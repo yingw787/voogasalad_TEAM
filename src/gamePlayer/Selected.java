@@ -1,5 +1,6 @@
 package gamePlayer;
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,7 +22,9 @@ public class Selected {
 		unit = new Text("Unit: ");
 		health = new Text("Health: ");
 		sell = new Text ("Sell for: ");
-		
+		unit.setStyle("-fx-font: 18px Tahoma;");
+		health.setStyle("-fx-font: 18px Tahoma;");
+		sell.setStyle("-fx-font: 18px Tahoma;");
 		myVBox.getChildren().addAll(unit, health, sell);
 	}
 	

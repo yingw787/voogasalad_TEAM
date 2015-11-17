@@ -10,8 +10,6 @@ import java.util.List;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
-import units.Unit;
-
 public class XMLConverter {
 	
 	XStream myXStream = new XStream(new StaxDriver());
@@ -21,9 +19,9 @@ public class XMLConverter {
 	 * file name(s): name
 	 * call this method on individual objects
 	 */
-	public void toXML(Object obj, String type, String name) throws UnsupportedEncodingException, IOException {
+	public void toXML(Object obj, String game, String type, String name) throws UnsupportedEncodingException, IOException {
 		try {
-		File file = new File("games/"+type+File.separator+name);
+		File file = new File("games/"+game+File.separator+type+File.separator+name);
 		file.getParentFile().mkdirs();
 		file.createNewFile();
 		String xml = myXStream.toXML(obj);
@@ -42,17 +40,18 @@ public class XMLConverter {
 	 * @params: type of object that has been converted to XML previously 
 	 * and is stored in the games folder under a subfolder 
 	 */
-	public List<Unit> fromXML(String type) throws IOException {
-		List<Unit> myObjects = new ArrayList<Unit>();
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List fromXML(String game, String type) throws IOException {
+		List myObjects = new ArrayList();
 		try {
-		 final File folder = new File("games/"+type+File.separator);
+		 final File folder = new File("games/"+game+File.separator+type+File.separator);
 		    for (File fileEntry : folder.listFiles()) {
-		    	myObjects.add(((Unit) myXStream.fromXML(fileEntry)));
+		    	myObjects.add(myXStream.fromXML(fileEntry));
 		    }
 		}
-		
 		catch (Exception e) {
-			System.out.println("Cannot convert" + type + " from XML");
+			System.out.println("Cannot convert " + type + "from " + game + " from XML");
 		}
 		return myObjects;
 	}
