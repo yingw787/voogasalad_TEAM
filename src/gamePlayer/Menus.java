@@ -1,18 +1,16 @@
 package gamePlayer;
 
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import java.util.Observable;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.layout.HBox;
 
 public class Menus extends Observable implements IViewNode {
 	private MenuBar myMenuBar;
 	private Menu newMenu;
 	private Menu saveMenu;
 	private Menu helpMenu;
+	private Menu addBackgroundMenu;
 	private View myView;
 
 	public Menus(View v){
@@ -24,16 +22,18 @@ public class Menus extends Observable implements IViewNode {
 		newMenu = new Menu("New Game");
 		saveMenu = new Menu("Save");
 		helpMenu = new Menu("Help");
+		addBackgroundMenu = new Menu("Add Background");
 		populate();
 		return myMenuBar;
 	}
 
 	private void populate(){
-		newMenu.setOnAction(event -> {newMenuAction();});
+		newMenu.setOnAction(actionEvent -> newMenuAction());
 		saveMenu.setOnAction(actionEvent -> savemenuAction());
 		helpMenu.setOnAction(actionEvent -> helpMenuAction());
-
-		myMenuBar.getMenus().addAll(newMenu, saveMenu, helpMenu);
+		addBackgroundMenu.setOnAction(actionEvent -> helpMenuAction());
+		
+		myMenuBar.getMenus().addAll(newMenu, saveMenu, helpMenu,addBackgroundMenu);
 	}
 
 	private void helpMenuAction() {
