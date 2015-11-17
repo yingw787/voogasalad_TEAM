@@ -44,7 +44,7 @@ public class Map extends Observable implements IViewNode {
 		myPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent arg0) {
-//				System.out.println(arg0.getSceneX() + " " + arg0.getSceneY());
+				System.out.println(arg0.getSceneX() + " " + arg0.getSceneY());
 			}
 		});
 		myImageMap = new HashMap<Double, MapUnit>();
