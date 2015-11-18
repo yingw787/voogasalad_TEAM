@@ -4,9 +4,9 @@ import gameEngine.environments.RuntimeEnvironment;
 import units.Unit;
 
 public class TimerCondition implements ICondition{
-	private double myInterval;
+	private int myInterval;
 	
-	public TimerCondition(double delay){
+	public TimerCondition(int delay){
 		myInterval = delay;
 	}
 	
