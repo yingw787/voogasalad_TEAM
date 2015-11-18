@@ -11,7 +11,6 @@ import controller.Controller;
 import gameEngine.requests.BuyTowerRequest;
 import interfaces.IRequest;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ProgressBar;
@@ -22,6 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
+import units.Path;
 import units.Point;
 import units.Tower;
 import units.Unit;
@@ -31,7 +31,6 @@ public class Map extends Observable implements IViewNode {
  * Map.java is the actual game board where the game pieces are put into play. 
  */
 	private Pane myPane;
-	private Line path;
 
 	
 	private MapUnit selectedUnit;
@@ -41,6 +40,7 @@ public class Map extends Observable implements IViewNode {
 	private Controller myController;
 	private boolean purchaseEnabled;
 	private Unit potentialPurchase;
+	private List<Line> myCurrentPaths;
 	
 	public Map(Controller c, View v){
 		this.myView = v;
@@ -55,18 +55,17 @@ public class Map extends Observable implements IViewNode {
 			@Override
 			public void handle(MouseEvent arg0) {
 				if (purchaseEnabled){
-					System.out.println("purchase sent to back end");
 					BuyTowerRequest buyRequest = new BuyTowerRequest((Tower) potentialPurchase, new Point(arg0.getSceneX(), arg0.getSceneY()));
 					List<IRequest> requestSender = new ArrayList<IRequest>();
 					requestSender.add(buyRequest);
 					myController.update(requestSender);
+					purchaseEnabled = false;
 				}
 			}
 		});
 		myImageMap = new HashMap<Double, MapUnit>();
 		myHealthMap = new HashMap<Double, ProgressBar>();
-		path = new Line();
-
+		myCurrentPaths = new ArrayList<Line>();
 		return myPane;
 	}
 
@@ -137,7 +136,6 @@ public class Map extends Observable implements IViewNode {
 	}
 
 	public void uploadMap() {
-
 	    FileChooser fileChooser = new FileChooser();
 	    File selectedFile = fileChooser.showOpenDialog(null);
 	    Alert alert = new Alert(AlertType.INFORMATION);
@@ -164,13 +162,13 @@ public class Map extends Observable implements IViewNode {
 		myPane.getChildren().addAll(myImage);
 	}
 
-	private Node drawPath(double[] startLoc, double[] endLoc){
-		path.setStartX(startLoc[0]);
-		path.setStartY(startLoc[1]);
-		path.setEndX(endLoc[0]);
-		path.setEndY(endLoc[1]);
-		path.setStrokeWidth(35);
-		path.setStroke(Color.AZURE);
+	private Line drawPath(Point startLoc, Point endLoc){
+		Line path = new Line();
+		path.setStartX(startLoc.getX()+25);
+		path.setStartY(startLoc.getY()+25);
+		path.setEndX(endLoc.getX()+25);
+		path.setEndY(endLoc.getY()+25);
+		path.setStrokeWidth(25);
 		return path;
 	}
 	
@@ -181,6 +179,21 @@ public class Map extends Observable implements IViewNode {
 	public void enableTowerPurchase(Unit u) {
 		purchaseEnabled = true;
 		potentialPurchase = u;
+	}
+
+	public void showPaths(List<Path> pathsForLevel) {
+		myPane.getChildren().removeAll(myCurrentPaths);
+		myCurrentPaths.clear();
+		for (Path p : pathsForLevel){
+			List<Point> myPoints = p.getPoints();
+			for (int i = 0; i < myPoints.size()-1; i++){
+				myCurrentPaths.add(drawPath(myPoints.get(i),myPoints.get(i+1)));
+			}
+		}
+		for (Line l : myCurrentPaths){
+			l.setStroke(Color.AZURE);
+		}
+		myPane.getChildren().addAll(myCurrentPaths);
 	}
 
 }

@@ -13,15 +13,15 @@ import units.Unit;
 
 public class StoreManager {
 	private ScrollPane myScrollPane;
-	private HashMap<String, List<Unit>> myPopulation;
+	private HashMap<String, List<Unit>> myStock;
 	private View myView;
 	private Store myStore;
 	private HBox myHBox;
 	
-	public StoreManager(View v, Store s, HashMap<String, List<Unit>> myTestMap) {
+	public StoreManager(View v, Store s) {
 		this.myView = v;
 		this.myStore = s;
-		this.myPopulation = myTestMap;
+//		this.myStock = myTestMap;
 	}
 	
 	public ScrollPane initialize(){
@@ -35,7 +35,8 @@ public class StoreManager {
 	public void populate(String key){
 		myHBox.getChildren().clear();
 		List<StoreButton> list = new ArrayList<StoreButton>();
-		List<Unit> storeItems = myPopulation.get(key);
+		List<Unit> storeItems = new ArrayList<Unit>();
+		storeItems = myStock.get(key);
 		for (Unit unit : storeItems) {
 			StoreButton button = buttonFactory(unit);
 			if (myStore.getMoney() < unit.getAttribute("BuyCost")) {
@@ -44,10 +45,12 @@ public class StoreManager {
 			list.add(button);
 		}
 		ToggleGroup group = new ToggleGroup();
-		for (StoreButton sb : list) {
+		for (StoreButton sb: list) {
 			sb.setToggleGroup(group);
 			if (sb.getUnit().getStringAttribute("Type").equals("Troop")){
 				sb.setOnMouseClicked(e->myStore.enableBuyButton(sb.getUnit()));	
+			} else if (sb.getUnit().getStringAttribute("Type").equals("Tower")){
+				sb.setOnMouseClicked(e->buttonManager(sb.getUnit()));
 			}
 		}
 		myHBox.getChildren().addAll(list);
@@ -60,15 +63,10 @@ public class StoreManager {
 		imageview.setPreserveRatio(true);
 		String text = unit.getStringAttribute("Name") + "\n Gold: " + unit.getAttribute("BuyCost");
 		StoreButton button = new StoreButton(text, imageview, unit);
-		button.setOnAction(e -> {
-			buttonManager(button.getUnit());
-		});
 		return button;
 	}
 
 	private void buttonManager(Unit u) {
-		// TODO method to have the object that is clicked to appear in the main pane
-		System.out.println("I presssed");
 		myView.enableTowerPurchase(u);
 	}
 
@@ -81,7 +79,7 @@ public class StoreManager {
 	}
 
 	public void setStock(HashMap<String, List<Unit>> store) {
-		this.myPopulation = store;
+		myStock = store;
 		populate("Towers");
 	}
 

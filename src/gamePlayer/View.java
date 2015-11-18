@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import units.Path;
 import units.PlayerInfo;
 import units.Unit;
 
@@ -80,7 +81,6 @@ public class View implements Observer {
 
 	public void populateStore(HashMap<String, List<Unit>> store) {
 		myStore.setStock(store);
-
 	}
 
 	public void updateMap(List<Unit> units) {
@@ -116,6 +116,14 @@ public class View implements Observer {
 
 	public void enableTowerPurchase(Unit u) {
 		myMap.enableTowerPurchase(u);
+	}
+
+	public void showPaths(List<Path> pathsForLevel) {
+		myMap.showPaths(pathsForLevel);
+	}
+
+	public void resetStore() {
+		myStore.resetStock();
 	}
 
 }
