@@ -43,13 +43,10 @@ public class TowersTab extends ATab implements IView, ITab, Observer {
 		myTowerID = 0;
 		
 		HBox buttons = new HBox();
-		myAddButton = new Button("Make New Tower");
-		myDeleteButton = new Button("Delete Tower");
-		myAddButton.setOnAction(e -> addTower());
-		myDeleteButton.setOnAction(e -> deleteTower());
+		myAddButton = makeButton("Make New Tower", e -> addTower());
+		myDeleteButton = makeButton("Delete Tower", e -> deleteTower());
 		buttons.getChildren().addAll(myAddButton, myDeleteButton);
 		myTabContent.getChildren().add(buttons);
-		
 		
 		myEntriesToShow = FXCollections.observableArrayList();
 		myTowerEntriesList = new ListView<String>(myEntriesToShow);
