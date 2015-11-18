@@ -10,7 +10,7 @@ import units.Point;
 
 public class PathsData implements ITabData {
 
-	private Map<String, Path> myPaths;
+	public static Map<String, Path> myPaths;
 	
 	public PathsData(){
 		myPaths = new HashMap<String, Path>();
