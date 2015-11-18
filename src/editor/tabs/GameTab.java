@@ -1,13 +1,8 @@
 package editor.tabs;
 
-import java.util.Observable;
 import java.util.Optional;
-
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import editor.IView;
@@ -22,22 +17,20 @@ public class GameTab extends ATab implements IView, ITab {
 	
 	public GameTab(){
 		initTab();
+		myTabContent.getChildren().clear(); // find a better way to do this later
 		myLabel = new Text("Game Data");
 		myLabel.setFont(Font.font("Verdana", 30));
 		myTabContent.getChildren().add(myLabel);
 		clearAttributes();
 	}
-	
-	
+
 	private void initializeAttributes(){
-		myTitleButton = new Button("Game title: " + myData.getGame().getTitle());
+		myTitleButton = makeButton("Game title: " + myData.getGame().getTitle(), e -> changeTitle());
 		myTitleButton.setStyle("-fx-padding: 0 0 0 0;"
 				+ "-fx-background-color: transparent;");
-		myTitleButton.setOnAction(e -> changeTitle());
-		myHelpButton = new Button("Game help page: " + myData.getGame().getHelpPage());
+		myHelpButton = makeButton("Game help page: " + myData.getGame().getHelpPage(), e -> changeHelpPage());
 		myHelpButton.setStyle("-fx-padding: 0 0 0 0;"
 				+ "-fx-background-color: transparent;");
-		myHelpButton.setOnAction(e -> changeHelpPage());
 		myTabContent.getChildren().addAll(myTitleButton, myHelpButton);
 	}
 	
