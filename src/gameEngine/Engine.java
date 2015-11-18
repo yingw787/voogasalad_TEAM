@@ -29,6 +29,7 @@ public class Engine implements IEngine {
 	private List<Unit> myCurrentUnits;
 	private InitialEnvironment myInitialEnviron;
 	private RuntimeEnvironment myRuntimeEnviron;
+	private ToolbarManager myTBManager;
 	
 	public Engine(Controller controller, Timeline timeline) {
 		myController = controller;
@@ -36,10 +37,11 @@ public class Engine implements IEngine {
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 		myInitialEnviron = new InitialEnvironment();
 		myRuntimeEnviron = new RuntimeEnvironment();
+		
 		XMLParser parser = new XMLParser();
 		parser.writeEnviroment(myInitialEnviron);
 		myInitialEnviron = parser.readEnvironment();
-		
+		myTBManager = new ToolbarManager(myController,myInitialEnviron);
 	}
 	
 	public void playAnimation(boolean on){

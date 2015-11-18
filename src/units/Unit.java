@@ -2,10 +2,16 @@ package units;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
+import rules.Rule;
+
+import rules.Rule;
 
 public class Unit {
 	protected Map<String, Double> myAttributes;
 	protected Map<String, String> myStringAttributes;
+	protected Map<String, Rule> myRules;
 	
 	public Unit(String name, double health, double cd, String img, 
 			Point p, int ID, int bc, int sc){		
@@ -21,11 +27,42 @@ public class Unit {
 		myStringAttributes = new HashMap<String, String>();
 		myStringAttributes.put("Name", name);
 		myStringAttributes.put("Image", img);
+		
+		myRules = new HashMap<String, Rule>();
 	}
 	
 	public Unit(){
 		myAttributes = new HashMap<String, Double>();
 		myStringAttributes = new HashMap<String, String>();
+		myRules = new HashMap<String, Rule>();
+		
+		// Default values
+		myAttributes.put("MaxHealth", 10.0);
+		myAttributes.put("CollisionDamage", 0.0);
+		myAttributes.put("BuyCost", 10.0);
+		myAttributes.put("SellCost", 5.0);
+		myStringAttributes.put("Name", "T");
+		myStringAttributes.put("Image", "");
+	}
+	
+	public void setRule(String key, Rule rule){
+		myRules.put(key, rule);
+	}
+	
+	public Rule getRule(String key){
+		return myRules.get(key);
+	}
+	
+	public Set<String> getRuleSet(){
+		return myRules.keySet();
+	}
+	
+	public Set<String> getStringAttributeSet(){
+		return myStringAttributes.keySet();
+	}
+	
+	public Set<String> getAttributeSet(){
+		return myAttributes.keySet();
 	}
 	
 	public double getAttribute(String attribute){

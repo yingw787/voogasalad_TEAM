@@ -7,4 +7,8 @@ public class Troop extends Unit {
 		super(name, health, cd, img, p, ID, bc, sc);
 		myStringAttributes.put("Type", "Troop");
 	}
+	
+	public Troop(){
+		super();
+	}
 }
