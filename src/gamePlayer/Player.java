@@ -23,7 +23,7 @@ public class Player implements IPlayer {
 	public void initialize(Stage stage) {
 		stage.setWidth(Integer.parseInt(myDefaults.getString("Width")));
 		stage.setHeight(Integer.parseInt(myDefaults.getString("Height")));
-		myView = new View(stage, this);
+		myView = new View(stage, myController);
 		stage.show();
 	}
 	

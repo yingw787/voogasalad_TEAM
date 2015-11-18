@@ -14,10 +14,12 @@ import units.Unit;
 public class StoreManager {
 	private ScrollPane myScrollPane;
 	private HashMap<String, List<Unit>> myPopulation;
+	private View myView;
 	private Store myStore;
 	private HBox myHBox;
 	
-	public StoreManager(Store s, HashMap<String, List<Unit>> myTestMap) {
+	public StoreManager(View v, Store s, HashMap<String, List<Unit>> myTestMap) {
+		this.myView = v;
 		this.myStore = s;
 		this.myPopulation = myTestMap;
 	}
@@ -59,14 +61,15 @@ public class StoreManager {
 		String text = unit.getStringAttribute("Name") + "\n Gold: " + unit.getAttribute("BuyCost");
 		StoreButton button = new StoreButton(text, imageview, unit);
 		button.setOnAction(e -> {
-			buttonManager();
+			buttonManager(button.getUnit());
 		});
 		return button;
 	}
 
-	private void buttonManager() {
+	private void buttonManager(Unit u) {
 		// TODO method to have the object that is clicked to appear in the main pane
 		System.out.println("I presssed");
+		myView.enableTowerPurchase(u);
 	}
 
 	public void setHeight(double height) {

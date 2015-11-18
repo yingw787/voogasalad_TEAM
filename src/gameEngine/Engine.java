@@ -129,7 +129,9 @@ public class Engine implements IEngine {
 		delay++;
 		List<Unit> currentUnitsOnBoard = new ArrayList<Unit>(myMapManager.getUnitsOnBoard());
 		for (Unit unit : currentUnitsOnBoard) {
-			myMapManager.walkUnitOnMap(unit);
+			if (unit.getStringAttribute("Type").equals("Troop")){
+				myMapManager.walkUnitOnMap(unit);
+			}
 		}
 		myController.updateMap(myMapManager.getUnitsOnBoard());
 		

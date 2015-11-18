@@ -3,6 +3,7 @@ package gamePlayer;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
+import controller.Controller;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -27,10 +28,12 @@ public class HUD extends Observable implements IViewNode{
 	private PlayerInfo myPlayerInfo;
 	private Selected selectedDisplay;
 	private Button myBuyButton, mySellButton, myWaveButton; 
+	private Controller myController;
 	private View myView;
 	private ResourceBundle myResource;
 
-	public HUD(View v){
+	public HUD(Controller c, View v){
+		this.myController = c;
 		this.myView = v;
 		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
 	}
@@ -95,7 +98,7 @@ public class HUD extends Observable implements IViewNode{
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
 		myWaveButton = new Button("Start Wave");
-		myWaveButton.setOnMouseClicked(e->myView.startWave(
+		myWaveButton.setOnMouseClicked(e->myController.startWave(
 				Integer.parseInt(myPlayerInfo.getLevel())));
         myHBox.getChildren().add(myWaveButton);
         return myHBox;
@@ -135,10 +138,6 @@ public class HUD extends Observable implements IViewNode{
 		myPlayerInfo = player;
 		myVBox.getChildren().clear();
 		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton(), waveButton(), selectedDisplay());
-	}
-	
-	private void startWave(){
-		//tell game to begin wave
 	}
 
 	private void sellButtonClicked(){
