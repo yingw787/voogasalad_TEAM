@@ -12,6 +12,8 @@ import startup.Startup;
 public class Main extends Application{
 
 	public static void main(String[] args) throws IOException {
+//		TestXML t = new TestXML();
+//		t.testFrom();
 		launch();
 	}
 

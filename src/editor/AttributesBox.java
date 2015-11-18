@@ -135,7 +135,7 @@ public class AttributesBox extends Observable implements IView, Observer {
 					warning.setHeaderText("Invalid value");
 					warning.setContentText("Only numbers allowed.");
 					warning.show();
-					System.out.println("fail");
+				//	System.out.println("fail");
 				}
 
 			});

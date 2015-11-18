@@ -9,6 +9,7 @@ import java.util.Queue;
 import java.util.Random;
 
 import controller.Controller;
+import gameEngine.environments.RuntimeEnvironment;
 import units.IDGenerator;
 import units.Level;
 import units.Path;
@@ -27,38 +28,26 @@ public class MapManager {
 	 * Make sure that everything in engine that the mapmanager needs to handle, that mapmanager can handle 
 	 * 
 	 */
-	private Controller myController;
 	private IDGenerator myIDGenerator;
-//	PathModel pathModel; 
-	private List<Unit> unitsOnBoard; // TODO: do we need to distinguish between the different types of units on the board, or use polymorphism in order to det. action?
 	private HashMap<Unit, Queue<Point>> myWalkManager;
-	private List<Path> myPaths;
 	private List<Path> myCurrentPaths;
 	private Level myCurrentLevel;
 	private Point start, end;
 	private int currentEnemy;
+	private RuntimeEnvironment myRE;
 	
-	public MapManager(Controller c, List<Path> myPaths2, IDGenerator id){
-		myController = c;
+	public MapManager(RuntimeEnvironment re, IDGenerator id){
+		myRE = re;	
 		myIDGenerator = id;
-		myPaths = myPaths2;
-		unitsOnBoard = new ArrayList<Unit>();
 		currentEnemy = 0;
 		myWalkManager = new HashMap<Unit, Queue<Point>>();
 	}
 	
-	public void startWave(Level level, List<String> pathNames) {
+	public void startWave(Level level, List<Path> paths) {
+		currentEnemy = 0;
 		myCurrentLevel = level;
-		myCurrentPaths = new ArrayList<Path>();
+		myCurrentPaths = paths;
 		
-		//this is bad and we need to change this
-		for (String s : pathNames){
-			for (Path p : myPaths) {
-				if (p.getName().equals(s)){
-					myCurrentPaths.add(p);
-				}
-			}
-		}
 	}
 	
 	public boolean hasMoreEnemies(){
@@ -75,7 +64,7 @@ public class MapManager {
 		Point currentPoint = myWalkManager.get(t).remove();
 		t.setAttribute("X", currentPoint.getX());
 		t.setAttribute("Y", currentPoint.getY());
-		unitsOnBoard.add(t);
+		myRE.addUnit(t.getID(), t);
 		currentEnemy++;
 	}
 	
@@ -102,24 +91,20 @@ public class MapManager {
 		}
 		Point nextDestination = new Point(currX + deltaX, currY + deltaY);
 		unit.setPoint(nextDestination);
-		if (((int) nextDestination.getX() == (int) target.getX())&&( (int) nextDestination.getY()== (int) target.getY())){
-			Point p = myWalkManager.get(unit).remove();
-			
+		if ((((int) nextDestination.getX() == (int) target.getX())&&( (int) nextDestination.getY()== (int) target.getY()))
+		|| ((Math.abs(nextDestination.getX()-target.getX()) < 0.75) &&((Math.abs(nextDestination.getY()-target.getY()) < 0.75)))){
+			myWalkManager.get(unit).remove();
 			if (myWalkManager.get(unit).peek()==null){
 				myWalkManager.remove(unit);
-				unitsOnBoard.remove(unit);
+				myRE.removeUnit(unit.getID());
 			}
-		}
+		} 
 		
 	}
 	
 	public void handleRequests(){
 		// TODO: when a request object comes into the map, pass it into this method 
 		
-	}
-	
-	public List<Unit> getUnitsOnBoard(){
-		return unitsOnBoard;
 	}
 	
 	// convert the Path object to the PathPoint object; 

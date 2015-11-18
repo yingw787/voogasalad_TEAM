@@ -9,7 +9,7 @@ import units.Troop;
 
 public class TroopsData implements ITabData {
 
-Map<String, Troop> myTroops;
+public static Map<String, Troop> myTroops;
 	
 	public TroopsData () {
 		myTroops = new HashMap<String, Troop>();

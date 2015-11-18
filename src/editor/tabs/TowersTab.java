@@ -59,8 +59,8 @@ public class TowersTab extends Observable implements IView, ITab, Observer {
 		myTowerEntriesList = new ListView<String>(myEntriesToShow);
 		myTowerEntriesList.getSelectionModel().selectedItemProperty().addListener(    
 				(ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-	                System.out.println(new_val);    
-	                System.out.println("clicked");
+//	                System.out.println(new_val);    
+//	                System.out.println("clicked");
 	                setChanged();
 	                notifyObservers(myData.get(new_val));
 	    });
@@ -84,10 +84,10 @@ public class TowersTab extends Observable implements IView, ITab, Observer {
 		myData.remove(selected);
 		
 		// Check for deleted towers
-		for(Object t : myData.getData()){
-			System.out.print(((Tower) t).getStringAttribute("Name") + ", ");
-		}
-		System.out.println();
+//		for(Object t : myData.getData()){
+//			System.out.print(((Tower) t).getStringAttribute("Name") + ", ");
+//		}
+	//	System.out.println();
 	}
 	
 	@Override

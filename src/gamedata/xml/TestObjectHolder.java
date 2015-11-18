@@ -80,10 +80,12 @@ public class TestObjectHolder {
 		myPath1.add(new Point(400,50));
 		myPath1.add(new Point(400,230));
 		myPath1.add(new Point(600,230));
+		
 		myPath2.add(new Point(300,300));
-		myPath2.add(new Point(600,500));
-		myPath2.add(new Point(250,550));
+		myPath2.add(new Point(400,400));
+		myPath2.add(new Point(250,450));
 		myPath2.add(new Point(30,200));
+		
 		myPath3.add(new Point(100,560));
 		myPath3.add(new Point(400,600));
 		myPath3.add(new Point(300,100));

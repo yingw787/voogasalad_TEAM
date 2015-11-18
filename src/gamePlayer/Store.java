@@ -10,7 +10,6 @@ import units.Unit;
 public class Store extends Observable implements IViewNode {
 	private StoreManager myStoreManager;
 	private TabManager myTabManager;
-	private HashMap<String, List<Unit>> myTestMap;
 	private View myView;
 	
 	public Store(View view){
@@ -19,7 +18,7 @@ public class Store extends Observable implements IViewNode {
 	
 	public VBox initialize(){
 		VBox myVBox = new VBox();
-		myStoreManager = new StoreManager(myView, this, myTestMap);
+		myStoreManager = new StoreManager(myView, this);
 		myTabManager = new TabManager(this);
 		myVBox.getChildren().addAll(myTabManager.initialize(), myStoreManager.initialize());
 		return myVBox;

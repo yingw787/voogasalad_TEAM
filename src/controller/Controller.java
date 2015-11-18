@@ -12,6 +12,7 @@ import interfaces.IRequest;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import units.Path;
 import units.PlayerInfo;
 import units.Unit;
 
@@ -51,6 +52,10 @@ public class Controller extends Application {
 	public void update(List<IRequest> requestSender) {
 		myEngine.update(requestSender);
 		
+	}
+
+	public void showPaths(List<Path> pathsForLevel) {
+		myPlayer.showPaths(pathsForLevel);
 	}
 }
 

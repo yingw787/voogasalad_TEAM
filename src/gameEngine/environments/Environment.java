@@ -99,6 +99,10 @@ public class Environment {
 	public PlayerInfo getPlayerInfo() {
 		return myPlayerInfo;
 	}
+	
+	public Level getLevel(int i){
+		return myLevels.get(i);
+	}
 
 	public void setPlayerInfo(PlayerInfo PlayerInfo) {
 		this.myPlayerInfo = PlayerInfo;

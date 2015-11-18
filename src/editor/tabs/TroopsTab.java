@@ -29,8 +29,6 @@ public class TroopsTab extends Observable implements IView, ITab {
 	private ListView<String> myTroopsEntriesList;
 	private ObservableList<String> myEntriesToShow;
 	
-	
-	
 	public TroopsTab(){
 		myTabView = new ScrollPane();
 		myTabContent = new VBox();

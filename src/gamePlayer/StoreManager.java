@@ -18,10 +18,10 @@ public class StoreManager {
 	private Store myStore;
 	private HBox myHBox;
 	
-	public StoreManager(View v, Store s, HashMap<String, List<Unit>> myTestMap) {
+	public StoreManager(View v, Store s) {
 		this.myView = v;
 		this.myStore = s;
-		this.myStock = myTestMap;
+//		this.myStock = myTestMap;
 	}
 	
 	public ScrollPane initialize(){
@@ -35,7 +35,8 @@ public class StoreManager {
 	public void populate(String key){
 		myHBox.getChildren().clear();
 		List<StoreButton> list = new ArrayList<StoreButton>();
-		List<Unit> storeItems = myStock.get(key);
+		List<Unit> storeItems = new ArrayList<Unit>();
+		storeItems = myStock.get(key);
 		for (Unit unit : storeItems) {
 			StoreButton button = buttonFactory(unit);
 			if (myStore.getMoney() < unit.getAttribute("BuyCost")) {
@@ -79,7 +80,7 @@ public class StoreManager {
 	}
 
 	public void setStock(HashMap<String, List<Unit>> store) {
-		this.myStock = store;
+		myStock = store;
 		populate("Towers");
 	}
 

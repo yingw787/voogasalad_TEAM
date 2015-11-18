@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import controller.Controller;
 import interfaces.IPlayer;
 import javafx.stage.Stage;
+import units.Path;
 import units.PlayerInfo;
 import units.Unit;
 
@@ -58,7 +59,10 @@ public class Player implements IPlayer {
 	@Override
 	public void populate(HashMap<String, List<Unit>> store) {
 		myView.populateStore(store);
-		
+	}
+
+	public void showPaths(List<Path> pathsForLevel) {
+		myView.showPaths(pathsForLevel);
 	}
 	
 }
