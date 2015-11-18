@@ -18,9 +18,7 @@ import editor.tabData.BulletsData;
 import editor.tabData.ITabData;
 import editor.tabData.TroopsData;
 
-public class TroopsTab extends Observable implements IView, ITab {
-	private ScrollPane myTabView;
-	private VBox myTabContent;	
+public class TroopsTab extends ATab implements IView, ITab {
 	private TroopsData myData;
 	private Button myAddButton;
 	private Button myDeleteButton;
@@ -30,9 +28,7 @@ public class TroopsTab extends Observable implements IView, ITab {
 	private ObservableList<String> myEntriesToShow;
 	
 	public TroopsTab(){
-		myTabView = new ScrollPane();
-		myTabContent = new VBox();
-		myTabView.setContent(myTabContent);
+		initTab();
 		
 		myTroopsID = 0;
 		
@@ -76,11 +72,6 @@ public class TroopsTab extends Observable implements IView, ITab {
 			System.out.print(((Troop) t).getStringAttribute("Name") + ", ");
 		}
 		System.out.println();
-	}
-	
-	@Override
-	public Node getView() {
-		return myTabView;
 	}
 
 

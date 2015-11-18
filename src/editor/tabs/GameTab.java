@@ -14,18 +14,14 @@ import editor.IView;
 import editor.tabData.GameData;
 import editor.tabData.ITabData;
 
-public class GameTab extends Observable implements IView, ITab {
-	private ScrollPane myTabView;
-	private VBox myTabContent;
+public class GameTab extends ATab implements IView, ITab {
 	private GameData myData;
 	private Text myLabel;
 	private Button myTitleButton;
 	private Button myHelpButton;
 	
 	public GameTab(){
-		myTabView = new ScrollPane();
-		myTabContent = new VBox();
-		myTabView.setContent(myTabContent);
+		initTab();
 		myLabel = new Text("Game Data");
 		myLabel.setFont(Font.font("Verdana", 30));
 		myTabContent.getChildren().add(myLabel);
@@ -83,12 +79,6 @@ public class GameTab extends Observable implements IView, ITab {
 		Optional<String> result = dialog.showAndWait();
 		return result;
 	}
-
-	@Override
-	public Node getView() {
-		return myTabView;
-	}
-
 
 	@Override
 	public void setData(ITabData data) {

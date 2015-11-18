@@ -31,9 +31,7 @@ import editor.tabData.ITabData;
 import editor.tabData.LevelsData;
 import editor.tabData.TroopsData;
 
-public class LevelsTab extends Observable implements IView, ITab{
-	private ScrollPane myTabView;
-	private VBox myTabContent;
+public class LevelsTab extends ATab implements IView, ITab{
 	private LevelsData myData;
 	private List<Troop> myWave;
 	private Button myAddButton;
@@ -43,9 +41,7 @@ public class LevelsTab extends Observable implements IView, ITab{
 	private ObservableList<String> myEntriesToShow;
 
 	public LevelsTab(){
-		myTabView = new ScrollPane();
-		myTabContent = new VBox();
-		myTabView.setContent(myTabContent);
+		initTab();
 	}
 	
 	private void initializeButtons() {
@@ -122,11 +118,6 @@ public class LevelsTab extends Observable implements IView, ITab{
 	
 	private void finishLevel() {
 		
-	}
-	
-	@Override
-	public Node getView() {
-		return myTabView;
 	}
 
 

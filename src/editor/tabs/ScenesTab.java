@@ -8,21 +8,11 @@ import javafx.scene.layout.VBox;
 import editor.IView;
 import editor.tabData.ITabData;
 
-public class ScenesTab extends Observable implements IView, ITab {
-	private ScrollPane myTabView;
-	private VBox myTabContent;
+public class ScenesTab extends ATab implements IView, ITab {
 	private ITabData myData;
 
 	public ScenesTab(){
-		myTabView = new ScrollPane();
-		myTabContent = new VBox();
-		myTabView.setContent(myTabContent);
-	}
-	
-	
-	@Override
-	public Node getView() {
-		return myTabView;
+		initTab();
 	}
 
 

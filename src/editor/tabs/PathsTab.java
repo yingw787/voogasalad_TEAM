@@ -27,9 +27,7 @@ import javafx.scene.shape.Line;
 import units.Path;
 import units.Point;
 
-public class PathsTab extends Observable implements IView, ITab{
-	private ScrollPane myTabView;
-	private VBox myTabContent;
+public class PathsTab extends ATab implements IView, ITab{
 	private PathsData myData;
 	private ListView<String> myPathEntriesList;
 	private ObservableList<String> myEntriesToShow;
@@ -42,9 +40,7 @@ public class PathsTab extends Observable implements IView, ITab{
 	private List<ImageView> myFlags;
 
 	public PathsTab(){
-		myTabView = new ScrollPane();
-		myTabContent = new VBox();
-		myTabView.setContent(myTabContent);
+		initTab();
 		myFlags = new ArrayList<ImageView>();
 	}
 
@@ -119,11 +115,6 @@ public class PathsTab extends Observable implements IView, ITab{
 				lastFlag = new Point(arg0.getSceneX(), arg0.getSceneY());
 			}
 		});
-	}
-
-	@Override
-	public Node getView() {
-		return myTabView;
 	}
 
 	@Override
