@@ -1,5 +1,6 @@
 package units;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Path {
@@ -11,7 +12,7 @@ public class Path {
 		myCheckPoints = p;
 	}
 	
-	public String getName(){
+	public String getName() {
 		return myName;
 	}
 	

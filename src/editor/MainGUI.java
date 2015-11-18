@@ -11,6 +11,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
@@ -25,7 +26,7 @@ public class MainGUI {
 	private TabPane myTabs;
 	private ScrollPane myAttributes;
 	private ScrollPane myRules;
-	private Group myGroup;
+	private Pane myBoardParent;
 	public static SubScene myBoard;
 	private DataController myDataController;
 	
@@ -53,8 +54,8 @@ public class MainGUI {
 		myToolBar = (ToolBar) tb.getView();
 		myToolBar.setPrefWidth(width);
 		// initialize game board
-		myGroup = new Group();
-		GameBoard gb = new GameBoard(myGroup, 675, 490);
+		myBoardParent = new Pane();
+		GameBoard gb = new GameBoard(myBoardParent, 675, 490);
 		myBoard = (SubScene) gb.getView();
 		// intialize game data holders
 		myDataController = new DataController();
