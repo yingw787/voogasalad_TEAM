@@ -68,9 +68,9 @@ public class Engine implements IEngine {
 		pathPoints.add(new Point(600,230));
 		List<Point> pp2 = new ArrayList<Point>();
 		pp2.add(new Point(250,250));
-		pp2.add(new Point(200,300));
-//		pp2.add(new Point(600,230));
-//		myPaths.add(new Path("Path 1",pathPoints));
+		pp2.add(new Point(200,200));
+		pp2.add(new Point(600,230));
+		myPaths.add(new Path("Path 1",pathPoints));
 		myPaths.add(new Path("Path 2", pp2));
 		myCurrentLevelInt = 0;
 	}
