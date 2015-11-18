@@ -181,13 +181,13 @@ public class Engine implements IEngine {
 		return myTBManager;
 	}
 	
-	public static void main(String[] args){
-		Engine e = new Engine(null,new Timeline());
-		List<IRequest> requestList = new ArrayList<IRequest>();
-		Tower tower = null;
-		tower = new Tower(e.getTBManager().myTowers.get(0));
-		IRequest rq = new BuyTowerRequest(tower, null);
-		requestList.add(rq);
-		e.update(requestList);
-	}
+//	public static void main(String[] args){
+//		Engine e = new Engine(null,new Timeline());
+//		List<IRequest> requestList = new ArrayList<IRequest>();
+//		Tower tower = null;
+//		tower = new Tower(e.getTBManager().myTowers.get(0));
+//		IRequest rq = new BuyTowerRequest(tower, null);
+//		requestList.add(rq);
+//		e.update(requestList);
+//	}
 }
