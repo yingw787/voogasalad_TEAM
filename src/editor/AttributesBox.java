@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
 
 import units.Tower;
 import units.Unit;
@@ -12,11 +13,12 @@ import editor.tabData.ITabData;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -90,9 +92,20 @@ public class AttributesBox extends Observable implements IView, Observer {
 	 * @param attribute
 	 */
 	private void makeEditableStringAttribute(String attribute) {
-		Button attributeButton = new Button(attribute + ": " + myCurrentUnit.getStringAttribute(attribute));
-		attributeButton.setStyle("-fx-padding: 0 0 0 0;"
-				+ "-fx-background-color: transparent;");
+		Button attributeButton = new Button();
+		String label = myCurrentUnit.getStringAttribute(attribute);
+        final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
+		if (label.matches(IMAGEFILE_SUFFIXES)) {
+			myCurrentAttributes.getChildren().add(new Label(attribute + ": "));
+			ImageView myImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(label)));
+			myImage.setFitHeight(50);
+			myImage.setPreserveRatio(true);
+			attributeButton.setGraphic(myImage);
+			attributeButton.setText(label);
+		} else {
+			attributeButton.setText(attribute + ": " + label);
+		}
+		attributeButton.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-color: transparent;");
 		attributeButton.setOnAction(e -> {
 			TextInputDialog dialog = new TextInputDialog(myCurrentUnit.getStringAttribute(attribute));
 			dialog.setTitle("Change Attribute Value");
