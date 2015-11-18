@@ -37,12 +37,12 @@ public class Engine implements IEngine {
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 	}
 	
-	public void writeEnvironment() throws IOException{
+	public void writeEnvironment(String gameTitle) throws IOException{
 		myIDGenerator = new IDGenerator();
 		XMLConverter myConverter = new XMLConverter();
-		myRE = new RuntimeEnvironment(myConverter.getUnits("Game 1", "Tower"), 
-				myConverter.getUnits("Game 1", "Troop"), myConverter.getLevels("Game 1"), myConverter.getPaths("Game 1"), 
-				myConverter.getPlayerInfo("Game 1"), new GameConfiguration(), new ArrayList<Rule>(), new Base(), myIDGenerator);
+		myRE = new RuntimeEnvironment(myConverter.getUnits(gameTitle, "Tower"), 
+				myConverter.getUnits(gameTitle, "Troop"), myConverter.getLevels(gameTitle), myConverter.getPaths(gameTitle), 
+				myConverter.getPlayerInfo(gameTitle), new GameConfiguration(), new ArrayList<Rule>(), new Base(), myIDGenerator);
 	
 //		myTBManager = new ToolbarManager(myController);
 	}

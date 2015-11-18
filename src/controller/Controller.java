@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +17,11 @@ import units.Unit;
 public class Controller extends Application {
 	private Player myPlayer;
 	private Engine myEngine;
+	private String myGameTitle = "Game 1";
+	
+//	public Controller(String s){
+//		myGameTitle = s;
+//	}
 	
 	public static void main(String[] args){
 		launch(args);
@@ -25,7 +31,7 @@ public class Controller extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		myEngine = new Engine(this, new Timeline());
 		myPlayer = new Player(this, primaryStage);
-		myEngine.writeEnvironment();
+		myEngine.writeEnvironment(myGameTitle);
 		myEngine.initialize();
 	}
 	
