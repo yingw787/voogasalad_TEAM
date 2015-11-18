@@ -29,12 +29,12 @@ public class HUD extends Observable implements IViewNode{
 	private Selected selectedDisplay;
 	private Button myBuyButton, mySellButton, myWaveButton; 
 	private Controller myController;
-	private View myView;
+	private Player myPlayer;
 	private ResourceBundle myResource;
 
-	public HUD(Controller c, View v){
+	public HUD(Controller c, Player p){
 		this.myController = c;
-		this.myView = v;
+		this.myPlayer = p;
 		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
 	}
 
@@ -59,7 +59,7 @@ public class HUD extends Observable implements IViewNode{
 	}
 	
 	public Node selectedDisplay(){
-		selectedDisplay = new Selected(myView);
+		selectedDisplay = new Selected(myPlayer);
 		return selectedDisplay.getDisplay();
 	}
 
