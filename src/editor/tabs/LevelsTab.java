@@ -115,9 +115,9 @@ public class LevelsTab extends Observable implements IView, ITab{
 //				warning.setContentText("Only numbers allowed.");
 //				warning.show();
 			//	System.out.println("fail");
-			}
-		});
-		System.out.println(myWave);
+//			}
+//		});
+//		System.out.println(myWave);
 	}
 	
 	private void finishLevel() {

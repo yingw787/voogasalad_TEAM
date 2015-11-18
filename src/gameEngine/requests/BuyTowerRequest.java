@@ -21,8 +21,8 @@ public class BuyTowerRequest extends Request {
 	public void execute(RuntimeEnvironment re) {
 		// TODO Auto-generated method stub
 		
-		Unit t = myTower.clone();
-		
+		Unit t = new Tower(myTower);
+		t.setID(re.getNewID());
 		t.setPoint(myPoint);
 		t.setFaction(Faction.player);
 		re.addUnit(t.getID(),t);

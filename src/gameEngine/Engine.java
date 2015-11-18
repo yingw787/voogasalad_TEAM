@@ -2,13 +2,10 @@ package gameEngine;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
 
 import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
-import gameEngine.requests.Request;
 import gamedata.xml.XMLConverter;
 import interfaces.IEngine;
 import interfaces.IRequest;
@@ -16,32 +13,23 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import rules.Rule;
+import units.Base;
 import units.IDGenerator;
 import units.Level;
-import units.Path;
-import units.PlayerInfo;
-import units.Point;
 import units.Unit;
 
 public class Engine implements IEngine {
 	private Controller myController;
 	private Timeline myTimeline;
-	public static final int FRAMES_PER_SECOND = 180;
+	public static final int FRAMES_PER_SECOND = 240;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-	
-	private HashMap<String, List<Unit>> myPossibleUnits;
-	private List<PlayerInfo> myPlayerInfo;
-	private List<Level> myLevels;
-	private List<Path> myPaths;
-	private int myCurrentLevelInt;
-	private Level myCurrentLevel;
-	private RuntimeEnvironment myRuntimeEnviron;
-	private ToolbarManager myTBManager;
+
+	private RuntimeEnvironment myRE;
 	private MapManager myMapManager;
-	private HUDManager myHUDManager;
 	private IDGenerator myIDGenerator;
 	private int delay = 0;
+	private int spawnDelay = 60;
 	
 	public Engine(Controller controller, Timeline timeline) {
 		myController = controller;
@@ -49,51 +37,30 @@ public class Engine implements IEngine {
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 	}
 	
-	public void readXML() throws IOException{
+	public void writeEnvironment() throws IOException{
+		myIDGenerator = new IDGenerator();
 		XMLConverter myConverter = new XMLConverter();
-		List<Unit> towers = myConverter.getUnits("Game 1", "Tower");
-		List<Unit> troops = myConverter.getUnits("Game 1", "Troop");
-		myPossibleUnits = new HashMap<String,List<Unit>>();
-		myPossibleUnits.put("Towers", towers);
-		myPossibleUnits.put("Troops", troops);
-		myPlayerInfo = myConverter.getPlayerInfo("Game 1");
-		myLevels = myConverter.getLevels("Game 1");
-		myPaths = new ArrayList<Path>();
-		List<Point> pathPoints = new ArrayList<Point>();
-		pathPoints.add(new Point(0,230));
-		pathPoints.add(new Point(200,230));
-		pathPoints.add(new Point(200,50));
-		pathPoints.add(new Point(400,50));
-		pathPoints.add(new Point(400,230));
-		pathPoints.add(new Point(600,230));
-		List<Point> pp2 = new ArrayList<Point>();
-		pp2.add(new Point(250,250));
-		pp2.add(new Point(200,200));
-		pp2.add(new Point(600,230));
-		myPaths.add(new Path("Path 1",pathPoints));
-		myPaths.add(new Path("Path 2", pp2));
-		myCurrentLevelInt = 0;
+		myRE = new RuntimeEnvironment(myConverter.getUnits("Game 1", "Tower"), 
+				myConverter.getUnits("Game 1", "Troop"), myConverter.getLevels("Game 1"), myConverter.getPaths("Game 1"), 
+				myConverter.getPlayerInfo("Game 1"), new GameConfiguration(), new ArrayList<Rule>(), new Base(), myIDGenerator);
+	
+//		myTBManager = new ToolbarManager(myController);
 	}
 	
 	public void initialize(){
-		myController.updateUserInfo(myPlayerInfo.get(0));
-		myController.populateStore(myPossibleUnits);
-		myIDGenerator = new IDGenerator();
-		myMapManager = new MapManager(myController, myPaths, myIDGenerator);
-		myHUDManager = new HUDManager(myController, myPlayerInfo.get(0));
-		myRuntimeEnviron = new RuntimeEnvironment();
+		myMapManager = new MapManager(myRE, myIDGenerator);
+		myController.updateUserInfo(myRE.getPlayerInfo());
+		myController.populateStore(myRE.getStoreStock());
 	}
 	
 	private void flush() {
-		List<Unit> l = new ArrayList<Unit>();
-		l.addAll(myRuntimeEnviron.getUnits());
-		myController.updateMap(l);
-		myHUDManager.updateUserInfo();
+		myController.updateMap(myRE.getUnits());
+		
+		//UNCOMMENTING UPDATEUSERINFO WILL LAG OUT THE GUI!!!!!
+//		myController.updateUserInfo(myRE.getPlayerInfo());
 	}
 	
-	public void writeEnvironment() throws IOException{
-		myTBManager = new ToolbarManager(myController);
-	}
+
 	
 	public void playAnimation(boolean on){
 		delay = 0;
@@ -112,47 +79,40 @@ public class Engine implements IEngine {
 	
 	
 	private void step(){
-		for (Unit unit : myRuntimeEnviron.getUnits()) {
-			//testing animation
-			
+		for (Unit unit : myRE.getUnits()) {
 			for(Rule rule : unit.getRules()){
-				
-				rule.run(unit, myRuntimeEnviron);
+				rule.run(unit, myRE);
 			}
 		}
 		
 		if (myMapManager.hasMoreEnemies()){
-			if (delay % 60 == 0) {
+			if (delay % spawnDelay == 0) {
 				myMapManager.spawnNewEnemy();
 			}
 		}
 		delay++;
-		List<Unit> currentUnitsOnBoard = new ArrayList<Unit>(myMapManager.getUnitsOnBoard());
+		List<Unit> currentUnitsOnBoard = new ArrayList<Unit>(myRE.getUnits());
 		for (Unit unit : currentUnitsOnBoard) {
 			if (unit.getStringAttribute("Type").equals("Troop")){
 				myMapManager.walkUnitOnMap(unit);
 			}
 		}
-		myController.updateMap(myMapManager.getUnitsOnBoard());
+//		myController.updateMap(myRE.getUnits());
 		
-//		flush();
+		flush();
 	}
 
 	
 	@Override
-//	public void update(List<Request> requests) {
-//		// TODO Auto-generated method stub
-//		// request if a CollisionRequest
-//		
-//		for(Request r :requests){
-//			r.execute(myRuntimeEnviron);
-//		}
 	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
 		for (IRequest r : requests) {
-			r.execute(myRuntimeEnviron);
+			r.execute(myRE);
 		}
+		myController.updateMap(myRE.getUnits());
+		myController.updateUserInfo(myRE.getPlayerInfo());
+		myController.resetStore();
 	}
 
 	@Override
@@ -169,11 +129,12 @@ public class Engine implements IEngine {
 
 	@Override
 	public void startWave(int i) {
-		myHUDManager.incrementLevel();
-		List<String> pathNames = new ArrayList<String>();
-		pathNames.add("Path 1");
-		pathNames.add("Path 2");
-		myMapManager.startWave(myLevels.get(i), pathNames);
+		myRE.incrementLevel();
+		myController.updateUserInfo(myRE.getPlayerInfo());
+		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
+		Level level = myRE.getLevel(i);
+		spawnDelay = (int) (60.0 * level.getSpawnRate());
+		myMapManager.startWave(myRE.getLevel(i), myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
 		playAnimation(true);
 	}
 	
