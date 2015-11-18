@@ -106,6 +106,7 @@ public class Map extends Observable implements IViewNode {
 		}
 		for (double d : removeUnits) {
 			myPane.getChildren().remove(myImageMap.get(d));
+			myPane.getChildren().remove(myHealthMap.get(d));
 			myImageMap.remove(d);
 			myHealthMap.remove(d);
 		}

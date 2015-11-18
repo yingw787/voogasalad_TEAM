@@ -25,7 +25,7 @@ import units.Unit;
 public class Engine implements IEngine {
 	private Controller myController;
 	private Timeline myTimeline;
-	public static final int FRAMES_PER_SECOND = 120;
+	public static final int FRAMES_PER_SECOND = 180;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
@@ -66,7 +66,12 @@ public class Engine implements IEngine {
 		pathPoints.add(new Point(400,50));
 		pathPoints.add(new Point(400,230));
 		pathPoints.add(new Point(600,230));
-		myPaths.add(new Path("Path 1",pathPoints));
+		List<Point> pp2 = new ArrayList<Point>();
+		pp2.add(new Point(250,250));
+		pp2.add(new Point(200,300));
+//		pp2.add(new Point(600,230));
+//		myPaths.add(new Path("Path 1",pathPoints));
+		myPaths.add(new Path("Path 2", pp2));
 		myCurrentLevelInt = 0;
 	}
 	
@@ -110,7 +115,8 @@ public class Engine implements IEngine {
 			}
 		}
 		delay++;
-		for (Unit unit : myMapManager.getUnitsOnBoard()) {
+		List<Unit> currentUnitsOnBoard = new ArrayList<Unit>(myMapManager.getUnitsOnBoard());
+		for (Unit unit : currentUnitsOnBoard) {
 			myMapManager.walkUnitOnMap(unit);
 		}
 		myController.updateMap(myMapManager.getUnitsOnBoard());
@@ -148,6 +154,7 @@ public class Engine implements IEngine {
 		myHUDManager.incrementLevel();
 		List<String> pathNames = new ArrayList<String>();
 		pathNames.add("Path 1");
+		pathNames.add("Path 2");
 		myMapManager.startWave(myLevels.get(i), pathNames);
 		playAnimation(true);
 	}
