@@ -3,6 +3,8 @@ package editor.tabs;
 import java.util.Observable;
 
 import editor.IView;
+import editor.tabData.ITabData;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public abstract class ATab extends Observable implements IView, ITab {
+	protected ITabData myData;
 	protected ScrollPane myTabView;
 	protected VBox myTabContent;
 	protected HBox myButtons;

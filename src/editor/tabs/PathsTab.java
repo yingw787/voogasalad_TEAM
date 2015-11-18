@@ -1,20 +1,15 @@
 package editor.tabs;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import editor.IView;
 import editor.MainGUI;
+import editor.PathView;
 import editor.tabData.ITabData;
 import editor.tabData.PathsData;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import units.Path;
 import units.Point;
 
@@ -23,15 +18,25 @@ public class PathsTab extends ATab implements IView, ITab{
 	private Button myAddButton;
 	private Button myDeleteButton;
 	private Button myFinishButton;
-	private int myCurrentPath = 1;
-	private Point lastFlag;
+	private int myPathID;
 	private Path myBuildingPath;
-	private List<ImageView> myFlags;
+	private PathView myPathView;
 
 	public PathsTab(){
 		initTab();
 		createButtons();
-		myFlags = new ArrayList<ImageView>();
+		myPathID = 0;
+		myPathView = new PathView();
+		
+		myEntriesList.getSelectionModel().selectedItemProperty().addListener(    
+				(ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+//	                setChanged();
+//	                notifyObservers(myData.get(new_val.split(":")[0]));
+	                myPathView.clear();
+	                if (new_val != null) {
+		                myPathView.drawAll(myData.get(new_val.split(":")[0]).getPoints());
+	                }
+	    });
 	}
 
 	private void createButtons() {
@@ -55,41 +60,24 @@ public class PathsTab extends ATab implements IView, ITab{
 		MainGUI.myBoard.setOnMouseClicked(e -> {});
 		// remove all existing flags
 		try {
-		while (((Pane) MainGUI.myBoard.getRoot()).getChildren().size() > 1) {
-			((Pane) MainGUI.myBoard.getRoot()).getChildren().remove(((Pane) MainGUI.myBoard.getRoot()).getChildren().size()-1);
-		}
-		myData.addPath("Path " + myCurrentPath, myBuildingPath);
-		myEntriesToShow.add("Path " + myCurrentPath + ": " + myData.pointsToString("Path " + myCurrentPath));
-		myCurrentPath++;
-		myBuildingPath = null;
-		}
-		catch (NullPointerException e){
+			myPathView.clear();
+			myData.addPath("Path " + myPathID, myBuildingPath);
+			myEntriesToShow.add("Path " + myPathID + ": " + myData.pointsToString("Path " + myPathID));
+			myPathID++;
+			myBuildingPath = null;
+		} catch (NullPointerException e) {
 			System.out.println("No checkpoints selected");
 		}
 	}
 	
 	private void selectPaths() {
-		myBuildingPath = new Path("Path "+ myCurrentPath, new ArrayList<Point>());
+		myBuildingPath = new Path("Path "+ myPathID, new ArrayList<Point>());
+		myPathView.clear();
 		MainGUI.myBoard.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent arg0) {
-				// add flag to board
-				Image flag = new Image("flag.png");
-				ImageView myFlag = new ImageView(flag);
-				myFlag.setLayoutX(arg0.getSceneX());
-				myFlag.setLayoutY(arg0.getSceneY() - 50);
-				myFlags.add(myFlag);
-				//add line
-				if (myFlags.size()>1) {
-					Line line = new Line(lastFlag.getX(),lastFlag.getY()-25,arg0.getSceneX(),arg0.getSceneY()-25);
-					line.setStrokeWidth(5);
-					line.setStroke(Color.AZURE);
-					((Pane) MainGUI.myBoard.getRoot()).getChildren().add(line);
-				}
-
-				((Pane) MainGUI.myBoard.getRoot()).getChildren().add(myFlag);
+				myPathView.draw(arg0.getSceneX(), arg0.getSceneY());
 				myBuildingPath.getPoints().add(new Point(arg0.getSceneX(), arg0.getSceneY()));
-				lastFlag = new Point(arg0.getSceneX(), arg0.getSceneY());
 			}
 		});
 	}
