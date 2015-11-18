@@ -36,13 +36,14 @@ public class PathsTab extends Observable implements IView, ITab{
 	private Button myDeleteButton;
 	private Button myFinishButton;
 	private int myCurrentPath = 1;
+	private Path myBuildingPath;
+	private List<ImageView> myFlags;
 
 	public PathsTab(){
 		myTabView = new ScrollPane();
 		myTabContent = new VBox();
 		myTabView.setContent(myTabContent);
-		initializeButtons();
-		initializePaths();
+		myFlags = new ArrayList<ImageView>();
 	}
 
 	private void initializeButtons() {
@@ -65,21 +66,35 @@ public class PathsTab extends Observable implements IView, ITab{
 		myTabContent.getChildren().add(myPathEntriesList);
 	}
 
-//	private void addButton() {
-//		myEntriesToShow.add("Path " + myCurrentPath);
-//	}
-
 	private void deleteButton() {
 		String selected = myPathEntriesList.getSelectionModel().getSelectedItem();
+		if (selected == null) {
+			return;
+		}
+		String selectedPath = selected.split(":")[0];
 		myEntriesToShow.remove(selected);
+		myData.remove(selectedPath);
 	}
 	
 	private void finishPath() {
-		myEntriesToShow.add("Path " + myCurrentPath + ": ");
+		MainGUI.myBoard.setOnMouseClicked(e -> {});
+		// remove all existing flags
+		try {
+		while (((Pane) MainGUI.myBoard.getRoot()).getChildren().size() > 1) {
+			((Pane) MainGUI.myBoard.getRoot()).getChildren().remove(((Pane) MainGUI.myBoard.getRoot()).getChildren().size()-1);
+		}
+		myData.addPath("Path " + myCurrentPath, myBuildingPath);
+		myEntriesToShow.add("Path " + myCurrentPath + ": " + myData.pointsToString("Path " + myCurrentPath));
+		myCurrentPath++;
+		myBuildingPath = null;
+		}
+		catch (NullPointerException e){
+			System.out.println("No checkpoints selected");
+		}
 	}
 	
 	private void selectPaths() {
-		Path myPath = new Path("Path "+ myCurrentPath, new ArrayList<Point>());
+		myBuildingPath = new Path("Path "+ myCurrentPath, new ArrayList<Point>());
 		MainGUI.myBoard.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent arg0) {
@@ -88,8 +103,9 @@ public class PathsTab extends Observable implements IView, ITab{
 				ImageView myFlag = new ImageView(flag);
 				myFlag.setLayoutX(arg0.getSceneX());
 				myFlag.setLayoutY(arg0.getSceneY() - 50);
+				myFlags.add(myFlag);
 				((Pane) MainGUI.myBoard.getRoot()).getChildren().add(myFlag);
-				myPath.getPoints().add(new Point(arg0.getSceneX(), arg0.getSceneY()));
+				myBuildingPath.getPoints().add(new Point(arg0.getSceneX(), arg0.getSceneY()));
 			}
 		});
 	}
@@ -102,5 +118,7 @@ public class PathsTab extends Observable implements IView, ITab{
 	@Override
 	public void setData(ITabData data) {
 		myData = (PathsData) data;
+		initializeButtons();
+		initializePaths();
 	}
 }

@@ -16,8 +16,8 @@ public class PathsData implements ITabData {
 		myPaths = new HashMap<String, Path>();
 	}
 	
-	public void addPath(String id, Path t){
-		myPaths.put(id, t);
+	public void addPath(String id, Path p){
+		myPaths.put(id, p);
 	}
 	
 	public void remove(String id){
@@ -28,12 +28,12 @@ public class PathsData implements ITabData {
 		return myPaths.get(id);
 	}
 	
-	public List<String> pointsToString(String path) {
-		Path p = myPaths.get(path);
+	public List<String> pointsToString(String pathID) {
+		Path p = myPaths.get(pathID);
 		List<String> myStringPoints = new ArrayList<String>();
-		List<Point> myPointsList = p.getPoints();
+		List<Point> myPointsList = new ArrayList<Point>(p.getPoints());
 		for (Point point : myPointsList) {
-			myStringPoints.add("(" + point.getX() + "," + point.getY() + ")");
+			myStringPoints.add("(" + point.getX() + ", " + point.getY() + ")");
 		}
 		return myStringPoints;
 	}
