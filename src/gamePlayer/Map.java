@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
 
+import controller.Controller;
+import gameEngine.requests.BuyTowerRequest;
+import interfaces.IRequest;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ProgressBar;
@@ -19,6 +21,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
+import units.Path;
+import units.Point;
+import units.Tower;
 import units.Unit;
 
 public class Map extends Observable implements IViewNode {
@@ -26,18 +31,21 @@ public class Map extends Observable implements IViewNode {
  * Map.java is the actual game board where the game pieces are put into play. 
  */
 	private Pane myPane;
-	private Line path;
 
 	
 	private MapUnit selectedUnit;
 	private HashMap<Double, MapUnit> myImageMap;
 	private HashMap<Double, ProgressBar> myHealthMap;
 	private View myView;
-	private double[] pointsClicked;
+	private Controller myController;
+	private boolean purchaseEnabled;
+	private Unit potentialPurchase;
+	private List<Line> myCurrentPaths;
 	
-	
-	public Map(View v){
+	public Map(Controller c, View v){
 		this.myView = v;
+		this.myController = c;
+		purchaseEnabled = false;
 	}
 	
 	public Pane initialize(){
@@ -46,28 +54,23 @@ public class Map extends Observable implements IViewNode {
 		myPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent arg0) {
-				System.out.println(arg0.getSceneX() + " " + arg0.getSceneY());
-				hasBeenClicked();
-				setPointsClicked(new double[]{arg0.getSceneX(),arg0.getSceneY()});
+				if (purchaseEnabled){
+					BuyTowerRequest buyRequest = new BuyTowerRequest((Tower) potentialPurchase, new Point(arg0.getSceneX(), arg0.getSceneY()));
+					List<IRequest> requestSender = new ArrayList<IRequest>();
+					requestSender.add(buyRequest);
+					myController.update(requestSender);
+					purchaseEnabled = false;
+				}
 			}
 
 			
 		});
 		myImageMap = new HashMap<Double, MapUnit>();
 		myHealthMap = new HashMap<Double, ProgressBar>();
-		path = new Line();
-
+		myCurrentPaths = new ArrayList<Line>();
 		return myPane;
 	}
 
-	public double[] getPointsClicked() {
-		System.out.println("twice x-cor: " +pointsClicked[0]*2);
-		return pointsClicked;
-	}
-
-	public void setPointsClicked(double[] pointsClicked) {
-		this.pointsClicked = pointsClicked;
-	}
 
 	@Override
 	public void setWidth(double width) {
@@ -120,6 +123,7 @@ public class Map extends Observable implements IViewNode {
 		}
 		for (double d : removeUnits) {
 			myPane.getChildren().remove(myImageMap.get(d));
+			myPane.getChildren().remove(myHealthMap.get(d));
 			myImageMap.remove(d);
 			myHealthMap.remove(d);
 		}
@@ -134,7 +138,6 @@ public class Map extends Observable implements IViewNode {
 	}
 
 	public void uploadMap() {
-
 	    FileChooser fileChooser = new FileChooser();
 	    File selectedFile = fileChooser.showOpenDialog(null);
 	    Alert alert = new Alert(AlertType.INFORMATION);
@@ -161,13 +164,13 @@ public class Map extends Observable implements IViewNode {
 		myPane.getChildren().addAll(myImage);
 	}
 
-	private Node drawPath(double[] startLoc, double[] endLoc){
-		path.setStartX(startLoc[0]);
-		path.setStartY(startLoc[1]);
-		path.setEndX(endLoc[0]);
-		path.setEndY(endLoc[1]);
-		path.setStrokeWidth(35);
-		path.setStroke(Color.AZURE);
+	private Line drawPath(Point startLoc, Point endLoc){
+		Line path = new Line();
+		path.setStartX(startLoc.getX()+25);
+		path.setStartY(startLoc.getY()+25);
+		path.setEndX(endLoc.getX()+25);
+		path.setEndY(endLoc.getY()+25);
+		path.setStrokeWidth(25);
 		return path;
 	}
 	
@@ -175,9 +178,24 @@ public class Map extends Observable implements IViewNode {
 		myView.enableSell(mapUnit);
 	}
 
-	public boolean hasBeenClicked() {
-		// TODO Auto-generated method stub
-		return true;
+	public void enableTowerPurchase(Unit u) {
+		purchaseEnabled = true;
+		potentialPurchase = u;
+	}
+
+	public void showPaths(List<Path> pathsForLevel) {
+		myPane.getChildren().removeAll(myCurrentPaths);
+		myCurrentPaths.clear();
+		for (Path p : pathsForLevel){
+			List<Point> myPoints = p.getPoints();
+			for (int i = 0; i < myPoints.size()-1; i++){
+				myCurrentPaths.add(drawPath(myPoints.get(i),myPoints.get(i+1)));
+			}
+		}
+		for (Line l : myCurrentPaths){
+			l.setStroke(Color.AZURE);
+		}
+		myPane.getChildren().addAll(myCurrentPaths);
 	}
 
 }

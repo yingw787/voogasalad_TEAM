@@ -1,15 +1,15 @@
 package controller;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 import gameEngine.Engine;
 import gamePlayer.Player;
-import gamedata.xml.XMLConverter;
+import interfaces.IRequest;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import units.Path;
 import units.PlayerInfo;
 import units.Unit;
 
@@ -25,15 +25,13 @@ public class Controller extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		myEngine = new Engine(this, new Timeline());
 		myPlayer = new Player(this, primaryStage);
-//		myEngine.testCaseMaker();
-//		myEngine.writeEnvironment();
-		myEngine.readXML();
+		myEngine.writeEnvironment();
 		myEngine.initialize();
 	}
 	
 	// store is in-game purchases of towers and units and the like 
-	public void populateStore(HashMap<String, List<Unit>> myTestMap) {
-		myPlayer.populate(myTestMap);
+	public void populateStore(HashMap<String, List<Unit>> myStoreStock) {
+		myPlayer.populate(myStoreStock);
 	}
 
 	public void updateMap(List<Unit> mapUnits) {
@@ -47,9 +45,18 @@ public class Controller extends Application {
 	public void startWave(int i){
 		myEngine.startWave(i);
 	}
-	
-	public void buyTowerRequest(Unit unit, double[] points){
-		System.out.println("Buy Tower Request initiated");
+
+	public void update(List<IRequest> requestSender) {
+		myEngine.update(requestSender);
+		
+	}
+
+	public void showPaths(List<Path> pathsForLevel) {
+		myPlayer.showPaths(pathsForLevel);
+	}
+
+	public void resetStore() {
+		myPlayer.resetStore();
 	}
 }
 

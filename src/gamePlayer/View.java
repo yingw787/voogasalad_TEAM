@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
+import controller.Controller;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import units.Path;
 import units.PlayerInfo;
 import units.Unit;
 
@@ -22,20 +24,21 @@ public class View implements Observer {
 	private int myHeight = Integer.parseInt(myDefaults.getString("Height"));
 	private Stage myStage;
 	private HUD myHUD;
-	private Player myPlayer;
+//	private Player myPlayer;
+	private Controller myController;
 	private Store myStore;
 	private Map myMap;
 	private Menus myMenus;
 	private PlayerInfo myPlayerInfo;
 	private Button addMapButton;
 
-	public View(Stage stage, Player p){
+	public View(Stage stage, Controller c){
 		this.myStage = stage;
-		this.myPlayer = p;
+		this.myController = c;
 		Group root = new Group();
-		myHUD = new HUD(this);
-		myMap = new Map(this);
-		myMenus = new Menus(this);
+		myHUD = new HUD(myController, this);
+		myMap = new Map(myController, this);
+		myMenus = new Menus(myController);
 		myStore = new Store(this);
 		BorderPane borderPane = new BorderPane();
 		populate(borderPane);
@@ -78,7 +81,6 @@ public class View implements Observer {
 
 	public void populateStore(HashMap<String, List<Unit>> store) {
 		myStore.setStock(store);
-
 	}
 
 	public void updateMap(List<Unit> units) {
@@ -106,14 +108,22 @@ public class View implements Observer {
 		myHUD.updateSelected(myUnit);
 	}
 	
-	public void startWave(int i){
-		myPlayer.startWave(i);
-	}
-	
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void enableTowerPurchase(Unit u) {
+		myMap.enableTowerPurchase(u);
+	}
+
+	public void showPaths(List<Path> pathsForLevel) {
+		myMap.showPaths(pathsForLevel);
+	}
+
+	public void resetStore() {
+		myStore.resetStock();
 	}
 
 }

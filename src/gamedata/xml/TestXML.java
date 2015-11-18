@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import units.Level;
+import units.Path;
 import units.PlayerInfo;
 import units.Unit;
 
@@ -14,6 +15,7 @@ public class TestXML {
 	List<Unit> myTroops;
 	List<Level> myLevels;
 	List<PlayerInfo> myPlayerInfo;
+	List<Path> myPaths;
 	List<Unit> myTowersFromXML;
 	List<Unit> myTroopsFromXML;
 	List<Level> myLevelsFromXML;
@@ -25,6 +27,7 @@ public class TestXML {
 		myTroops = holder.getTroops();
 		myLevels = holder.getLevels();
 		myPlayerInfo = holder.getPlayerInfo();
+		myPaths = holder.getPaths();
 	}
 
 	public void testTo() throws UnsupportedEncodingException, IOException {
@@ -41,6 +44,9 @@ public class TestXML {
 		for (PlayerInfo info : myPlayerInfo) {
 			c.toXML(info, "Game 1", "PlayerInfo", "player info");
 		}
+		for (Path path : myPaths) {
+			c.toXML(path, "Game 1", "Path", path.getName());
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -50,9 +56,11 @@ public class TestXML {
 //		myTroopsFromXML = c.fromXML("Game 1", "Troop");
 //		myLevelsFromXML = c.fromXML("Game 1", "Level");
 //		myPlayerInfoFromXML = c.fromXML("Game 1", "PlayerInfo");
-		System.out.println(myTowersFromXML);
-		System.out.println(myTroopsFromXML);
+//		System.out.println(myTowersFromXML);
+//		System.out.println(myTroopsFromXML);
+//		System.out.println(myLevelsFromXML);
+//		System.out.println(myPlayerInfoFromXML);
+		myLevelsFromXML = c.getLevels("Game 1");
 		System.out.println(myLevelsFromXML);
-		System.out.println(myPlayerInfoFromXML);
 	}
 }
