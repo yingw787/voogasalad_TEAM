@@ -1,5 +1,6 @@
 package startup;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,17 +19,13 @@ public class Startup {
 	private final int height = 400;
 	private GridPane myPane;
 	private Stage myStage;
-	private List<String> al = new ArrayList<String>();
+	private List<String> myListOfGames = new ArrayList<String>();
 	
 	public Startup (Stage s) {
-		// testing arraylist
-		al.add("Game 1");
-		al.add("Game 2");
-		al.add("Game 3");
 		this.myStage = s;
 		this.myPane = new GridPane();
 		addCreateOption();
-		addLoadOption(al);
+		addLoadOption(myListOfGames);
 		myStage.setScene(new Scene(myPane, width, height));
 		myStage.show();
 	}
@@ -48,9 +45,13 @@ public class Startup {
 		VBox vbox = new VBox(10);
 		ChoiceBox<String> cb = new ChoiceBox<String>();
 		cb.setValue("Choose a game to load");
-		for (String game : games) {
-			cb.getItems().add(game);
+		
+		// add in existing games to choice box
+		File gameFolder = new File("games");
+		for (File game : gameFolder.listFiles()) {
+			cb.getItems().add(game.getName());
 		}
+		
 		Button button = new Button("Load Game");
 		button.setMaxWidth(Double.MAX_VALUE);
 		button.setOnAction(e -> loadGame(games, (String) cb.getValue()));
