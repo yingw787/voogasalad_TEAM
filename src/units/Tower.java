@@ -12,6 +12,10 @@ public class Tower extends Unit {
 		super(t.getStringAttribute("Name"),t.getAttribute("Health"), t.getAttribute("CollisionDamage"),t.getStringAttribute("Image"),
 			new Point(0,0), (int) t.getAttribute("ID"), (int) t.getAttribute("BuyCost"), (int) t.getAttribute("SellCost"));
 	}
+	
+	public Tower(Unit u) {
+		super(u);
+	}
 
 	public Tower() {
 		super();
