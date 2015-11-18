@@ -52,10 +52,10 @@ public class TestXML {
 	@SuppressWarnings("unchecked")
 	public void testFrom() throws IOException {
 		XMLConverter c = new XMLConverter();
-		myTowersFromXML = c.fromXML("Game 1", "Tower");
-		myTroopsFromXML = c.fromXML("Game 1", "Troop");
-		myLevelsFromXML = c.fromXML("Game 1", "Level");
-		myPlayerInfoFromXML = c.fromXML("Game 1", "PlayerInfo");
+//		myTowersFromXML = c.fromXML("Game 1", "Tower");
+//		myTroopsFromXML = c.fromXML("Game 1", "Troop");
+//		myLevelsFromXML = c.fromXML("Game 1", "Level");
+//		myPlayerInfoFromXML = c.fromXML("Game 1", "PlayerInfo");
 		System.out.println(myTowersFromXML);
 		System.out.println(myTroopsFromXML);
 		System.out.println(myLevelsFromXML);

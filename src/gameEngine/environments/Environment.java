@@ -5,6 +5,7 @@ import java.util.List;
 
 import gameEngine.GameConfiguration;
 import rules.Rule;
+import units.Base;
 import units.Level;
 import units.Path;
 import units.PlayerInfo;
@@ -20,6 +21,7 @@ public class Environment {
 	PlayerInfo myPlayerInfo;
 	GameConfiguration myConfig;
 	List<Rule> myRules;
+	Base myBase;
 	
 	public Environment() {
 		myGameName = "Salad";
@@ -27,9 +29,10 @@ public class Environment {
 		myTroopType = new ArrayList<Troop>();
 		myLevels = new ArrayList<Level>();
 		myPaths =new ArrayList<Path>();
-		myPlayerInfo = new PlayerInfo(0, 0, 0);
+		myPlayerInfo = new PlayerInfo(0, 0, "");
 		myConfig = new GameConfiguration();
 		myRules = new ArrayList<Rule>();
+		myBase = new Base();
 	}
 
 	public List<Rule> getRules() {
@@ -94,5 +97,9 @@ public class Environment {
 
 	public void setMyConfig(GameConfiguration Config) {
 		this.myConfig = Config;
+	}
+	
+	public Base getBase() {
+		return myBase;
 	}
 }

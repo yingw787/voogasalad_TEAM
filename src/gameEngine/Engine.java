@@ -4,79 +4,137 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import controller.Controller;
-import gameEngine.environments.InitialEnvironment;
 import gameEngine.environments.RuntimeEnvironment;
+import gameEngine.requests.Request;
+import gamedata.xml.XMLConverter;
 import interfaces.IEngine;
 import interfaces.IRequest;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import rules.Rule;
+import units.IDGenerator;
+import units.Level;
+import units.Path;
 import units.PlayerInfo;
 import units.Point;
-import units.Tower;
-import units.Troop;
 import units.Unit;
 
 public class Engine implements IEngine {
 	private Controller myController;
 	private Timeline myTimeline;
-	public static final int FRAMES_PER_SECOND = 60;
+	public static final int FRAMES_PER_SECOND = 180;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
-	private List<Unit> myCurrentUnits;
-	private InitialEnvironment myInitialEnviron;
+	private HashMap<String, List<Unit>> myPossibleUnits;
+	private List<PlayerInfo> myPlayerInfo;
+	private List<Level> myLevels;
+	private List<Path> myPaths;
+	private int myCurrentLevelInt;
+	private Level myCurrentLevel;
 	private RuntimeEnvironment myRuntimeEnviron;
 	private ToolbarManager myTBManager;
+	private MapManager myMapManager;
+	private HUDManager myHUDManager;
+	private IDGenerator myIDGenerator;
+	private int delay = 0;
 	
 	public Engine(Controller controller, Timeline timeline) {
 		myController = controller;
 		myTimeline = timeline;
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
-		myInitialEnviron = new InitialEnvironment();
+	}
+	
+	public void readXML() throws IOException{
+		XMLConverter myConverter = new XMLConverter();
+		List<Unit> towers = myConverter.getUnits("Game 1", "Tower");
+		List<Unit> troops = myConverter.getUnits("Game 1", "Troop");
+		myPossibleUnits = new HashMap<String,List<Unit>>();
+		myPossibleUnits.put("Towers", towers);
+		myPossibleUnits.put("Troops", troops);
+		myPlayerInfo = myConverter.getPlayerInfo("Game 1");
+		myLevels = myConverter.getLevels("Game 1");
+		myPaths = new ArrayList<Path>();
+		List<Point> pathPoints = new ArrayList<Point>();
+		pathPoints.add(new Point(0,230));
+		pathPoints.add(new Point(200,230));
+		pathPoints.add(new Point(200,50));
+		pathPoints.add(new Point(400,50));
+		pathPoints.add(new Point(400,230));
+		pathPoints.add(new Point(600,230));
+		List<Point> pp2 = new ArrayList<Point>();
+		pp2.add(new Point(250,250));
+		pp2.add(new Point(200,300));
+//		pp2.add(new Point(600,230));
+//		myPaths.add(new Path("Path 1",pathPoints));
+		myPaths.add(new Path("Path 2", pp2));
+		myCurrentLevelInt = 0;
+	}
+	
+	public void initialize(){
+		myController.updateUserInfo(myPlayerInfo.get(0));
+		myController.populateStore(myPossibleUnits);
+		myIDGenerator = new IDGenerator();
+		myMapManager = new MapManager(myController, myPaths, myIDGenerator);
+		myHUDManager = new HUDManager(myController, myPlayerInfo.get(0));
 		myRuntimeEnviron = new RuntimeEnvironment();
 	}
 	
+	private void flush() {
+		List<Unit> l = new ArrayList<Unit>();
+		l.addAll(myRuntimeEnviron.getUnits());
+		myController.updateMap(l);
+		myHUDManager.updateUserInfo();
+	}
+	
 	public void writeEnvironment() throws IOException{
-
-		myTBManager = new ToolbarManager(myController,myInitialEnviron);
-		XMLParser parser = new XMLParser();
-		parser.writeEnviroment(myInitialEnviron);
-		myInitialEnviron = parser.readEnvironment();
-		myTBManager = new ToolbarManager(myController,myInitialEnviron);
+		myTBManager = new ToolbarManager(myController);
 	}
 	
 	public void playAnimation(boolean on){
+		delay = 0;
 		if (on){
+			myMapManager.spawnNewEnemy();
 			KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 					e -> step());
 			myTimeline.setCycleCount(Timeline.INDEFINITE);
 			myTimeline.getKeyFrames().addAll(frame);
 			myTimeline.play();
+		} 
+		if (!on){
+			myTimeline.stop();
 		}
 	}
 	
 	
 	private void step(){
-		for (Unit unit : myCurrentUnits) {
+		for (Unit unit : myRuntimeEnviron.getUnits()) {
 			//testing animation
-			if (unit.getStringAttribute("Type").equals("Troop")){
-				Point newPoint = new Point(unit.getAttribute("X")+1, unit.getAttribute("Y"));
-				unit.setPoint(newPoint);
-				unit.setHealth(unit.getAttribute("Health")-0.5);	
+			
+			for(Rule rule : unit.getRules()){
+				
+				rule.run(unit, myRuntimeEnviron);
 			}
 		}
 		
-		List<Unit> l = new ArrayList<Unit>();
-//		l.addAll(myRuntimeEnviron.getUnits());
-//		myController.updateMap(l);
-
-		myController.updateMap(myCurrentUnits);
+		if (myMapManager.hasMoreEnemies()){
+			if (delay % 60 == 0) {
+				myMapManager.spawnNewEnemy();
+			}
+		}
+		delay++;
+		List<Unit> currentUnitsOnBoard = new ArrayList<Unit>(myMapManager.getUnitsOnBoard());
+		for (Unit unit : currentUnitsOnBoard) {
+			myMapManager.walkUnitOnMap(unit);
+		}
+		myController.updateMap(myMapManager.getUnitsOnBoard());
+		
+//		flush();
 	}
-
 
 	
 	@Override
@@ -90,7 +148,9 @@ public class Engine implements IEngine {
 	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
-		
+		for (IRequest r : requests) {
+			r.execute(myRuntimeEnviron);
+		}
 	}
 
 	@Override
@@ -107,46 +167,12 @@ public class Engine implements IEngine {
 
 	@Override
 	public void startWave(int i) {
-		// TODO release a wave of zombies		
-	}
-
-
-	public void testCaseMaker(){
-		PlayerInfo playerinfo = new PlayerInfo(200, 3, 1);
-		myController.updateUserInfo(playerinfo);
-		HashMap<String, List<Unit>> myTestMap = new HashMap<String, List<Unit>>();
-		List<Unit> TowerList = new ArrayList<Unit>();
-		Tower t1 = new Tower("Basic Turret", 100.0, 10.0, "turret_transparent.png", 
-				new Point(10,20), 1, 150, 75);
-		Tower t2 = new Tower("Basic Turret", 100.0, 10.0, "turret_transparent.png", 
-				new Point(20,40), 2, 150, 75);
-		Tower t3 = new Tower("Basic Turret", 100.0, 10.0, "turret_transparent.png", 
-				new Point(100,30), 3, 150, 75);
-		Tower t4 = new Tower("Attack Turret", 200.0, 25.0, "turret.png", 
-				new Point(50,20), 4, 250, 155);
-		TowerList.add(t1);
-		TowerList.add(t2);
-		TowerList.add(t3);
-		TowerList.add(t4);
-		myTestMap.put("Towers", TowerList);
-		List<Unit> TroopList = new ArrayList<Unit>();
-		Troop tr1 = new Troop("Basic Minion", 50.0, 2.0, "purpleminion.png",
-				new Point(290,30), 5, 50, 0);
-		Troop tr2 = new Troop("Basic Minion", 50.0, 2.0, "purpleminion.png",
-				new Point(130,130), 6, 50, 0);
-		Troop tr3 = new Troop("Caster Minion", 150.0, 5.0, "casterminion.png",
-				new Point(230,230), 7, 250, 0);
-		TroopList.add(tr1);
-		TroopList.add(tr2);
-		TroopList.add(tr3);
-		myTestMap.put("Towers", TowerList);
-		myTestMap.put("Troops", TroopList);
-//		myController.populateStore(myTestMap);
-		List<Unit> mapUnits = new ArrayList<Unit>();
-		mapUnits.addAll(TroopList);
-		mapUnits.addAll(TowerList);
-		myCurrentUnits = mapUnits;
-		myController.updateMap(mapUnits);
+		myHUDManager.incrementLevel();
+		List<String> pathNames = new ArrayList<String>();
+		pathNames.add("Path 1");
+		pathNames.add("Path 2");
+		myMapManager.startWave(myLevels.get(i), pathNames);
+		playAnimation(true);
 	}
 	
 //	public static void main(String[] args){

@@ -6,8 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import controller.Controller;
-import gameEngine.environments.InitialEnvironment;
 import gamedata.xml.XMLConverter;
+import units.Level;
+import units.PlayerInfo;
 import units.Unit;
 
 public class ToolbarManager {
@@ -25,11 +26,12 @@ public class ToolbarManager {
 		
 		myTowers = new ArrayList<Unit>();
 		myTroops = new ArrayList<Unit>();
+
 		
 		XMLConverter myConverter = new XMLConverter();
 		
-		List<Unit> towers = myConverter.fromXML("Tower");
-		List<Unit> troops = myConverter.fromXML("Troop");
+		List<Unit> towers = myConverter.getUnits("Game 1", "Tower");
+		List<Unit> troops = myConverter.getUnits("Game 1", "Troop");
 		
 		myTowers.addAll(towers);
 		myTroops.addAll(troops);
@@ -38,7 +40,7 @@ public class ToolbarManager {
 		
 	}
 	
-	public void upLoadStore(){
+	private void upLoadStore(){
 		HashMap<String,List<Unit>>storeMap = new HashMap<String,List<Unit>>();
 		
 		storeMap.put("Towers", myTowers);

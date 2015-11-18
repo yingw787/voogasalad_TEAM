@@ -13,8 +13,12 @@ public class SellTowerRequest extends Request {
 	}
 
 	@Override
-	protected void execute(RuntimeEnvironment re) {
-		// TODO Auto-generated method stub
+	public void execute(RuntimeEnvironment re) {
+		
+		re.removeUnit(myTower.getID());
+		
+		int money = (new Double(re.getPlayerInfo().getMoney()+myTower.getAttribute("SellCost"))).intValue();
+		re.getPlayerInfo().setMoney(money);
 		
 	}
 

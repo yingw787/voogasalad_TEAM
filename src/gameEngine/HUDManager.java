@@ -12,19 +12,24 @@ public class HUDManager {
 	 * 
 	 * TODO: (update as needed) 
 	 */
-	Controller myController;
+	private Controller myController;
+	private PlayerInfo myInfo;
 	
-	PlayerInfo myInfo;
-	public HUDManager(Controller controller , PlayerInfo info){
-		this.myController = controller;
+	public HUDManager(Controller c, PlayerInfo info){
+		this.myController = c;
 		this.myInfo = info;
 		
 		this.updateUserInfo();
 	}
 	
-	
-	private void updateUserInfo(){
+	public void updateUserInfo(){
 		myController.updateUserInfo(myInfo);
+	}
+	
+	public void incrementLevel(){
+		String s = Integer.toString(Integer.parseInt(myInfo.getLevel())+1);
+		myInfo.setLevel(s);
+		updateUserInfo();
 	}
 	
 }

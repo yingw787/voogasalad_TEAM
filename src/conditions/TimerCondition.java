@@ -4,10 +4,12 @@ import gameEngine.environments.RuntimeEnvironment;
 import units.Unit;
 
 public class TimerCondition implements ICondition{
-	private double myInterval;
+	private int myInterval;
+	private long myCount;
 	
-	public TimerCondition(double delay){
+	public TimerCondition(int delay){
 		myInterval = delay;
+		myCount = 0;
 	}
 	
 	/**
@@ -22,7 +24,8 @@ public class TimerCondition implements ICondition{
 	@Override
 	public boolean checkCondition(Unit actor,RuntimeEnvironment re) {
 		// TODO Auto-generated method stub
-		return false;
+		myCount++;
+		return myCount % myInterval == 0;
 	}
 
 }

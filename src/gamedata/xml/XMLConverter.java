@@ -10,6 +10,10 @@ import java.util.List;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
+import units.Level;
+import units.PlayerInfo;
+import units.Unit;
+
 public class XMLConverter {
 	
 	XStream myXStream = new XStream(new StaxDriver());
@@ -42,8 +46,8 @@ public class XMLConverter {
 	 */
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List fromXML(String game, String type) throws IOException {
-		List myObjects = new ArrayList();
+	private List<Object> fromXML(String game, String type) throws IOException {
+		List<Object> myObjects = new ArrayList();
 		try {
 		 final File folder = new File("games/"+game+File.separator+type+File.separator);
 		    for (File fileEntry : folder.listFiles()) {
@@ -54,5 +58,33 @@ public class XMLConverter {
 			System.out.println("Cannot convert " + type + "from " + game + " from XML");
 		}
 		return myObjects;
+	}
+	
+	public List<PlayerInfo> getPlayerInfo(String game) throws IOException{
+		List<Object> objects = fromXML(game,"PlayerInfo");
+		List<PlayerInfo> myInfo = new ArrayList<PlayerInfo>();
+		for (Object o : objects){
+			myInfo.add((PlayerInfo) o);
+		}
+		return myInfo;
+	}
+	
+	public List<Level> getLevels(String game) throws IOException{
+		List<Object> objects = fromXML(game,"Level");
+		List<Level> myLevels = new ArrayList<Level>();
+		for (Object o : objects){
+			myLevels.add((Level) o);
+		}
+		return myLevels;
+	}
+	
+	//type 
+	public List<Unit> getUnits(String game, String type) throws IOException{
+		List<Object> objects = fromXML(game,type);
+		List<Unit> myUnits = new ArrayList<Unit>();
+		for (Object o : objects){
+			myUnits.add((Unit) o);
+		}
+		return myUnits;
 	}
 }

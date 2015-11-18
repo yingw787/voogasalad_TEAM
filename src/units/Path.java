@@ -7,7 +7,7 @@ public class Path {
 	private List<Point> myCheckPoints;
 	private String myName;
 	
-	public Path(String s, List<Point> p) {
+	public Path(String s, List<Point> p){
 		myName = s;
 		myCheckPoints = p;
 	}
@@ -16,7 +16,7 @@ public class Path {
 		return myName;
 	}
 	
-	public List<Point> getPoints() {
+	public List<Point> getPoints(){
 		return myCheckPoints;
 	}
 }
