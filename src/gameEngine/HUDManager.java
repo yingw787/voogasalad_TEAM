@@ -12,18 +12,18 @@ public class HUDManager {
 	 * 
 	 * TODO: (update as needed) 
 	 */
-	private Engine myEngine;
+	private Controller myController;
 	private PlayerInfo myInfo;
 	
-	public HUDManager(Engine e, PlayerInfo info){
-		this.myEngine = e;
+	public HUDManager(Controller c, PlayerInfo info){
+		this.myController = c;
 		this.myInfo = info;
 		
 		this.updateUserInfo();
 	}
 	
 	private void updateUserInfo(){
-		myEngine.updateUserInfo(myInfo);
+		myController.updateUserInfo(myInfo);
 	}
 	
 	public void incrementLevel(){
