@@ -55,7 +55,7 @@ public class XMLConverter {
 		    }
 		}
 		catch (Exception e) {
-			System.out.println("Cannot convert " + type + "from " + game + " from XML");
+			System.out.println("Cannot convert " + type + " from " + game + " from XML");
 		}
 		return myObjects;
 	}
