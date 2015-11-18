@@ -8,6 +8,10 @@ public class Header implements IView {
 	ToolBar myToolBar;
 	String[] mySections;
 	
+	public Header() {
+		myToolBar = new ToolBar();
+	}
+	
 	public Header(String[] sections) {
 		mySections = sections;
 		myToolBar = new ToolBar();
@@ -16,7 +20,7 @@ public class Header implements IView {
 			myToolBar.getItems().add(new Button(option));
 		}
 	}
-	
+
 	@Override
 	public ToolBar getView() {
 		return myToolBar;
