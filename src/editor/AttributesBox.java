@@ -28,7 +28,6 @@ public class AttributesBox extends Observable implements IView, Observer {
 
 	private ScrollPane myAttributesBox;
 
-
 	private DataController myDataController;
 	private VBox myBoxContent;
 	private HBox myLabel;
