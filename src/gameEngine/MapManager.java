@@ -1,19 +1,24 @@
 package gameEngine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Random;
 
+import controller.Controller;
 import units.IDGenerator;
 import units.Level;
+import units.Path;
 import units.Point;
 import units.Troop;
 import units.Unit;
 
 public class MapManager {
 	
-	
-	private Engine myEngine;
+
 	/*
 	 * MapManager.java is the backend engine module for Map.java, the GamePlayer module in the front-end. 
 	 * Responsibilities: (keep adding to this as responsibilities grow and diverge: 
@@ -22,29 +27,38 @@ public class MapManager {
 	 * Make sure that everything in engine that the mapmanager needs to handle, that mapmanager can handle 
 	 * 
 	 */
+	private Controller myController;
 	private IDGenerator myIDGenerator;
-	PathModel pathModel; 
-	private List<Unit> unitsOnBoard; // TODO: do we need to distinguish between the different types of units on the board, or use polymorphism in order to det. action? 
-	private List<Unit> myPossibleTroops;
-	private List<Point> myPaths;
+//	PathModel pathModel; 
+	private List<Unit> unitsOnBoard; // TODO: do we need to distinguish between the different types of units on the board, or use polymorphism in order to det. action?
+	private HashMap<Unit, Queue<Point>> myWalkManager;
+	private List<Path> myPaths;
+	private List<Path> myCurrentPaths;
 	private Level myCurrentLevel;
 	private Point start, end;
 	private int currentEnemy;
 	
-	public MapManager(Engine e, List<Unit> list, List<Point> paths, IDGenerator id){
-		myEngine = e;
+	public MapManager(Controller c, List<Path> myPaths2, IDGenerator id){
+		myController = c;
 		myIDGenerator = id;
-		myPossibleTroops = list;
-		myPaths = paths;
-		start = myPaths.get(0);
-		end = myPaths.get(myPaths.size()-1);
+		myPaths = myPaths2;
 		unitsOnBoard = new ArrayList<Unit>();
 		currentEnemy = 0;
+		myWalkManager = new HashMap<Unit, Queue<Point>>();
 	}
 	
-	public void startWave(Level level) {
+	public void startWave(Level level, List<String> pathNames) {
 		myCurrentLevel = level;
+		myCurrentPaths = new ArrayList<Path>();
 		
+		//this is bad and we need to change this
+		for (String s : pathNames){
+			for (Path p : myPaths) {
+				if (p.getName().equals(s)){
+					myCurrentPaths.add(p);
+				}
+			}
+		}
 	}
 	
 	public boolean hasMoreEnemies(){
@@ -55,16 +69,46 @@ public class MapManager {
 	}
 	
 	public void spawnNewEnemy(){
-		System.out.println(myCurrentLevel.getTroops().get(currentEnemy).getStringAttribute("Name"));
 		Troop t = new Troop(myCurrentLevel.getTroops().get(currentEnemy));
+		myWalkManager.put(t, getRandomPath());
 		t.setAttribute("ID", myIDGenerator.getID());
-		t.setAttribute("X", 0.0);
-		t.setAttribute("Y", 50.0);
+		Point currentPoint = myWalkManager.get(t).remove();
+		t.setAttribute("X", currentPoint.getX());
+		t.setAttribute("Y", currentPoint.getY());
 		unitsOnBoard.add(t);
 		currentEnemy++;
 	}
 	
-
+	private Queue<Point> getRandomPath(){
+		Random randomGenerator = new Random();
+		Path myPath = myCurrentPaths.get(randomGenerator.nextInt(myCurrentPaths.size()));
+		Queue<Point> myPointsQueue = new LinkedList<Point>();
+		for (Point p : myPath.getPoints()) {
+			myPointsQueue.add(p);
+		}
+		return myPointsQueue;
+	}
+	
+	public void walkUnitOnMap(Unit unit) {
+		Point target = myWalkManager.get(unit).peek();
+		double currX = unit.getAttribute("X");
+		double currY = unit.getAttribute("Y");
+		double theta = Math.atan((target.getY() - currY)/(target.getX() - currX));
+		double deltaX = Math.cos(theta);
+		double deltaY = Math.sin(theta);
+		Point nextDestination = new Point(currX + deltaX, currY + deltaY);
+		unit.setPoint(nextDestination);
+		if ((nextDestination.getX() == target.getX())&&(nextDestination.getY()==target.getY())){
+			if (myWalkManager.get(unit).peek()==null){
+				System.out.println("NO MORE POINTS");
+				myWalkManager.remove(unit);
+				unitsOnBoard.remove(unit);
+			} else {
+				myWalkManager.get(unit).remove();	
+			}
+		}
+		
+	}
 	
 	public void handleRequests(){
 		// TODO: when a request object comes into the map, pass it into this method 
@@ -95,19 +139,6 @@ public class MapManager {
 		
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -202,6 +233,8 @@ public class MapManager {
 			return new double[] {myXPosition, myYPosition}; 
 		}
 	}
+
+
 
 	
 }
