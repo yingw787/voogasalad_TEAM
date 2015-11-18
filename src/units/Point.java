@@ -17,4 +17,8 @@ public class Point {
 	public double getY(){
 		return myY;
 	}
+	
+	public double getDistance(Point p) {
+		return Math.sqrt((this.myX - p.myX) * (this.myX - p.myX) + (this.myY - p.myY) * (this.myY - p.myY));
+	}
 }

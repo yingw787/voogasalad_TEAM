@@ -14,6 +14,7 @@ public class Unit {
 	protected Map<String, String> myStringAttributes;
 	protected Map<String, Rule> myRules;
 	protected Faction myFaction;
+	protected UnitType myType;
 	
 	public Unit(String name, double health, double cd, String img, 
 			Point p, int ID, int bc, int sc){		
@@ -45,6 +46,14 @@ public class Unit {
 		myAttributes.put("SellCost", 5.0);
 		myStringAttributes.put("Name", "T");
 		myStringAttributes.put("Image", "");
+	}
+	
+	public Unit(Unit u) {
+		myAttributes = u.myAttributes;
+		myStringAttributes = u.myStringAttributes;
+		myRules = u.myRules;
+		myFaction = u.myFaction;
+		myType = u.myType;
 	}
 	
 	public void setRule(String key, Rule rule){
@@ -109,6 +118,11 @@ public class Unit {
 		myAttributes.put("Y", p.getY());
 	}
 	
+	public Point getPoint() {
+		Point p = new Point(myAttributes.get("X"), myAttributes.get("Y"));
+		return p;
+	}
+	
 	public void setHealth(double h){
 		myAttributes.put("Health", h);
 	}
@@ -128,6 +142,7 @@ public class Unit {
 		unit.myRules = new HashMap<String, Rule>(this.myRules);
 		unit.myStringAttributes = new HashMap<String, String>(this.myStringAttributes);
 		unit.myAttributes.put("ID", (double)IDGenerator.getID());
+		unit.myType = this.myType;
 		return unit;
 	}
 
@@ -143,4 +158,13 @@ public class Unit {
 		// TODO Auto-generated method stub
 		return myAttributes.get("Health");
 	}
+	
+	public UnitType getType() {
+		return myType;
+	}
+	
+	public void setType(UnitType ut) {
+		myType = ut;
+	}
+	
 }
