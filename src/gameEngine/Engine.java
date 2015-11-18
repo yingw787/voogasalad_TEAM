@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
 import controller.Controller;
 import gameEngine.environments.InitialEnvironment;
 import gameEngine.environments.RuntimeEnvironment;
@@ -16,23 +17,22 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import units.IDGenerator;
 import units.Level;
+import units.Path;
 import units.PlayerInfo;
 import units.Point;
-import units.Tower;
-import units.Troop;
 import units.Unit;
 
 public class Engine implements IEngine {
 	private Controller myController;
 	private Timeline myTimeline;
-	public static final int FRAMES_PER_SECOND = 60;
+	public static final int FRAMES_PER_SECOND = 120;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
 	private HashMap<String, List<Unit>> myPossibleUnits;
 	private List<PlayerInfo> myPlayerInfo;
 	private List<Level> myLevels;
-	private List<Point> myPaths;
+	private List<Path> myPaths;
 	private int myCurrentLevelInt;
 	private Level myCurrentLevel;
 	private InitialEnvironment myInitialEnviron;
@@ -58,10 +58,15 @@ public class Engine implements IEngine {
 		myPossibleUnits.put("Troops", troops);
 		myPlayerInfo = myConverter.getPlayerInfo("Game 1");
 		myLevels = myConverter.getLevels("Game 1");
-		myPaths = new ArrayList<Point>();
-		myPaths.add(new Point(0,0));
-		myPaths.add(new Point(50,50));
-		myPaths.add(new Point(100,50));
+		myPaths = new ArrayList<Path>();
+		List<Point> pathPoints = new ArrayList<Point>();
+		pathPoints.add(new Point(0,230));
+		pathPoints.add(new Point(200,230));
+		pathPoints.add(new Point(200,50));
+		pathPoints.add(new Point(400,50));
+		pathPoints.add(new Point(400,230));
+		pathPoints.add(new Point(600,230));
+		myPaths.add(new Path("Path 1",pathPoints));
 		myCurrentLevelInt = 0;
 	}
 	
@@ -69,8 +74,8 @@ public class Engine implements IEngine {
 		myController.updateUserInfo(myPlayerInfo.get(0));
 		myController.populateStore(myPossibleUnits);
 		myIDGenerator = new IDGenerator();
-		myMapManager = new MapManager(this, myPossibleUnits.get("Troops"), myPaths, myIDGenerator);
-		myHUDManager = new HUDManager(this, myPlayerInfo.get(0));
+		myMapManager = new MapManager(myController, myPaths, myIDGenerator);
+		myHUDManager = new HUDManager(myController, myPlayerInfo.get(0));
 		myInitialEnviron = new InitialEnvironment();
 		myRuntimeEnviron = new RuntimeEnvironment();
 	}
@@ -105,9 +110,8 @@ public class Engine implements IEngine {
 			}
 		}
 		delay++;
-		
 		for (Unit unit : myMapManager.getUnitsOnBoard()) {
-			unit.setAttribute("X", unit.getAttribute("X")+0.5);
+			myMapManager.walkUnitOnMap(unit);
 		}
 		myController.updateMap(myMapManager.getUnitsOnBoard());
 	}
@@ -142,51 +146,10 @@ public class Engine implements IEngine {
 	@Override
 	public void startWave(int i) {
 		myHUDManager.incrementLevel();
-		myMapManager.startWave(myLevels.get(i));
+		List<String> pathNames = new ArrayList<String>();
+		pathNames.add("Path 1");
+		myMapManager.startWave(myLevels.get(i), pathNames);
 		playAnimation(true);
-	}
-
-
-	public void testCaseMaker(){
-		PlayerInfo playerinfo = new PlayerInfo(200, 3, "level1");
-		myController.updateUserInfo(playerinfo);
-		HashMap<String, List<Unit>> myTestMap = new HashMap<String, List<Unit>>();
-		List<Unit> TowerList = new ArrayList<Unit>();
-		Tower t1 = new Tower("Basic Turret", 100.0, 10.0, "turret_transparent.png", 
-				new Point(10,20), 1, 150, 75);
-		Tower t2 = new Tower("Basic Turret", 100.0, 10.0, "turret_transparent.png", 
-				new Point(20,40), 2, 150, 75);
-		Tower t3 = new Tower("Basic Turret", 100.0, 10.0, "turret_transparent.png", 
-				new Point(100,30), 3, 150, 75);
-		Tower t4 = new Tower("Attack Turret", 200.0, 25.0, "turret.png", 
-				new Point(50,20), 4, 250, 155);
-		TowerList.add(t1);
-		TowerList.add(t2);
-		TowerList.add(t3);
-		TowerList.add(t4);
-		myTestMap.put("Towers", TowerList);
-		List<Unit> TroopList = new ArrayList<Unit>();
-		Troop tr1 = new Troop("Basic Minion", 50.0, 2.0, "purpleminion.png",
-				new Point(290,30), 5, 50, 0);
-		Troop tr2 = new Troop("Basic Minion", 50.0, 2.0, "purpleminion.png",
-				new Point(130,130), 6, 50, 0);
-		Troop tr3 = new Troop("Caster Minion", 150.0, 5.0, "casterminion.png",
-				new Point(230,230), 7, 250, 0);
-		TroopList.add(tr1);
-		TroopList.add(tr2);
-		TroopList.add(tr3);
-		myTestMap.put("Towers", TowerList);
-		myTestMap.put("Troops", TroopList);
-//		myController.populateStore(myTestMap);
-		List<Unit> mapUnits = new ArrayList<Unit>();
-		mapUnits.addAll(TroopList);
-		mapUnits.addAll(TowerList);
-//		myCurrentUnits = mapUnits;
-		myController.updateMap(mapUnits);
-	}
-
-	public void updateUserInfo(PlayerInfo myInfo) {
-		myController.updateUserInfo(myInfo);
 	}
 	
 //	public static void main(String[] args){
