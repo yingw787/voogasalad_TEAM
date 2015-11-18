@@ -9,30 +9,43 @@ import units.Base;
 import units.Level;
 import units.Path;
 import units.PlayerInfo;
-import units.Tower;
-import units.Troop;
+import units.Unit;
+import units.Unit;
+import units.Unit;
 
 public class Environment {
-	String myGameName;
-	List<Tower> myTowerType;
-	List<Troop> myTroopType;
-	List<Level> myLevels;
-	List<Path> myPaths;
-	PlayerInfo myPlayerInfo;
-	GameConfiguration myConfig;
-	List<Rule> myRules;
-	Base myBase;
+	protected String myGameName;
+	protected List<Unit> myTowerTypes;
+	protected List<Unit> myTroopTypes;
+	protected List<Level> myLevels;
+	protected List<Path> myPaths;
+	protected PlayerInfo myPlayerInfo;
+	protected GameConfiguration myConfig;
+	protected List<Rule> myRules;
+	protected Base myBase;
 	
-	public Environment() {
-		myGameName = "Salad";
-		myTowerType = new ArrayList<Tower>();
-		myTroopType = new ArrayList<Troop>();
+	public Environment(){
+		myTowerTypes = new ArrayList<Unit>();
+		myTroopTypes = new ArrayList<Unit>();
 		myLevels = new ArrayList<Level>();
 		myPaths =new ArrayList<Path>();
 		myPlayerInfo = new PlayerInfo(0, 0, "");
 		myConfig = new GameConfiguration();
 		myRules = new ArrayList<Rule>();
 		myBase = new Base();
+	}
+	
+	public Environment(List<Unit> towers, List<Unit> troops, List<Level> levels, List<Path> paths, PlayerInfo playerInfo,
+			GameConfiguration config, List<Rule> rules, Base base) {
+		myGameName = "Salad";
+		myTowerTypes = towers;
+		myTroopTypes = troops;
+		myLevels = levels;
+		myPaths = paths;
+		myPlayerInfo = playerInfo;
+		myConfig = config;
+		myRules = rules;
+		myBase = base;
 	}
 
 	public List<Rule> getRules() {
@@ -51,20 +64,20 @@ public class Environment {
 		myGameName = GameName;
 	}
 
-	public List<Tower> getTowerType() {
-		return myTowerType;
+	public List<Unit> getTowerType() {
+		return myTowerTypes;
 	}
 
-	public void setTowerType(List<Tower> TowerType) {
-		this.myTowerType = TowerType;
+	public void setTowerType(List<Unit> TowerType) {
+		this.myTowerTypes = TowerType;
 	}
 
-	public List<Troop> getTroopType() {
-		return myTroopType;
+	public List<Unit> getTroopType() {
+		return myTroopTypes;
 	}
 
-	public void setTroopType(List<Troop> TroopType) {
-		this.myTroopType = TroopType;
+	public void setTroopType(List<Unit> TroopType) {
+		this.myTroopTypes = TroopType;
 	}
 
 	public List<Level> MyLevels() {

@@ -27,15 +27,13 @@ public class Controller extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		myEngine = new Engine(this, new Timeline());
 		myPlayer = new Player(this, primaryStage);
-//		myEngine.testCaseMaker();
-//		myEngine.writeEnvironment();
-		myEngine.readXML();
+		myEngine.writeEnvironment();
 		myEngine.initialize();
 	}
 	
 	// store is in-game purchases of towers and units and the like 
-	public void populateStore(HashMap<String, List<Unit>> myTestMap) {
-		myPlayer.populate(myTestMap);
+	public void populateStore(HashMap<String, List<Unit>> myStoreStock) {
+		myPlayer.populate(myStoreStock);
 	}
 
 	public void updateMap(List<Unit> mapUnits) {

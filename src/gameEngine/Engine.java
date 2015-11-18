@@ -16,6 +16,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import rules.Rule;
+import units.Base;
 import units.IDGenerator;
 import units.Level;
 import units.Path;
@@ -36,7 +37,7 @@ public class Engine implements IEngine {
 	private List<Path> myPaths;
 	private int myCurrentLevelInt;
 	private Level myCurrentLevel;
-	private RuntimeEnvironment myRuntimeEnviron;
+	private RuntimeEnvironment myRE;
 	private ToolbarManager myTBManager;
 	private MapManager myMapManager;
 	private HUDManager myHUDManager;
@@ -49,51 +50,31 @@ public class Engine implements IEngine {
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 	}
 	
-	public void readXML() throws IOException{
+	public void writeEnvironment() throws IOException{
 		XMLConverter myConverter = new XMLConverter();
-		List<Unit> towers = myConverter.getUnits("Game 1", "Tower");
-		List<Unit> troops = myConverter.getUnits("Game 1", "Troop");
-		myPossibleUnits = new HashMap<String,List<Unit>>();
-		myPossibleUnits.put("Towers", towers);
-		myPossibleUnits.put("Troops", troops);
-		myPlayerInfo = myConverter.getPlayerInfo("Game 1");
-		myLevels = myConverter.getLevels("Game 1");
-		myPaths = new ArrayList<Path>();
-		List<Point> pathPoints = new ArrayList<Point>();
-		pathPoints.add(new Point(0,230));
-		pathPoints.add(new Point(200,230));
-		pathPoints.add(new Point(200,50));
-		pathPoints.add(new Point(400,50));
-		pathPoints.add(new Point(400,230));
-		pathPoints.add(new Point(600,230));
-		List<Point> pp2 = new ArrayList<Point>();
-		pp2.add(new Point(250,250));
-		pp2.add(new Point(200,200));
-		pp2.add(new Point(600,230));
-		myPaths.add(new Path("Path 1",pathPoints));
-		myPaths.add(new Path("Path 2", pp2));
-		myCurrentLevelInt = 0;
+		myRE = new RuntimeEnvironment(myConverter.getUnits("Game 1", "Tower"), 
+				myConverter.getUnits("Game 1", "Troop"), myConverter.getLevels("Game 1"), myConverter.getPaths("Game 1"), 
+				myConverter.getPlayerInfo("Game 1"), new GameConfiguration(), new ArrayList<Rule>(), new Base());
+	
+//		myTBManager = new ToolbarManager(myController);
 	}
 	
 	public void initialize(){
-		myController.updateUserInfo(myPlayerInfo.get(0));
-		myController.populateStore(myPossibleUnits);
+		myController.updateUserInfo(myRE.getPlayerInfo());
+		myController.populateStore(myRE.getStoreStock());
 		myIDGenerator = new IDGenerator();
-		myMapManager = new MapManager(myController, myPaths, myIDGenerator);
-		myHUDManager = new HUDManager(myController, myPlayerInfo.get(0));
-		myRuntimeEnviron = new RuntimeEnvironment();
+		myMapManager = new MapManager(myController, myRE.getPaths(), myIDGenerator);
+		myHUDManager = new HUDManager(myController, myRE.getPlayerInfo());
 	}
 	
 	private void flush() {
 		List<Unit> l = new ArrayList<Unit>();
-		l.addAll(myRuntimeEnviron.getUnits());
+		l.addAll(myRE.getUnits());
 		myController.updateMap(l);
 		myHUDManager.updateUserInfo();
 	}
 	
-	public void writeEnvironment() throws IOException{
-		myTBManager = new ToolbarManager(myController);
-	}
+
 	
 	public void playAnimation(boolean on){
 		delay = 0;
@@ -112,12 +93,9 @@ public class Engine implements IEngine {
 	
 	
 	private void step(){
-		for (Unit unit : myRuntimeEnviron.getUnits()) {
-			//testing animation
-			
+		for (Unit unit : myRE.getUnits()) {
 			for(Rule rule : unit.getRules()){
-				
-				rule.run(unit, myRuntimeEnviron);
+				rule.run(unit, myRE);
 			}
 		}
 		
@@ -140,18 +118,11 @@ public class Engine implements IEngine {
 
 	
 	@Override
-//	public void update(List<Request> requests) {
-//		// TODO Auto-generated method stub
-//		// request if a CollisionRequest
-//		
-//		for(Request r :requests){
-//			r.execute(myRuntimeEnviron);
-//		}
 	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
 		for (IRequest r : requests) {
-			r.execute(myRuntimeEnviron);
+			r.execute(myRE);
 		}
 	}
 

@@ -13,7 +13,7 @@ import units.Unit;
 
 public class StoreManager {
 	private ScrollPane myScrollPane;
-	private HashMap<String, List<Unit>> myPopulation;
+	private HashMap<String, List<Unit>> myStock;
 	private View myView;
 	private Store myStore;
 	private HBox myHBox;
@@ -21,7 +21,7 @@ public class StoreManager {
 	public StoreManager(View v, Store s, HashMap<String, List<Unit>> myTestMap) {
 		this.myView = v;
 		this.myStore = s;
-		this.myPopulation = myTestMap;
+		this.myStock = myTestMap;
 	}
 	
 	public ScrollPane initialize(){
@@ -35,7 +35,7 @@ public class StoreManager {
 	public void populate(String key){
 		myHBox.getChildren().clear();
 		List<StoreButton> list = new ArrayList<StoreButton>();
-		List<Unit> storeItems = myPopulation.get(key);
+		List<Unit> storeItems = myStock.get(key);
 		for (Unit unit : storeItems) {
 			StoreButton button = buttonFactory(unit);
 			if (myStore.getMoney() < unit.getAttribute("BuyCost")) {
@@ -67,8 +67,6 @@ public class StoreManager {
 	}
 
 	private void buttonManager(Unit u) {
-		// TODO method to have the object that is clicked to appear in the main pane
-		System.out.println("I presssed");
 		myView.enableTowerPurchase(u);
 	}
 
@@ -81,7 +79,7 @@ public class StoreManager {
 	}
 
 	public void setStock(HashMap<String, List<Unit>> store) {
-		this.myPopulation = store;
+		this.myStock = store;
 		populate("Towers");
 	}
 

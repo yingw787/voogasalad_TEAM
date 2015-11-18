@@ -80,7 +80,6 @@ public class View implements Observer {
 
 	public void populateStore(HashMap<String, List<Unit>> store) {
 		myStore.setStock(store);
-
 	}
 
 	public void updateMap(List<Unit> units) {
