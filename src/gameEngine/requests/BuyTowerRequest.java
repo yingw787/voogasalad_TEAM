@@ -22,7 +22,7 @@ public class BuyTowerRequest extends Request {
 		// TODO Auto-generated method stub
 		
 		Unit t = new Tower(myTower);
-		
+		t.setID(re.getNewID());
 		t.setPoint(myPoint);
 		t.setFaction(Faction.player);
 		re.addUnit(t.getID(),t);

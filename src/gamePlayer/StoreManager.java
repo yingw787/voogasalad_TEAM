@@ -45,10 +45,12 @@ public class StoreManager {
 			list.add(button);
 		}
 		ToggleGroup group = new ToggleGroup();
-		for (StoreButton sb : list) {
+		for (StoreButton sb: list) {
 			sb.setToggleGroup(group);
 			if (sb.getUnit().getStringAttribute("Type").equals("Troop")){
 				sb.setOnMouseClicked(e->myStore.enableBuyButton(sb.getUnit()));	
+			} else if (sb.getUnit().getStringAttribute("Type").equals("Tower")){
+				sb.setOnMouseClicked(e->buttonManager(sb.getUnit()));
 			}
 		}
 		myHBox.getChildren().addAll(list);
@@ -61,9 +63,6 @@ public class StoreManager {
 		imageview.setPreserveRatio(true);
 		String text = unit.getStringAttribute("Name") + "\n Gold: " + unit.getAttribute("BuyCost");
 		StoreButton button = new StoreButton(text, imageview, unit);
-		button.setOnAction(e -> {
-			buttonManager(button.getUnit());
-		});
 		return button;
 	}
 

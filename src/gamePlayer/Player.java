@@ -64,5 +64,9 @@ public class Player implements IPlayer {
 	public void showPaths(List<Path> pathsForLevel) {
 		myView.showPaths(pathsForLevel);
 	}
+
+	public void resetStore() {
+		myView.resetStore();
+	}
 	
 }

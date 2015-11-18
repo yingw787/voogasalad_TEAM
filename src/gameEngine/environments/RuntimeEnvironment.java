@@ -8,6 +8,7 @@ import java.util.Map;
 import gameEngine.GameConfiguration;
 import rules.Rule;
 import units.Base;
+import units.IDGenerator;
 import units.Level;
 import units.Path;
 import units.PlayerInfo;
@@ -15,15 +16,16 @@ import units.Unit;
 
 public class RuntimeEnvironment extends Environment {
 	private Map<Integer,Unit> myUnitsMap;
-	
+	private IDGenerator myIDGenerator;
 	public RuntimeEnvironment() {
 		super();
 		myUnitsMap = new HashMap<Integer,Unit>();
 	}
 	
 	public RuntimeEnvironment(List<Unit> towers, List<Unit> troops, List<Level> levels, List<Path> paths, PlayerInfo playerInfo,
-			GameConfiguration config, List<Rule> rules, Base base) {
+			GameConfiguration config, List<Rule> rules, Base base, IDGenerator id) {
 		super(towers, troops, levels, paths, playerInfo, config, rules, base);
+		myIDGenerator = id;
 		myUnitsMap = new HashMap<Integer,Unit>();
 	}
 	
@@ -69,4 +71,7 @@ public class RuntimeEnvironment extends Environment {
 		return ret;
 	}
 	
+	public int getNewID(){
+		return myIDGenerator.getID();
+	}
 }

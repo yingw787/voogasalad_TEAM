@@ -1,13 +1,10 @@
 package controller;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 import gameEngine.Engine;
-import gameEngine.requests.Request;
 import gamePlayer.Player;
-import gamedata.xml.XMLConverter;
 import interfaces.IRequest;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -56,6 +53,10 @@ public class Controller extends Application {
 
 	public void showPaths(List<Path> pathsForLevel) {
 		myPlayer.showPaths(pathsForLevel);
+	}
+
+	public void resetStore() {
+		myPlayer.resetStore();
 	}
 }
 

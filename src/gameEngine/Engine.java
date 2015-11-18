@@ -38,19 +38,19 @@ public class Engine implements IEngine {
 	}
 	
 	public void writeEnvironment() throws IOException{
+		myIDGenerator = new IDGenerator();
 		XMLConverter myConverter = new XMLConverter();
 		myRE = new RuntimeEnvironment(myConverter.getUnits("Game 1", "Tower"), 
 				myConverter.getUnits("Game 1", "Troop"), myConverter.getLevels("Game 1"), myConverter.getPaths("Game 1"), 
-				myConverter.getPlayerInfo("Game 1"), new GameConfiguration(), new ArrayList<Rule>(), new Base());
+				myConverter.getPlayerInfo("Game 1"), new GameConfiguration(), new ArrayList<Rule>(), new Base(), myIDGenerator);
 	
 //		myTBManager = new ToolbarManager(myController);
 	}
 	
 	public void initialize(){
+		myMapManager = new MapManager(myRE, myIDGenerator);
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.populateStore(myRE.getStoreStock());
-		myIDGenerator = new IDGenerator();
-		myMapManager = new MapManager(myRE, myIDGenerator);
 	}
 	
 	private void flush() {
@@ -110,6 +110,9 @@ public class Engine implements IEngine {
 		for (IRequest r : requests) {
 			r.execute(myRE);
 		}
+		myController.updateMap(myRE.getUnits());
+		myController.updateUserInfo(myRE.getPlayerInfo());
+		myController.resetStore();
 	}
 
 	@Override

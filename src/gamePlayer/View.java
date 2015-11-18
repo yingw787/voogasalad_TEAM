@@ -122,4 +122,8 @@ public class View implements Observer {
 		myMap.showPaths(pathsForLevel);
 	}
 
+	public void resetStore() {
+		myStore.resetStock();
+	}
+
 }

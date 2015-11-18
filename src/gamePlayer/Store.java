@@ -44,6 +44,10 @@ public class Store extends Observable implements IViewNode {
 		// TODO Auto-generated method stub
 		myStoreManager.setStock(store);
 	}
+	
+	public void resetStock(){
+		myStoreManager.populate(myTabManager.getCurrentTab());
+	}
 
 	public int getMoney() {
 		return myView.getMoney();

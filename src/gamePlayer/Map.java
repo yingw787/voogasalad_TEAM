@@ -3,7 +3,6 @@ package gamePlayer;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
@@ -12,7 +11,6 @@ import controller.Controller;
 import gameEngine.requests.BuyTowerRequest;
 import interfaces.IRequest;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ProgressBar;
@@ -57,11 +55,11 @@ public class Map extends Observable implements IViewNode {
 			@Override
 			public void handle(MouseEvent arg0) {
 				if (purchaseEnabled){
-					System.out.println("purchase sent to back end");
 					BuyTowerRequest buyRequest = new BuyTowerRequest((Tower) potentialPurchase, new Point(arg0.getSceneX(), arg0.getSceneY()));
 					List<IRequest> requestSender = new ArrayList<IRequest>();
 					requestSender.add(buyRequest);
 					myController.update(requestSender);
+					purchaseEnabled = false;
 				}
 			}
 		});
