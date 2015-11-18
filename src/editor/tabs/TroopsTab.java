@@ -33,13 +33,10 @@ public class TroopsTab extends ATab implements IView, ITab {
 		myTroopsID = 0;
 		
 		HBox buttons = new HBox();
-		myAddButton = new Button("Make New Troop");
-		myDeleteButton = new Button("Delete Troop");
-		myAddButton.setOnAction(e -> addTroop());
-		myDeleteButton.setOnAction(e -> deleteTroop());
+		myAddButton = makeButton("Make New Troop", e -> addTroop());
+		myDeleteButton = makeButton("Delete Troop", e -> deleteTroop());
 		buttons.getChildren().addAll(myAddButton, myDeleteButton);
 		myTabContent.getChildren().add(buttons);
-		
 		
 		myEntriesToShow = FXCollections.observableArrayList();
 		myTroopsEntriesList = new ListView<String>(myEntriesToShow);

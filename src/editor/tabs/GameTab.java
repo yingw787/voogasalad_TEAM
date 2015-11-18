@@ -27,17 +27,14 @@ public class GameTab extends ATab implements IView, ITab {
 		myTabContent.getChildren().add(myLabel);
 		clearAttributes();
 	}
-	
-	
+
 	private void initializeAttributes(){
-		myTitleButton = new Button("Game title: " + myData.getGame().getTitle());
+		myTitleButton = makeButton("Game title: " + myData.getGame().getTitle(), e -> changeTitle());
 		myTitleButton.setStyle("-fx-padding: 0 0 0 0;"
 				+ "-fx-background-color: transparent;");
-		myTitleButton.setOnAction(e -> changeTitle());
-		myHelpButton = new Button("Game help page: " + myData.getGame().getHelpPage());
+		myHelpButton = makeButton("Game help page: " + myData.getGame().getHelpPage(), e -> changeHelpPage());
 		myHelpButton.setStyle("-fx-padding: 0 0 0 0;"
 				+ "-fx-background-color: transparent;");
-		myHelpButton.setOnAction(e -> changeHelpPage());
 		myTabContent.getChildren().addAll(myTitleButton, myHelpButton);
 	}
 	

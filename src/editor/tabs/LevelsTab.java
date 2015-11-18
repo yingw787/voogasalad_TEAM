@@ -46,12 +46,9 @@ public class LevelsTab extends ATab implements IView, ITab{
 	
 	private void initializeButtons() {
 		HBox buttons = new HBox();
-		myAddButton = new Button("Add New Level");
-		myAddButton.setOnAction(e-> addLevel());
-		myDeleteButton = new Button("Delete Level");
-		myDeleteButton.setOnAction(e-> deleteLevel());
-		myFinishButton = new Button("Finalize Level");
-		myFinishButton.setOnAction(e-> finishLevel());
+		myAddButton = makeButton("Add New Level", e-> addLevel());
+		myDeleteButton = makeButton("Delete Level", e-> deleteLevel());
+		myFinishButton = makeButton("Finalize Level", e-> finishLevel());
 		buttons.getChildren().addAll(myAddButton, myDeleteButton, myFinishButton);
 		buttons.setAlignment(Pos.BOTTOM_RIGHT); 
 		myTabContent.getChildren().add(buttons);

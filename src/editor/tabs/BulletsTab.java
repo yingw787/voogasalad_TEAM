@@ -32,18 +32,15 @@ public class BulletsTab extends ATab implements IView, ITab {
 	
 	public BulletsTab(){
 		initTab();
-		
+
 		myBulletID = 0;
-		
+	
 		HBox buttons = new HBox();
-		myAddButton = new Button("Make New Bullet");
-		myDeleteButton = new Button("Delete Bullet");
-		myAddButton.setOnAction(e -> addBullet());
-		myDeleteButton.setOnAction(e -> deleteBullet());
+		myAddButton = makeButton("Make New Bullet", e -> addBullet());
+		myDeleteButton = makeButton("Delete Bullet", e -> deleteBullet());
 		buttons.getChildren().addAll(myAddButton, myDeleteButton);
 		myTabContent.getChildren().add(buttons);
-		
-		
+
 		myEntriesToShow = FXCollections.observableArrayList();
 		myBulletEntriesList = new ListView<String>(myEntriesToShow);
 		myBulletEntriesList.getSelectionModel().selectedItemProperty().addListener(    

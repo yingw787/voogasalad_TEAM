@@ -46,12 +46,9 @@ public class PathsTab extends ATab implements IView, ITab{
 
 	private void initializeButtons() {
 		HBox buttons = new HBox();
-		myAddButton = new Button("Add New Path");
-		myAddButton.setOnAction(e-> selectPaths());
-		myDeleteButton = new Button("Delete Path");
-		myDeleteButton.setOnAction(e-> deleteButton());
-		myFinishButton = new Button("Finalize Path");
-		myFinishButton.setOnAction(e-> finishPath());
+		myAddButton = makeButton("Add New Path", e-> selectPaths());
+		myDeleteButton = makeButton("Delete Path", e-> deleteButton());
+		myFinishButton = makeButton("Finalize Path", e-> finishPath());
 		buttons.getChildren().addAll(myAddButton, myDeleteButton, myFinishButton);
 		buttons.setAlignment(Pos.BOTTOM_RIGHT);  // not sure if this works?
 		myTabContent.getChildren().add(buttons);
