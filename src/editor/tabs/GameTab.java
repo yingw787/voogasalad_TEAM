@@ -34,7 +34,6 @@ public class GameTab extends Observable implements IView, ITab {
 	
 	
 	private void initializeAttributes(){
-		
 		myTitleButton = new Button("Game title: " + myData.getGame().getTitle());
 		myTitleButton.setStyle("-fx-padding: 0 0 0 0;"
 				+ "-fx-background-color: transparent;");
@@ -48,7 +47,6 @@ public class GameTab extends Observable implements IView, ITab {
 	
 	private void clearAttributes(){
 		myTabContent.getChildren().removeAll(myTitleButton, myHelpButton);
-	
 	}
 
 	private void refresh(){
