@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
 
+import controller.Controller;
+import gameEngine.requests.BuyTowerRequest;
+import interfaces.IRequest;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -19,6 +22,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
+import units.Point;
+import units.Tower;
 import units.Unit;
 
 public class Map extends Observable implements IViewNode {
@@ -33,9 +38,14 @@ public class Map extends Observable implements IViewNode {
 	private HashMap<Double, MapUnit> myImageMap;
 	private HashMap<Double, ProgressBar> myHealthMap;
 	private View myView;
+	private Controller myController;
+	private boolean purchaseEnabled;
+	private Unit potentialPurchase;
 	
-	public Map(View v){
+	public Map(Controller c, View v){
 		this.myView = v;
+		this.myController = c;
+		purchaseEnabled = false;
 	}
 	
 	public Pane initialize(){
@@ -44,7 +54,13 @@ public class Map extends Observable implements IViewNode {
 		myPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent arg0) {
-//				System.out.println(arg0.getSceneX() + " " + arg0.getSceneY());
+				if (purchaseEnabled){
+					System.out.println("purchase sent to back end");
+					BuyTowerRequest buyRequest = new BuyTowerRequest((Tower) potentialPurchase, new Point(arg0.getSceneX(), arg0.getSceneY()));
+					List<IRequest> requestSender = new ArrayList<IRequest>();
+					requestSender.add(buyRequest);
+					myController.update(requestSender);
+				}
 			}
 		});
 		myImageMap = new HashMap<Double, MapUnit>();
@@ -160,6 +176,11 @@ public class Map extends Observable implements IViewNode {
 	
 	private void enableSelling(MapUnit mapUnit){
 		myView.enableSell(mapUnit);
+	}
+
+	public void enableTowerPurchase(Unit u) {
+		purchaseEnabled = true;
+		potentialPurchase = u;
 	}
 
 }

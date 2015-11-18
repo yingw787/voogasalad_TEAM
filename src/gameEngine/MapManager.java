@@ -96,16 +96,15 @@ public class MapManager {
 		double theta = Math.atan((target.getY() - currY)/(target.getX() - currX));
 		double deltaX = Math.cos(theta);
 		double deltaY = Math.sin(theta);
-		System.out.println(deltaX);
-		if (target.getX() - currX < 0) {
-			//subtract delta x instead 
+		if (target.getX() - currX < 0) { 
 			deltaX *= -1.0;
-			System.out.println(deltaX);
+			deltaY *= -1.0;
 		}
 		Point nextDestination = new Point(currX + deltaX, currY + deltaY);
 		unit.setPoint(nextDestination);
-		if ((nextDestination.getX() == target.getX())&&(nextDestination.getY()==target.getY())){
-			myWalkManager.get(unit).remove();	
+		if (((int) nextDestination.getX() == (int) target.getX())&&( (int) nextDestination.getY()== (int) target.getY())){
+			Point p = myWalkManager.get(unit).remove();
+			
 			if (myWalkManager.get(unit).peek()==null){
 				myWalkManager.remove(unit);
 				unitsOnBoard.remove(unit);

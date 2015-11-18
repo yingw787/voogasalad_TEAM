@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import gameEngine.Engine;
+import gameEngine.requests.Request;
 import gamePlayer.Player;
 import gamedata.xml.XMLConverter;
+import interfaces.IRequest;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -46,6 +48,11 @@ public class Controller extends Application {
 	
 	public void startWave(int i){
 		myEngine.startWave(i);
+	}
+
+	public void update(List<IRequest> requestSender) {
+		myEngine.update(requestSender);
+		
 	}
 }
 

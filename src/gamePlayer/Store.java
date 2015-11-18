@@ -17,11 +17,9 @@ public class Store extends Observable implements IViewNode {
 		this.myView = view;
 	}
 	
-
-	
 	public VBox initialize(){
 		VBox myVBox = new VBox();
-		myStoreManager = new StoreManager(this, myTestMap);
+		myStoreManager = new StoreManager(myView, this, myTestMap);
 		myTabManager = new TabManager(this);
 		myVBox.getChildren().addAll(myTabManager.initialize(), myStoreManager.initialize());
 		return myVBox;
@@ -48,13 +46,9 @@ public class Store extends Observable implements IViewNode {
 		myStoreManager.setStock(store);
 	}
 
-
-
 	public int getMoney() {
 		return myView.getMoney();
 	}
-
-
 
 	public void enableBuyButton(Unit unit) {
 		// TODO Auto-generated method stub
