@@ -36,14 +36,14 @@ public class Map extends Observable implements IViewNode {
 	private MapUnit selectedUnit;
 	private HashMap<Double, MapUnit> myImageMap;
 	private HashMap<Double, ProgressBar> myHealthMap;
-	private View myView;
+	private Player myPlayer;
 	private Controller myController;
 	private boolean purchaseEnabled;
 	private Unit potentialPurchase;
 	private List<Line> myCurrentPaths;
 	
-	public Map(Controller c, View v){
-		this.myView = v;
+	public Map(Controller c, Player p){
+		this.myPlayer = p;
 		this.myController = c;
 		purchaseEnabled = false;
 	}
@@ -132,7 +132,7 @@ public class Map extends Observable implements IViewNode {
 	}
 	
 	private void updateSelected(MapUnit myUnit) {
-		myView.updateSelected(myUnit);
+		myPlayer.updateSelected(myUnit);
 	}
 
 	public void uploadMap() {
@@ -173,7 +173,7 @@ public class Map extends Observable implements IViewNode {
 	}
 	
 	private void enableSelling(MapUnit mapUnit){
-		myView.enableSell(mapUnit);
+		myPlayer.enableSell(mapUnit);
 	}
 
 	public void enableTowerPurchase(Unit u) {
