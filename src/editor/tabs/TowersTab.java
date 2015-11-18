@@ -22,9 +22,7 @@ import editor.IView;
 import editor.tabData.ITabData;
 import editor.tabData.TowersData;
 
-public class TowersTab extends Observable implements IView, ITab, Observer {
-	private ScrollPane myTabView;
-	private VBox myTabContent;	
+public class TowersTab extends ATab implements IView, ITab, Observer {
 	private TowersData myData;
 	private Button myAddButton;
 	private Button myDeleteButton;
@@ -40,9 +38,7 @@ public class TowersTab extends Observable implements IView, ITab, Observer {
 	
 	
 	public TowersTab(){
-		myTabView = new ScrollPane();
-		myTabContent = new VBox();
-		myTabView.setContent(myTabContent);
+		initTab();
 		
 		myTowerID = 0;
 		
@@ -88,11 +84,6 @@ public class TowersTab extends Observable implements IView, ITab, Observer {
 //			System.out.print(((Tower) t).getStringAttribute("Name") + ", ");
 //		}
 	//	System.out.println();
-	}
-	
-	@Override
-	public Node getView() {
-		return myTabView;
 	}
 
 

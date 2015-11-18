@@ -19,9 +19,7 @@ import editor.tabData.DataController;
 import editor.tabData.ITabData;
 import editor.tabData.TowersData;
 
-public class BulletsTab extends Observable implements IView, ITab {
-	private ScrollPane myTabView;
-	private VBox myTabContent;	
+public class BulletsTab extends ATab implements IView, ITab {
 	private BulletsData myData;
 	private Button myAddButton;
 	private Button myDeleteButton;
@@ -33,9 +31,7 @@ public class BulletsTab extends Observable implements IView, ITab {
 	
 	
 	public BulletsTab(){
-		myTabView = new ScrollPane();
-		myTabContent = new VBox();
-		myTabView.setContent(myTabContent);
+		initTab();
 		
 		myBulletID = 0;
 		
@@ -81,12 +77,6 @@ public class BulletsTab extends Observable implements IView, ITab {
 		}
 		System.out.println();
 	}
-	
-	@Override
-	public Node getView() {
-		return myTabView;
-	}
-
 
 	@Override
 	public void setData(ITabData data) {
