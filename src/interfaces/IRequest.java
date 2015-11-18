@@ -1,5 +1,7 @@
 package interfaces;
 
-public interface IRequest {
+import gameEngine.environments.RuntimeEnvironment;
 
+public interface IRequest {
+	public void execute(RuntimeEnvironment re);
 }

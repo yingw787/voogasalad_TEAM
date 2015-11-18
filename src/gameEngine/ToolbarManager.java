@@ -1,8 +1,11 @@
 package gameEngine;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import controller.Controller;
 import gamedata.xml.XMLConverter;
 import units.Level;
 import units.PlayerInfo;
@@ -14,23 +17,37 @@ public class ToolbarManager {
 	 * This class handles the different toolbars available in the front-end. 
 	 * This should be general enough to handle the different kinds of toolbars without needing to extend it too much. 
 	 */
-	private Engine myEngine;
+	Controller myController;
+	List<Unit> myTowers;
+	List<Unit> myTroops;
 	
-	public ToolbarManager(Engine e) throws IOException{
-		this.myEngine = e;
+	public ToolbarManager(Controller controller) throws IOException{
+		this.myController = controller;
+		
+		myTowers = new ArrayList<Unit>();
+		myTroops = new ArrayList<Unit>();
 
-//		upLoadStore();
+		
+		XMLConverter myConverter = new XMLConverter();
+		
+		List<Unit> towers = myConverter.getUnits("Game 1", "Tower");
+		List<Unit> troops = myConverter.getUnits("Game 1", "Troop");
+		
+		myTowers.addAll(towers);
+		myTroops.addAll(troops);
+		
+		upLoadStore();
 		
 	}
 	
-//	public void upLoadStore(){
-//		HashMap<String,List<Unit>>storeMap = new HashMap<String,List<Unit>>();
-//		
-//		storeMap.put("Towers", myTowers);
-//		storeMap.put("Troops", myTroops);
-//		
-//	   myController.populateStore(storeMap);
-//	}
+	private void upLoadStore(){
+		HashMap<String,List<Unit>>storeMap = new HashMap<String,List<Unit>>();
+		
+		storeMap.put("Towers", myTowers);
+		storeMap.put("Troops", myTroops);
+		
+	   myController.populateStore(storeMap);
+	}
 	
 	
 }
