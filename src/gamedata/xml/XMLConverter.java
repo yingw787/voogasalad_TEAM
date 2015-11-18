@@ -11,6 +11,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 import units.Level;
+import units.Path;
 import units.PlayerInfo;
 import units.Unit;
 
@@ -55,18 +56,14 @@ public class XMLConverter {
 		    }
 		}
 		catch (Exception e) {
-			System.out.println("Cannot convert " + type + "from " + game + " from XML");
+			System.out.println("Cannot convert " + type + " from " + game + " from XML");
 		}
 		return myObjects;
 	}
 	
-	public List<PlayerInfo> getPlayerInfo(String game) throws IOException{
+	public PlayerInfo getPlayerInfo(String game) throws IOException{
 		List<Object> objects = fromXML(game,"PlayerInfo");
-		List<PlayerInfo> myInfo = new ArrayList<PlayerInfo>();
-		for (Object o : objects){
-			myInfo.add((PlayerInfo) o);
-		}
-		return myInfo;
+		return (PlayerInfo) objects.get(0);
 	}
 	
 	public List<Level> getLevels(String game) throws IOException{
@@ -84,6 +81,15 @@ public class XMLConverter {
 		List<Unit> myUnits = new ArrayList<Unit>();
 		for (Object o : objects){
 			myUnits.add((Unit) o);
+		}
+		return myUnits;
+	}
+	
+	public List<Path> getPaths(String game) throws IOException{
+		List<Object> objects = fromXML(game,"Path");
+		List<Path> myUnits = new ArrayList<Path>();
+		for (Object o : objects){
+			myUnits.add((Path) o);
 		}
 		return myUnits;
 	}

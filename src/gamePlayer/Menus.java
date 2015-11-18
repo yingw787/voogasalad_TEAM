@@ -2,6 +2,7 @@ package gamePlayer;
 
 import java.util.Observable;
 
+import controller.Controller;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 
@@ -11,10 +12,10 @@ public class Menus extends Observable implements IViewNode {
 	private Menu saveMenu;
 	private Menu helpMenu;
 	private Menu addBackgroundMenu;
-	private View myView;
+	private Controller myController;
 
-	public Menus(View v){
-		this.myView = v;
+	public Menus(Controller c){
+		this.myController = c;
 	}
 
 	public MenuBar initialize(){

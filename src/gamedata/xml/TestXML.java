@@ -56,9 +56,11 @@ public class TestXML {
 //		myTroopsFromXML = c.fromXML("Game 1", "Troop");
 //		myLevelsFromXML = c.fromXML("Game 1", "Level");
 //		myPlayerInfoFromXML = c.fromXML("Game 1", "PlayerInfo");
-		System.out.println(myTowersFromXML);
-		System.out.println(myTroopsFromXML);
+//		System.out.println(myTowersFromXML);
+//		System.out.println(myTroopsFromXML);
+//		System.out.println(myLevelsFromXML);
+//		System.out.println(myPlayerInfoFromXML);
+		myLevelsFromXML = c.getLevels("Game 1");
 		System.out.println(myLevelsFromXML);
-		System.out.println(myPlayerInfoFromXML);
 	}
 }

@@ -8,13 +8,15 @@ import javafx.scene.control.TabPane;
 public class TabManager {
 	private TabPane myTabPane;
 	private Store myStore;
-
+	private String myCurrentTab;
+	
 	public TabManager(Store s){
 		this.myStore = s;
 	}
 	
 	public TabPane initialize(){
 		myTabPane = new TabPane();
+		myCurrentTab = "Towers";
 		myTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 		populate();
 		myTabPane.getSelectionModel().selectedItemProperty().addListener(
@@ -22,6 +24,7 @@ public class TabManager {
 					@Override
 					public void changed(ObservableValue<? extends Tab> ov, Tab oldTab, Tab newTab) {
 						myStore.changeStock(newTab.getText());
+						myCurrentTab = newTab.getText();
 					}
 					
 				}
@@ -40,7 +43,10 @@ public class TabManager {
 
 	public void setHeight(double height) {
 		myTabPane.setPrefHeight(height);
-		
+	}
+	
+	public String getCurrentTab(){
+		return myCurrentTab;
 	}
 
 	public void setWidth(double width) {
