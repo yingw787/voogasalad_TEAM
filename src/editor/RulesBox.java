@@ -123,10 +123,10 @@ public class RulesBox implements IView, Observer {
 				break;
 			case "Timer":
 				// Ask for delay
-				double delay = 0.0;
+				int delay = 0;
 				Optional<String> result2 = askUserForText("Timer Delay", "Enter a delay between actions", "Positive numbers only");
 				if (result2.isPresent()){
-					delay = Double.parseDouble(result2.get());
+					delay = Integer.parseInt(result2.get());
 				} else return;
 				condition = new TimerCondition(delay);
 				conditionDescription = "Every delay of " + delay + " frames, ";

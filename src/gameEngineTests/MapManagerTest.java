@@ -11,7 +11,7 @@ public class MapManagerTest extends TestCase {
 	
 	@Before 
 	public void setUp(){
-		mapManager = new MapManager(); 
+//		mapManager = new MapManager(); 
 	}
 	
 	@Test 

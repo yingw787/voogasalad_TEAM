@@ -78,6 +78,7 @@ public class XMLConverter {
 		return myLevels;
 	}
 	
+	//type 
 	public List<Unit> getUnits(String game, String type) throws IOException{
 		List<Object> objects = fromXML(game,type);
 		List<Unit> myUnits = new ArrayList<Unit>();

@@ -1,5 +1,6 @@
 package gameEngine.environments;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,20 @@ public class RuntimeEnvironment extends Environment {
 	
 	public Unit getUnit(int id) {
 		return myUnitsMap.get(id);
+	}
+	
+	public void removeUnit(int id){
+		myUnitsMap.remove(id);
+	}
+
+	public Collection<Unit> getUnits() {
+		// TODO Auto-generated method stub
+		return   myUnitsMap.values();
+	}
+
+	public void addUnit(int id, Unit t) {
+		// TODO Auto-generated method stub
+		myUnitsMap.put(id, t);
 	}
 	
 }

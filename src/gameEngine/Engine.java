@@ -7,14 +7,15 @@ import java.util.List;
 
 
 import controller.Controller;
-import gameEngine.environments.InitialEnvironment;
 import gameEngine.environments.RuntimeEnvironment;
+import gameEngine.requests.Request;
 import gamedata.xml.XMLConverter;
 import interfaces.IEngine;
 import interfaces.IRequest;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import rules.Rule;
 import units.IDGenerator;
 import units.Level;
 import units.Path;
@@ -35,7 +36,6 @@ public class Engine implements IEngine {
 	private List<Path> myPaths;
 	private int myCurrentLevelInt;
 	private Level myCurrentLevel;
-	private InitialEnvironment myInitialEnviron;
 	private RuntimeEnvironment myRuntimeEnviron;
 	private ToolbarManager myTBManager;
 	private MapManager myMapManager;
@@ -81,15 +81,18 @@ public class Engine implements IEngine {
 		myIDGenerator = new IDGenerator();
 		myMapManager = new MapManager(myController, myPaths, myIDGenerator);
 		myHUDManager = new HUDManager(myController, myPlayerInfo.get(0));
-		myInitialEnviron = new InitialEnvironment();
 		myRuntimeEnviron = new RuntimeEnvironment();
 	}
 	
+	private void flush() {
+		List<Unit> l = new ArrayList<Unit>();
+		l.addAll(myRuntimeEnviron.getUnits());
+		myController.updateMap(l);
+		myHUDManager.updateUserInfo();
+	}
+	
 	public void writeEnvironment() throws IOException{
-		myTBManager = new ToolbarManager(this);
-		XMLParser parser = new XMLParser();
-		parser.writeEnviroment(myInitialEnviron);
-		myInitialEnviron = parser.readEnvironment();
+		myTBManager = new ToolbarManager(myController);
 	}
 	
 	public void playAnimation(boolean on){
@@ -109,6 +112,15 @@ public class Engine implements IEngine {
 	
 	
 	private void step(){
+		for (Unit unit : myRuntimeEnviron.getUnits()) {
+			//testing animation
+			
+			for(Rule rule : unit.getRules()){
+				
+				rule.run(unit, myRuntimeEnviron);
+			}
+		}
+		
 		if (myMapManager.hasMoreEnemies()){
 			if (delay % 60 == 0) {
 				myMapManager.spawnNewEnemy();
@@ -120,6 +132,8 @@ public class Engine implements IEngine {
 			myMapManager.walkUnitOnMap(unit);
 		}
 		myController.updateMap(myMapManager.getUnitsOnBoard());
+		
+//		flush();
 	}
 
 	
@@ -134,7 +148,9 @@ public class Engine implements IEngine {
 	public void update(List<IRequest> requests) {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
-		
+		for (IRequest r : requests) {
+			r.execute(myRuntimeEnviron);
+		}
 	}
 
 	@Override
