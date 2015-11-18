@@ -2,26 +2,17 @@ package editor.tabs;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 import editor.IView;
 import editor.MainGUI;
 import editor.tabData.ITabData;
 import editor.tabData.PathsData;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import units.Path;
@@ -29,8 +20,6 @@ import units.Point;
 
 public class PathsTab extends ATab implements IView, ITab{
 	private PathsData myData;
-	private ListView<String> myPathEntriesList;
-	private ObservableList<String> myEntriesToShow;
 	private Button myAddButton;
 	private Button myDeleteButton;
 	private Button myFinishButton;
@@ -41,28 +30,19 @@ public class PathsTab extends ATab implements IView, ITab{
 
 	public PathsTab(){
 		initTab();
+		createButtons();
 		myFlags = new ArrayList<ImageView>();
 	}
 
-	private void initializeButtons() {
-		HBox buttons = new HBox();
+	private void createButtons() {
 		myAddButton = makeButton("Add New Path", e-> selectPaths());
 		myDeleteButton = makeButton("Delete Path", e-> deleteButton());
 		myFinishButton = makeButton("Finalize Path", e-> finishPath());
-		buttons.getChildren().addAll(myAddButton, myDeleteButton, myFinishButton);
-		buttons.setAlignment(Pos.BOTTOM_RIGHT);  // not sure if this works?
-		myTabContent.getChildren().add(buttons);
-	}
-
-	private void initializePaths() {
-		myEntriesToShow = FXCollections.observableArrayList();
-		myPathEntriesList = new ListView<String>(myEntriesToShow);
-		myPathEntriesList.setMinWidth(432);
-		myTabContent.getChildren().add(myPathEntriesList);
+		myButtons.getChildren().addAll(myAddButton, myDeleteButton, myFinishButton);
 	}
 
 	private void deleteButton() {
-		String selected = myPathEntriesList.getSelectionModel().getSelectedItem();
+		String selected = myEntriesList.getSelectionModel().getSelectedItem();
 		if (selected == null) {
 			return;
 		}
@@ -117,7 +97,5 @@ public class PathsTab extends ATab implements IView, ITab{
 	@Override
 	public void setData(ITabData data) {
 		myData = (PathsData) data;
-		initializeButtons();
-		initializePaths();
 	}
 }
