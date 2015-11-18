@@ -1,23 +1,11 @@
 package editor.tabs;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-
 import units.Tower;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import editor.IView;
 import editor.tabData.ITabData;
 import editor.tabData.TowersData;
@@ -28,36 +16,30 @@ public class TowersTab extends ATab implements IView, ITab, Observer {
 	private Button myDeleteButton;
 	private int myTowerID;
 	
-	private ListView<String> myTowerEntriesList;
-	private ObservableList<String> myEntriesToShow;
-	
 	private class Entry extends HBox {
 		public int ID;
 		
 	}
-	
-	
+
 	public TowersTab(){
 		initTab();
-		
+		createButtons();
+
 		myTowerID = 0;
-		
-		HBox buttons = new HBox();
-		myAddButton = makeButton("Make New Tower", e -> addTower());
-		myDeleteButton = makeButton("Delete Tower", e -> deleteTower());
-		buttons.getChildren().addAll(myAddButton, myDeleteButton);
-		myTabContent.getChildren().add(buttons);
-		
-		myEntriesToShow = FXCollections.observableArrayList();
-		myTowerEntriesList = new ListView<String>(myEntriesToShow);
-		myTowerEntriesList.getSelectionModel().selectedItemProperty().addListener(    
+
+		myEntriesList.getSelectionModel().selectedItemProperty().addListener(    
 				(ObservableValue<? extends String> ov, String old_val, String new_val) -> {
 //	                System.out.println(new_val);    
 //	                System.out.println("clicked");
 	                setChanged();
 	                notifyObservers(myData.get(new_val));
 	    });
-		myTabContent.getChildren().add(myTowerEntriesList);
+	}
+	
+	private void createButtons() {
+		myAddButton = makeButton("Add New Tower", e -> addTower());
+		myDeleteButton = makeButton("Delete Tower", e -> deleteTower());
+		myButtons.getChildren().addAll(myAddButton, myDeleteButton);
 	}
 	
 	private void addTower(){
@@ -72,7 +54,7 @@ public class TowersTab extends ATab implements IView, ITab, Observer {
 	}
 	
 	private void deleteTower(){
-		String selected = myTowerEntriesList.getSelectionModel().getSelectedItem();
+		String selected = myEntriesList.getSelectionModel().getSelectedItem();
 		myEntriesToShow.remove(selected);
 		myData.remove(selected);
 		

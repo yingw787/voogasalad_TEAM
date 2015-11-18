@@ -1,10 +1,5 @@
 package editor.tabs;
 
-import java.util.Observable;
-
-import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.VBox;
 import editor.IView;
 import editor.tabData.ITabData;
 

@@ -3,30 +3,11 @@ package editor.tabs;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Observable;
 import java.util.Optional;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.stage.Popup;
-import javafx.stage.PopupWindow;
 import units.Troop;
 import editor.IView;
-import editor.MainGUI;
 import editor.tabData.ITabData;
 import editor.tabData.LevelsData;
 import editor.tabData.TroopsData;
@@ -37,28 +18,17 @@ public class LevelsTab extends ATab implements IView, ITab{
 	private Button myAddButton;
 	private Button myDeleteButton;
 	private Button myFinishButton;
-	private ListView<String> myPathEntriesList;
-	private ObservableList<String> myEntriesToShow;
 
 	public LevelsTab(){
 		initTab();
+		createButtons();
 	}
 	
-	private void initializeButtons() {
-		HBox buttons = new HBox();
+	private void createButtons() {
 		myAddButton = makeButton("Add New Level", e-> addLevel());
 		myDeleteButton = makeButton("Delete Level", e-> deleteLevel());
 		myFinishButton = makeButton("Finalize Level", e-> finishLevel());
-		buttons.getChildren().addAll(myAddButton, myDeleteButton, myFinishButton);
-		buttons.setAlignment(Pos.BOTTOM_RIGHT); 
-		myTabContent.getChildren().add(buttons);
-	}
-	
-	private void initializeLevels() {
-		myEntriesToShow = FXCollections.observableArrayList();
-		myPathEntriesList = new ListView<String>(myEntriesToShow);
-		myPathEntriesList.setMinWidth(432);
-		myTabContent.getChildren().add(myPathEntriesList);
+		myButtons.getChildren().addAll(myAddButton, myDeleteButton, myFinishButton);
 	}
 	
 	private void addLevel() {
@@ -121,8 +91,6 @@ public class LevelsTab extends ATab implements IView, ITab{
 	@Override
 	public void setData(ITabData data) {
 		myData = (LevelsData) data;
-		initializeButtons();
-		initializeLevels();
 	}
 
 }
