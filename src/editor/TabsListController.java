@@ -12,7 +12,7 @@ public class TabsListController {
 	private TabsList myTabsList;
 	private Map<String, ITab> myTabs;
 	// Move this out to a resource file
-	private String[] myTabNames = {"Scenes", "Towers", "Troops", "Bullets", "Paths", "Levels", "Game"};
+	private String[] myTabNames = {"Scenes", "Towers", "Troops", "Bullets", "Paths", "Levels", "Player", "Game"};
 	
 	public TabsListController(DataController data) {
 		myTabsList = new TabsList();

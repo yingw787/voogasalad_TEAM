@@ -5,6 +5,12 @@ public class PlayerInfo {
 	private int myLives;
 	private String myCurrentLevel;
 	
+	public PlayerInfo() {
+		this.myMoney = 100;
+		this.myLives = 1;
+		this.myCurrentLevel = "0";
+	}
+	
 	public PlayerInfo(int money, int lives, String lvl){
 		this.myMoney = money;
 		this.myLives = lives;

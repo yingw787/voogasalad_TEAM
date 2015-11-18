@@ -9,7 +9,7 @@ import editor.tabData.*;
 public class DataController {
 	private Map<String, ITabData> myData;
 	// Move this out to properties file later
-	private String[] types = {"Bullets", "Game", "Levels", "Paths", "Scenes", "Towers", "Troops"};
+	private String[] types = {"Bullets", "Game", "Levels", "Paths", "Scenes", "Towers", "Troops", "Player"};
 	
 	public DataController(){
 		initialize();
