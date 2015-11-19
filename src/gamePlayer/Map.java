@@ -60,6 +60,8 @@ public class Map extends Observable implements IViewNode {
 					purchaseEnabled = false;
 				}
 			}
+
+			
 		});
 		myImageMap = new HashMap<Double, MapUnit>();
 		myHealthMap = new HashMap<Double, ProgressBar>();

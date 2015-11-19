@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import controller.Controller;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -26,7 +27,7 @@ public class StoreManager {
 		this.myStore = s;
 //		this.myStock = myTestMap;
 	}
-	
+
 	
 	/*initializes the pertinent elements of the StoreManager like the ScrollPane
 	 * and the HBox inside
@@ -66,7 +67,7 @@ public class StoreManager {
 		}
 		myHBox.getChildren().addAll(list);
 	}
-	
+
 	private StoreButton buttonFactory(Unit unit){
 		Image image = new Image(unit.getStringAttribute("Image"));
 		ImageView imageview = new ImageView(image);
@@ -103,5 +104,5 @@ public class StoreManager {
 		populate("Towers");
 	}
 
-	
+
 }

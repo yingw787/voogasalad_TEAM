@@ -15,13 +15,19 @@ import javafx.scene.text.Text;
 import units.PlayerInfo;
 import units.Unit;
 
-public class HUD extends Observable implements IViewNode{
-
-/*
- * HUD.java is the class displaying the heads-up display for the player. 
+/**
+ * This class shows the heads-up display for the player. 
  * This contains the information the player needs in order to play the game, including money, lives, and level progress for some instances of the game.
+ * It also contains buttons to sell and buy the tower and turret as well as button to start the wave.
+ *  <p>
+ * This class implements ViewNode interface.
+ *
+ * @see         Player
+ * @see 		IViewNode
  */
 
+
+public class HUD extends Observable implements IViewNode{
 
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private VBox myVBox;
@@ -38,12 +44,23 @@ public class HUD extends Observable implements IViewNode{
 		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
 	}
 
+	/**
+	 * Initialize v box
+	 * 
+	 * @return the v box
+	 */
 	public VBox initialize(){
 		myVBox = new VBox(20);
 		myVBox.setStyle("-fx-background-color: #FEF0C9;");
 		return myVBox;
 	}
 
+	/**
+	 * create HBox for amount of Gold.
+	 *
+	 * @param player the player
+	 * @return the node
+	 */
 	public Node gold(PlayerInfo player){
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("goldImage")));
 		ImageView imageView = new ImageView(image);
@@ -58,11 +75,22 @@ public class HUD extends Observable implements IViewNode{
 		return myHBox;
 	}
 	
+	/**
+	 * creates a Node for Selected display.
+	 *
+	 * @return the node
+	 */
 	public Node selectedDisplay(){
 		selectedDisplay = new Selected(myPlayer);
 		return selectedDisplay.getDisplay();
 	}
 
+	/**
+	 * Creates Node for number of Lives left.
+	 *
+	 * @param player the player
+	 * @return the node
+	 */
 	public Node lives(PlayerInfo player){
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("lives")));
 		
@@ -94,6 +122,11 @@ public class HUD extends Observable implements IViewNode{
 		return myHBox;		
 	}
 	
+	/**
+	 * creates Wave button in the HUD.
+	 *
+	 * @return the node
+	 */
 	public Node waveButton(){
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
@@ -105,6 +138,12 @@ public class HUD extends Observable implements IViewNode{
 	}
 	
 	
+	/**
+	 * creates HBox for game Level.
+	 *
+	 * @param player the player
+	 * @return the node
+	 */
 	public Node level(PlayerInfo player){
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
@@ -115,6 +154,11 @@ public class HUD extends Observable implements IViewNode{
 		return myHBox;
 	}
 	
+	/**
+	 * creates HBox for Buy and Sell buttons.
+	 *
+	 * @return the node
+	 */
 	public Node buySellButton(){
 		
 		HBox myHBox = new HBox();
@@ -134,6 +178,11 @@ public class HUD extends Observable implements IViewNode{
 		
 	}
 	
+	/**
+	 * Populates all the Nodes in HUD's VBox.
+	 *
+	 * @param player the player
+	 */
 	public void populate(PlayerInfo player){
 		myPlayerInfo = player;
 		myVBox.getChildren().clear();
@@ -150,24 +199,45 @@ public class HUD extends Observable implements IViewNode{
 		//		myView.purchaseItem();
 	}
 
+	/* (non-Javadoc)
+	 * @see gamePlayer.IViewNode#setHeight(double)
+	 */
 	@Override
 	public void setHeight(double height){
 		myVBox.setPrefHeight(height);
 	}
 
+	/* (non-Javadoc)
+	 * @see gamePlayer.IViewNode#setWidth(double)
+	 */
 	@Override
 	public void setWidth(double width){
 		myVBox.setPrefWidth(width);
 	}
 
+	/**
+	 * Enables buy button.
+	 *
+	 * @param unit the unit
+	 */
 	public void enableBuyButton(Unit unit) {
 		myBuyButton.setDisable(false);
 	}
 	
+	/**
+	 * Updates selected unit.
+	 *
+	 * @param myUnit the my unit
+	 */
 	public void updateSelected(MapUnit myUnit){
 		selectedDisplay.update(myUnit);
 	}
 
+	/**
+	 * Enables selling of unit.
+	 *
+	 * @param myUnit the my unit
+	 */
 	public void enableSell(MapUnit myUnit) {
 		if (myUnit.getUnit().getClass().toString().equals("class units.Tower")){
 			mySellButton.setDisable(false);
