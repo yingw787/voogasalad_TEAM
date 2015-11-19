@@ -1,6 +1,5 @@
 package editor;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 
@@ -8,6 +7,10 @@ public class Header implements IView {
 	
 	ToolBar myToolBar;
 	String[] mySections;
+	
+	public Header() {
+		myToolBar = new ToolBar();
+	}
 	
 	public Header(String[] sections) {
 		mySections = sections;
@@ -17,7 +20,7 @@ public class Header implements IView {
 			myToolBar.getItems().add(new Button(option));
 		}
 	}
-	
+
 	@Override
 	public ToolBar getView() {
 		return myToolBar;

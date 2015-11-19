@@ -1,34 +1,64 @@
 package editor.tabs;
 
-import java.util.Observable;
-
-import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.VBox;
+import units.Troop;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Button;
 import editor.IView;
 import editor.tabData.ITabData;
+import editor.tabData.TroopsData;
 
-public class TroopsTab extends Observable implements IView, ITab {
-	private ScrollPane myTabView;
-	private VBox myTabContent;
-	private ITabData myData;
-
+public class TroopsTab extends ATab implements IView, ITab {
+	private TroopsData myData;
+	private Button myAddButton;
+	private Button myDeleteButton;
+	private int myTroopsID;
+	
 	public TroopsTab(){
-		myTabView = new ScrollPane();
-		myTabContent = new VBox();
-		myTabView.setContent(myTabContent);
+		initTab();
+		createButtons();
+		
+		myTroopsID = 0;
+
+		myEntriesList.getSelectionModel().selectedItemProperty().addListener(    
+				(ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+	                System.out.println(new_val);    
+	                System.out.println("clicked");
+	                setChanged();
+	                notifyObservers(myData.get(new_val));
+	    });
 	}
 	
+	private void createButtons() {
+		myAddButton = makeButton("Add New Troop", e -> addTroop());
+		myDeleteButton = makeButton("Delete Troop", e -> deleteTroop());
+		myButtons.getChildren().addAll(myAddButton, myDeleteButton);
+	}
 	
-	@Override
-	public Node getView() {
-		return myTabView;
+	private void addTroop(){
+		Troop troop = new Troop();
+		String troopName = "Troop " + myTroopsID++;
+		troop.setAttribute("Name", troopName);
+		troop.setAttribute("Image", "purpleminion.png");
+		myEntriesToShow.add(troopName);
+		myData.add(troopName, troop);
+	}
+	
+	private void deleteTroop(){
+		String selected = myEntriesList.getSelectionModel().getSelectedItem();
+		myEntriesToShow.remove(selected);
+		myData.remove(selected);
+		
+		// Check for deleted Troops
+		for(Object t : myData.getData()){
+			System.out.print(((Troop) t).getStringAttribute("Name") + ", ");
+		}
+		System.out.println();
 	}
 
 
 	@Override
 	public void setData(ITabData data) {
-		myData = data;
+		myData = (TroopsData) data;
 	}
 
 }

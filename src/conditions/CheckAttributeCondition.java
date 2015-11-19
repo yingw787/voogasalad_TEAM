@@ -17,10 +17,10 @@ public class CheckAttributeCondition implements ICondition{
 	@Override
 	public boolean checkCondition(Unit actor,RuntimeEnvironment re) {
 		// TODO Implement storing attributes in a map in Unit
-//		double currentValue = actor.getAttribute(myAttributeToCheck);
-//		if(currentValue >= myLowerBound && currentValue <= myUpperBound){
-//			return true;
-//		}
+		double currentValue = actor.getAttribute(myAttributeToCheck);
+		if(currentValue >= myLowerBound && currentValue <= myUpperBound){
+			return true;
+		}
 		return false;
 	}
 

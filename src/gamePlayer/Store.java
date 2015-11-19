@@ -10,18 +10,15 @@ import units.Unit;
 public class Store extends Observable implements IViewNode {
 	private StoreManager myStoreManager;
 	private TabManager myTabManager;
-	private HashMap<String, List<Unit>> myTestMap;
 	private View myView;
 	
 	public Store(View view){
 		this.myView = view;
 	}
 	
-
-	
 	public VBox initialize(){
 		VBox myVBox = new VBox();
-		myStoreManager = new StoreManager(this, myTestMap);
+		myStoreManager = new StoreManager(myView, this);
 		myTabManager = new TabManager(this);
 		myVBox.getChildren().addAll(myTabManager.initialize(), myStoreManager.initialize());
 		return myVBox;
@@ -47,14 +44,14 @@ public class Store extends Observable implements IViewNode {
 		// TODO Auto-generated method stub
 		myStoreManager.setStock(store);
 	}
-
-
+	
+	public void resetStock(){
+		myStoreManager.populate(myTabManager.getCurrentTab());
+	}
 
 	public int getMoney() {
 		return myView.getMoney();
 	}
-
-
 
 	public void enableBuyButton(Unit unit) {
 		// TODO Auto-generated method stub

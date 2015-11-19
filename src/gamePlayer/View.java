@@ -6,15 +6,15 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import controller.Controller;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import units.Path;
 import units.PlayerInfo;
 import units.Unit;
 
@@ -24,17 +24,21 @@ public class View implements Observer {
 	private int myHeight = Integer.parseInt(myDefaults.getString("Height"));
 	private Stage myStage;
 	private HUD myHUD;
+//	private Player myPlayer;
+	private Controller myController;
 	private Store myStore;
 	private Map myMap;
 	private Menus myMenus;
 	private PlayerInfo myPlayerInfo;
-	
-	public View(Stage stage){
+	private Button addMapButton;
+
+	public View(Stage stage, Controller c){
 		this.myStage = stage;
+		this.myController = c;
 		Group root = new Group();
-		myHUD = new HUD(this);
-		myMap = new Map(this);
-		myMenus = new Menus(this);
+		myHUD = new HUD(myController, this);
+		myMap = new Map(myController, this);
+		myMenus = new Menus(myController);
 		myStore = new Store(this);
 		BorderPane borderPane = new BorderPane();
 		populate(borderPane);
@@ -42,7 +46,7 @@ public class View implements Observer {
 		Scene scene = new Scene(root, myWidth, myHeight);
 		myStage.setScene(scene);
 	}
-	
+
 	private void populate(BorderPane bp){
 		bp.setTop(topMenuBar());
 		bp.setLeft(myMap.initialize());
@@ -50,14 +54,21 @@ public class View implements Observer {
 		bp.setBottom(myStore.initialize());
 		configure();
 	}
-	
+
+
 	private Node topMenuBar(){
 		HBox result = new HBox();
-		result.getChildren().addAll(myMenus.initialize());
+		result.getChildren().addAll(myMenus.initialize());//, addMapButton());
 		return result;
+
+	}
+
+	public Node addMapButton(){
+		addMapButton = new Button("Add Background");
+		addMapButton.setOnMouseClicked(e->myMap.uploadMap());
+		return addMapButton;
 	}
 	
-
 	private void configure(){
 		myStore.setWidth(myWidth);
 		myStore.setHeight(myHeight*.2);
@@ -70,7 +81,6 @@ public class View implements Observer {
 
 	public void populateStore(HashMap<String, List<Unit>> store) {
 		myStore.setStock(store);
-		
 	}
 
 	public void updateMap(List<Unit> units) {
@@ -102,6 +112,18 @@ public class View implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void enableTowerPurchase(Unit u) {
+		myMap.enableTowerPurchase(u);
+	}
+
+	public void showPaths(List<Path> pathsForLevel) {
+		myMap.showPaths(pathsForLevel);
+	}
+
+	public void resetStore() {
+		myStore.resetStock();
 	}
 
 }
