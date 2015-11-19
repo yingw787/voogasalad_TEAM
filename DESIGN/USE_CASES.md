@@ -7,6 +7,8 @@ Use cases involving design of GUIs:
 2. User can open multiple games without crashing 
 3. User can define whether the game will be displayed 2D or 3D (isometric)
 4. Allow users to customize the map size of the game, or scaling the unit size in the map (equivalent)
+20. Enable wrap-around for the GUI or otherwise capping hard limits on the board for movement
+
 
 Use cases involving game design: 
 
@@ -54,6 +56,24 @@ Use cases involving game design:
 30. Users can override default sounds for units according to unit, action, condition, etc. 
 31. Users can create and place powerups
 32. Authoring environment can set game to automatically generate powerups 
+1. Create barriers that paths cannot cross over 
+2. Enable enemies to crush each other when they overlap (or enable allies to shoot each other)
+3. Create resources to be gathered on screen (gold mine) 
+4. Bundle cheats together with cutscenes or other tidbits 
+5. Enable units to change from one faction to another (conversion, dart tower of truth, etc.)
+6. Create a hierarchy of towers so they evolve to wholly new towers otherwise unattainable, instead of just upgrading 
+7. Enable multiplayer with multiple human players on the same game 
+9. Create units that can hold units (vehicles, towers that hold archers, etc.) 
+10. Enable units to have some resource drain with corresponding balance in power (Tesla tower that shoots lightning bolts but also needs a steady stream of electricity/coin to operate otherwise it will go dark) 
+11. Enable destructible paths given multiple paths available 
+12. Enable destructible towers 
+13. Power-up hierarchy with special units/towers available to the player given a chosen hierarchy (range, melee, etc.) 
+14. Create a Dungeons vs. Dragons type tower defense (vertical instead of horizontal) 
+15. Units that can dynamically change size while on the board, or divide into multiple units (e.g. bacteria units)
+16. Enable regions on the map where units can have reduced health damage (trenches)
+17. Automatically upgrade units based on the level achieved, with corresponding attribute benefits (e.g. veterancy with greater accuracy) 
+18. Units that help other units on the board (medic that heals, officer to increase morale, etc.) 
+19. Have starting and ending points in the middle of the map (e.g. mole unit that borrows up through the ground) 
 
 Use cases involving gameplay: 
 
@@ -74,8 +94,8 @@ Use cases involving game resources for the player:
 
 Use cases involving miscellaneous: 
 
-
-
+19. Be able to run a client-server/SOA model for the game (remote Java server on AWS) 
+21. Sync different kinds of I/O (such as Kinect, Leap Motion, Myo) to the game so no fixed need on a keyboard and mouse
 
 
 
