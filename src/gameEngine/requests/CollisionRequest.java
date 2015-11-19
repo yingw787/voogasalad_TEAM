@@ -3,16 +3,29 @@ package gameEngine.requests;
 import gameEngine.environments.RuntimeEnvironment;
 import units.*;
 
+/**
+ * request for collision
+ * @author Wanning
+ *
+ */
 public class CollisionRequest extends Request {
 	private Unit myUnit1 ;
 	private Unit myUnit2;
 	
+	/**
+	 * constructor
+	 * @param unit1
+	 * @param unit2
+	 */
 	public CollisionRequest (Unit unit1, Unit unit2) {
 		super();
 		myUnit1 = unit1;
 		myUnit2 = unit2;
 	}
 	
+	/**
+	 * execute the collision logic
+	 */
 	@Override
 	public void execute(RuntimeEnvironment re) {
 		if(myUnit1.getFaction() != myUnit2.getFaction()){
