@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class MainGUI {
 	
 	private final int width = 1125;
-	private final int height = 528;
+	private final int height = 458;
 	private Stage myStage;
 	private Scene myScene;
 	private GridPane myPane;
@@ -48,17 +48,19 @@ public class MainGUI {
 	}
 	
 	private void initialize() {
-		String[] toolOptions = {"File", "Edit", "Options", "Help"};
+	//	String[] toolOptions = {"File", "Edit", "Options", "Help"};
+		// intialize game data holders
+		myDataController = new DataController();
 		// initialize tool bar
-		Header tb = new Header(toolOptions);
+		Header tb = new Header();
+		SaveGame sv = new SaveGame(myDataController);
+		tb.getView().getItems().add(sv.getSaveButton());
 		myToolBar = (ToolBar) tb.getView();
 		myToolBar.setPrefWidth(width);
 		// initialize game board
 		myBoardParent = new Pane();
-		GameBoard gb = new GameBoard(myBoardParent, 675, 490);
+		GameBoard gb = new GameBoard(myBoardParent, 675, 420);
 		myBoard = (SubScene) gb.getView();
-		// intialize game data holders
-		myDataController = new DataController();
 		// initialize tabs list
 //		String[] tabOptions = {"Scenes", "Towers", "Bullets", "Troops", "Level", "Game"};
 //		TabsList tl = new TabsList(tabOptions);

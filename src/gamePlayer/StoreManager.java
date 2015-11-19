@@ -15,12 +15,12 @@ import units.Unit;
 public class StoreManager {
 	private ScrollPane myScrollPane;
 	private HashMap<String, List<Unit>> myStock;
-	private View myView;
+	private Player myPlayer;
 	private Store myStore;
 	private HBox myHBox;
 	
-	public StoreManager(View v, Store s) {
-		this.myView = v;
+	public StoreManager(Player p, Store s) {
+		this.myPlayer = p;
 		this.myStore = s;
 //		this.myStock = myTestMap;
 	}
@@ -47,6 +47,7 @@ public class StoreManager {
 		}
 		ToggleGroup group = new ToggleGroup();
 		for (StoreButton sb: list) {
+			System.out.println(sb.getText());
 			sb.setToggleGroup(group);
 			if (sb.getUnit().getStringAttribute("Type").equals("Troop")){
 				sb.setOnMouseClicked(e->myStore.enableBuyButton(sb.getUnit()));	
@@ -68,7 +69,7 @@ public class StoreManager {
 	}
 
 	private void buttonManager(Unit u) {
-		myView.enableTowerPurchase(u);
+		myPlayer.enableTowerPurchase(u);
 	}
 
 	public void setHeight(double height) {

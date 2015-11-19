@@ -10,15 +10,15 @@ import units.Unit;
 public class Store extends Observable implements IViewNode {
 	private StoreManager myStoreManager;
 	private TabManager myTabManager;
-	private View myView;
+	private Player myPlayer;
 	
-	public Store(View view){
-		this.myView = view;
+	public Store(Player p){
+		this.myPlayer = p;
 	}
 	
 	public VBox initialize(){
 		VBox myVBox = new VBox();
-		myStoreManager = new StoreManager(myView, this);
+		myStoreManager = new StoreManager(myPlayer, this);
 		myTabManager = new TabManager(this);
 		myVBox.getChildren().addAll(myTabManager.initialize(), myStoreManager.initialize());
 		return myVBox;
@@ -50,12 +50,12 @@ public class Store extends Observable implements IViewNode {
 	}
 
 	public int getMoney() {
-		return myView.getMoney();
+		return myPlayer.getMoney();
 	}
 
 	public void enableBuyButton(Unit unit) {
 		// TODO Auto-generated method stub
-		myView.enableBuyButton(unit);
+		myPlayer.enableBuyButton(unit);
 	}
 
 }
