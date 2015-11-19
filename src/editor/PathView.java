@@ -11,6 +11,8 @@ import javafx.scene.shape.Line;
 import units.Path;
 import units.Point;
 
+/**  Visual representation of a Path on the GameBoard
+ **/
 public class PathView {
 	private Point lastFlag;
 	private Paint myPaint;
@@ -18,8 +20,7 @@ public class PathView {
 	private List<ImageView> myFlags;
 	private Image myFlagImage;
 	
-	/**  Constructor for Path object representing building a path
-	 *   @params Attributes of PathView object
+	/**  Constructor for PathView object, the visual representation of a Path
 	 **/
 	public PathView() {
 		myPaint = Color.AZURE;
@@ -36,8 +37,9 @@ public class PathView {
 		myFlags.add(flag);
 	}
 	
-	/**  Method to add white lines between two points
-	 *   @params Location values x and y
+	/**  Draws a line from the current location to the point at the given x and y values, and places a flag there.
+	 *   @param x x-value for new point to connect to the path
+	 *   @param y y-value for new point to connect to the path
 	 **/
 	public void draw(double x, double y) {
 		// add flag to board
@@ -53,16 +55,24 @@ public class PathView {
 		lastFlag = new Point(x, y);
 	}
 	
+	/**  Draws a line from the current location to the given point, and places a flag there.
+	 *   @param point New point to connect to the path
+	 **/
 	public void draw(Point point) {
 		draw(point.getX(), point.getY());
 	}
 	
+	/**  Draws path of lines and flags for the path specified by the given list of points.
+	 *   @param pointList List of points specifying a path
+	 **/
 	public void drawAll(List<Point> pointList) {
 		for (Point point : pointList) {
 			draw(point);
 		}
 	}
 	
+	/**  Clears this PathView from the GameBoard
+	 **/
 	public void clear() {
 		lastFlag = null;
 		while (((Pane) MainGUI.myBoard.getRoot()).getChildren().size() > 1) {

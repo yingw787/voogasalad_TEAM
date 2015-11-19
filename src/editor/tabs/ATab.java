@@ -17,6 +17,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**  Abstract class for all editor tabs
+ **/
 public abstract class ATab extends Observable implements IView, ITab {
 	protected ITabData myData;
 	protected ScrollPane myTabView;
@@ -25,6 +27,11 @@ public abstract class ATab extends Observable implements IView, ITab {
 	protected ListView<String> myEntriesList;
 	protected ObservableList<String> myEntriesToShow;
 	
+	/**  Initializes the tab layout.
+	 * <p>
+	 * Creates a VBox {@code myTabContent} within a ScrollPane {@code myTabView},
+	 * and initializes a box for buttons and a list for items within.
+	 **/
 	protected void initTab() {
 		myTabView = new ScrollPane();
 		myTabContent = new VBox();
@@ -47,6 +54,12 @@ public abstract class ATab extends Observable implements IView, ITab {
 		myTabContent.getChildren().add(myEntriesList);
 	}
 
+	/**  Creates a Button with the specified label and action.
+	 * 
+	 * @param label Label for button
+	 * @param handler Action that button will perform on click
+	 * @return Button
+	 **/
     protected Button makeButton (String label, EventHandler<ActionEvent> handler) {
         Button button = new Button();
         button.setText(label);
