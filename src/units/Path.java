@@ -7,6 +7,10 @@ public class Path {
 	private List<Point> myCheckPoints;
 	private String myName;
 	
+	/**  Constructor for Path object
+	 *   @param String Name of path 
+	 *   @param List   List of points in path
+	 **/
 	public Path(String s, List<Point> p){
 		myName = s;
 		myCheckPoints = p;

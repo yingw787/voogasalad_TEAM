@@ -9,6 +9,10 @@ public class Level {
 	private double mySpawnRate;
 	private double myWaveSpeed;
 	
+	
+	/**  Constructor for Level object
+	 *   @params Properties of Level object
+	 **/
 	public Level(String name, List<Troop> troopsList, List<String> pathsList, double spawnRate, double waveSpeed) {
 		myName = name;
 		myTroopList = troopsList;

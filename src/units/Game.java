@@ -5,6 +5,8 @@ public class Game {
 	private String myHelpPage;
 	private String myTitle;
 	
+	/**  Constructor for Game object
+	 **/
 	public Game(){
 		setHelpPage("");
 		setTitle("Game");

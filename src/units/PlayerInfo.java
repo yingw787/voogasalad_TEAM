@@ -5,6 +5,10 @@ public class PlayerInfo {
 	private int myLives;
 	private String myCurrentLevel;
 	
+	
+	/**  Constructor for PlayerInfo object
+	 *   @params Properties of PlayerInfo object
+	 **/
 	public PlayerInfo() {
 		this.myMoney = 100;
 		this.myLives = 1;
