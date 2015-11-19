@@ -17,7 +17,8 @@ public class TimerCondition implements ICondition{
 	 * I'm not sure if this is how timeline works, but....
 	 * Make instance variable for storing a reference to the timeline
 	 * Make set method to set the timeline instance variable
-	 * Fill in checkCondition so that it checks if current time % myInterval == 0     <= this kinda works because myInterval will generally be very small
+	 * Fill in checkCondition so that it checks if current time % myInterval == 0    
+	 * - this kinda works because myInterval will generally be very small
 	 */
 	
 	
