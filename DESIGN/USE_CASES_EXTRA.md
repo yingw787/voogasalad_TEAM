@@ -19,4 +19,6 @@ CS308 More Use Cases: VOOGASalad
 16. Implement special enemies
 17. Implement an environment for the user to write a help page
 18. Implement sprites for the enemies and towers
-19. 
+19. Implement sprites walking around obstacles
+20. Implement obstacles the user can place
+21. 
