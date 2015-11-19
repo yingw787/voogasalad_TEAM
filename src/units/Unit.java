@@ -128,7 +128,6 @@ public class Unit {
 	}
 	
 	public int getID(){
-		
 		return (new Double(myAttributes.get("ID"))).intValue();
 	}
 	

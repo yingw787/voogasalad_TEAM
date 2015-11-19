@@ -59,7 +59,6 @@ public class Player implements IPlayer {
 		stage.setHeight(Integer.parseInt(myDefaults.getString("Height")));
 		stage.show();
 	}
-	
 
 	@Override
 	public void updateMap(List<Unit> units) {

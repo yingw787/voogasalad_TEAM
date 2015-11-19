@@ -31,8 +31,6 @@ public class Map extends Observable implements IViewNode {
  * Map.java is the actual game board where the game pieces are put into play. 
  */
 	private Pane myPane;
-
-	
 	private MapUnit selectedUnit;
 	private HashMap<Double, MapUnit> myImageMap;
 	private HashMap<Double, ProgressBar> myHealthMap;
@@ -88,7 +86,7 @@ public class Map extends Observable implements IViewNode {
 			if (!myImageMap.containsKey(unit.getAttribute("ID"))){
 				MapUnit mapUnit = new MapUnit(new Image(unit.getStringAttribute("Image")),unit);
 				mapUnit.setPreserveRatio(true);
-				mapUnit.setFitHeight(50);
+				mapUnit.setFitHeight(35);
 				ProgressBar health = mapUnit.getHealth();
 				myImageMap.put(unit.getAttribute("ID"), mapUnit);
 				myHealthMap.put(unit.getAttribute("ID"), health);
@@ -96,7 +94,8 @@ public class Map extends Observable implements IViewNode {
 				mapUnit.setX(unit.getAttribute("X"));
 				mapUnit.setY(unit.getAttribute("Y"));
 				health.setLayoutX(unit.getAttribute("X"));
-				health.setLayoutY(unit.getAttribute("Y")-20);
+				health.setLayoutY(unit.getAttribute("Y")-10);
+				health.setMaxWidth(40);
 				mapUnit.setOnMouseClicked(e->{
 					selectedUnit = mapUnit;
 					enableSelling(selectedUnit);
@@ -108,7 +107,7 @@ public class Map extends Observable implements IViewNode {
 				imageview.setY(unit.getAttribute("Y"));
 				ProgressBar health = myHealthMap.get(unit.getAttribute("ID"));
 				health.setLayoutX(unit.getAttribute("X"));
-				health.setLayoutY(unit.getAttribute("Y")-20);
+				health.setLayoutY(unit.getAttribute("Y")-10);
 				health.setProgress(unit.getAttribute("Health")/unit.getAttribute("MaxHealth"));
 				//reset health value here
 				onMap.add(unit.getAttribute("ID"));
@@ -168,7 +167,7 @@ public class Map extends Observable implements IViewNode {
 		path.setStartY(startLoc.getY()+25);
 		path.setEndX(endLoc.getX()+25);
 		path.setEndY(endLoc.getY()+25);
-		path.setStrokeWidth(25);
+		path.setStrokeWidth(15);
 		return path;
 	}
 	

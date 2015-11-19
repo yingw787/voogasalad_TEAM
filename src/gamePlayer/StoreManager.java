@@ -46,6 +46,7 @@ public class StoreManager {
 		}
 		ToggleGroup group = new ToggleGroup();
 		for (StoreButton sb: list) {
+			System.out.println(sb.getText());
 			sb.setToggleGroup(group);
 			if (sb.getUnit().getStringAttribute("Type").equals("Troop")){
 				sb.setOnMouseClicked(e->myStore.enableBuyButton(sb.getUnit()));	
