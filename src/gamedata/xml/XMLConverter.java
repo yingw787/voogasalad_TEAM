@@ -13,6 +13,7 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 import units.Level;
 import units.Path;
 import units.PlayerInfo;
+import units.Point;
 import units.Unit;
 
 public class XMLConverter {
@@ -62,7 +63,7 @@ public class XMLConverter {
 	}
 	
 	public PlayerInfo getPlayerInfo(String game) throws IOException{
-		List<Object> objects = fromXML(game,"PlayerInfo");
+		List<Object> objects = fromXML(game,"Player");
 		return (PlayerInfo) objects.get(0);
 	}
 	
@@ -89,7 +90,14 @@ public class XMLConverter {
 		List<Object> objects = fromXML(game,"Path");
 		List<Path> myUnits = new ArrayList<Path>();
 		for (Object o : objects){
-			myUnits.add((Path) o);
+			Path p = (Path) o;
+			List<Point> newPoints = new ArrayList<Point>();
+			List<Point> oldPoints = p.getPoints();
+			for (Point point : oldPoints){
+				newPoints.add(new Point(point.getX()-10, point.getY()-50));
+			}
+			Path newPath = new Path(p.getName(),newPoints);
+			myUnits.add(newPath);
 		}
 		return myUnits;
 	}

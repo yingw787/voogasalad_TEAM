@@ -43,8 +43,6 @@ public class Engine implements IEngine {
 		myRE = new RuntimeEnvironment(myConverter.getUnits(gameTitle, "Tower"), 
 				myConverter.getUnits(gameTitle, "Troop"), myConverter.getLevels(gameTitle), myConverter.getPaths(gameTitle), 
 				myConverter.getPlayerInfo(gameTitle), new GameConfiguration(), new ArrayList<Rule>(), new Base(), myIDGenerator);
-	
-//		myTBManager = new ToolbarManager(myController);
 	}
 	
 	public void initialize(){

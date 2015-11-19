@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,26 +15,27 @@ import units.Path;
 import units.PlayerInfo;
 import units.Unit;
 
-public class Controller extends Application {
+public class Controller {
 	private Player myPlayer;
 	private Engine myEngine;
 	private String myGameTitle = "Game 1";
 	
-//	public Controller(String s){
-//		myGameTitle = s;
-//	}
-	
-	public static void main(String[] args){
-		launch(args);
-	}
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public Controller(String s) throws IOException{
+		myGameTitle = s;
 		myEngine = new Engine(this, new Timeline());
-		myPlayer = new Player(this, primaryStage);
+		myPlayer = new Player(this, new Stage());
 		myEngine.writeEnvironment(myGameTitle);
 		myEngine.initialize();
 	}
+	
+//	public static void main(String[] args){
+//		launch(args);
+//	}
+
+//	@Override
+//	public void start(Stage primaryStage) throws Exception {
+//
+//	}
 	
 	// store is in-game purchases of towers and units and the like 
 	public void populateStore(HashMap<String, List<Unit>> myStoreStock) {
