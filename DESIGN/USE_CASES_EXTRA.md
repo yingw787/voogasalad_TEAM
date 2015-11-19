@@ -13,5 +13,10 @@ CS308 More Use Cases: VOOGASalad
 10. Allow users to implement terrain on the map
 11. Implement powerups/enemy item drops
 12. Implement a lives system 
-13. Implement a scoring system
-14. 
+13. Implement a scoring system/high score system
+14. Add a default game if no game is selected
+15. Visually show the tower range on the map when the user is placing
+16. Implement special enemies
+17. Implement an environment for the user to write a help page
+18. Implement sprites for the enemies and towers
+19. 
