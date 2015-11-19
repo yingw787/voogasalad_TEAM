@@ -12,6 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import units.Unit;
 
+
+/*Manages the scrollpane and buttons that make up the store. Allows the user to  
+ * place towers and to purchase troops to attack an enemy base. */
 public class StoreManager {
 	private ScrollPane myScrollPane;
 	private HashMap<String, List<Unit>> myStock;
@@ -25,6 +28,10 @@ public class StoreManager {
 //		this.myStock = myTestMap;
 	}
 
+	
+	/*initializes the pertinent elements of the StoreManager like the ScrollPane
+	 * and the HBox inside
+	 */
 	public ScrollPane initialize(){
 		myScrollPane = new ScrollPane();
 		myHBox = new HBox();
@@ -32,7 +39,10 @@ public class StoreManager {
 		myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 		return myScrollPane;
 	}
-
+	
+	/*Populates the ScrollPane with buttons that correspond to the chosen tab  
+	 * 
+	 */
 	public void populate(String key){
 		myHBox.getChildren().clear();
 		List<StoreButton> list = new ArrayList<StoreButton>();
@@ -72,14 +82,23 @@ public class StoreManager {
 		myPlayer.enableTowerPurchase(u);
 	}
 
+	/*configures the height of the ScrollPane
+	 * 
+	 */
 	public void setHeight(double height) {
 		myScrollPane.setPrefHeight(height);
 	}
 
+	/*configures the width of the ScrollPane
+	 * 
+	 */
 	public void setWidth(double width) {
 		myScrollPane.setPrefWidth(width);
 	}
 
+	/*Initializes the StoreManager with all the possible towers and troops that can
+	 * be sold to the player
+	 */
 	public void setStock(HashMap<String, List<Unit>> store) {
 		myStock = store;
 		populate("Towers");

@@ -28,6 +28,11 @@ public class Menus extends Observable implements IViewNode {
 		this.myController = c;
 	}
 
+	/**
+	 * Initializes all the menus in menubar.
+	 *
+	 * @return the menu bar
+	 */
 	public MenuBar initialize(){
 		myMenuBar = new MenuBar();
 		newMenu = new Menu("New Game");
@@ -59,12 +64,18 @@ public class Menus extends Observable implements IViewNode {
 		System.out.println("print new");
 	}
 
+	/* (non-Javadoc)
+	 * @see gamePlayer.IViewNode#setWidth(double)
+	 */
 	@Override
 	public void setWidth(double width) {
 		// TODO Auto-generated method stub
 		myMenuBar.setPrefWidth(width);
 	}
 
+	/* (non-Javadoc)
+	 * @see gamePlayer.IViewNode#setHeight(double)
+	 */
 	@Override
 	public void setHeight(double height) {
 		myMenuBar.setPrefHeight(height);		
