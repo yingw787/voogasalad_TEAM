@@ -1,10 +1,20 @@
 package gamePlayer;
 
 import java.util.Observable;
-
 import controller.Controller;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+
+/**
+ * A class used to display the menu bar with menu items for Player.
+ * There are methods to initialize the menubar and populate it with menuitems in the pane.
+ * <p>
+ * This class implements ViewNode interface.
+ *
+ * @return      menubar
+ * @see         Player
+ * @see         IViewNode
+ */
 
 public class Menus extends Observable implements IViewNode {
 	private MenuBar myMenuBar;

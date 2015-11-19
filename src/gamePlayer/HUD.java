@@ -15,13 +15,21 @@ import javafx.scene.text.Text;
 import units.PlayerInfo;
 import units.Unit;
 
-public class HUD extends Observable implements IViewNode{
-
-/*
- * HUD.java is the class displaying the heads-up display for the player. 
+/**
+ * This class shows the heads-up display for the player. 
  * This contains the information the player needs in order to play the game, including money, lives, and level progress for some instances of the game.
+ * It also contains buttons to sell and buy the tower and turret as well as button to start the wave.
+ *  <p>
+ * There are methods to initialize the VBox as well as add and populate the Nodes in the VBox that serves as HUD.
+ *  <p>
+ * This class implements ViewNode interface.
+ *
+ * @see         Player
+ * @see 		IViewNode
  */
 
+
+public class HUD extends Observable implements IViewNode{
 
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private VBox myVBox;
