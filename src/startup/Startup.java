@@ -1,8 +1,6 @@
 package startup;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import controller.Controller;
 import editor.MainGUI;
@@ -11,53 +9,92 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Startup {
-	
-	private final int width = 400;
-	private final int height = 400;
-	private GridPane myPane;
 	private Stage myStage;
-	private VBox myVBox;
-	private List<String> myListOfGames = new ArrayList<String>();
 	
 	public Startup (Stage s) {
 		this.myStage = s;
-		this.myPane = new GridPane();
-		myPane.setAlignment(Pos.CENTER);
-		myVBox = new VBox();
-		myVBox.setSpacing(20.0);
-		myPane.getChildren().add(myVBox);
-		addCreateOption();
-		addLoadOption(myListOfGames);
-		myStage.setScene(new Scene(myPane, width, height));
+		myStage.setScene(createStartScene());
 		myStage.show();
 	}
 	
-	private void addCreateOption() {
-			Button button = new Button("Create Game");
-			button.setOnAction(e -> {
-				myStage.close();
-				new MainGUI();
-			});
-			myVBox.getChildren().add(button);
+	private Scene createStartScene() {
+		GridPane startPane = new GridPane();
+		startPane.setAlignment(Pos.CENTER);
+		VBox startVBox = new VBox();
+		startVBox.setSpacing(20.0);
+		startPane.getChildren().add(startVBox);
+		
+		Button editorButton = new Button("Create/Edit a Game");
+		editorButton.setMaxWidth(Double.MAX_VALUE);
+		editorButton.setOnAction(e-> {
+			myStage.setScene(createEditorScene());
+		});
+
+		Button playButton = new Button("Play a Game");
+		playButton.setMaxWidth(Double.MAX_VALUE);
+		playButton.setOnAction(e-> {
+			myStage.setScene(createPlayerScene());
+		});
+
+		startVBox.getChildren().addAll(editorButton, playButton);
+
+		return new Scene(startPane, 400, 400);
 	}
 	
-	private void addLoadOption(List<String> games) {
+	private Scene createEditorScene() {
+		GridPane editorPane = new GridPane();
+		editorPane.setAlignment(Pos.CENTER);
+		VBox editorVBox= new VBox();
+		editorVBox.setSpacing(20.0);
+		editorPane.getChildren().add(editorVBox);
+		
+		Button backButton = new Button("Back");
+		backButton.setMaxWidth(Double.MAX_VALUE);
+		backButton.setOnAction(e-> {
+			myStage.setScene(createStartScene());
+		});
+		editorVBox.getChildren().add(backButton);
+		
+		Button createButton = new Button("Create New Game");
+		createButton.setOnAction(e -> {
+			myStage.close();
+			new MainGUI();
+		});
+		editorVBox.getChildren().add(createButton);
+
+		return new Scene(editorPane, 400, 400);
+	}
+	
+	private Scene createPlayerScene() {
+		GridPane playerPane = new GridPane();
+		playerPane.setAlignment(Pos.CENTER);
+		VBox playerVBox= new VBox();
+		playerVBox.setSpacing(20.0);
+		playerPane.getChildren().add(playerVBox);
+		
+		Button backButton = new Button("Back");
+		backButton.setMaxWidth(Double.MAX_VALUE);
+		backButton.setOnAction(e-> {
+			myStage.setScene(createStartScene());
+		});
+		playerVBox.getChildren().add(backButton);
+		
 		ChoiceBox<String> cb = new ChoiceBox<String>();
 		cb.setValue("Choose a game to load");
-		
-		// add in existing games to choice box
 		File gameFolder = new File("games");
 		for (File game : gameFolder.listFiles()) {
 			cb.getItems().add(game.getName());
 		}
+		playerVBox.getChildren().add(cb);
 		
-		Button button = new Button("Load Game");
-		button.setMaxWidth(Double.MAX_VALUE);
-		button.setOnAction(e-> {
+		Button loadButton = new Button("Load Game");
+		loadButton.setMaxWidth(Double.MAX_VALUE);
+		loadButton.setOnAction(e-> {
 			myStage.close();
 			try {
 				new Controller(cb.getValue());
@@ -65,6 +102,8 @@ public class Startup {
 				e1.printStackTrace();
 			}
 		});
-		myVBox.getChildren().addAll(cb,button);
+		playerVBox.getChildren().add(loadButton);
+		
+		return new Scene(playerPane, 400, 400);
 	}
 }
