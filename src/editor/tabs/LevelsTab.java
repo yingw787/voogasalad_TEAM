@@ -27,6 +27,8 @@ import editor.tabData.LevelsData;
 import editor.tabData.PathsData;
 import editor.tabData.TroopsData;
 
+/**  Editor tab for Levels
+ **/
 public class LevelsTab extends Observable implements IView, ITab{
 	private ScrollPane myTabView;
 	private VBox myTabContent;
@@ -40,6 +42,8 @@ public class LevelsTab extends Observable implements IView, ITab{
 	private double mySpeed;
 	private int myCurrentLevel = 1;
 
+	/**  Constructor for editor tab for Levels
+	 **/
 	public LevelsTab(){
 		myTabView = new ScrollPane();
 		myTabContent = new VBox();
