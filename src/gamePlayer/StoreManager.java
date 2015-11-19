@@ -11,19 +11,26 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import units.Unit;
 
+
+/*Manages the scrollpane and buttons that make up the store. Allows the user to  
+ * place towers and to purchase troops to attack an enemy base. */
 public class StoreManager {
 	private ScrollPane myScrollPane;
 	private HashMap<String, List<Unit>> myStock;
-	private View myView;
+	private Player myPlayer;
 	private Store myStore;
 	private HBox myHBox;
 	
-	public StoreManager(View v, Store s) {
-		this.myView = v;
+	public StoreManager(Player p, Store s) {
+		this.myPlayer = p;
 		this.myStore = s;
 //		this.myStock = myTestMap;
 	}
 	
+	
+	/*initializes the pertinent elements of the StoreManager like the ScrollPane
+	 * and the HBox inside
+	 */
 	public ScrollPane initialize(){
 		myScrollPane = new ScrollPane();
 		myHBox = new HBox();
@@ -32,6 +39,9 @@ public class StoreManager {
 		return myScrollPane;
 	}
 	
+	/*Populates the ScrollPane with buttons that correspond to the chosen tab  
+	 * 
+	 */
 	public void populate(String key){
 		myHBox.getChildren().clear();
 		List<StoreButton> list = new ArrayList<StoreButton>();
@@ -46,6 +56,7 @@ public class StoreManager {
 		}
 		ToggleGroup group = new ToggleGroup();
 		for (StoreButton sb: list) {
+			System.out.println(sb.getText());
 			sb.setToggleGroup(group);
 			if (sb.getUnit().getStringAttribute("Type").equals("Troop")){
 				sb.setOnMouseClicked(e->myStore.enableBuyButton(sb.getUnit()));	
@@ -67,17 +78,26 @@ public class StoreManager {
 	}
 
 	private void buttonManager(Unit u) {
-		myView.enableTowerPurchase(u);
+		myPlayer.enableTowerPurchase(u);
 	}
 
+	/*configures the height of the ScrollPane
+	 * 
+	 */
 	public void setHeight(double height) {
 		myScrollPane.setPrefHeight(height);
 	}
 
+	/*configures the width of the ScrollPane
+	 * 
+	 */
 	public void setWidth(double width) {
 		myScrollPane.setPrefWidth(width);
 	}
 
+	/*Initializes the StoreManager with all the possible towers and troops that can
+	 * be sold to the player
+	 */
 	public void setStock(HashMap<String, List<Unit>> store) {
 		myStock = store;
 		populate("Towers");

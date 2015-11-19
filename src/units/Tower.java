@@ -19,8 +19,18 @@ public class Tower extends Unit {
 		super(u);
 	}
 
-	public Tower() {
+	public Tower() { 
 		super();
+		myStringAttributes.put("Name", "");
+		myAttributes.put("Health", 100.0);
+		myAttributes.put("CollisionDamage", 0.0);
+		myStringAttributes.put("Image", "");
+		myAttributes.put("X", 0.0);
+		myAttributes.put("Y", 0.0);
+		myAttributes.put("ID", 0.0);
+		myAttributes.put("BuyCost", 200.0);
+		myAttributes.put("SellCost", 0.0);
+		myStringAttributes.put("Type", "Tower");
 	}
 }
 
