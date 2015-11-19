@@ -16,6 +16,9 @@ public class Unit {
 	protected Faction myFaction;
 	protected UnitType myType;
 	
+	/**  Constructor superclass for Tower and Troop objects
+	 *   @params Attributes of Unit object
+	 **/
 	public Unit(String name, double health, double cd, String img, 
 			Point p, int ID, int bc, int sc){		
 		myAttributes = new HashMap<String, Double>();
@@ -34,6 +37,9 @@ public class Unit {
 		myRules = new HashMap<String, Rule>();
 	}
 	
+	/**  Constructor for default Unit object
+	 *   @params Attributes of default Unit object
+	 **/
 	public Unit(){
 		myAttributes = new HashMap<String, Double>();
 		myStringAttributes = new HashMap<String, String>();
@@ -48,6 +54,9 @@ public class Unit {
 		myStringAttributes.put("Image", "");
 	}
 	
+	/**  Constructor for Unit object clone
+	 *   @params Unit Unit object to clone
+	 **/
 	public Unit(Unit u) {
 		myAttributes = u.myAttributes;
 		myStringAttributes = u.myStringAttributes;

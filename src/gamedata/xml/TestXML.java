@@ -9,6 +9,12 @@ import units.Path;
 import units.PlayerInfo;
 import units.Unit;
 
+/** 
+ * Tester class for testing XML conversion
+ * @author Dennis Xu
+ *
+ */
+
 public class TestXML {
 
 	List<Unit> myTowers;
