@@ -15,6 +15,8 @@ public class TabsList extends Observable implements IView, Observer {
 	TabPane myTabs;
 	Map<String, Node> myTabMap;
 	
+	/**  Constructor for TabsList object representing list of editor tabs
+	 **/
 	public TabsList(){
 		myTabs = new TabPane();
 		myTabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
@@ -29,6 +31,9 @@ public class TabsList extends Observable implements IView, Observer {
 		});
 	}
 	
+	/**  Constructor for TabsList object representing list of editor tabs
+	 *   @param String[] String tabs to add to tabs
+	 **/
 	public TabsList(String[] tabs) {
 		myTabs = new TabPane();
 		myTabMap = new HashMap<String, Node>();
@@ -38,6 +43,10 @@ public class TabsList extends Observable implements IView, Observer {
 		}
 	}
 
+	/**  Adds a new tab to the Tabs list
+	 *   @param String Name of tab
+	 *   @param Node  Node to set content of tab
+	 **/
 	public void addTab(String tabName, Node content){
 		myTabMap.put(tabName, content);
 		Tab tabToAdd = new Tab(tabName);

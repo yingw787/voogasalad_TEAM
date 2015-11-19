@@ -18,6 +18,9 @@ public class PathView {
 	private List<ImageView> myFlags;
 	private Image myFlagImage;
 	
+	/**  Constructor for Path object representing building a path
+	 *   @params Attributes of PathView object
+	 **/
 	public PathView() {
 		myPaint = Color.AZURE;
 		myThickness = 5;
@@ -33,6 +36,9 @@ public class PathView {
 		myFlags.add(flag);
 	}
 	
+	/**  Method to add white lines between two points
+	 *   @params Location values x and y
+	 **/
 	public void draw(double x, double y) {
 		// add flag to board
 		drawFlag(x, y-50); //arg0.getSceneY() - 50

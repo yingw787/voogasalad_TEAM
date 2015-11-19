@@ -24,6 +24,9 @@ public class SaveGame {
 	Button mySaveButton;
 	DataController myDataController;
 	
+	/**  Constructor for SaveGame object which saves current state of editor
+	 *   @params DataController DataController to retrieve current state from
+	 **/
 	public SaveGame(DataController data) {
 		myDataController = data;
 		mySaveButton = new Button("Save Current Game");
