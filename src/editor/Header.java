@@ -12,6 +12,9 @@ public class Header implements IView {
 		myToolBar = new ToolBar();
 	}
 	
+	/**  Constructor for Header object representing editor toolbar
+	 *   @param String[] Array of Strings to add onto toolbar
+	 **/
 	public Header(String[] sections) {
 		mySections = sections;
 		myToolBar = new ToolBar();
