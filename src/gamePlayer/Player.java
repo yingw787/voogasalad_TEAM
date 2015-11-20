@@ -46,6 +46,10 @@ public class Player implements IPlayer {
 		initialize(s);
 	}
 	
+	public MapUnit getSelected(){
+		return myMap.getSelected();
+	}
+	
 	private void populate(BorderPane bp){
 		bp.setTop(topMenuBar());
 		bp.setLeft(myMap.initialize());

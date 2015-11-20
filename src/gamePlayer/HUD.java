@@ -1,9 +1,13 @@
 package gamePlayer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
 import controller.Controller;
+import gameEngine.requests.SellTowerRequest;
+import interfaces.IRequest;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -13,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import units.PlayerInfo;
+import units.Tower;
 import units.Unit;
 
 /**
@@ -191,6 +196,10 @@ public class HUD extends Observable implements IViewNode{
 
 	private void sellButtonClicked(){
 		mySellButton.setDisable(true);
+		SellTowerRequest sell = new SellTowerRequest((Tower) myPlayer.getSelected().getUnit());
+		List<IRequest> requestSender = new ArrayList<IRequest>();
+		requestSender.add(sell);
+		myController.update(requestSender);
 		//myView.sellItem();
 	}
 
