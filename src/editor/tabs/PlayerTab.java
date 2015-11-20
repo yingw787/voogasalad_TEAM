@@ -9,12 +9,16 @@ import editor.IView;
 import editor.tabData.ITabData;
 import editor.tabData.PlayerData;
 
+/**  Editor tab for Player
+ **/
 public class PlayerTab extends ATab implements IView, ITab {
 	private PlayerData myData;
 	private Text myLabel;
 	private Button myMoneyButton;
 	private Button myLivesButton;
 	
+	/**  Constructor for editor tab for Player
+	 **/
 	public PlayerTab(){
 		initTab();
 		myTabContent.getChildren().clear(); 

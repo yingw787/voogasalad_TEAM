@@ -30,6 +30,9 @@ public class MainGUI {
 	public static SubScene myBoard;
 	private DataController myDataController;
 	
+	
+	/**  Constructor for MainGUI object which opens the default GUI for editor
+	 **/
 	public MainGUI() {
 		myStage = new Stage();
 		myPane = new GridPane();

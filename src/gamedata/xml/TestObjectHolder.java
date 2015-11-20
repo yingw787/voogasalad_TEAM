@@ -11,6 +11,12 @@ import units.Tower;
 import units.Troop;
 import units.Unit;
 
+/** 
+ * Tester class for creating sample objects for XML conversion
+ * @author Dennis
+ *
+ */
+
 public class TestObjectHolder {
 
 	Tower tower1;

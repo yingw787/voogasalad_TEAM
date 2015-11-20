@@ -4,11 +4,13 @@ public class Point {
 	private double myX;
 	private double myY;
 	
+	/**  Constructor for Point object
+	 *   @params X and Y values of Point object
+	 **/
 	public Point(double x, double y){
 		this.myX = x;
 		this.myY = y;
 	}
-	
 	
 	public double getX(){
 		return myX;

@@ -6,6 +6,8 @@ import java.util.List;
 
 import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
+import gameEngine.requests.BuyTowerRequest;
+import gameEngine.requests.Request;
 import gamedata.xml.XMLConverter;
 import interfaces.IEngine;
 import interfaces.IRequest;
@@ -16,6 +18,10 @@ import rules.Rule;
 import units.Base;
 import units.IDGenerator;
 import units.Level;
+import units.Path;
+import units.PlayerInfo;
+import units.Point;
+import units.Tower;
 import units.Unit;
 
 public class Engine implements IEngine {
@@ -136,7 +142,14 @@ public class Engine implements IEngine {
 		playAnimation(true);
 	}
 	
+	
 //	public static void main(String[] args){
 //		Engine e = new Engine(null,new Timeline());
+//		List<IRequest> requestList = new ArrayList<IRequest>();
+//		Tower tower = null;
+//		tower = new Tower(e.getTBManager().myTowers.get(0));
+//		IRequest rq = new BuyTowerRequest(tower, null);
+//		requestList.add(rq);
+//		e.update(requestList);
 //	}
 }
