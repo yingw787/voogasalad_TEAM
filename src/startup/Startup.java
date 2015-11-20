@@ -4,12 +4,15 @@ import java.io.File;
 
 import controller.Controller;
 import editor.MainGUI;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -17,11 +20,11 @@ import javafx.stage.Stage;
 public class Startup {
 	private Stage myStage;
 	private double startSceneWidth = 400;
-	private double startSceneHeight = 200;
+	private double startSceneHeight = 100;
 	private double editorSceneWidth = 400;
-	private double editorSceneHeight = 300;
+	private double editorSceneHeight = 200;
 	private double playerSceneWidth = 400;
-	private double playerSceneHeight = 300;
+	private double playerSceneHeight = 200;
 	
 	// i know there is a lot of duplicated code right now but i will refactor later!!! - susan
 	
@@ -72,12 +75,32 @@ public class Startup {
 		editorVBox.setAlignment(Pos.CENTER);
 		editorPane.add(editorVBox, 0, 1);
 		
+		GamesMenu myGamesMenu = new GamesMenu();
+		editorVBox.getChildren().add(myGamesMenu);
+		
+		HBox buttonBox = new HBox();
+		buttonBox.setSpacing(10.0);
+		buttonBox.setAlignment(Pos.CENTER);
+		editorVBox.getChildren().add(buttonBox);
+
 		Button createButton = new Button("Create New Game");
 		createButton.setOnAction(e -> {
 			myStage.close();
 			new MainGUI();
 		});
-		editorVBox.getChildren().add(createButton);
+		buttonBox.getChildren().add(createButton);
+		
+		Button editButton = new Button("Edit Selected Game");
+		editButton.setOnAction(e -> {
+			// TODO: implement edit ability for existing games
+		});
+		buttonBox.getChildren().add(editButton);
+		
+		SimpleStringProperty selected = myGamesMenu.getSelected();
+		selected.addListener(e -> {editButton.setText("Edit " + selected.get());});
+//		Label test = new Label();
+//		test.textProperty().bind(selected);
+//		buttonBox.getChildren().add(test);
 
 		return new Scene(editorPane, editorSceneWidth, editorSceneHeight);
 	}
@@ -94,28 +117,29 @@ public class Startup {
 		myToolBar.prefWidthProperty().bind(myStage.widthProperty());
 		playerPane.add(myToolBar, 0, 0);
 
-		VBox playerVBox= new VBox();
+		VBox playerVBox = new VBox();
 		playerVBox.setSpacing(20.0);
 		playerVBox.setAlignment(Pos.CENTER);
 		playerPane.add(playerVBox, 0, 1);
 		
-		ChoiceBox<String> cb = new ChoiceBox<String>();
-		cb.setValue("Choose a game to load");
-		File gameFolder = new File("games");
-		for (File game : gameFolder.listFiles()) {
-			cb.getItems().add(game.getName());
-		}
-		playerVBox.getChildren().add(cb);
+		GamesMenu myGamesMenu = new GamesMenu();
+		playerVBox.getChildren().add(myGamesMenu);
 		
-		Button loadButton = new Button("Load Game");
+		SimpleStringProperty selected = myGamesMenu.getSelected();
+//		Label test = new Label();
+//		test.textProperty().bind(selected);
+//		playerVBox.getChildren().add(test);
+		
+		Button loadButton = new Button("Load This Game");
 		loadButton.setOnAction(e-> {
 			myStage.close();
 			try {
-				new Controller(cb.getValue());
+				new Controller(selected.getValue());
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		});
+		selected.addListener(e -> {loadButton.setText("Load " + selected.get());});
 		playerVBox.getChildren().add(loadButton);
 		
 		return new Scene(playerPane, playerSceneWidth, playerSceneHeight);
