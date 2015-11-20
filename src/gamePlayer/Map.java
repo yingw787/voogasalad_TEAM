@@ -132,6 +132,10 @@ public class Map extends Observable implements IViewNode {
 		
 	}
 	
+	public MapUnit getSelected(){
+		return selectedUnit;
+	}
+	
 	private void updateSelected(MapUnit myUnit) {
 		myPlayer.updateSelected(myUnit);
 	}
