@@ -1,5 +1,7 @@
 package startup;
 
+import java.io.File;
+
 import controller.Controller;
 import editor.MainGUI;
 import javafx.beans.property.SimpleStringProperty;
@@ -8,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -71,34 +75,38 @@ public class Startup {
 		editorVBox.setSpacing(20.0);
 		editorVBox.setAlignment(Pos.CENTER);
 		editorPane.add(editorVBox, 0, 1);
-		
-		GamesMenu myGamesMenu = new GamesMenu();
-		editorVBox.getChildren().add(myGamesMenu);
-		
-		HBox buttonBox = new HBox();
-		buttonBox.setSpacing(10.0);
-		buttonBox.setAlignment(Pos.CENTER);
-		editorVBox.getChildren().add(buttonBox);
 
 		Button createButton = new Button("Create New Game");
 		createButton.setOnAction(e -> {
 			myStage.close();
 			new MainGUI();
 		});
-		buttonBox.getChildren().add(createButton);
+		editorVBox.getChildren().add(createButton);
 		
-		Button editButton = new Button("Edit Selected Game");
+		editorVBox.getChildren().add(new Label("OR"));
+		
+		HBox buttonBox = new HBox();
+		buttonBox.setSpacing(10.0);
+		buttonBox.setAlignment(Pos.CENTER);
+		editorVBox.getChildren().add(buttonBox);
+		
+		buttonBox.getChildren().add(new Label("Select a game to edit: "));
+		
+		ChoiceBox<String> gameChoiceBox = new ChoiceBox<String>();
+		File gameFolder = new File("games");
+		for (File game : gameFolder.listFiles()) {
+			gameChoiceBox.getItems().add(game.getName());
+		}
+		buttonBox.getChildren().add(gameChoiceBox);
+		
+		Button editButton = new Button("Go ->");
 		editButton.setOnAction(e -> {
 			// TODO: implement edit ability for existing games
 			new Alert(AlertType.ERROR, "We still need to implement this lol").show();
 		});
+//		gameChoiceBox.getSelectionModel().selectedItemProperty().addListener(									//dynamically change button text
+//				e -> {editButton.setText("Edit " + gameChoiceBox.getSelectionModel().getSelectedItem());});
 		buttonBox.getChildren().add(editButton);
-		
-		SimpleStringProperty selected = myGamesMenu.getSelected();
-		selected.addListener(e -> {editButton.setText("Edit " + selected.get());});
-//		Label test = new Label();
-//		test.textProperty().bind(selected);
-//		buttonBox.getChildren().add(test);
 
 		return new Scene(editorPane, editorSceneWidth, editorSceneHeight);
 	}
