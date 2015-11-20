@@ -1,19 +1,16 @@
 package startup;
 
-import java.io.File;
-
 import controller.Controller;
 import editor.MainGUI;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -93,6 +90,7 @@ public class Startup {
 		Button editButton = new Button("Edit Selected Game");
 		editButton.setOnAction(e -> {
 			// TODO: implement edit ability for existing games
+			new Alert(AlertType.ERROR, "We still need to implement this lol").show();
 		});
 		buttonBox.getChildren().add(editButton);
 		
