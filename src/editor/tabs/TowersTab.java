@@ -10,6 +10,8 @@ import editor.IView;
 import editor.tabData.ITabData;
 import editor.tabData.TowersData;
 
+/**  Editor tab for Towers
+ **/
 public class TowersTab extends ATab implements IView, ITab, Observer {
 	private TowersData myData;
 	private Button myAddButton;
@@ -21,6 +23,8 @@ public class TowersTab extends ATab implements IView, ITab, Observer {
 		
 	}
 
+	/**  Constructor for editor tab for Towers
+	 **/
 	public TowersTab(){
 		initTab();
 		createButtons();

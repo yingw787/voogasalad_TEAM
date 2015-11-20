@@ -6,6 +6,8 @@ import java.util.List;
 
 import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
+import gameEngine.requests.BuyTowerRequest;
+import gameEngine.requests.Request;
 import gamedata.xml.XMLConverter;
 import interfaces.IEngine;
 import interfaces.IRequest;
@@ -16,6 +18,10 @@ import rules.Rule;
 import units.Base;
 import units.IDGenerator;
 import units.Level;
+import units.Path;
+import units.PlayerInfo;
+import units.Point;
+import units.Tower;
 import units.Unit;
 
 public class Engine implements IEngine {
@@ -37,14 +43,12 @@ public class Engine implements IEngine {
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 	}
 	
-	public void writeEnvironment() throws IOException{
+	public void writeEnvironment(String gameTitle) throws IOException{
 		myIDGenerator = new IDGenerator();
 		XMLConverter myConverter = new XMLConverter();
-		myRE = new RuntimeEnvironment(myConverter.getUnits("Game 1", "Tower"), 
-				myConverter.getUnits("Game 1", "Troop"), myConverter.getLevels("Game 1"), myConverter.getPaths("Game 1"), 
-				myConverter.getPlayerInfo("Game 1"), new GameConfiguration(), new ArrayList<Rule>(), new Base(), myIDGenerator);
-	
-//		myTBManager = new ToolbarManager(myController);
+		myRE = new RuntimeEnvironment(myConverter.getUnits(gameTitle, "Tower"), 
+				myConverter.getUnits(gameTitle, "Troop"), myConverter.getLevels(gameTitle), myConverter.getPaths(gameTitle), 
+				myConverter.getPlayerInfo(gameTitle), new GameConfiguration(), new ArrayList<Rule>(), new Base(), myIDGenerator);
 	}
 	
 	public void initialize(){
@@ -138,7 +142,14 @@ public class Engine implements IEngine {
 		playAnimation(true);
 	}
 	
+	
 //	public static void main(String[] args){
 //		Engine e = new Engine(null,new Timeline());
+//		List<IRequest> requestList = new ArrayList<IRequest>();
+//		Tower tower = null;
+//		tower = new Tower(e.getTBManager().myTowers.get(0));
+//		IRequest rq = new BuyTowerRequest(tower, null);
+//		requestList.add(rq);
+//		e.update(requestList);
 //	}
 }

@@ -13,6 +13,9 @@ import javafx.scene.input.MouseEvent;
 import units.Path;
 import units.Point;
 
+
+/**  Editor tab for Paths
+ **/
 public class PathsTab extends ATab implements IView, ITab{
 	private PathsData myData;
 	private Button myAddButton;
@@ -21,7 +24,9 @@ public class PathsTab extends ATab implements IView, ITab{
 	private int myPathID;
 	private Path myBuildingPath;
 	private PathView myPathView;
-
+	
+	/**  Constructor for editor tab for Paths
+	 **/
 	public PathsTab(){
 		initTab();
 		createButtons();

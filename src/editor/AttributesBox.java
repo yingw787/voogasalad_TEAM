@@ -36,6 +36,9 @@ public class AttributesBox extends Observable implements IView, Observer {
 	private VBox myCurrentAttributes;
 	private Unit myCurrentUnit;
 	
+	/**  Constructor for AttributesBox object which stores and edits Tower and Troop attributes
+	 *   @params DataController DataController object storing Unit attributes
+	 **/
 	public AttributesBox(DataController data) {
 		myAttributesBox = new ScrollPane();
 		myAttributesBox.setVbarPolicy(ScrollBarPolicy.ALWAYS);
@@ -68,7 +71,7 @@ public class AttributesBox extends Observable implements IView, Observer {
 			clearAttributes();
 		}
 		else if(arg1 instanceof Unit){
-			System.out.println("Attributes box: user selected Unit: " + ((Unit)arg1).getStringAttribute("Name"));
+			//System.out.println("Attributes box: user selected Unit: " + ((Unit)arg1).getStringAttribute("Name"));
 			myCurrentUnit = (Unit) arg1;
 			clearAttributes();
 			showAttributes();

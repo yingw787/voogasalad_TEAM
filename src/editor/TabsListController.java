@@ -12,8 +12,11 @@ public class TabsListController {
 	private TabsList myTabsList;
 	private Map<String, ITab> myTabs;
 	// Move this out to a resource file
-	private String[] myTabNames = {"Scenes", "Towers", "Troops", "Bullets", "Paths", "Levels", "Game"};
+	private String[] myTabNames = {"Scenes", "Towers", "Troops", "Bullets", "Paths", "Levels", "Player", "Game"};
 	
+	/**  Constructor for TabsListController object which stores info on each Tab's state
+	 *   @param DataController DataController which stores current state
+	 **/
 	public TabsListController(DataController data) {
 		myTabsList = new TabsList();
 		myTabs = new HashMap<String, ITab>();

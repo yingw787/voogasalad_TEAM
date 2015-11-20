@@ -7,7 +7,7 @@ import javafx.scene.text.Text;
 
 public class Selected {
 
-	private View myView;
+	private Player myPlayer;
 	private VBox myVBox;
 	
 	private Text unit;
@@ -15,8 +15,8 @@ public class Selected {
 	private ProgressBar healthbar;
 	private Text sell;
 	
-	public Selected(View view){
-		this.myView = view;
+	public Selected(Player p){
+		this.myPlayer = p;
 		myVBox = new VBox();
 		
 		unit = new Text("Unit: ");

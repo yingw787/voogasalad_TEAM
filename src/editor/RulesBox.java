@@ -51,6 +51,9 @@ public class RulesBox implements IView, Observer {
 	private final String[] actionsArray = {"ChangeAttribute", "Disappear", "Shoot"};
 	private List<String> dialogData;
 	
+	/**  Constructor for Rules object which allows creation/deletion of rules for Units
+	 *   @params DataController DataController to write rules to 
+	 **/
 	public RulesBox(DataController data) {
 		myRulesBox = new ScrollPane();
 		myRulesBox.setVbarPolicy(ScrollBarPolicy.ALWAYS);

@@ -13,17 +13,21 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 import units.Level;
 import units.Path;
 import units.PlayerInfo;
+import units.Point;
 import units.Unit;
 
 public class XMLConverter {
 	
 	XStream myXStream = new XStream(new StaxDriver());
 
-	/* creates sub-folder, if not already existing, that stores text files of each object in a games folder
-	 * folder name: type
-	 * file name(s): name
-	 * call this method on individual objects
-	 */
+	/** Creates sub-folder, if not already existing, that stores text files of each object in a games folder
+	 *  Folder name =  type
+	 *  File name(s) = name
+	 *  @param  obj  Object to be converted to XML
+	 *  @param  game String of game folder to store object XML
+	 *  @param  type String of type folder to store object XML
+	 *  @param  name String of file to store object XML
+	 **/
 	public void toXML(Object obj, String game, String type, String name) throws UnsupportedEncodingException, IOException {
 		try {
 		File file = new File("games/"+game+File.separator+type+File.separator+name);
@@ -41,10 +45,10 @@ public class XMLConverter {
 		}
 	}
 	
-	/* returns an ArrayList of objects of a certain type from XML
-	 * @params: type of object that has been converted to XML previously 
-	 * and is stored in the games folder under a subfolder 
-	 */
+	/**  returns an ArrayList of objects type from XML
+	 *   @param  game  Game from where object to be converted is contained
+	 *   @param  type  Type of object to be converted (object must be stored in data folder)
+	 **/
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private List<Object> fromXML(String game, String type) throws IOException {
@@ -61,11 +65,17 @@ public class XMLConverter {
 		return myObjects;
 	}
 	
+	/**  returns a PlayerInfo object for certain game
+	 *   @param  game  Game from where object to be converted is contained
+	 **/
 	public PlayerInfo getPlayerInfo(String game) throws IOException{
-		List<Object> objects = fromXML(game,"PlayerInfo");
+		List<Object> objects = fromXML(game,"Player");
 		return (PlayerInfo) objects.get(0);
 	}
 	
+	/**  returns a List of level objects for certain game
+	 *   @param  game  Game from where objects to be converted are contained
+	 **/
 	public List<Level> getLevels(String game) throws IOException{
 		List<Object> objects = fromXML(game,"Level");
 		List<Level> myLevels = new ArrayList<Level>();
@@ -75,7 +85,10 @@ public class XMLConverter {
 		return myLevels;
 	}
 	
-	//type 
+	/**  returns a List of Unit objects for certain game
+	 *   @param  game  Game from where object to be converted is contained
+	 *   @param  type  Type of object to be returned
+	 **/
 	public List<Unit> getUnits(String game, String type) throws IOException{
 		List<Object> objects = fromXML(game,type);
 		List<Unit> myUnits = new ArrayList<Unit>();
@@ -85,11 +98,21 @@ public class XMLConverter {
 		return myUnits;
 	}
 	
+	/**  returns a list of Path objects for certain game
+	 *   @param  game  Game from where object to be converted is contained
+	 **/
 	public List<Path> getPaths(String game) throws IOException{
 		List<Object> objects = fromXML(game,"Path");
 		List<Path> myUnits = new ArrayList<Path>();
 		for (Object o : objects){
-			myUnits.add((Path) o);
+			Path p = (Path) o;
+			List<Point> newPoints = new ArrayList<Point>();
+			List<Point> oldPoints = p.getPoints();
+			for (Point point : oldPoints){
+				newPoints.add(new Point(point.getX()-10, point.getY()-50));
+			}
+			Path newPath = new Path(p.getName(),newPoints);
+			myUnits.add(newPath);
 		}
 		return myUnits;
 	}

@@ -7,12 +7,16 @@ import editor.IView;
 import editor.tabData.ITabData;
 import editor.tabData.TroopsData;
 
+/**  Editor tab for Troops
+ **/
 public class TroopsTab extends ATab implements IView, ITab {
 	private TroopsData myData;
 	private Button myAddButton;
 	private Button myDeleteButton;
 	private int myTroopsID;
 	
+	/**  Constructor for editor tab for Troops
+	 **/
 	public TroopsTab(){
 		initTab();
 		createButtons();
