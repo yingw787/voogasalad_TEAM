@@ -55,6 +55,7 @@ public class Player implements IPlayer {
 		bp.setLeft(myMap.initialize());
 		bp.setRight(myHUD.initialize());
 		bp.setBottom(myStore.initialize());
+		bp.setStyle("-fx-background-color: linear-gradient(#FEF0C9, #61a2b1);");
 		configure();
 	}
 	
@@ -98,15 +99,9 @@ public class Player implements IPlayer {
 	
 	private Node topMenuBar(){
 		HBox result = new HBox();
-		result.getChildren().addAll(myMenus.initialize());//, addMapButton());
+		result.getChildren().addAll(myMenus.initialize());
 		return result;
 
-	}
-
-	public Node addMapButton(){
-		addMapButton = new Button("Add Background");
-		addMapButton.setOnMouseClicked(e->myMap.uploadMap());
-		return addMapButton;
 	}
 	
 	private void configure(){

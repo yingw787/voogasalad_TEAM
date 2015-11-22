@@ -26,6 +26,7 @@ public class Selected {
 		unit.setStyle("-fx-font: 18px Tahoma;");
 		health.setStyle("-fx-font: 18px Tahoma;");
 		sell.setStyle("-fx-font: 18px Tahoma;");
+		myVBox.setStyle("-fx-border-width: 5px; -fx-padding: 10; -fx-spacing: 8;");
 		myVBox.getChildren().addAll(unit, health, healthbar, sell);
 	}
 	
