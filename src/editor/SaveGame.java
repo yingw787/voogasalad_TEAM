@@ -9,7 +9,6 @@ import gamedata.xml.XMLConverter;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
-import startup.Startup;
 import units.Bullet;
 import units.Game;
 import units.Level;
