@@ -2,7 +2,10 @@ package editor.tabs;
 
 import java.util.Optional;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import editor.IView;
@@ -15,6 +18,7 @@ public class GameTab extends ATab implements IView, ITab {
 	private GameData myData;
 	private Text myLabel;
 	private Button myTitleButton;
+	private Button myIconButton;
 	private Button myHelpButton;
 	
 	/**  Constructor for editor tab for Game data
@@ -32,14 +36,28 @@ public class GameTab extends ATab implements IView, ITab {
 		myTitleButton = makeButton("Game title: " + myData.getGame().getTitle(), e -> changeTitle());
 		myTitleButton.setStyle("-fx-padding: 0 0 0 0;"
 				+ "-fx-background-color: transparent;");
+		
+		myIconButton = new Button();
+		ImageView myIcon = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("purpleminion.png")));
+		myIcon.setFitHeight(50);
+		myIcon.setPreserveRatio(true);
+		myIconButton.setGraphic(myIcon);
+		myIconButton.setText("my icon");
+		myIconButton.setStyle("-fx-padding: 0 0 0 0;"
+				+ "-fx-background-color: transparent;");
+		myIconButton.setContentDisplay(ContentDisplay.TOP);
+		
 		myHelpButton = makeButton("Game help page: " + myData.getGame().getHelpPage(), e -> changeHelpPage());
 		myHelpButton.setStyle("-fx-padding: 0 0 0 0;"
 				+ "-fx-background-color: transparent;");
-		myTabContent.getChildren().addAll(myTitleButton, myHelpButton);
+		myTabContent.getChildren().addAll(myTitleButton, myIconButton, myHelpButton);
 	}
 	
+	
+	
+	
 	private void clearAttributes(){
-		myTabContent.getChildren().removeAll(myTitleButton, myHelpButton);
+		myTabContent.getChildren().removeAll(myTitleButton, myIconButton, myHelpButton);
 	}
 
 	private void refresh(){
