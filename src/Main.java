@@ -17,6 +17,7 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		new Startup(stage);
+		stage.setScene(new Startup(stage).getScene());
+		stage.show();
 	}
 }
