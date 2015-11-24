@@ -4,6 +4,7 @@ import java.util.Observable;
 import controller.Controller;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.stage.Stage;
 
 /**
  * A class used to display the menu bar with menu items for Player.
@@ -24,9 +25,11 @@ public class Menus extends Observable implements IViewNode {
 	private Controller myController;
 	private Player myPlayer;
 	private Map myMap;
-
-	public Menus(Controller c){
+	private Stage myStage;
+	
+	public Menus(Controller c, Stage stage){
 		this.myController = c;
+		this.myStage = stage;
 	}
 
 	/**
@@ -37,7 +40,7 @@ public class Menus extends Observable implements IViewNode {
 	public MenuBar initialize(){
 		myMap = new Map(myController, myPlayer);
 		myMenuBar = new MenuBar();
-		fileMenu = new FileMenu();
+		fileMenu = new FileMenu(myStage);
 		editMenu = new EditMenu(myMap);//, myPlayer, myController);
 		helpMenu = new HelpMenu();
 		populate();

@@ -36,7 +36,7 @@ public class Player implements IPlayer {
 		Group root = new Group();
 		myHUD = new HUD(myController, this);
 		myMap = new Map(myController, this);
-		myMenus = new Menus(myController);
+		myMenus = new Menus(myController, myStage);
 		myStore = new Store(this);
 		BorderPane borderPane = new BorderPane();
 		populate(borderPane);
@@ -48,6 +48,10 @@ public class Player implements IPlayer {
 	
 	public MapUnit getSelected(){
 		return myMap.getSelected();
+	}
+
+	public Stage getStage(){
+		return myStage;
 	}
 	
 	private void populate(BorderPane bp){
