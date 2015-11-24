@@ -152,12 +152,15 @@ public class Map extends Observable implements IViewNode {
 		myPlayer.updateSelected(myUnit);
 	}
 
-	public ImageView setBackgroundMap(Image image) {
+	public void setBackgroundMap(Image image) {
 		myImage = new ImageView(image);
 		//myCurrentBackground.getImage();
-		//myPane.getChildren().remove(myCurrentBackground);
-		return myImage;
-	
+		System.out.println(myPane.getChildren().size());
+		myPane.getChildren().remove(background);
+        System.out.println(" selected");
+		System.out.println(myPane.getChildren().size());
+		myPane.getChildren().add(myImage);
+		System.out.println("new size: " + myPane.getChildren().size());
 	}
 
 	private Line drawPath(Point startLoc, Point endLoc){
@@ -179,15 +182,7 @@ public class Map extends Observable implements IViewNode {
 		purchaseEnabled = true;
 		potentialPurchase = u;
 	}
-
-
-	public void showNewImage(){
-
-		myPane.getChildren().remove(background);
-		//myPane.getChildren().add(setBackgroundMap(image));
-		System.out.println("background added");
 	
-	}	
 	
 	public void showPaths(List<Path> pathsForLevel) {
 		myPane.getChildren().removeAll(myCurrentPaths);
