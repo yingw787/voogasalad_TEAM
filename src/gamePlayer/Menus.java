@@ -18,11 +18,12 @@ import javafx.scene.control.MenuBar;
 
 public class Menus extends Observable implements IViewNode {
 	private MenuBar myMenuBar;
-	private Menu newMenu;
-	private Menu saveMenu;
-	private Menu helpMenu;
-	private Menu addBackgroundMenu;
+	private FileMenu fileMenu;
+	private EditMenu editMenu;
+	private HelpMenu helpMenu;
 	private Controller myController;
+	private Player myPlayer;
+	private Map myMap;
 
 	public Menus(Controller c){
 		this.myController = c;
@@ -34,34 +35,17 @@ public class Menus extends Observable implements IViewNode {
 	 * @return the menu bar
 	 */
 	public MenuBar initialize(){
+		myMap = new Map(myController, myPlayer);
 		myMenuBar = new MenuBar();
-		newMenu = new Menu("New Game");
-		saveMenu = new Menu("Save");
-		helpMenu = new Menu("Help");
-		addBackgroundMenu = new Menu("Add Background");
+		fileMenu = new FileMenu();
+		editMenu = new EditMenu(myMap);//, myPlayer, myController);
+		helpMenu = new HelpMenu();
 		populate();
 		return myMenuBar;
 	}
 
-	private void populate(){
-		newMenu.setOnAction(actionEvent -> newMenuAction());
-		saveMenu.setOnAction(actionEvent -> savemenuAction());
-		helpMenu.setOnAction(actionEvent -> helpMenuAction());
-		addBackgroundMenu.setOnAction(actionEvent -> helpMenuAction());
-		
-		myMenuBar.getMenus().addAll(newMenu, saveMenu, helpMenu,addBackgroundMenu);
-	}
-
-	private void helpMenuAction() {
-		System.out.println("print help");
-	}
-
-	private void savemenuAction() {
-		System.out.println("print save");
-	}
-
-	private void newMenuAction() {
-		System.out.println("print new");
+	private void populate(){		
+		myMenuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
 	}
 
 	/* (non-Javadoc)
