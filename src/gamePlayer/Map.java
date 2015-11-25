@@ -17,9 +17,12 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.FileChooser;
 import units.Path;
 import units.Point;
@@ -39,16 +42,24 @@ public class Map extends Observable implements IViewNode {
 	private boolean purchaseEnabled;
 	private Unit potentialPurchase;
 	private List<Line> myCurrentPaths;
-	
+	private ImageView background;
+	private ImageView myImage;
+	private Background bgImage;
+
 	public Map(Controller c, Player p){
 		this.myPlayer = p;
 		this.myController = c;
 		purchaseEnabled = false;
+		//myPane = new Pane();
+
 	}
 	
 	public Pane initialize(){
 		myPane = new Pane();
-		myPane.setStyle("-fx-background-color: green;");
+		//myPane.setStyle("-fx-background-color: green;");
+		Image grassBG = new Image(getClass().getClassLoader().getResourceAsStream("grass.jpg"));
+		background = new ImageView(grassBG);
+		myPane.getChildren().add(background);
 		myPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent arg0) {
@@ -66,6 +77,7 @@ public class Map extends Observable implements IViewNode {
 		myImageMap = new HashMap<Double, MapUnit>();
 		myHealthMap = new HashMap<Double, ProgressBar>();
 		myCurrentPaths = new ArrayList<Line>();
+		myImage = new ImageView();
 		return myPane;
 	}
 
@@ -132,35 +144,20 @@ public class Map extends Observable implements IViewNode {
 		
 	}
 	
+	public MapUnit getSelected(){
+		return selectedUnit;
+	}
+	
 	private void updateSelected(MapUnit myUnit) {
 		myPlayer.updateSelected(myUnit);
 	}
 
-	public void uploadMap() {
-	    FileChooser fileChooser = new FileChooser();
-	    File selectedFile = fileChooser.showOpenDialog(null);
-	    Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		
-		String label = null;
-	    String fileName;
-	    
-	    if (selectedFile != null) {
-	        fileName = selectedFile.getName();
-	        setBackgroundMap(new Image(getClass().getClassLoader().getResourceAsStream(fileName)));
-	    }
-	    else {
-	        if (selectedFile == null) {
-	        	label = "UploadCanceled";
-				alert.setContentText(label);
-				alert.showAndWait();
-	        }
-	    }
-	}
-
-	public void setBackgroundMap(Image image) {
-		ImageView myImage = new ImageView(image);
-		myPane.getChildren().addAll(myImage);
+	public ImageView setBackgroundMap(Image image) {
+		myImage = new ImageView(image);
+		//myCurrentBackground.getImage();
+		//myPane.getChildren().remove(myCurrentBackground);
+		return myImage;
+	
 	}
 
 	private Line drawPath(Point startLoc, Point endLoc){
@@ -169,6 +166,7 @@ public class Map extends Observable implements IViewNode {
 		path.setStartY(startLoc.getY()+25);
 		path.setEndX(endLoc.getX()+25);
 		path.setEndY(endLoc.getY()+25);
+		path.setStrokeLineCap(StrokeLineCap.ROUND);
 		path.setStrokeWidth(15);
 		return path;
 	}
@@ -182,6 +180,15 @@ public class Map extends Observable implements IViewNode {
 		potentialPurchase = u;
 	}
 
+
+	public void showNewImage(){
+
+		myPane.getChildren().remove(background);
+		//myPane.getChildren().add(setBackgroundMap(image));
+		System.out.println("background added");
+	
+	}	
+	
 	public void showPaths(List<Path> pathsForLevel) {
 		myPane.getChildren().removeAll(myCurrentPaths);
 		myCurrentPaths.clear();

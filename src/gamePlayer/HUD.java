@@ -1,9 +1,13 @@
 package gamePlayer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
 import controller.Controller;
+import gameEngine.requests.SellTowerRequest;
+import interfaces.IRequest;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -13,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import units.PlayerInfo;
+import units.Tower;
 import units.Unit;
 
 /**
@@ -37,6 +42,7 @@ public class HUD extends Observable implements IViewNode{
 	private Controller myController;
 	private Player myPlayer;
 	private ResourceBundle myResource;
+	private String buttonStyle;
 
 	public HUD(Controller c, Player p){
 		this.myController = c;
@@ -51,7 +57,8 @@ public class HUD extends Observable implements IViewNode{
 	 */
 	public VBox initialize(){
 		myVBox = new VBox(20);
-		myVBox.setStyle("-fx-background-color: #FEF0C9;");
+		myVBox.setStyle("-fx-background-color: linear-gradient(#FEF0C9, #61a2b1);");
+		
 		return myVBox;
 	}
 
@@ -64,13 +71,14 @@ public class HUD extends Observable implements IViewNode{
 	public Node gold(PlayerInfo player){
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("goldImage")));
 		ImageView imageView = new ImageView(image);
-		imageView.setFitHeight(50);
+		imageView.setFitHeight(30);
 		imageView.setPreserveRatio(true);
 
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
+		myHBox.setPrefHeight(30);
 		Text money = new Text(" " + player.getMoney());
-		money.setStyle("-fx-font: 30px Tahoma;");
+		money.setStyle("-fx-font: 25px Tahoma;");
 		myHBox.getChildren().addAll(imageView,money);
 		return myHBox;
 	}
@@ -95,21 +103,22 @@ public class HUD extends Observable implements IViewNode{
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("lives")));
 		
 		ImageView imageView1 = new ImageView(image);
-		imageView1.setFitHeight(50);
+		imageView1.setFitHeight(30);
 		imageView1.setPreserveRatio(true);
 
 		ImageView imageView2 = new ImageView(image);
-		imageView2.setFitHeight(50);
+		imageView2.setFitHeight(30);
 		imageView2.setPreserveRatio(true);
 
 		ImageView imageView3 = new ImageView(image);
-		imageView3.setFitHeight(50);
+		imageView3.setFitHeight(30);
 		imageView3.setPreserveRatio(true);
 
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
+		myHBox.setPrefHeight(30);
 		Text lives = new Text("Lives: ");
-		lives.setStyle("-fx-font: 30px Tahoma;");
+		lives.setStyle("-fx-font: 25px Tahoma;");
 		if(player.getLives() == 3){
 			myHBox.getChildren().addAll(lives,imageView1,imageView2,imageView3);
 		}else if (player.getLives() == 2){
@@ -131,6 +140,7 @@ public class HUD extends Observable implements IViewNode{
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
 		myWaveButton = new Button("Start Wave");
+		myWaveButton.setStyle(buttonStyle);
 		myWaveButton.setOnMouseClicked(e->myController.startWave(
 				Integer.parseInt(myPlayerInfo.getLevel())));
         myHBox.getChildren().add(myWaveButton);
@@ -147,9 +157,9 @@ public class HUD extends Observable implements IViewNode{
 	public Node level(PlayerInfo player){
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
-
+		myHBox.setPrefHeight(30);
 		Text level = new Text("Level: " + player.getLevel());
-		level.setStyle("-fx-font: 30px Tahoma;");
+		level.setStyle("-fx-font: 25px Tahoma;");
 		myHBox.getChildren().add(level);
 		return myHBox;
 	}
@@ -162,16 +172,18 @@ public class HUD extends Observable implements IViewNode{
 	public Node buySellButton(){
 		
 		HBox myHBox = new HBox();
-		myHBox.setStyle("-fx-background-color: white;");
+		buttonStyle = "-fx-text-fill: white; -fx-font-family:Arial Narrow; -fx-font-weight: bold; -fx-background-color: linear-gradient(#61a2b1, #2A5058);-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );";
 		myBuyButton = new Button("Buy");
 		myBuyButton.setDisable(true);
-        myBuyButton.setPrefSize(150,40);
-        
+        myBuyButton.setPrefSize(150,30);
+        myBuyButton.setStyle(buttonStyle);
 		myBuyButton.setOnMouseClicked(e->buyButtonClicked());
+		
 		mySellButton = new Button("Sell");
 		mySellButton.setDisable(true);
 		mySellButton.setOnMouseClicked(e->sellButtonClicked());
-        mySellButton.setPrefSize(150,40);
+        mySellButton.setPrefSize(150,30);
+        mySellButton.setStyle(buttonStyle);
 
 		myHBox.getChildren().addAll(myBuyButton,mySellButton);
 		return myHBox;
@@ -191,6 +203,10 @@ public class HUD extends Observable implements IViewNode{
 
 	private void sellButtonClicked(){
 		mySellButton.setDisable(true);
+		SellTowerRequest sell = new SellTowerRequest((Tower) myPlayer.getSelected().getUnit());
+		List<IRequest> requestSender = new ArrayList<IRequest>();
+		requestSender.add(sell);
+		myController.update(requestSender);
 		//myView.sellItem();
 	}
 

@@ -36,7 +36,7 @@ public class Player implements IPlayer {
 		Group root = new Group();
 		myHUD = new HUD(myController, this);
 		myMap = new Map(myController, this);
-		myMenus = new Menus(myController);
+		myMenus = new Menus(myController, myStage);
 		myStore = new Store(this);
 		BorderPane borderPane = new BorderPane();
 		populate(borderPane);
@@ -46,11 +46,20 @@ public class Player implements IPlayer {
 		initialize(s);
 	}
 	
+	public MapUnit getSelected(){
+		return myMap.getSelected();
+	}
+
+	public Stage getStage(){
+		return myStage;
+	}
+	
 	private void populate(BorderPane bp){
 		bp.setTop(topMenuBar());
 		bp.setLeft(myMap.initialize());
 		bp.setRight(myHUD.initialize());
 		bp.setBottom(myStore.initialize());
+		bp.setStyle("-fx-background-color: linear-gradient(#FEF0C9, #61a2b1);");
 		configure();
 	}
 	
@@ -94,15 +103,9 @@ public class Player implements IPlayer {
 	
 	private Node topMenuBar(){
 		HBox result = new HBox();
-		result.getChildren().addAll(myMenus.initialize());//, addMapButton());
+		result.getChildren().addAll(myMenus.initialize());
 		return result;
 
-	}
-
-	public Node addMapButton(){
-		addMapButton = new Button("Add Background");
-		addMapButton.setOnMouseClicked(e->myMap.uploadMap());
-		return addMapButton;
 	}
 	
 	private void configure(){

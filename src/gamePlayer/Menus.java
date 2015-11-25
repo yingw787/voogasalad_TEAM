@@ -4,6 +4,7 @@ import java.util.Observable;
 import controller.Controller;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.stage.Stage;
 
 /**
  * A class used to display the menu bar with menu items for Player.
@@ -18,14 +19,17 @@ import javafx.scene.control.MenuBar;
 
 public class Menus extends Observable implements IViewNode {
 	private MenuBar myMenuBar;
-	private Menu newMenu;
-	private Menu saveMenu;
-	private Menu helpMenu;
-	private Menu addBackgroundMenu;
+	private FileMenu fileMenu;
+	private EditMenu editMenu;
+	private HelpMenu helpMenu;
 	private Controller myController;
-
-	public Menus(Controller c){
+	private Player myPlayer;
+	private Map myMap;
+	private Stage myStage;
+	
+	public Menus(Controller c, Stage stage){
 		this.myController = c;
+		this.myStage = stage;
 	}
 
 	/**
@@ -34,34 +38,17 @@ public class Menus extends Observable implements IViewNode {
 	 * @return the menu bar
 	 */
 	public MenuBar initialize(){
+		myMap = new Map(myController, myPlayer);
 		myMenuBar = new MenuBar();
-		newMenu = new Menu("New Game");
-		saveMenu = new Menu("Save");
-		helpMenu = new Menu("Help");
-		addBackgroundMenu = new Menu("Add Background");
+		fileMenu = new FileMenu(myStage);
+		editMenu = new EditMenu(myMap);//, myPlayer, myController);
+		helpMenu = new HelpMenu();
 		populate();
 		return myMenuBar;
 	}
 
-	private void populate(){
-		newMenu.setOnAction(actionEvent -> newMenuAction());
-		saveMenu.setOnAction(actionEvent -> savemenuAction());
-		helpMenu.setOnAction(actionEvent -> helpMenuAction());
-		addBackgroundMenu.setOnAction(actionEvent -> helpMenuAction());
-		
-		myMenuBar.getMenus().addAll(newMenu, saveMenu, helpMenu,addBackgroundMenu);
-	}
-
-	private void helpMenuAction() {
-		System.out.println("print help");
-	}
-
-	private void savemenuAction() {
-		System.out.println("print save");
-	}
-
-	private void newMenuAction() {
-		System.out.println("print new");
+	private void populate(){		
+		myMenuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
 	}
 
 	/* (non-Javadoc)
