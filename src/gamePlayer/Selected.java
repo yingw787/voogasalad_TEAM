@@ -5,6 +5,10 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+/*
+ * Manages the part of the HUD that displays selected unit
+ */
+
 public class Selected {
 
 	private Player myPlayer;
@@ -30,6 +34,10 @@ public class Selected {
 		myVBox.getChildren().addAll(unit, health, healthbar, sell);
 	}
 	
+	
+	/*
+	 * Updates the display of attributes given the selected unit
+	 */
 	public void update(MapUnit myUnit){
 		unit.setText("Unit: " + myUnit.getUnit().getStringAttribute("Name"));
 		healthbar.setProgress(myUnit.getUnit().getAttribute("Health")/myUnit.getUnit().getAttribute("MaxHealth"));
