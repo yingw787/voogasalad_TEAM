@@ -21,6 +21,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.FileChooser;
@@ -37,6 +38,7 @@ public class Map extends Observable implements IViewNode {
 	private MapUnit selectedUnit;
 	private HashMap<Double, MapUnit> myImageMap;
 	private HashMap<Double, ProgressBar> myHealthMap;
+	private HashMap<Double, Circle> myTowerRangeMap;
 	private Player myPlayer;
 	private Controller myController;
 	private boolean purchaseEnabled;
@@ -76,6 +78,7 @@ public class Map extends Observable implements IViewNode {
 		});
 		myImageMap = new HashMap<Double, MapUnit>();
 		myHealthMap = new HashMap<Double, ProgressBar>();
+		myTowerRangeMap = new HashMap<Double, Circle>();
 		myCurrentPaths = new ArrayList<Line>();
 		myImage = new ImageView();
 		return myPane;
@@ -102,14 +105,21 @@ public class Map extends Observable implements IViewNode {
 				mapUnit.setPreserveRatio(true);
 				mapUnit.setFitHeight(35);
 				ProgressBar health = mapUnit.getHealth();
+				Circle towerRange = mapUnit.getPower();
 				myImageMap.put(unit.getAttribute("ID"), mapUnit);
 				myHealthMap.put(unit.getAttribute("ID"), health);
-				myPane.getChildren().addAll(mapUnit, health);
+				myTowerRangeMap.put(unit.getAttribute("ID"), towerRange);
+				myPane.getChildren().addAll(towerRange, mapUnit, health);
 				mapUnit.setX(unit.getAttribute("X"));
 				mapUnit.setY(unit.getAttribute("Y"));
 				health.setLayoutX(unit.getAttribute("X"));
 				health.setLayoutY(unit.getAttribute("Y")-10);
 				health.setMaxWidth(40);
+				if(unit.getStringAttribute("Type").equals("Tower")){
+					towerRange.setCenterX(unit.getAttribute("X")+10);
+					towerRange.setCenterY(unit.getAttribute("Y")+15);
+					towerRange.setRadius(unit.getAttribute("Health"));
+				}
 				mapUnit.setOnMouseClicked(e->{
 					selectedUnit = mapUnit;
 					enableSelling(selectedUnit);
@@ -123,6 +133,12 @@ public class Map extends Observable implements IViewNode {
 				health.setLayoutX(unit.getAttribute("X"));
 				health.setLayoutY(unit.getAttribute("Y")-10);
 				health.setProgress(unit.getAttribute("Health")/unit.getAttribute("MaxHealth"));
+				Circle towerRange = myTowerRangeMap.get(unit.getAttribute("ID"));
+				if(unit.getStringAttribute("Type").equals("Tower")){
+					towerRange.setCenterX(unit.getAttribute("X")+10);
+					towerRange.setCenterY(unit.getAttribute("Y")+15);
+					towerRange.setRadius(unit.getAttribute("Health"));
+				}
 				//reset health value here
 				onMap.add(unit.getAttribute("ID"));
 			}
@@ -135,8 +151,10 @@ public class Map extends Observable implements IViewNode {
 		for (double d : removeUnits) {
 			myPane.getChildren().remove(myImageMap.get(d));
 			myPane.getChildren().remove(myHealthMap.get(d));
+			myPane.getChildren().remove(myTowerRangeMap.get(d));
 			myImageMap.remove(d);
 			myHealthMap.remove(d);
+			myTowerRangeMap.remove(d);
 		}
 		
 		if(selectedUnit!=null)
