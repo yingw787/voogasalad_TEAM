@@ -1,6 +1,5 @@
 package gamePlayer;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,20 +10,19 @@ import controller.Controller;
 import gameEngine.requests.BuyTowerRequest;
 import interfaces.IRequest;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
-import javafx.stage.FileChooser;
+import javafx.scene.shape.StrokeType;
 import units.Path;
 import units.Point;
 import units.Tower;
@@ -46,7 +44,6 @@ public class Map extends Observable implements IViewNode {
 	private List<Line> myCurrentPaths;
 	private ImageView background;
 	private ImageView myImage;
-	private Background bgImage;
 
 	public Map(Controller c, Player p){
 		this.myPlayer = p;
@@ -188,7 +185,7 @@ public class Map extends Observable implements IViewNode {
 		path.setEndX(endLoc.getX()+25);
 		path.setEndY(endLoc.getY()+25);
 		path.setStrokeLineCap(StrokeLineCap.ROUND);
-		path.setStrokeWidth(15);
+		path.setStrokeWidth(10);
 		return path;
 	}
 	
@@ -212,7 +209,10 @@ public class Map extends Observable implements IViewNode {
 			}
 		}
 		for (Line l : myCurrentPaths){
-			l.setStroke(Color.AZURE);
+			l.setStrokeType(StrokeType.OUTSIDE);
+			LinearGradient linearGradient = new LinearGradient(50-18d, 0d, 50+18d, 0d,
+					 false, CycleMethod.REFLECT,new Stop(0,Color.BURLYWOOD), new Stop(1,Color.PERU));
+			l.setStroke(linearGradient);
 		}
 		myPane.getChildren().addAll(myCurrentPaths);
 	}
