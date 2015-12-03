@@ -1,8 +1,8 @@
 package gamePlayer;
 
 import java.util.Observable;
+
 import controller.Controller;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
 
@@ -27,7 +27,8 @@ public class Menus extends Observable implements IViewNode {
 	private Map myMap;
 	private Stage myStage;
 	
-	public Menus(Controller c, Stage stage){
+	public Menus(Controller c, Map m, Stage stage){
+		this.myMap = m;
 		this.myController = c;
 		this.myStage = stage;
 	}
@@ -38,7 +39,6 @@ public class Menus extends Observable implements IViewNode {
 	 * @return the menu bar
 	 */
 	public MenuBar initialize(){
-		myMap = new Map(myController, myPlayer);
 		myMenuBar = new MenuBar();
 		fileMenu = new FileMenu(myStage);
 		editMenu = new EditMenu(myMap);//, myPlayer, myController);

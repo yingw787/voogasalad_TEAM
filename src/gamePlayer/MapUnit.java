@@ -22,9 +22,11 @@ public class MapUnit extends ImageView {
 		myHealth = new ProgressBar(1.0);
 		myHealth.setMaxWidth(50);
 		myHealth.setStyle("-fx-accent: red;");
-		myPower = new Circle();
-		myPower.setFill(Color.TRANSPARENT);
-		myPower.setStroke(Color.RED);					
+//		myPower = new Circle();
+//		myPower.setFill(Color.RED);
+//		myPower.setStroke(Color.RED);
+//		myPower.setOpacity(0.5);
+//		myPower.setRadius(myUnit.getAttribute("Health"));
 
 	}
 	
@@ -35,9 +37,9 @@ public class MapUnit extends ImageView {
 		return myHealth;
 	}
 	
-	public Circle getPower(){
-		return myPower;
-	}
+//	public Circle getPower(){
+//		return myPower;
+//	}
 	
 	/*Returns the unit associated with the image
 	 * 
