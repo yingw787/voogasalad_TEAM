@@ -119,7 +119,11 @@ public class HUD extends Observable implements IViewNode{
 		myHBox.setPrefHeight(30);
 		Text lives = new Text("Lives: ");
 		lives.setStyle("-fx-font: 25px Tahoma;");
-		if(player.getLives() == 3){
+		Text livesMinusThree = new Text(" + " + String.valueOf((player.getLives()-3)));
+		livesMinusThree.setStyle("-fx-font: 25px Tahoma;");
+		if(player.getLives() > 3){
+			myHBox.getChildren().addAll(lives,imageView1,imageView2,imageView3,livesMinusThree);
+		}else if(player.getLives() == 3){
 			myHBox.getChildren().addAll(lives,imageView1,imageView2,imageView3);
 		}else if (player.getLives() == 2){
 			myHBox.getChildren().addAll(lives,imageView1,imageView2);
