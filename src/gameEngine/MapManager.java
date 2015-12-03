@@ -75,8 +75,8 @@ public class MapManager {
 	 * If the number of enemies generated is less than the current level's worth of enemies, hasMoreEnemies() will return true 
 	 * This will enable the MapManager to decide when to stop generating enemies for a given level. 
 	 **/
-	public boolean hasMoreEnemies(){
-		return currentEnemy == myCurrentLevel.getTroops().size();
+	public boolean noMoreEnemies(){
+		return (currentEnemy == myCurrentLevel.getTroops().size());
 	}
 	
 	/**
