@@ -34,7 +34,7 @@ public class ShootAction implements IAction{
 				double distance = myPoint.getDistance(iPoint);
 				double harmDistance = basePoint.getDistance(iPoint);
 				if (distance < myRange) {
-					if (mmin < harmDistance) {
+					if (mmin > harmDistance) {
 						mmin = harmDistance;
 						target = iPoint;
 					}
@@ -43,7 +43,16 @@ public class ShootAction implements IAction{
 		}
 		if (target != null) {
 			Bullet blt = new Bullet(myBullet.clone());
-			blt.setTarget(target);
+			
+			
+			double x = target.getX() - myPoint.getX();
+			double y = target.getY() - myPoint.getY();
+			double d = Math.sqrt(x*x + y*y);
+			Point dir = new Point(x/d ,y /d);
+			blt.setAttribute("SpedX", x/d);
+			blt.setAttribute("SpedY", y/d);
+			blt.setFaction(Faction.player);
+			blt.setPoint(myPoint);
 			re.addUnit(blt.getID(), blt);
 		}
 	}

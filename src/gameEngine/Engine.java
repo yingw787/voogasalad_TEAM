@@ -23,6 +23,7 @@ import units.PlayerInfo;
 import units.Point;
 import units.Tower;
 import units.Unit;
+import units.UnitType;
 
 public class Engine implements IEngine {
 	private Controller myController;
@@ -98,6 +99,12 @@ public class Engine implements IEngine {
 		for (Unit unit : currentUnitsOnBoard) {
 			if (unit.getStringAttribute("Type").equals("Troop")){
 				myMapManager.walkUnitOnMap(unit);
+			}
+			else if(unit.getStringAttribute("Type").equals("Bullet")){
+				Point p = unit.getPoint();
+				p.setX(p.getX() + unit.getAttribute("SpedX"));
+				p.setY(p.getY() + unit.getAttribute("SpedY"));
+				unit.setPoint(p);
 			}
 		}
 //		myController.updateMap(myRE.getUnits());
