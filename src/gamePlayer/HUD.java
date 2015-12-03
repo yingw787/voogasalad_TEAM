@@ -172,7 +172,7 @@ public class HUD extends Observable implements IViewNode{
 	public Node buySellButton(){
 		
 		HBox myHBox = new HBox();
-		buttonStyle = "-fx-text-fill: white; -fx-font-family:Arial Narrow; -fx-font-weight: bold; -fx-background-color: linear-gradient(#61a2b1, #2A5058);-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );";
+		buttonStyle = myResource.getString("cssHUDButtonStyle");
 		myBuyButton = new Button("Buy");
 		myBuyButton.setDisable(true);
         myBuyButton.setPrefSize(150,30);
