@@ -23,5 +23,11 @@ public class CheckAttributeCondition implements ICondition{
 		}
 		return false;
 	}
+	
+	public CheckAttributeCondition clone(){
+		CheckAttributeCondition cac = new CheckAttributeCondition(myAttributeToCheck,myLowerBound,myUpperBound);
+		
+		return cac;
+	}
 
 }

@@ -30,5 +30,10 @@ public class TimerCondition implements ICondition{
 			myCount =0;
 		return myCount % myInterval == 0;
 	}
+	
+	public TimerCondition clone(){
+		TimerCondition tc = new TimerCondition(myInterval);
+		return tc;
+	}
 
 }

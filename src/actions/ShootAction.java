@@ -48,7 +48,6 @@ public class ShootAction implements IAction{
 			double x = target.getX() - myPoint.getX();
 			double y = target.getY() - myPoint.getY();
 			double d = Math.sqrt(x*x + y*y);
-			Point dir = new Point(x/d ,y /d);
 			blt.setAttribute("SpedX", x/d);
 			blt.setAttribute("SpedY", y/d);
 			blt.setFaction(Faction.player);
