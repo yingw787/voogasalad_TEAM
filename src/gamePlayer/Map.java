@@ -114,17 +114,24 @@ public class Map extends Observable implements IViewNode {
 				MapUnit mapUnit = new MapUnit(new Image(unit.getStringAttribute("Image")),unit);
 				mapUnit.setPreserveRatio(true);
 				mapUnit.setFitHeight(35);
-				ProgressBar health = mapUnit.getHealth();
-//				Circle towerRange = mapUnit.getPower();
+				if (unit.getStringAttribute("Type").equals("Bullet")){
+					mapUnit.setFitHeight(10);
+				}
+				if (!unit.getStringAttribute("Type").equals("Bullet")){
+					ProgressBar health = mapUnit.getHealth();
+					myHealthMap.put(unit.getAttribute("ID"), health);
+					health.setLayoutX(unit.getAttribute("X")-7);
+					health.setLayoutY(unit.getAttribute("Y")-10);
+					health.setMaxWidth(40);
+					myPane.getChildren().addAll(health);
+				}
+				
 				myImageMap.put(unit.getAttribute("ID"), mapUnit);
-				myHealthMap.put(unit.getAttribute("ID"), health);
+//				Circle towerRange = mapUnit.getPower();
 //				myTowerRangeMap.put(unit.getAttribute("ID"), towerRange);
-				myPane.getChildren().addAll(mapUnit, health);
+				myPane.getChildren().addAll(mapUnit);
 				mapUnit.setX(unit.getAttribute("X"));
 				mapUnit.setY(unit.getAttribute("Y"));
-				health.setLayoutX(unit.getAttribute("X")-7);
-				health.setLayoutY(unit.getAttribute("Y")-10);
-				health.setMaxWidth(40);
 //				if(unit.getStringAttribute("Type").equals("Tower")){
 //					towerRange.setCenterX(unit.getAttribute("X")+10);
 //					towerRange.setCenterY(unit.getAttribute("Y")+15);
@@ -139,10 +146,12 @@ public class Map extends Observable implements IViewNode {
 				ImageView imageview = myImageMap.get(unit.getAttribute("ID"));
 				imageview.setX(unit.getAttribute("X"));
 				imageview.setY(unit.getAttribute("Y"));
-				ProgressBar health = myHealthMap.get(unit.getAttribute("ID"));
-				health.setLayoutX(unit.getAttribute("X"));
-				health.setLayoutY(unit.getAttribute("Y")-10);
-				health.setProgress(unit.getAttribute("Health")/unit.getAttribute("MaxHealth"));
+				if (!unit.getStringAttribute("Type").equals("Bullet")){
+					ProgressBar health = myHealthMap.get(unit.getAttribute("ID"));
+					health.setLayoutX(unit.getAttribute("X"));
+					health.setLayoutY(unit.getAttribute("Y")-10);
+					health.setProgress(unit.getAttribute("Health")/unit.getAttribute("MaxHealth"));	
+				}
 //				Circle towerRange = myTowerRangeMap.get(unit.getAttribute("ID"));
 //				if(unit.getStringAttribute("Type").equals("Tower")){
 //					towerRange.setCenterX(unit.getAttribute("X")+10);
