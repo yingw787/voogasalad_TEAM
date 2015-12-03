@@ -24,6 +24,11 @@ public class Rule {
 			myAction.act(unit,re);
 		}
 	}
+	
+	public Rule clone(){
+		Rule rule = new Rule(this.myCondition.clone(),this.myAction);
+		return rule;
+	}
 }
 
 //collision request{unit ID1, unit ID2}
