@@ -88,8 +88,7 @@ public class Engine implements IEngine {
 				rule.run(unit, myRE);
 			}
 		}
-		
-		if (myMapManager.hasMoreEnemies()){
+		if (!myMapManager.noMoreEnemies()){
 			if (delay % spawnDelay == 0) {
 				myMapManager.spawnNewEnemy();
 			}
@@ -137,7 +136,8 @@ public class Engine implements IEngine {
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
 		Level level = myRE.getLevel(i);
-		spawnDelay = (int) (60.0 * level.getSpawnRate());
+//		spawnDelay = (int) (60.0 * level.getSpawnRate());
+		spawnDelay = (int) (60.0 * 1);
 		myMapManager.startWave(myRE.getLevel(i), myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
 		playAnimation(true);
 	}
