@@ -82,6 +82,7 @@ public class Unit {
 	}
 	
 	public Collection<Rule> getRules() {
+		//System.out.println(myRules.size());
 		return myRules.values();
 	}
 	

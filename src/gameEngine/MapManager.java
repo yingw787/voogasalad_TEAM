@@ -8,12 +8,14 @@ import java.util.Queue;
 import java.util.Random;
 
 import gameEngine.environments.RuntimeEnvironment;
+import units.Faction;
 import units.IDGenerator;
 import units.Level;
 import units.Path;
 import units.Point;
 import units.Troop;
 import units.Unit;
+import units.UnitType;
 
 public class MapManager {
 	
@@ -92,6 +94,8 @@ public class MapManager {
 	 **/
 	public void spawnNewEnemy(){
 		Troop t = new Troop(myCurrentLevel.getTroops().get(currentEnemy));
+		t.setFaction(Faction.enemy);
+		t.setType(UnitType.Troop);
 		myWalkManager.put(t, getRandomPath());
 		t.setAttribute("ID", myIDGenerator.getID());
 		Point currentPoint = myWalkManager.get(t).remove();
