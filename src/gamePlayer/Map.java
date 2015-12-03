@@ -113,9 +113,12 @@ public class Map extends Observable implements IViewNode {
 			if (!myImageMap.containsKey(unit.getAttribute("ID"))){
 				MapUnit mapUnit = new MapUnit(new Image(unit.getStringAttribute("Image")),unit);
 				mapUnit.setPreserveRatio(true);
-				mapUnit.setFitHeight(35);
+				mapUnit.setFitHeight(30);
 				if (unit.getStringAttribute("Type").equals("Bullet")){
 					mapUnit.setFitHeight(10);
+				}
+				if (unit.getStringAttribute("Type").equals("Tower")){
+					mapUnit.setFitHeight(55);
 				}
 				if (!unit.getStringAttribute("Type").equals("Bullet")){
 					ProgressBar health = mapUnit.getHealth();
@@ -226,7 +229,7 @@ public class Map extends Observable implements IViewNode {
 				myRange.setOpacity(0.3);
 				myRange.setRadius(u.getHealth());
 				towerCursor.setPreserveRatio(true);
-				towerCursor.setFitHeight(35);
+				towerCursor.setFitHeight(55);
 				myPane.getChildren().add(myRange);
 				myPane.getChildren().addAll(towerCursor);
 				myPane.setOnMouseMoved(new EventHandler<MouseEvent>() {
