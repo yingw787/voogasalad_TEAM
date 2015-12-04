@@ -50,6 +50,7 @@ public class HUD extends Observable implements IViewNode{
 	private ResourceBundle myResource;
 	private String buttonStyle;
 	private Environment env;
+	private Node myLives, myLevel, myGold;
 
 	public HUD(Controller c, Player p){
 		this.myController = c;
@@ -67,6 +68,19 @@ public class HUD extends Observable implements IViewNode{
 		myVBox.setStyle("-fx-background-color: linear-gradient(#FEF0C9, #61a2b1);");
 
 		return myVBox;
+	}
+	
+	public void update(PlayerInfo playerInfo){
+		if (myPlayerInfo.getLevel()!=playerInfo.getLevel()){
+			myLevel = level(playerInfo);
+		}
+		if (myPlayerInfo.getMoney()!=playerInfo.getMoney()){
+			myGold = gold(playerInfo);
+		}
+		if (myPlayerInfo.getLives()!=playerInfo.getLives()){
+			myLives = lives(playerInfo);
+		}
+		myPlayerInfo = playerInfo;
 	}
 
 	/**
@@ -226,6 +240,9 @@ public class HUD extends Observable implements IViewNode{
 	public void populate(PlayerInfo player){
 		myPlayerInfo = player;
 		myVBox.getChildren().clear();
+		myGold = gold(player);
+		myLives = lives(player);
+		myLevel = level(player);
 		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton(), waveButton(), selectedDisplay());
 	}
 

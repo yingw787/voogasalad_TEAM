@@ -50,6 +50,10 @@ public class Controller {
 		myPlayer.updateUserInfo(playerinfo);
 	}
 	
+	public void updateInfo(PlayerInfo playerinfo) {
+		myPlayer.updateInfo(playerinfo);
+	}
+	
 	public void startWave(int i){
 		myEngine.startWave(i);
 	}

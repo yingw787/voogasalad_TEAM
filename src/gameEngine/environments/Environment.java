@@ -219,4 +219,8 @@ public class Environment {
 		return myLevels.size();
 		
 	}
+	
+	public void increaseMoney(double d){
+		myPlayerInfo.setMoney((int) (myPlayerInfo.getMoney()+d));
+	}
 }

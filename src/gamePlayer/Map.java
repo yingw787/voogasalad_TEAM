@@ -8,9 +8,9 @@ import java.util.Observable;
 
 import controller.Controller;
 import gameEngine.requests.BuyTowerRequest;
+import gameEngine.requests.CollisionRequest;
 import interfaces.IRequest;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -110,26 +110,29 @@ public class Map extends Observable implements IViewNode {
 		List<Double> onMap = new ArrayList<Double>();
 		List<Double> removeUnits = new ArrayList<Double>();
 		for (Unit unit : units) {
+		
 			if (!myImageMap.containsKey(unit.getAttribute("ID"))){
 				MapUnit mapUnit = new MapUnit(new Image(unit.getStringAttribute("Image")),unit);
 				mapUnit.setPreserveRatio(true);
-				mapUnit.setFitHeight(35);
-				ProgressBar health = mapUnit.getHealth();
-//				Circle towerRange = mapUnit.getPower();
+				mapUnit.setFitHeight(30);
+				if (unit.getStringAttribute("Type").equals("Bullet")){
+					mapUnit.setFitHeight(10);
+				}
+				if (unit.getStringAttribute("Type").equals("Tower")){
+					mapUnit.setFitHeight(55);
+				}
+				if (!unit.getStringAttribute("Type").equals("Bullet")){
+					ProgressBar health = mapUnit.getHealth();
+					myHealthMap.put(unit.getAttribute("ID"), health);
+					health.setLayoutX(unit.getAttribute("X")-7);
+					health.setLayoutY(unit.getAttribute("Y")-10);
+					health.setMaxWidth(40);
+					myPane.getChildren().addAll(health);
+				}
 				myImageMap.put(unit.getAttribute("ID"), mapUnit);
-				myHealthMap.put(unit.getAttribute("ID"), health);
-//				myTowerRangeMap.put(unit.getAttribute("ID"), towerRange);
-				myPane.getChildren().addAll(mapUnit, health);
+				myPane.getChildren().addAll(mapUnit);
 				mapUnit.setX(unit.getAttribute("X"));
 				mapUnit.setY(unit.getAttribute("Y"));
-				health.setLayoutX(unit.getAttribute("X")-7);
-				health.setLayoutY(unit.getAttribute("Y")-10);
-				health.setMaxWidth(40);
-//				if(unit.getStringAttribute("Type").equals("Tower")){
-//					towerRange.setCenterX(unit.getAttribute("X")+10);
-//					towerRange.setCenterY(unit.getAttribute("Y")+15);
-//					towerRange.setRadius(unit.getAttribute("Health"));
-//				}
 				mapUnit.setOnMouseClicked(e->{
 					selectedUnit = mapUnit;
 					enableSelling(selectedUnit);
@@ -139,17 +142,12 @@ public class Map extends Observable implements IViewNode {
 				ImageView imageview = myImageMap.get(unit.getAttribute("ID"));
 				imageview.setX(unit.getAttribute("X"));
 				imageview.setY(unit.getAttribute("Y"));
-				ProgressBar health = myHealthMap.get(unit.getAttribute("ID"));
-				health.setLayoutX(unit.getAttribute("X"));
-				health.setLayoutY(unit.getAttribute("Y")-10);
-				health.setProgress(unit.getAttribute("Health")/unit.getAttribute("MaxHealth"));
-//				Circle towerRange = myTowerRangeMap.get(unit.getAttribute("ID"));
-//				if(unit.getStringAttribute("Type").equals("Tower")){
-//					towerRange.setCenterX(unit.getAttribute("X")+10);
-//					towerRange.setCenterY(unit.getAttribute("Y")+15);
-//					towerRange.setRadius(unit.getAttribute("Health"));
-//				}
-				//reset health value here
+				if (!unit.getStringAttribute("Type").equals("Bullet")){
+					ProgressBar health = myHealthMap.get(unit.getAttribute("ID"));
+					health.setLayoutX(unit.getAttribute("X"));
+					health.setLayoutY(unit.getAttribute("Y")-10);
+					health.setProgress(unit.getAttribute("Health")/unit.getAttribute("MaxHealth"));	
+				}
 				onMap.add(unit.getAttribute("ID"));
 			}
 		}
@@ -166,9 +164,29 @@ public class Map extends Observable implements IViewNode {
 			myHealthMap.remove(d);
 			myTowerRangeMap.remove(d);
 		}
-		
 		if(selectedUnit!=null)
 			updateSelected(selectedUnit);
+		checkForCollisions();
+	}
+
+	private void checkForCollisions(){
+		outerloop: {
+		for (MapUnit unit1 : myImageMap.values()){
+			for (MapUnit unit2 : myImageMap.values()){
+				if ((unit1.equals(unit2))||(unit1.getUnit().getStringAttribute("Type").equals(unit2.getUnit().getStringAttribute("Type")))){
+					continue;
+				} else {
+					if (unit1.getBoundsInLocal().intersects(unit2.getBoundsInLocal())){
+						CollisionRequest cr = new CollisionRequest(unit1.getUnit(), unit2.getUnit());
+						List<IRequest> requestSender = new ArrayList<IRequest>();
+						requestSender.add(cr);
+						myController.update(requestSender);
+						break outerloop;
+					}
+				}
+			}
+		}
+	}
 		
 	}
 	
@@ -188,7 +206,7 @@ public class Map extends Observable implements IViewNode {
         System.out.println(" selected");
 		System.out.println(myPane.getChildren().size());
 		myPane.getChildren().add(myImage);
-		System.out.println("new size: " + myPane.getChildren().size());
+		System.out.println("new gisize: " + myPane.getChildren().size());
 	}
 
 
@@ -217,7 +235,7 @@ public class Map extends Observable implements IViewNode {
 				myRange.setOpacity(0.3);
 				myRange.setRadius(u.getHealth());
 				towerCursor.setPreserveRatio(true);
-				towerCursor.setFitHeight(35);
+				towerCursor.setFitHeight(55);
 				myPane.getChildren().add(myRange);
 				myPane.getChildren().addAll(towerCursor);
 				myPane.setOnMouseMoved(new EventHandler<MouseEvent>() {
