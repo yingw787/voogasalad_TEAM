@@ -8,9 +8,9 @@ import java.util.Observable;
 
 import controller.Controller;
 import gameEngine.requests.BuyTowerRequest;
+import gameEngine.requests.CollisionRequest;
 import interfaces.IRequest;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -128,18 +128,10 @@ public class Map extends Observable implements IViewNode {
 					health.setMaxWidth(40);
 					myPane.getChildren().addAll(health);
 				}
-				
 				myImageMap.put(unit.getAttribute("ID"), mapUnit);
-//				Circle towerRange = mapUnit.getPower();
-//				myTowerRangeMap.put(unit.getAttribute("ID"), towerRange);
 				myPane.getChildren().addAll(mapUnit);
 				mapUnit.setX(unit.getAttribute("X"));
 				mapUnit.setY(unit.getAttribute("Y"));
-//				if(unit.getStringAttribute("Type").equals("Tower")){
-//					towerRange.setCenterX(unit.getAttribute("X")+10);
-//					towerRange.setCenterY(unit.getAttribute("Y")+15);
-//					towerRange.setRadius(unit.getAttribute("Health"));
-//				}
 				mapUnit.setOnMouseClicked(e->{
 					selectedUnit = mapUnit;
 					enableSelling(selectedUnit);
@@ -155,13 +147,6 @@ public class Map extends Observable implements IViewNode {
 					health.setLayoutY(unit.getAttribute("Y")-10);
 					health.setProgress(unit.getAttribute("Health")/unit.getAttribute("MaxHealth"));	
 				}
-//				Circle towerRange = myTowerRangeMap.get(unit.getAttribute("ID"));
-//				if(unit.getStringAttribute("Type").equals("Tower")){
-//					towerRange.setCenterX(unit.getAttribute("X")+10);
-//					towerRange.setCenterY(unit.getAttribute("Y")+15);
-//					towerRange.setRadius(unit.getAttribute("Health"));
-//				}
-				//reset health value here
 				onMap.add(unit.getAttribute("ID"));
 			}
 		}
@@ -178,9 +163,30 @@ public class Map extends Observable implements IViewNode {
 			myHealthMap.remove(d);
 			myTowerRangeMap.remove(d);
 		}
-		
 		if(selectedUnit!=null)
 			updateSelected(selectedUnit);
+//		checkForCollisions();
+	}
+
+	private void checkForCollisions(){
+		outerloop: {
+		for (MapUnit unit1 : myImageMap.values()){
+			for (MapUnit unit2 : myImageMap.values()){
+				if ((unit1.equals(unit2))||(unit1.getUnit().getStringAttribute("Type").equals(unit2.getUnit().getStringAttribute("Type")))){
+					continue;
+				} else {
+					if (unit1.getBoundsInLocal().intersects(unit2.getBoundsInLocal())){
+						CollisionRequest cr = new CollisionRequest(unit1.getUnit(), unit2.getUnit());
+						List<IRequest> requestSender = new ArrayList<IRequest>();
+						requestSender.add(cr);
+						System.out.println("REQUEST");
+						myController.update(requestSender);
+						break outerloop;
+					}
+				}
+			}
+		}
+	}
 		
 	}
 	

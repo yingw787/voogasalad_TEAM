@@ -107,7 +107,7 @@ public class Engine implements IEngine {
 				unit.setPoint(p);
 			}
 		}
-//		myController.updateMap(myRE.getUnits());
+		myController.updateMap(myRE.getUnits());
 		
 		flush();
 	}

@@ -31,6 +31,13 @@ public class CollisionRequest extends Request {
 		if(myUnit1.getFaction() != myUnit2.getFaction()){
 			myUnit1.setHealth(myUnit1.getHealth() - myUnit2.getAttribute("CollisionDamage"));
 			myUnit2.setHealth(myUnit2.getHealth() - myUnit1.getAttribute("CollisionDamage"));
+			if (myUnit1.getHealth()<= 0){
+				re.removeUnit(myUnit1.getID());
+				re.getUnits().remove(myUnit1);
+			}if (myUnit2.getHealth()<=0){
+				re.removeUnit(myUnit2.getID());
+				re.getUnits().remove(myUnit2);
+			}
 		}
 	}
 }
