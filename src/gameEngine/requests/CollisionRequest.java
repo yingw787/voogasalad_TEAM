@@ -33,10 +33,14 @@ public class CollisionRequest extends Request {
 			myUnit2.setHealth(myUnit2.getHealth() - myUnit1.getAttribute("CollisionDamage"));
 			if (myUnit1.getHealth()<= 0){
 				re.removeUnit(myUnit1.getID());
-				re.getUnits().remove(myUnit1);
-			}if (myUnit2.getHealth()<=0){
+				if (myUnit1.getStringAttribute("Type").equals("Troop")){
+					re.increaseMoney(myUnit1.getAttribute("SellCost"));
+				}
+			}  if (myUnit2.getHealth()<=0){
 				re.removeUnit(myUnit2.getID());
-				re.getUnits().remove(myUnit2);
+				if (myUnit2.getStringAttribute("Type").equals("Troop")){
+					re.increaseMoney(myUnit2.getAttribute("SellCost"));
+				}
 			}
 		}
 	}

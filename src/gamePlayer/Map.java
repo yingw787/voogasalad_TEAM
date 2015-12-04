@@ -110,6 +110,7 @@ public class Map extends Observable implements IViewNode {
 		List<Double> onMap = new ArrayList<Double>();
 		List<Double> removeUnits = new ArrayList<Double>();
 		for (Unit unit : units) {
+		
 			if (!myImageMap.containsKey(unit.getAttribute("ID"))){
 				MapUnit mapUnit = new MapUnit(new Image(unit.getStringAttribute("Image")),unit);
 				mapUnit.setPreserveRatio(true);
@@ -165,7 +166,7 @@ public class Map extends Observable implements IViewNode {
 		}
 		if(selectedUnit!=null)
 			updateSelected(selectedUnit);
-//		checkForCollisions();
+		checkForCollisions();
 	}
 
 	private void checkForCollisions(){
@@ -179,7 +180,6 @@ public class Map extends Observable implements IViewNode {
 						CollisionRequest cr = new CollisionRequest(unit1.getUnit(), unit2.getUnit());
 						List<IRequest> requestSender = new ArrayList<IRequest>();
 						requestSender.add(cr);
-						System.out.println("REQUEST");
 						myController.update(requestSender);
 						break outerloop;
 					}
@@ -206,7 +206,7 @@ public class Map extends Observable implements IViewNode {
         System.out.println(" selected");
 		System.out.println(myPane.getChildren().size());
 		myPane.getChildren().add(myImage);
-		System.out.println("new size: " + myPane.getChildren().size());
+		System.out.println("new gisize: " + myPane.getChildren().size());
 	}
 
 

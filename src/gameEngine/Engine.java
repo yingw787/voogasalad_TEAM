@@ -6,8 +6,6 @@ import java.util.List;
 
 import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
-import gameEngine.requests.BuyTowerRequest;
-import gameEngine.requests.Request;
 import gamedata.xml.XMLConverter;
 import interfaces.IEngine;
 import interfaces.IRequest;
@@ -18,17 +16,14 @@ import rules.Rule;
 import units.Base;
 import units.IDGenerator;
 import units.Level;
-import units.Path;
-import units.PlayerInfo;
 import units.Point;
-import units.Tower;
+import units.Troop;
 import units.Unit;
-import units.UnitType;
 
 public class Engine implements IEngine {
 	private Controller myController;
 	private Timeline myTimeline;
-	public static final int FRAMES_PER_SECOND = 240;
+	public static final int FRAMES_PER_SECOND = 120;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
@@ -108,7 +103,6 @@ public class Engine implements IEngine {
 			}
 		}
 		myController.updateMap(myRE.getUnits());
-		
 		flush();
 	}
 
@@ -119,10 +113,15 @@ public class Engine implements IEngine {
 		// request if a CollisionRequest
 		for (IRequest r : requests) {
 			r.execute(myRE);
+			if ((r.getClass().getSimpleName().equals("BuyTowerRequest"))||(r.getClass().getSimpleName().equals("SellTowerRequest"))){
+				myController.resetStore();
+				myController.updateUserInfo(myRE.getPlayerInfo());
+			}
+			if (r.getClass().getSimpleName().equals("CollisionRequest")){
+				myController.updateUserInfo(myRE.getPlayerInfo());
+			}
 		}
-		myController.updateMap(myRE.getUnits());
-		myController.updateUserInfo(myRE.getPlayerInfo());
-		myController.resetStore();
+		
 	}
 
 	@Override
