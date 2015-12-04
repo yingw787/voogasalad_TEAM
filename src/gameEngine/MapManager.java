@@ -8,12 +8,14 @@ import java.util.Queue;
 import java.util.Random;
 
 import gameEngine.environments.RuntimeEnvironment;
+import units.Faction;
 import units.IDGenerator;
 import units.Level;
 import units.Path;
 import units.Point;
 import units.Troop;
 import units.Unit;
+import units.UnitType;
 
 public class MapManager {
 	
@@ -75,8 +77,8 @@ public class MapManager {
 	 * If the number of enemies generated is less than the current level's worth of enemies, hasMoreEnemies() will return true 
 	 * This will enable the MapManager to decide when to stop generating enemies for a given level. 
 	 **/
-	public boolean hasMoreEnemies(){
-		return currentEnemy == myCurrentLevel.getTroops().size();
+	public boolean noMoreEnemies(){
+		return (currentEnemy == myCurrentLevel.getTroops().size());
 	}
 	
 	/**
@@ -92,6 +94,8 @@ public class MapManager {
 	 **/
 	public void spawnNewEnemy(){
 		Troop t = new Troop(myCurrentLevel.getTroops().get(currentEnemy));
+		t.setFaction(Faction.enemy);
+		t.setType(UnitType.Troop);
 		myWalkManager.put(t, getRandomPath());
 		t.setAttribute("ID", myIDGenerator.getID());
 		Point currentPoint = myWalkManager.get(t).remove();
