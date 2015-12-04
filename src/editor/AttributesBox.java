@@ -1,12 +1,20 @@
 package editor;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
-import units.Tower;
 import units.Unit;
 import editor.tabData.DataController;
 import editor.tabData.ITabData;
@@ -23,11 +31,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 
 public class AttributesBox extends Observable implements IView, Observer {
 	
 
+	private Map<String, File> imageCache; // where to keep this??
+	
 	private ScrollPane myAttributesBox;
 
 	private DataController myDataController;
@@ -47,7 +60,7 @@ public class AttributesBox extends Observable implements IView, Observer {
 		myBoxContent = new VBox();
 		myAttributesBox.setContent(myBoxContent);
 		addHeader();
-
+		imageCache = new HashMap<String, File>();
 	}
 	
 	private void addHeader() {
@@ -97,35 +110,71 @@ public class AttributesBox extends Observable implements IView, Observer {
 	private void makeEditableStringAttribute(String attribute) {
 		Button attributeButton = new Button();
 		String label = myCurrentUnit.getStringAttribute(attribute);
-        final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
+		List<String> imageSuffixList = new ArrayList<String>();
+		for (String suffix : ImageIO.getReaderFileSuffixes()) {
+			imageSuffixList.add("*." + suffix);
+		}
+		final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
 		if (label.matches(IMAGEFILE_SUFFIXES)) {
 			myCurrentAttributes.getChildren().add(new Label(attribute + ": "));
-			ImageView myImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(label)));
+			ImageView myImage;
+			try {
+				myImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(label)));
+			} catch (Exception runtime) {
+				myImage = new ImageView(new Image(imageCache.get(label).toURI().toString()));
+			}
+
 			myImage.setFitHeight(50);
 			myImage.setPreserveRatio(true);
 			attributeButton.setGraphic(myImage);
 			attributeButton.setText(label);
+
+			attributeButton.setOnAction(e -> {
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Load Image From File");
+				fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", imageSuffixList));
+				File selectedFile = fileChooser.showOpenDialog(new Stage());
+
+				if (selectedFile != null) {
+					try {
+						File file = new File("images/" + selectedFile.getName());
+						file.getParentFile().mkdirs();
+						file.createNewFile();
+						FileOutputStream fos = new FileOutputStream(file);
+						Path path = Paths.get(selectedFile.getPath());
+						byte[] data = Files.readAllBytes(path);
+						fos.write(data);
+						fos.close();
+						myCurrentUnit.setAttribute(attribute, selectedFile.getName());
+						imageCache.put(selectedFile.getName(), selectedFile);
+						clearAttributes();
+						showAttributes();
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
 		} else {
 			attributeButton.setText(attribute + ": " + label);
+			attributeButton.setOnAction(e -> {
+				TextInputDialog dialog = new TextInputDialog(myCurrentUnit.getStringAttribute(attribute));
+				dialog.setTitle("Change Attribute Value");
+				dialog.setHeaderText("Changing value for " + attribute);
+				dialog.setContentText("Please enter a new value:");
+				Optional<String> result = dialog.showAndWait();
+				result.ifPresent(newValue -> {
+					if(attribute.equals("Name")){
+						
+						setChanged();
+						notifyObservers(newValue);
+					}
+					myCurrentUnit.setAttribute(attribute, newValue);
+					clearAttributes();
+					showAttributes();
+				});
+			});
 		}
 		attributeButton.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-color: transparent;");
-		attributeButton.setOnAction(e -> {
-			TextInputDialog dialog = new TextInputDialog(myCurrentUnit.getStringAttribute(attribute));
-			dialog.setTitle("Change Attribute Value");
-			dialog.setHeaderText("Changing value for " + attribute);
-			dialog.setContentText("Please enter a new value:");
-			Optional<String> result = dialog.showAndWait();
-			result.ifPresent(newValue -> {
-				if(attribute.equals("Name")){
-					
-					setChanged();
-					notifyObservers(newValue);
-				}
-				myCurrentUnit.setAttribute(attribute, newValue);
-				clearAttributes();
-				showAttributes();
-			});
-		});
 		myCurrentAttributes.getChildren().add(attributeButton);
 	}
 
