@@ -81,6 +81,11 @@ public class Player implements IPlayer {
 		myHUD.populate(player);
 		myPlayerInfo = player;
 	}
+	
+	public void updateInfo(PlayerInfo player) {
+		myHUD.update(player);
+		myPlayerInfo = player;
+	}
 
 	@Override
 	public void showWin() {
