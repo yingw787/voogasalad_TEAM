@@ -48,6 +48,10 @@ public class Selected {
 		health.setText("Health: " + myUnit.getUnit().getAttribute("Health") 
 				+ "/" + myUnit.getUnit().getAttribute("MaxHealth"));
 		sell.setText("Sell for: " + (int) myUnit.getUnit().getAttribute("SellCost"));
+
+	}
+	
+	public void setImage(MapUnit myUnit){
 		image.setImage(new Image(myUnit.getUnit().getStringAttribute("Image")));
 		image.setPreserveRatio(true);
 		image.setFitHeight(55);
