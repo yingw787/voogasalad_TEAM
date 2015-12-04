@@ -2,6 +2,8 @@ package gamePlayer;
 
 import javafx.scene.Node;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -18,6 +20,7 @@ public class Selected {
 	private Text health;
 	private ProgressBar healthbar;
 	private Text sell;
+	private ImageView image;
 	
 	public Selected(Player p){
 		this.myPlayer = p;
@@ -27,11 +30,12 @@ public class Selected {
 		health = new Text("Health: ");
 		healthbar = new ProgressBar(0);
 		sell = new Text ("Sell for: ");
-		unit.setStyle("-fx-font: 18px Tahoma;");
-		health.setStyle("-fx-font: 18px Tahoma;");
-		sell.setStyle("-fx-font: 18px Tahoma;");
+		unit.setStyle("-fx-font: 14px Tahoma;");
+		health.setStyle("-fx-font: 14px Tahoma;");
+		sell.setStyle("-fx-font: 14px Tahoma;");
+		image = new ImageView();
 		myVBox.setStyle("-fx-border-width: 5px; -fx-padding: 10; -fx-spacing: 8;");
-		myVBox.getChildren().addAll(unit, health, healthbar, sell);
+		myVBox.getChildren().addAll(unit, health, healthbar, sell, image);
 	}
 	
 	
@@ -44,6 +48,9 @@ public class Selected {
 		health.setText("Health: " + myUnit.getUnit().getAttribute("Health") 
 				+ "/" + myUnit.getUnit().getAttribute("MaxHealth"));
 		sell.setText("Sell for: " + (int) myUnit.getUnit().getAttribute("SellCost"));
+		image.setImage(new Image(myUnit.getUnit().getStringAttribute("Image")));
+		image.setPreserveRatio(true);
+		image.setFitHeight(55);
 	}
 	
 	public Node getDisplay(){
