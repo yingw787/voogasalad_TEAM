@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package gamePlayer;
 
 import java.util.ArrayList;
@@ -6,10 +9,13 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 
 import controller.Controller;
+import gameEngine.environments.Environment;
 import gameEngine.requests.SellTowerRequest;
 import interfaces.IRequest;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +49,7 @@ public class HUD extends Observable implements IViewNode{
 	private Player myPlayer;
 	private ResourceBundle myResource;
 	private String buttonStyle;
+	private Environment env;
 
 	public HUD(Controller c, Player p){
 		this.myController = c;
@@ -58,7 +65,7 @@ public class HUD extends Observable implements IViewNode{
 	public VBox initialize(){
 		myVBox = new VBox(20);
 		myVBox.setStyle("-fx-background-color: linear-gradient(#FEF0C9, #61a2b1);");
-		
+
 		return myVBox;
 	}
 
@@ -82,7 +89,7 @@ public class HUD extends Observable implements IViewNode{
 		myHBox.getChildren().addAll(imageView,money);
 		return myHBox;
 	}
-	
+
 	/**
 	 * creates a Node for Selected display.
 	 *
@@ -101,7 +108,7 @@ public class HUD extends Observable implements IViewNode{
 	 */
 	public Node lives(PlayerInfo player){
 		Image image = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("lives")));
-		
+
 		ImageView imageView1 = new ImageView(image);
 		imageView1.setFitHeight(30);
 		imageView1.setPreserveRatio(true);
@@ -134,7 +141,7 @@ public class HUD extends Observable implements IViewNode{
 		}
 		return myHBox;		
 	}
-	
+
 	/**
 	 * creates Wave button in the HUD.
 	 *
@@ -142,16 +149,33 @@ public class HUD extends Observable implements IViewNode{
 	 */
 	public Node waveButton(){
 		HBox myHBox = new HBox();
+		env = new Environment();
 		myHBox.setAlignment(Pos.CENTER);
 		myWaveButton = new Button("Start Wave");
 		myWaveButton.setStyle(buttonStyle);
-		myWaveButton.setOnMouseClicked(e->myController.startWave(
-				Integer.parseInt(myPlayerInfo.getLevel())));
-        myHBox.getChildren().add(myWaveButton);
-        return myHBox;
+		if(Integer.parseInt(myPlayerInfo.getLevel()) < myPlayerInfo.getMyLevelSize()){
+			myWaveButton.setOnMouseClicked(e->myController.startWave(
+					Integer.parseInt(myPlayerInfo.getLevel())));	
+		}else{
+			myWaveButton.setOnMouseClicked(e->startWaveAlert());
+		}
+		myHBox.getChildren().add(myWaveButton);
+		return myHBox;
 	}
-	
-	
+
+
+	/**
+	 * shows alert message for Start wave.
+	 */
+	private void startWaveAlert() {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Alert Message");
+		String label = null;
+		label = "You have exceeded the total number of levels for this game";
+		alert.setContentText(label);
+		alert.showAndWait();
+	}
+
 	/**
 	 * creates HBox for game Level.
 	 *
@@ -167,33 +191,33 @@ public class HUD extends Observable implements IViewNode{
 		myHBox.getChildren().add(level);
 		return myHBox;
 	}
-	
+
 	/**
 	 * creates HBox for Buy and Sell buttons.
 	 *
 	 * @return the node
 	 */
 	public Node buySellButton(){
-		
+
 		HBox myHBox = new HBox();
 		buttonStyle = myResource.getString("cssHUDButtonStyle");
 		myBuyButton = new Button("Buy");
 		myBuyButton.setDisable(true);
-        myBuyButton.setPrefSize(150,30);
-        myBuyButton.setStyle(buttonStyle);
+		myBuyButton.setPrefSize(150,30);
+		myBuyButton.setStyle(buttonStyle);
 		myBuyButton.setOnMouseClicked(e->buyButtonClicked());
-		
+
 		mySellButton = new Button("Sell");
 		mySellButton.setDisable(true);
 		mySellButton.setOnMouseClicked(e->sellButtonClicked());
-        mySellButton.setPrefSize(150,30);
-        mySellButton.setStyle(buttonStyle);
+		mySellButton.setPrefSize(150,30);
+		mySellButton.setStyle(buttonStyle);
 
 		myHBox.getChildren().addAll(myBuyButton,mySellButton);
 		return myHBox;
-		
+
 	}
-	
+
 	/**
 	 * Populates all the Nodes in HUD's VBox.
 	 *
@@ -243,7 +267,7 @@ public class HUD extends Observable implements IViewNode{
 	public void enableBuyButton(Unit unit) {
 		myBuyButton.setDisable(false);
 	}
-	
+
 	/**
 	 * Updates selected unit.
 	 *

@@ -39,7 +39,7 @@ public class Environment {
 		myTroopTypes = new ArrayList<Unit>();
 		myLevels = new ArrayList<Level>();
 		myPaths =new ArrayList<Path>();
-		myPlayerInfo = new PlayerInfo(0, 0, "");
+		myPlayerInfo = new PlayerInfo(0, 0, "", 0);
 		myConfig = new GameConfiguration();
 		myRules = new ArrayList<Rule>();
 		myBase = new Base();
@@ -170,6 +170,7 @@ public class Environment {
 	 * @return the player information
 	 */
 	public PlayerInfo getPlayerInfo() {
+		myPlayerInfo.setMyLevelSize(myLevels.size());
 		return myPlayerInfo;
 	}
 	
@@ -212,5 +213,10 @@ public class Environment {
 	 */
 	public Base getBase() {
 		return myBase;
+	}
+	
+	public int getlevelSize(){
+		return myLevels.size();
+		
 	}
 }
