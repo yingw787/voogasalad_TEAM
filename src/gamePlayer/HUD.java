@@ -247,12 +247,16 @@ public class HUD extends Observable implements IViewNode{
 	}
 
 	private void sellButtonClicked(){
-		mySellButton.setDisable(true);
-		SellTowerRequest sell = new SellTowerRequest((Tower) myPlayer.getSelected().getUnit());
-		List<IRequest> requestSender = new ArrayList<IRequest>();
-		requestSender.add(sell);
-		myController.update(requestSender);
-		//myView.sellItem();
+		Unit selectedUnit = myPlayer.getSelected().getUnit();
+		if(selectedUnit.getStringAttribute("Type").equals("Tower")){
+			Tower tower = new Tower(selectedUnit);
+			mySellButton.setDisable(true);
+			SellTowerRequest sell = new SellTowerRequest(tower);
+			List<IRequest> requestSender = new ArrayList<IRequest>();
+			requestSender.add(sell);
+			myController.update(requestSender);
+			//myView.sellItem();
+		}
 	}
 
 	private void buyButtonClicked() {
@@ -300,9 +304,10 @@ public class HUD extends Observable implements IViewNode{
 	 * @param myUnit the my unit
 	 */
 	public void enableSell(MapUnit myUnit) {
-		if (myUnit.getUnit().getClass().toString().equals("class units.Tower")){
+//		if (myUnit.getUnit().getClass().toString().equals("class units.Tower")){
 			mySellButton.setDisable(false);
-		}
+//		}
+		selectedDisplay.setImage(myUnit);
 		updateSelected(myUnit);
 	}
 
