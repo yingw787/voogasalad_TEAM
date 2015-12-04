@@ -108,53 +108,12 @@ public class AttributesBox extends Observable implements IView, Observer {
 	 * @param attribute
 	 */
 	private void makeEditableStringAttribute(String attribute) {
-		Button attributeButton = new Button();
-		String label = myCurrentUnit.getStringAttribute(attribute);
-		List<String> imageSuffixList = new ArrayList<String>();
-		for (String suffix : ImageIO.getReaderFileSuffixes()) {
-			imageSuffixList.add("*." + suffix);
-		}
 		final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
-		if (label.matches(IMAGEFILE_SUFFIXES)) {
-			myCurrentAttributes.getChildren().add(new Label(attribute + ": "));
-			ImageView myImage;
-			try {
-				myImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(label)));
-			} catch (Exception runtime) {
-				myImage = new ImageView(new Image(imageCache.get(label).toURI().toString()));
-			}
-
-			myImage.setFitHeight(50);
-			myImage.setPreserveRatio(true);
-			attributeButton.setGraphic(myImage);
-			attributeButton.setText(label);
-
-			attributeButton.setOnAction(e -> {
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setTitle("Load Image From File");
-				fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", imageSuffixList));
-				File selectedFile = fileChooser.showOpenDialog(new Stage());
-
-				if (selectedFile != null) {
-					try {
-						File file = new File("images/" + selectedFile.getName());
-						file.getParentFile().mkdirs();
-						file.createNewFile();
-						FileOutputStream fos = new FileOutputStream(file);
-						Path path = Paths.get(selectedFile.getPath());
-						byte[] data = Files.readAllBytes(path);
-						fos.write(data);
-						fos.close();
-						myCurrentUnit.setAttribute(attribute, selectedFile.getName());
-						imageCache.put(selectedFile.getName(), selectedFile);
-						clearAttributes();
-						showAttributes();
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-				}
-			});
+		if (myCurrentUnit.getStringAttribute(attribute).matches(IMAGEFILE_SUFFIXES)) {
+			makeEditableImageAttribute(attribute);
 		} else {
+			Button attributeButton = new Button();
+			String label = myCurrentUnit.getStringAttribute(attribute);
 			attributeButton.setText(attribute + ": " + label);
 			attributeButton.setOnAction(e -> {
 				TextInputDialog dialog = new TextInputDialog(myCurrentUnit.getStringAttribute(attribute));
@@ -163,8 +122,8 @@ public class AttributesBox extends Observable implements IView, Observer {
 				dialog.setContentText("Please enter a new value:");
 				Optional<String> result = dialog.showAndWait();
 				result.ifPresent(newValue -> {
-					if(attribute.equals("Name")){
-						
+					if (attribute.equals("Name")) {
+
 						setChanged();
 						notifyObservers(newValue);
 					}
@@ -173,7 +132,59 @@ public class AttributesBox extends Observable implements IView, Observer {
 					showAttributes();
 				});
 			});
+			attributeButton.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-color: transparent;");
+			myCurrentAttributes.getChildren().add(attributeButton);
 		}
+	}
+	
+	/**
+	 * @param attribute
+	 */
+	private void makeEditableImageAttribute(String attribute) {
+		Button attributeButton = new Button();
+		String label = myCurrentUnit.getStringAttribute(attribute);
+		List<String> imageSuffixList = new ArrayList<String>();
+		for (String suffix : ImageIO.getReaderFileSuffixes()) {
+			imageSuffixList.add("*." + suffix);
+		}
+		myCurrentAttributes.getChildren().add(new Label(attribute + ": "));
+		ImageView myImage;
+		try {
+			myImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(label)));
+		} catch (Exception runtime) {
+			myImage = new ImageView(new Image(imageCache.get(label).toURI().toString()));
+		}
+
+		myImage.setFitHeight(50);
+		myImage.setPreserveRatio(true);
+		attributeButton.setGraphic(myImage);
+		attributeButton.setText(label);
+
+		attributeButton.setOnAction(e -> {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Load Image From File");
+			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", imageSuffixList));
+			File selectedFile = fileChooser.showOpenDialog(new Stage());
+
+			if (selectedFile != null) {
+				try {
+					File file = new File("images/" + selectedFile.getName());
+					file.getParentFile().mkdirs();
+					file.createNewFile();
+					FileOutputStream fos = new FileOutputStream(file);
+					Path path = Paths.get(selectedFile.getPath());
+					byte[] data = Files.readAllBytes(path);
+					fos.write(data);
+					fos.close();
+					myCurrentUnit.setAttribute(attribute, selectedFile.getName());
+					imageCache.put(selectedFile.getName(), selectedFile);
+					clearAttributes();
+					showAttributes();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		attributeButton.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-color: transparent;");
 		myCurrentAttributes.getChildren().add(attributeButton);
 	}
