@@ -13,7 +13,14 @@ import actions.ShootAction;
 import conditions.CheckAttributeCondition;
 import conditions.ICondition;
 import conditions.TimerCondition;
+import rules.AActionDialog;
+import rules.AConditionDialog;
+import rules.ChangeAttributeDialog;
+import rules.CheckAttributeDialog;
+import rules.DisappearDialog;
 import rules.Rule;
+import rules.ShootDialog;
+import rules.TimerDialog;
 import units.Bullet;
 import units.Tower;
 import units.Unit;
@@ -98,89 +105,98 @@ public class RulesBox implements IView, Observer {
 		IAction action = null;
 		cond = askUser(conditionsArray, "Condition");
 		System.out.println("Condition: " + cond);
+		AConditionDialog conditionAsker;
 		switch (cond) {
 			case "CheckAttribute":
-				// Ask for attribute to change
-				String[] availableAttributes = myCurrentUnit.getAttributeArray();
-				String attribute = askUser(availableAttributes, "Attribute");
-				System.out.println(attribute + " chosen");
-				
-				double lower = 0.0;
-				double higher = 0.0;
-				String title = "Bounding Values";
-				String header = "Please Enter a Lower Bound";
-				String content = "Please enter a number:";
-				// Ask for lower bound
-				Optional<String> result = askUserForText(title, header, content);
-				if (result.isPresent()){
-					lower = Double.parseDouble(result.get());
-				} else return;
-				// Ask for higher bound
-				header = "Please Enter a Higher Bound";
-				result = askUserForText(title, header, content);
-				if (result.isPresent()){
-					higher = Double.parseDouble(result.get());
-				} else return;				
-				condition = new CheckAttributeCondition(attribute, lower, higher);
-				conditionDescription = "When " + attribute + " is in (" + lower + ", " + higher + "), ";
+//				// Ask for attribute to change
+//				String[] availableAttributes = myCurrentUnit.getAttributeArray();
+//				String attribute = askUser(availableAttributes, "Attribute");
+//				System.out.println(attribute + " chosen");
+//				
+//				double lower = 0.0;
+//				double higher = 0.0;
+//				String title = "Bounding Values";
+//				String header = "Please Enter a Lower Bound";
+//				String content = "Please enter a number:";
+//				// Ask for lower bound
+//				Optional<String> result = askUserForText(title, header, content);
+//				if (result.isPresent()){
+//					lower = Double.parseDouble(result.get());
+//				} else return;
+//				// Ask for higher bound
+//				header = "Please Enter a Higher Bound";
+//				result = askUserForText(title, header, content);
+//				if (result.isPresent()){
+//					higher = Double.parseDouble(result.get());
+//				} else return;			
+				conditionAsker = new CheckAttributeDialog();
 				break;
 			case "Timer":
-				// Ask for delay
-				int delay = 0;
-				Optional<String> result2 = askUserForText("Timer Delay", "Enter a delay between actions", "Positive numbers only");
-				if (result2.isPresent()){
-					delay = Integer.parseInt(result2.get());
-				} else return;
-				condition = new TimerCondition(delay);
-				conditionDescription = "Every delay of " + delay + " frames, ";
+//				// Ask for delay
+//				int delay = 0;
+//				Optional<String> result2 = askUserForText("Timer Delay", "Enter a delay between actions", "Positive numbers only");
+//				if (result2.isPresent()){
+//					delay = Integer.parseInt(result2.get());
+//				} else return;
+				conditionAsker = new TimerDialog();
 				break;
 			default:
 				return;
 		}
+		condition = conditionAsker.ask(myCurrentUnit);
+		conditionDescription = conditionAsker.getDescription();
+		if(condition == null){
+			return;
+		}
 		
+		AActionDialog actionAsker;
 		act = askUser(actionsArray, "Action");
 		switch (act){
 			case "ChangeAttribute":
-				double change = 0.0;
-				String[] availableAttributes = myCurrentUnit.getAttributeArray();
-				String attribute = askUser(availableAttributes, "Please select an Attribute to change");
-				Optional<String> result = askUserForText("Change value", "Please enter a number to be added to the current value", "Positive or negative numbers only");
-				if (result.isPresent()){
-					change = Double.parseDouble(result.get());
-				} else return;
-				action = new ChangeAttributeAction(attribute, change);
-				actionDescription = "change " + attribute + " by " + change;
+//				double change = 0.0;
+//				String[] availableAttributes = myCurrentUnit.getAttributeArray();
+//				String attribute = askUser(availableAttributes, "Please select an Attribute to change");
+//				Optional<String> result = askUserForText("Change value", "Please enter a number to be added to the current value", "Positive or negative numbers only");
+//				if (result.isPresent()){
+//					change = Double.parseDouble(result.get());
+//				} else return;
+				actionAsker = new ChangeAttributeDialog();
 				break;
 			case "Disappear":
-				action = new DisappearAction();
-				actionDescription = "disappear from the board";
+				actionAsker = new DisappearDialog();
 				break;
 			case "Shoot":
-				double range = 0.0;
-
-				String[] availableBullets = ((BulletsData) myDataController.getData("Bullets")).getBulletNamesArray();
-				
-				if(availableBullets.length == 0){
-					Alert warning = new Alert(AlertType.INFORMATION);
-					warning.setTitle("Warning");
-					warning.setHeaderText("You're trying to shoot a bullet...");
-					warning.setContentText("But you haven't made any bullets yet!");
-					warning.show();
-					return;
-				}
-				String bulletName = askUser(availableBullets, "Please select a bullet to shoot");
-				Bullet bullet = ((BulletsData) myDataController.getData("Bullets")).get(bulletName);
-				Optional<String> result2 = askUserForText("Tower Range", "Please enter a range (pixels) for the tower to shoot this bullet", "Positive numbers only");
-				if (result2.isPresent()){
-					range = Double.parseDouble(result2.get());
-				} else return;
-				action = new ShootAction(bullet, range);
-				actionDescription = "shoot a " + bulletName + " with range " + range;
+//				double range = 0.0;
+//
+//				String[] availableBullets = ((BulletsData) myDataController.getData("Bullets")).getBulletNamesArray();
+//				
+//				if(availableBullets.length == 0){
+//					Alert warning = new Alert(AlertType.INFORMATION);
+//					warning.setTitle("Warning");
+//					warning.setHeaderText("You're trying to shoot a bullet...");
+//					warning.setContentText("But you haven't made any bullets yet!");
+//					warning.show();
+//					return;
+//				}
+//				String bulletName = askUser(availableBullets, "Please select a bullet to shoot");
+//				Bullet bullet = ((BulletsData) myDataController.getData("Bullets")).get(bulletName);
+//				Optional<String> result2 = askUserForText("Tower Range", "Please enter a range (pixels) for the tower to shoot this bullet", "Positive numbers only");
+//				if (result2.isPresent()){
+//					range = Double.parseDouble(result2.get());
+//				} else return;
+				actionAsker = new ShootDialog();
+				((ShootDialog)actionAsker).setBullets((BulletsData) myDataController.getData("Bullets"));
 				
 				break;
 			default:
 				return;
 		}
+		action = actionAsker.ask(myCurrentUnit);
+		actionDescription = actionAsker.getDescription();
+		if(action == null){
+			return;
+		}
+		
 		System.out.println("Action: " + act);
 		String ruleKey = conditionDescription + actionDescription;
 		System.out.println(ruleKey);

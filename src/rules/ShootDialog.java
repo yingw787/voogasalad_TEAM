@@ -11,12 +11,14 @@ import actions.IAction;
 import actions.ShootAction;
 
 public class ShootDialog extends AActionDialog {
-
+	private BulletsData myBullets;
+	
+	
 	@Override
 	public IAction ask(Unit currentUnit) {
 		double range = 0.0;
 
-		String[] availableBullets = ((BulletsData) myDataController.getData("Bullets")).getBulletNamesArray();
+		String[] availableBullets = myBullets.getBulletNamesArray();
 		
 		if(availableBullets.length == 0){
 			Alert warning = new Alert(AlertType.INFORMATION);
@@ -27,7 +29,7 @@ public class ShootDialog extends AActionDialog {
 			return null;
 		}
 		String bulletName = askUser(availableBullets, "Please select a bullet to shoot");
-		Bullet bullet = ((BulletsData) myDataController.getData("Bullets")).get(bulletName);
+		Bullet bullet = myBullets.get(bulletName);
 		Optional<String> result2 = askUserForText("Tower Range", "Please enter a range (pixels) for the tower to shoot this bullet", "Positive numbers only");
 		if (result2.isPresent()){
 			range = Double.parseDouble(result2.get());
@@ -37,4 +39,8 @@ public class ShootDialog extends AActionDialog {
 		return myAction;
 	}
 
+	
+	public void setBullets(BulletsData data){
+		myBullets = data;
+	}
 }
