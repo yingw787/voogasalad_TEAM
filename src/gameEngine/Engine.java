@@ -118,7 +118,7 @@ public class Engine implements IEngine {
 				myController.updateUserInfo(myRE.getPlayerInfo());
 			}
 			if (r.getClass().getSimpleName().equals("CollisionRequest")){
-				myController.updateUserInfo(myRE.getPlayerInfo());
+				myController.updateInfo(myRE.getPlayerInfo());
 			}
 		}
 		
