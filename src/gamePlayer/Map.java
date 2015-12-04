@@ -10,6 +10,7 @@ import controller.Controller;
 import gameEngine.requests.BuyTowerRequest;
 import interfaces.IRequest;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,6 +24,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeType;
+import javafx.stage.Stage;
 import units.Path;
 import units.Point;
 import units.Tower;
@@ -38,17 +40,23 @@ public class Map extends Observable implements IViewNode {
 	private HashMap<Double, ProgressBar> myHealthMap;
 	private HashMap<Double, Circle> myTowerRangeMap;
 	private Player myPlayer;
+	private Stage myStage;
 	private Controller myController;
-	private boolean purchaseEnabled;
+	private boolean purchaseEnabled, clickEnabled;
 	private Unit potentialPurchase;
 	private List<Line> myCurrentPaths;
+	private List<Line> myIllegalZones;
 	private ImageView background;
 	private ImageView myImage;
+	private Circle myRange;
+	private ImageView towerCursor;
 
-	public Map(Controller c, Player p){
+	public Map(Controller c, Stage s, Player p){
 		this.myPlayer = p;
+		this.myStage = s;
 		this.myController = c;
 		purchaseEnabled = false;
+		clickEnabled = false;
 		//myPane = new Pane();
 
 	}
@@ -62,12 +70,16 @@ public class Map extends Observable implements IViewNode {
 		myPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent arg0) {
-				if (purchaseEnabled){
-					BuyTowerRequest buyRequest = new BuyTowerRequest((Tower) potentialPurchase, new Point(arg0.getSceneX(), arg0.getSceneY()));
+				System.out.println("PE: " + purchaseEnabled);
+				System.out.println("CE: " + clickEnabled);
+				if (purchaseEnabled&&clickEnabled){
+					BuyTowerRequest buyRequest = new BuyTowerRequest((Tower) potentialPurchase, new Point(arg0.getX(), arg0.getY()));
 					List<IRequest> requestSender = new ArrayList<IRequest>();
 					requestSender.add(buyRequest);
 					myController.update(requestSender);
 					purchaseEnabled = false;
+					myPane.getChildren().remove(myRange);
+					myPane.getChildren().remove(towerCursor);
 				}
 			}
 
@@ -77,6 +89,7 @@ public class Map extends Observable implements IViewNode {
 		myHealthMap = new HashMap<Double, ProgressBar>();
 		myTowerRangeMap = new HashMap<Double, Circle>();
 		myCurrentPaths = new ArrayList<Line>();
+		myIllegalZones = new ArrayList<Line>();
 		myImage = new ImageView();
 		return myPane;
 	}
@@ -102,21 +115,21 @@ public class Map extends Observable implements IViewNode {
 				mapUnit.setPreserveRatio(true);
 				mapUnit.setFitHeight(35);
 				ProgressBar health = mapUnit.getHealth();
-				Circle towerRange = mapUnit.getPower();
+//				Circle towerRange = mapUnit.getPower();
 				myImageMap.put(unit.getAttribute("ID"), mapUnit);
 				myHealthMap.put(unit.getAttribute("ID"), health);
-				myTowerRangeMap.put(unit.getAttribute("ID"), towerRange);
-				myPane.getChildren().addAll(towerRange, mapUnit, health);
+//				myTowerRangeMap.put(unit.getAttribute("ID"), towerRange);
+				myPane.getChildren().addAll(mapUnit, health);
 				mapUnit.setX(unit.getAttribute("X"));
 				mapUnit.setY(unit.getAttribute("Y"));
-				health.setLayoutX(unit.getAttribute("X"));
+				health.setLayoutX(unit.getAttribute("X")-7);
 				health.setLayoutY(unit.getAttribute("Y")-10);
 				health.setMaxWidth(40);
-				if(unit.getStringAttribute("Type").equals("Tower")){
-					towerRange.setCenterX(unit.getAttribute("X")+10);
-					towerRange.setCenterY(unit.getAttribute("Y")+15);
-					towerRange.setRadius(unit.getAttribute("Health"));
-				}
+//				if(unit.getStringAttribute("Type").equals("Tower")){
+//					towerRange.setCenterX(unit.getAttribute("X")+10);
+//					towerRange.setCenterY(unit.getAttribute("Y")+15);
+//					towerRange.setRadius(unit.getAttribute("Health"));
+//				}
 				mapUnit.setOnMouseClicked(e->{
 					selectedUnit = mapUnit;
 					enableSelling(selectedUnit);
@@ -130,12 +143,12 @@ public class Map extends Observable implements IViewNode {
 				health.setLayoutX(unit.getAttribute("X"));
 				health.setLayoutY(unit.getAttribute("Y")-10);
 				health.setProgress(unit.getAttribute("Health")/unit.getAttribute("MaxHealth"));
-				Circle towerRange = myTowerRangeMap.get(unit.getAttribute("ID"));
-				if(unit.getStringAttribute("Type").equals("Tower")){
-					towerRange.setCenterX(unit.getAttribute("X")+10);
-					towerRange.setCenterY(unit.getAttribute("Y")+15);
-					towerRange.setRadius(unit.getAttribute("Health"));
-				}
+//				Circle towerRange = myTowerRangeMap.get(unit.getAttribute("ID"));
+//				if(unit.getStringAttribute("Type").equals("Tower")){
+//					towerRange.setCenterX(unit.getAttribute("X")+10);
+//					towerRange.setCenterY(unit.getAttribute("Y")+15);
+//					towerRange.setRadius(unit.getAttribute("Health"));
+//				}
 				//reset health value here
 				onMap.add(unit.getAttribute("ID"));
 			}
@@ -178,29 +191,81 @@ public class Map extends Observable implements IViewNode {
 		System.out.println("new size: " + myPane.getChildren().size());
 	}
 
+
+	
+	private void enableSelling(MapUnit mapUnit){
+		myPlayer.enableSell(mapUnit);
+	}
+	
+	private boolean validPlacement(MouseEvent me){
+		boolean valid = true;
+		for (Line l : myIllegalZones){
+			if (l.contains(me.getSceneX(), me.getSceneY())){
+				valid = false;
+			}
+		}
+		return valid;
+	}
+
+	public void enableTowerPurchase(Unit u) {
+		towerCursor = new ImageView(new Image(u.getStringAttribute("Image")));
+		myRange = new Circle();
+		clickEnabled = true;
+		purchaseEnabled = true;
+				myRange.setFill(Color.RED);
+				myRange.setStroke(Color.RED);
+				myRange.setOpacity(0.3);
+				myRange.setRadius(u.getHealth());
+				towerCursor.setPreserveRatio(true);
+				towerCursor.setFitHeight(35);
+				myPane.getChildren().add(myRange);
+				myPane.getChildren().addAll(towerCursor);
+				myPane.setOnMouseMoved(new EventHandler<MouseEvent>() {
+					public void handle(MouseEvent me) {
+						towerCursor.setLayoutX(me.getX());
+						towerCursor.setLayoutY(me.getY());
+						if (validPlacement(me)) {
+							clickEnabled = true;
+							towerCursor.setImage(new Image(u.getStringAttribute("Image")));
+							myRange.setCenterX(me.getX() + towerCursor.getFitWidth() + 10);
+							myRange.setCenterY(me.getY() + towerCursor.getFitHeight() / 2);
+							myRange.setVisible(true);
+						} else {
+							clickEnabled = false;
+							towerCursor.setImage(new Image("xmark.png"));
+							myRange.setVisible(false);
+						}
+					}
+				});
+		potentialPurchase = u;
+	}
+    	
+	
+	
 	private Line drawPath(Point startLoc, Point endLoc){
 		Line path = new Line();
+		Line zone = new Line();
 		path.setStartX(startLoc.getX()+25);
 		path.setStartY(startLoc.getY()+25);
 		path.setEndX(endLoc.getX()+25);
 		path.setEndY(endLoc.getY()+25);
 		path.setStrokeLineCap(StrokeLineCap.ROUND);
 		path.setStrokeWidth(10);
+		zone.setStartX(startLoc.getX()+25);
+		zone.setStartY(startLoc.getY()+25);
+		zone.setEndX(endLoc.getX()+25);
+		zone.setEndY(endLoc.getY()+25);
+		zone.setStrokeLineCap(StrokeLineCap.ROUND);
+		zone.setStrokeWidth(70);
+		zone.setVisible(false);
+		myIllegalZones.add(zone);
 		return path;
 	}
 	
-	private void enableSelling(MapUnit mapUnit){
-		myPlayer.enableSell(mapUnit);
-	}
-
-	public void enableTowerPurchase(Unit u) {
-		purchaseEnabled = true;
-		potentialPurchase = u;
-	}
-	
-	
 	public void showPaths(List<Path> pathsForLevel) {
 		myPane.getChildren().removeAll(myCurrentPaths);
+		myPane.getChildren().removeAll(myIllegalZones);
+		myIllegalZones.clear();
 		myCurrentPaths.clear();
 		for (Path p : pathsForLevel){
 			List<Point> myPoints = p.getPoints();
@@ -215,6 +280,7 @@ public class Map extends Observable implements IViewNode {
 			l.setStroke(linearGradient);
 		}
 		myPane.getChildren().addAll(myCurrentPaths);
+		myPane.getChildren().addAll(myIllegalZones);
 	}
 
 }

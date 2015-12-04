@@ -26,7 +26,14 @@ public class TimerCondition implements ICondition{
 	public boolean checkCondition(Unit actor,RuntimeEnvironment re) {
 		// TODO Auto-generated method stub
 		myCount++;
+		if(myCount == myInterval)
+			myCount =0;
 		return myCount % myInterval == 0;
+	}
+	
+	public TimerCondition clone(){
+		TimerCondition tc = new TimerCondition(myInterval);
+		return tc;
 	}
 
 }

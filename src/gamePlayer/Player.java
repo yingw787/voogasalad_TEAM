@@ -26,6 +26,7 @@ public class Player implements IPlayer {
 	private HUD myHUD;
 	private Store myStore;
 	private Map myMap;
+	private Scene myScene;
 	private Menus myMenus;
 	private PlayerInfo myPlayerInfo;
 	private Button addMapButton;
@@ -35,14 +36,14 @@ public class Player implements IPlayer {
 		this.myStage = s;
 		Group root = new Group();
 		myHUD = new HUD(myController, this);
-		myMap = new Map(myController, this);
-		myMenus = new Menus(myController, myStage);
+		myMap = new Map(myController, myStage, this);
+		myMenus = new Menus(myController, myMap, myStage);
 		myStore = new Store(this);
 		BorderPane borderPane = new BorderPane();
 		populate(borderPane);
 		root.getChildren().add(borderPane);
-		Scene scene = new Scene(root, myWidth, myHeight);
-		myStage.setScene(scene);
+		myScene = new Scene(root, myWidth, myHeight);
+		myStage.setScene(myScene);
 		initialize(s);
 	}
 	

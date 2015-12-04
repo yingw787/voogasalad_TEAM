@@ -23,6 +23,7 @@ import units.PlayerInfo;
 import units.Point;
 import units.Tower;
 import units.Unit;
+import units.UnitType;
 
 public class Engine implements IEngine {
 	private Controller myController;
@@ -88,8 +89,7 @@ public class Engine implements IEngine {
 				rule.run(unit, myRE);
 			}
 		}
-		
-		if (myMapManager.hasMoreEnemies()){
+		if (!myMapManager.noMoreEnemies()){
 			if (delay % spawnDelay == 0) {
 				myMapManager.spawnNewEnemy();
 			}
@@ -99,6 +99,12 @@ public class Engine implements IEngine {
 		for (Unit unit : currentUnitsOnBoard) {
 			if (unit.getStringAttribute("Type").equals("Troop")){
 				myMapManager.walkUnitOnMap(unit);
+			}
+			else if(unit.getStringAttribute("Type").equals("Bullet")){
+				Point p = unit.getPoint();
+				p.setX(p.getX() + unit.getAttribute("SpedX"));
+				p.setY(p.getY() + unit.getAttribute("SpedY"));
+				unit.setPoint(p);
 			}
 		}
 //		myController.updateMap(myRE.getUnits());
@@ -137,7 +143,8 @@ public class Engine implements IEngine {
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
 		Level level = myRE.getLevel(i);
-		spawnDelay = (int) (60.0 * level.getSpawnRate());
+//		spawnDelay = (int) (60.0 * level.getSpawnRate());
+		spawnDelay = (int) (60.0 * 1);
 		myMapManager.startWave(myRE.getLevel(i), myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
 		playAnimation(true);
 	}
