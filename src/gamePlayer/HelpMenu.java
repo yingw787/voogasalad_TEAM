@@ -28,6 +28,7 @@ public class HelpMenu extends Menu{
 		stage.setTitle("Help Page");
 		Scene scene = new Scene(new Group());
 
+		stage.setResizable(false);
 		stage.setWidth(1200);
 		stage.setHeight(700);
 		stage.show();
@@ -43,7 +44,7 @@ public class HelpMenu extends Menu{
 		scrollPane.setPrefSize(1200, 700);
 		scrollPane.setFitToHeight(true);
 		scrollPane.setFitToWidth(true);
-
+		
 		rootMain.getChildren().add(scrollPane);
 		scene.setRoot(rootMain);
 

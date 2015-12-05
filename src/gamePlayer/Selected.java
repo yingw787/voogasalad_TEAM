@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -15,6 +16,7 @@ public class Selected {
 
 	private Player myPlayer;
 	private VBox myVBox;
+	private HBox myHBox;
 	
 	private Text unit;
 	private Text health;
@@ -25,6 +27,7 @@ public class Selected {
 	public Selected(Player p){
 		this.myPlayer = p;
 		myVBox = new VBox();
+		myHBox = new HBox();
 		
 		unit = new Text("Unit: ");
 		health = new Text("Health: ");
@@ -35,7 +38,8 @@ public class Selected {
 		sell.setStyle("-fx-font: 14px Tahoma;");
 		image = new ImageView();
 		myVBox.setStyle("-fx-border-width: 5px; -fx-padding: 10; -fx-spacing: 8;");
-		myVBox.getChildren().addAll(unit, health, healthbar, sell, image);
+		myVBox.getChildren().addAll(unit, health, healthbar, sell);
+		myHBox.getChildren().addAll(myVBox,image);
 	}
 	
 	
@@ -58,7 +62,7 @@ public class Selected {
 	}
 	
 	public Node getDisplay(){
-		return myVBox;
+		return myHBox;
 	}
 	
 }
