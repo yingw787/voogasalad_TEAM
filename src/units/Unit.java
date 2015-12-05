@@ -3,6 +3,7 @@ package units;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import rules.Rule;
@@ -80,6 +81,7 @@ public class Unit {
 	}
 	
 	public Collection<Rule> getRules() {
+		//System.out.println(myRules.size());
 		return myRules.values();
 	}
 	
@@ -144,9 +146,15 @@ public class Unit {
 	
 	public Unit clone(){
 		Unit unit = new Unit();
-		unit.myAttributes = new HashMap<String, Double>(this.myAttributes);
-		unit.myRules = new HashMap<String, Rule>(this.myRules);
-		unit.myStringAttributes = new HashMap<String, String>(this.myStringAttributes);
+		unit.myAttributes = (Map<String, Double>) ((HashMap<String, Double>)(this.myAttributes)).clone();
+		
+		unit.myRules = new HashMap<String,Rule>();
+		
+		for(Entry<String, Rule> e : this.myRules.entrySet()){
+			unit.myRules.put(e.getKey(),e.getValue().clone());
+		}
+		
+		unit.myStringAttributes = (Map<String, String>) ((HashMap<String, String>)(this.myStringAttributes)).clone();
 		unit.myAttributes.put("ID", (double)IDGenerator.getID());
 		unit.myType = this.myType;
 		return unit;

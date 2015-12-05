@@ -105,7 +105,7 @@ public class TestObjectHolder {
 		myObjectPaths.add(path3);
 		
 		// player info
-		playerInfo = new PlayerInfo(100, 3, "level1");
+		playerInfo = new PlayerInfo(100, 3, "level1", 1);
 		playerList.add(playerInfo);
 	}
 	
