@@ -53,15 +53,6 @@ public class Engine implements IEngine {
 		myController.populateStore(myRE.getStoreStock());
 	}
 	
-	private void flush() {
-		myController.updateMap(myRE.getUnits());
-		
-		//UNCOMMENTING UPDATEUSERINFO WILL LAG OUT THE GUI!!!!!
-//		myController.updateUserInfo(myRE.getPlayerInfo());
-	}
-	
-
-	
 	public void playAnimation(boolean on){
 		delay = 0;
 		if (on){
@@ -103,7 +94,6 @@ public class Engine implements IEngine {
 			}
 		}
 		myController.updateMap(myRE.getUnits());
-		flush();
 	}
 
 	
@@ -112,17 +102,20 @@ public class Engine implements IEngine {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
 		for (IRequest r : requests) {
-			r.execute(myRE);
-			if ((r.getClass().getSimpleName().equals("BuyTowerRequest"))||(r.getClass().getSimpleName().equals("SellTowerRequest"))){
-				myController.resetStore();
-				myController.updateUserInfo(myRE.getPlayerInfo());
-			}
-			if (r.getClass().getSimpleName().equals("CollisionRequest")){
-				myController.updateInfo(myRE.getPlayerInfo());
-			}
+			r.execute(myRE,myController);
+
 		}
-		
+		if (myRE.checkLose()) {
+			myController.showLose();
+		}
+		if (myRE.checkWin()) {
+			myController.showWin();
+		}
 	}
+	
+	
+	//myPlayer.showWin();
+	
 
 	@Override
 	public void loadNewGame(String title) {
@@ -149,13 +142,5 @@ public class Engine implements IEngine {
 	}
 	
 	
-//	public static void main(String[] args){
-//		Engine e = new Engine(null,new Timeline());
-//		List<IRequest> requestList = new ArrayList<IRequest>();
-//		Tower tower = null;
-//		tower = new Tower(e.getTBManager().myTowers.get(0));
-//		IRequest rq = new BuyTowerRequest(tower, null);
-//		requestList.add(rq);
-//		e.update(requestList);
-//	}
+
 }

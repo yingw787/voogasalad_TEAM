@@ -6,6 +6,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import actions.DisappearAction;
+import actions.IAction;
+import conditions.CheckAttributeCondition;
+import conditions.ICondition;
 import rules.Rule;
 
 public class Unit {
@@ -34,8 +38,20 @@ public class Unit {
 		myStringAttributes.put("Image", img);
 		
 		myRules = new HashMap<String, Rule>();
+		
+		addDefaultRule(); 
+		
 	}
 	
+	private void addDefaultRule() {
+		// TODO Auto-generated method stub
+		ICondition  ic = new CheckAttributeCondition("Health",0,myAttributes.get("MaxHealth"));
+		IAction ia = new DisappearAction();
+		
+		Rule rule = new Rule(ic,ia);
+		myRules.put("DeFault Disappear Rule", rule);
+	}
+
 	/**  Constructor for default Unit object
 	 *   @params Attributes of default Unit object
 	 **/
@@ -51,6 +67,7 @@ public class Unit {
 		myAttributes.put("SellCost", 5.0);
 		myStringAttributes.put("Name", "T");
 		myStringAttributes.put("Image", "");
+		addDefaultRule(); 
 	}
 	
 	/**  Constructor for Unit object clone
@@ -62,6 +79,8 @@ public class Unit {
 		myRules = u.myRules;
 		myFaction = u.myFaction;
 		myType = u.myType;
+		if(!myRules.containsKey("DeFault Disappear Rule"))
+			addDefaultRule();
 	}
 	
 	public void setRule(String key, Rule rule){
