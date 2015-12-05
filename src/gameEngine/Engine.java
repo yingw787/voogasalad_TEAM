@@ -72,7 +72,7 @@ public class Engine implements IEngine {
 	private void step(){
 		for (Unit unit : myRE.getUnits()) {
 			for(Rule rule : unit.getRules()){
-				rule.run(unit, myRE);
+				rule.run(unit, myRE,this.myController);
 			}
 		}
 		if (!myMapManager.noMoreEnemies()){

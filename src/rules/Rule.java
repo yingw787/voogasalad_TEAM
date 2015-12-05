@@ -2,6 +2,7 @@ package rules;
 
 import actions.IAction;
 import conditions.ICondition;
+import controller.Controller;
 import units.Unit;
 import gameEngine.environments.RuntimeEnvironment;
 
@@ -19,9 +20,9 @@ public class Rule {
 	// For the CheckAttribute condition, run this method in the event handler for any changed attribute action
 	// For the Collision condition, run this method in the event handler for intersects
 	// For the Time condition, check the TimerCondition class for instructions
-	public void run(Unit unit,RuntimeEnvironment re){
+	public void run(Unit unit,RuntimeEnvironment re,Controller contronler){
 		if(myCondition.checkCondition(unit,re)){
-			myAction.act(unit,re);
+			myAction.act(unit,re,contronler);
 		}
 	}
 	
