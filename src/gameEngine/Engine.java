@@ -121,8 +121,17 @@ public class Engine implements IEngine {
 				myController.updateInfo(myRE.getPlayerInfo());
 			}
 		}
-		
+		if (myRE.checkLose()) {
+			myController.showLose();
+		}
+		if (myRE.checkWin()) {
+			myController.showWin();
+		}
 	}
+	
+	
+	//myPlayer.showWin();
+	
 
 	@Override
 	public void loadNewGame(String title) {

@@ -127,4 +127,18 @@ public class RuntimeEnvironment extends Environment {
 	public int getNewID(){
 		return myIDGenerator.getID();
 	}
+	
+	public boolean checkWin() {
+		int level = Integer.parseInt(getPlayerInfo().getLevel());
+		int totalLevel = getPlayerInfo().getMyLevelSize();
+		return true;
+	}
+	
+	public boolean checkLose() {
+		int live = getPlayerInfo().getLives();
+		return (live <= 0);
+	}
+	
+	
+	
 }
