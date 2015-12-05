@@ -18,5 +18,6 @@ public abstract class Request implements IRequest {
     protected void update(RuntimeEnvironment re,Controller myController){
     	myController.resetStore();
 		myController.updateUserInfo(re.getPlayerInfo());
+		myController.updateInfo(re.getPlayerInfo());
     }
 }
