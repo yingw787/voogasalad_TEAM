@@ -49,7 +49,7 @@ public abstract class ATab extends Observable implements IView, ITab {
 	private void initList() {
 		myEntriesToShow = FXCollections.observableArrayList();
 		myEntriesList = new ListView<String>(myEntriesToShow);
-		myEntriesList.setMinWidth(432); // I don't like this magic number but it works for now
+		myEntriesList.prefWidthProperty().bind(myTabView.widthProperty());
 		myEntriesList.maxHeightProperty().bind(myTabView.heightProperty().subtract(myButtons.heightProperty()));
 		myTabContent.getChildren().add(myEntriesList);
 	}
