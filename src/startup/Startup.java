@@ -10,13 +10,11 @@ import javafx.stage.Stage;
 
 public class Startup {
 	private Stage myStage;
+	private GridPane myStartPane;
 	private double startSceneWidth = 400;
 	
 	public Startup(Stage stage) {
 		myStage = stage;
-	}
-	
-	public Scene getScene() {
 		GridPane startPane = new GridPane();
 		startPane.setAlignment(Pos.CENTER);
 		VBox startVBox = new VBox();
@@ -37,7 +35,10 @@ public class Startup {
 		});
 
 		startVBox.getChildren().addAll(editorButton, playButton);
-
-		return new Scene(startPane, startSceneWidth, startPane.getPrefHeight());
+		myStartPane = startPane;
+	}
+	
+	public Scene getScene() {
+		return new Scene(myStartPane, startSceneWidth, myStartPane.getPrefHeight());
 	}
 }
