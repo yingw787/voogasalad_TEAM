@@ -12,14 +12,11 @@ import conditions.CheckAttributeCondition;
 import conditions.ICondition;
 import rules.Rule;
 
-import rules.Rule;
-
 public class Unit {
 	protected Map<String, Double> myAttributes;
 	protected Map<String, String> myStringAttributes;
 	protected Map<String, Rule> myRules;
 	protected Faction myFaction;
-	protected UnitType myType;
 	
 	/**  Constructor superclass for Tower and Troop objects
 	 *   @params Attributes of Unit object
@@ -49,7 +46,6 @@ public class Unit {
 		// TODO Auto-generated method stub
 		ICondition  ic = new CheckAttributeCondition("Health",0,myAttributes.get("MaxHealth"));
 		IAction ia = new DisappearAction();
-		
 		Rule rule = new Rule(ic,ia);
 		myRules.put("DeFault Disappear Rule", rule);
 	}
@@ -80,7 +76,6 @@ public class Unit {
 		myStringAttributes = u.myStringAttributes;
 		myRules = u.myRules;
 		myFaction = u.myFaction;
-		myType = u.myType;
 		if(!myRules.containsKey("DeFault Disappear Rule"))
 			addDefaultRule();
 	}
@@ -177,7 +172,6 @@ public class Unit {
 		
 		unit.myStringAttributes = (Map<String, String>) ((HashMap<String, String>)(this.myStringAttributes)).clone();
 		unit.myAttributes.put("ID", (double)IDGenerator.getID());
-		unit.myType = this.myType;
 		return unit;
 	}
 
@@ -190,16 +184,8 @@ public class Unit {
 	}
 
 	public double getHealth() {
-		// TODO Auto-generated method stub
 		return myAttributes.get("Health");
 	}
 	
-	public UnitType getType() {
-		return myType;
-	}
-	
-	public void setType(UnitType ut) {
-		myType = ut;
-	}
-	
+
 }

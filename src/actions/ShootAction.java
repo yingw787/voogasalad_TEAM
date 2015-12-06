@@ -8,7 +8,6 @@ import units.Bullet;
 import units.Faction;
 import units.Point;
 import units.Unit;
-import units.UnitType;
 
 public class ShootAction implements IAction{
 	private Bullet myBullet;
@@ -30,7 +29,7 @@ public class ShootAction implements IAction{
 		Point target = null;
 		int mID = Integer.MAX_VALUE;
 		for (Unit i : units) {
-			if (i.getType() == UnitType.Troop && i.getFaction() == Faction.enemy) {
+			if ("Troop".equals(i.getStringAttribute("Type")) && i.getFaction() == Faction.enemy) {
 				Point iPoint = i.getPoint();
 				double distance = myPoint.getDistance(iPoint);
 				//double harmDistance = basePoint.getDistance(iPoint);

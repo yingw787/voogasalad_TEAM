@@ -29,7 +29,6 @@ public class Engine implements IEngine {
 
 	private RuntimeEnvironment myRE;
 	private MapManager myMapManager;
-	private IDGenerator myIDGenerator;
 	private int delay = 0;
 	private int spawnDelay = 60;
 	
@@ -41,11 +40,10 @@ public class Engine implements IEngine {
 	}
 	
 	public void writeEnvironment(String gameTitle) throws IOException{
-		myIDGenerator = new IDGenerator();
 		XMLConverter myConverter = new XMLConverter();
 		myRE = new RuntimeEnvironment(myConverter.getUnits(gameTitle, "Tower"), 
 				myConverter.getUnits(gameTitle, "Troop"), myConverter.getLevels(gameTitle), myConverter.getPaths(gameTitle), 
-				myConverter.getPlayerInfo(gameTitle), new GameConfiguration(), new ArrayList<Rule>(), new Base(), myIDGenerator);
+				myConverter.getPlayerInfo(gameTitle), new GameConfiguration(), new ArrayList<Rule>(), new Base());
 	}
 	
 	public void initialize(){
@@ -61,7 +59,6 @@ public class Engine implements IEngine {
 	public void playAnimation(boolean on){
 		delay = 0;
 		if (on){
-			myMapManager.spawnNewEnemy();
 			KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 					e -> step());
 			myTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -83,6 +80,9 @@ public class Engine implements IEngine {
 				rule.run(unit, myRE,this.myController);
 			}
 		}
+		
+		
+		
 		if (!myMapManager.noMoreEnemies()){
 			if (delay % spawnDelay == 0) {
 				myMapManager.spawnNewEnemy();
@@ -102,6 +102,12 @@ public class Engine implements IEngine {
 			}
 		}
 		myController.updateMap(myRE.getUnits());
+		if (checkLose()) {
+			myController.showLose();
+		}
+		if (checkWin()) {
+			myController.showWin();
+		}
 	}
 
 	
@@ -113,8 +119,11 @@ public class Engine implements IEngine {
 			r.execute(myRE,myController);
 
 		}
-		
 	}
+	
+	
+	//myPlayer.showWin();
+	
 
 	public RuntimeEnvironment getRuntimeEnvironment(){
 		return myRE; 
@@ -137,8 +146,7 @@ public class Engine implements IEngine {
 		myRE.incrementLevel();
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
-		Level level = myRE.getLevel(i);
-//		spawnDelay = (int) (60.0 * level.getSpawnRate());
+		//		spawnDelay = (int) (60.0 * level.getSpawnRate());
 		spawnDelay = (int) (60.0 * 1);
 		myMapManager.startWave(myRE.getLevel(i), myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
 		playAnimation(true);
@@ -153,7 +161,17 @@ public class Engine implements IEngine {
 		System.out.println(level);
 		int level_int = Integer.parseInt(level); 
 		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(level_int).getPathNames()));
+	}
 		
+	public boolean checkWin() {
+		int level = Integer.parseInt(myRE.getPlayerInfo().getLevel());
+		int totalLevel = myRE.getPlayerInfo().getMyLevelSize();
+		return level == totalLevel && myMapManager.noMoreEnemies();
+	}
+	
+	public boolean checkLose() {
+		int live = myRE.getPlayerInfo().getLives();
+		return (live <= 0);
 	}
 
 }

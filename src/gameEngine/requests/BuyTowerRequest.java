@@ -3,6 +3,7 @@ package gameEngine.requests;
 import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
 import units.Faction;
+import units.IDGenerator;
 import units.Point;
 import units.Tower;
 import units.Unit;
@@ -36,8 +37,8 @@ public class BuyTowerRequest extends Request {
 		// TODO Auto-generated method stub
 		
 		Unit t = myTower.clone();
-		t.setID(re.getNewID());
 		t.setPoint(myPoint);
+		t.setID(IDGenerator.getID());
 		t.setFaction(Faction.player);
 		re.addUnit(t.getID(),t);
 		

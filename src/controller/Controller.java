@@ -67,6 +67,13 @@ public class Controller {
 		myEngine.redisplayPath();
 	}
 	
+	public void showWin() {
+		myPlayer.showWin();
+	}
+
+	public void showLose() {
+		myPlayer.showLose();
+	}
 }
 
 
