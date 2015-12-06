@@ -36,8 +36,8 @@ public class Player implements IPlayer {
 	private PlayerInfo myPlayerInfo;
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private ResourceBundle myResource;
-	private HBox buttonBox;
-	
+	private HBox pausePlay;
+
 	public Player(Controller controller, Stage s) {
 		this.myController = controller;
 		this.myStage = s;
@@ -54,7 +54,7 @@ public class Player implements IPlayer {
 		myStage.setScene(myScene);
 		initialize(s);
 	}
-	
+
 	public MapUnit getSelected(){
 		return myMap.getSelected();
 	}
@@ -62,7 +62,7 @@ public class Player implements IPlayer {
 	public Stage getStage(){
 		return myStage;
 	}
-	
+
 	private void populate(BorderPane bp){
 		bp.setTop(topMenuBar());
 		bp.setLeft(myMap.initialize());
@@ -71,7 +71,7 @@ public class Player implements IPlayer {
 		bp.setStyle("-fx-background-color: linear-gradient(#FEF0C9, #61a2b1);");
 		configure();
 	}
-	
+
 	public void initialize(Stage stage) {
 		stage.setWidth(Integer.parseInt(myDefaults.getString("Width")));
 		stage.setHeight(Integer.parseInt(myDefaults.getString("Height")));
@@ -81,7 +81,7 @@ public class Player implements IPlayer {
 	@Override
 	public void updateMap(List<Unit> units) {
 		myMap.updateMap(units);
-		
+
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class Player implements IPlayer {
 		myHUD.populate(player);
 		myPlayerInfo = player;
 	}
-	
+
 	public void updateInfo(PlayerInfo player) {
 		myHUD.update(player);
 		myPlayerInfo = player;
@@ -103,9 +103,9 @@ public class Player implements IPlayer {
 	@Override
 	public void showLose() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public void startWave(int i){
 		myController.startWave(i);
 	}
@@ -114,14 +114,14 @@ public class Player implements IPlayer {
 	public void populate(HashMap<String, List<Unit>> store) {
 		myStore.setStock(store);
 	}
-	
+
 	private Node topMenuBar(){
 		HBox result = new HBox();
 		result.getChildren().addAll(myMenus.initialize(),topButtons());
 		return result;
 
 	}
-	
+
 	private void configure(){
 		myStore.setWidth(myWidth);
 		myStore.setHeight(myHeight*Double.parseDouble(myResource.getString("storeHeightConstant")));
@@ -143,11 +143,11 @@ public class Player implements IPlayer {
 	public void enableSell(MapUnit mapUnit) {
 		myHUD.enableSell(mapUnit);
 	}
-	
+
 	public void updateSelected(MapUnit myUnit){
 		myHUD.updateSelected(myUnit);
 	}
-	
+
 	public void enableTowerPurchase(Unit u) {
 		myMap.enableTowerPurchase(u);
 	}
@@ -159,15 +159,16 @@ public class Player implements IPlayer {
 	public void resetStore() {
 		myStore.resetStock();
 	}
-	
-	public Node topButtons(){
-		buttonBox = new HBox();
 
+	public Node topButtons(){
+		HBox buttonBox = new HBox();
+		pausePlay = new HBox();
+		
 		Image pauseImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("pauseButton")));
 		ImageView pauseButton = new ImageView(pauseImage);
 		pauseButton.setFitHeight(30);
 		pauseButton.setPreserveRatio(true);
-		
+
 		Image playImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("playButton")));
 		ImageView playButton = new ImageView(playImage);
 		playButton.setFitHeight(30);
@@ -177,25 +178,30 @@ public class Player implements IPlayer {
 		ImageView fastForwardButton = new ImageView(fastForwardImage);
 		fastForwardButton.setFitHeight(30);
 		fastForwardButton.setPreserveRatio(true);
-		
+
 		fastForwardButton.setOnMouseClicked(e->fastForwardClicked());
-		pauseButton.setOnMouseClicked(e->pauseClicked());
-		pauseButton.setOnMousePressed(e->changePic(pauseButton,playButton,fastForwardButton));
-		playButton.setOnMouseClicked(e->changePic(playButton,pauseButton,fastForwardButton));
-		buttonBox.getChildren().addAll(pauseButton, fastForwardButton);
+		getPausePlay().getChildren().add(pauseButton);
+		getPausePlay().setOnMouseClicked(e->pausePlayClicked(pauseButton,playButton));
+		buttonBox.getChildren().addAll(getPausePlay(), fastForwardButton);
 		return buttonBox;
 	}
 
-	private void changePic(ImageView initial, ImageView finalImg,ImageView fastForward){
-		getButtonBox().getChildren().removeAll(initial,fastForward);
-		getButtonBox().getChildren().addAll(finalImg,fastForward);
-	}
-	
-	private void pauseClicked() {
+	private void pausePlayClicked(ImageView initial, ImageView finalImg) {
 		PauseRequest pause = new PauseRequest();
 		List<IRequest> requestSender = new ArrayList<IRequest>();
-		requestSender.add(pause);
-		myController.update(requestSender);
+		if(getPausePlay().getChildren().contains(initial)){
+			getPausePlay().getChildren().remove(initial);
+			getPausePlay().getChildren().add(finalImg);
+			requestSender.add(pause);
+			myController.update(requestSender);
+
+		}else{
+			getPausePlay().getChildren().remove(finalImg);
+			getPausePlay().getChildren().add(initial);
+			requestSender.add(pause);
+			myController.update(requestSender);
+
+		}
 	}
 
 	private void fastForwardClicked() {
@@ -205,12 +211,12 @@ public class Player implements IPlayer {
 		myController.update(requestSender);		
 	}
 
-	public HBox getButtonBox() {
-		return buttonBox;
+	public HBox getPausePlay() {
+		return pausePlay;
 	}
 
-	public void setButtonBox(HBox buttonBox) {
-		this.buttonBox = buttonBox;
+	public void setPausePlay(HBox pausePlay) {
+		this.pausePlay = pausePlay;
 	}
 
 }
