@@ -9,7 +9,6 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 
 import controller.Controller;
-import gameEngine.environments.Environment;
 import gameEngine.requests.SellTowerRequest;
 import interfaces.IRequest;
 import javafx.geometry.Pos;
