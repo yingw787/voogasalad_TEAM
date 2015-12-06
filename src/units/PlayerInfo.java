@@ -54,4 +54,5 @@ public class PlayerInfo {
 	public void setMyLevelSize(int myLevelSize) {
 		this.myLevelSize = myLevelSize;
 	}
+	
 }

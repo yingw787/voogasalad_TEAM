@@ -15,7 +15,7 @@ import units.Path;
 import units.Point;
 import units.Troop;
 import units.Unit;
-import units.UnitType;
+
 
 public class MapManager {
 	
@@ -93,7 +93,6 @@ public class MapManager {
 	public void spawnNewEnemy(){
 		Troop t = new Troop(myCurrentLevel.getTroops().get(currentEnemy));
 		t.setFaction(Faction.enemy);
-		t.setType(UnitType.Troop);
 		myWalkManager.put(t, getRandomPath());
 		t.setAttribute("ID", IDGenerator.getID());
 		Point currentPoint = myWalkManager.get(t).remove();
