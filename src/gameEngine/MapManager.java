@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
+import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
 import units.Faction;
 import units.IDGenerator;
 import units.Level;
 import units.Path;
+import units.PlayerInfo;
 import units.Point;
 import units.Troop;
 import units.Unit;
@@ -44,6 +46,8 @@ public class MapManager {
 	private Point start, end;
 	private int currentEnemy;
 	private RuntimeEnvironment myRE;
+	private Engine myEngine; 
+	private Controller myController; 
 	
 	/**
 	 * Constructor for MapManager.java. 
@@ -52,10 +56,12 @@ public class MapManager {
 	 * Initializes myWalkManager, which is a map of Units to a queue of Points (along the Path) in order to ensure each unit knows where it is going.  
 	 * 
 	 **/
-	public MapManager(RuntimeEnvironment re){
-		myRE = re;	
+	public MapManager(Engine engine){
+		myEngine = engine; 
+		myRE = engine.getRuntimeEnvironment();	
 		currentEnemy = 0;
 		myWalkManager = new HashMap<Unit, Queue<Point>>();
+		
 	}
 	
 	/**
@@ -141,14 +147,35 @@ public class MapManager {
 		}
 		Point nextDestination = new Point(currX + deltaX, currY + deltaY);
 		unit.setPoint(nextDestination);
+		
+		// assuming that this function is the one that removes the unit from the end of the path given the unit reaches the end 
 		if ((((int) nextDestination.getX() == (int) target.getX())&&( (int) nextDestination.getY()== (int) target.getY()))
 		|| ((Math.abs(nextDestination.getX()-target.getX()) < 0.75) &&((Math.abs(nextDestination.getY()-target.getY()) < 0.75)))){
 			myWalkManager.get(unit).remove();
 			if (myWalkManager.get(unit).peek()==null){
-				myWalkManager.remove(unit);
-				myRE.removeUnit(unit.getID());
+				
+				
+				unitReachedEndOfPathSuccessfully(unit);
 			}
 		} 
+		
+	}
+	
+	// what to do when the unit makes it to the end of the path successfully 
+	public void unitReachedEndOfPathSuccessfully(Unit unit){
+		System.out.println("Unit removed from the path and not ended by the tower bullet");
+		
+		
+		PlayerInfo myPlayerInfo = myRE.getPlayerInfo();
+		int numberOfLives = myPlayerInfo.getLives(); 
+		numberOfLives -= 1; 
+		myPlayerInfo.setLives(numberOfLives);
+		
+		myController = myEngine.getController();
+		myController.updateInfo(myPlayerInfo);
+		
+		myWalkManager.remove(unit);
+		myRE.removeUnit(unit.getID());
 		
 	}
 	
