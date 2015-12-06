@@ -48,7 +48,7 @@ public class Engine implements IEngine {
 	}
 	
 	public void initialize(){
-		myMapManager = new MapManager(myRE, myIDGenerator);
+		myMapManager = new MapManager(this);
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.populateStore(myRE.getStoreStock());
 	}
@@ -68,11 +68,14 @@ public class Engine implements IEngine {
 		}
 	}
 	
+	public Controller getController(){
+		return myController; 
+	}
 	
 	private void step(){
 		for (Unit unit : myRE.getUnits()) {
 			for(Rule rule : unit.getRules()){
-				rule.run(unit, myRE);
+				rule.run(unit, myRE,this.myController);
 			}
 		}
 		if (!myMapManager.noMoreEnemies()){
@@ -117,6 +120,10 @@ public class Engine implements IEngine {
 	//myPlayer.showWin();
 	
 
+	public RuntimeEnvironment getRuntimeEnvironment(){
+		return myRE; 
+	}
+	
 	@Override
 	public void loadNewGame(String title) {
 		// TODO Auto-generated method stub
