@@ -13,7 +13,6 @@ import interfaces.IRequest;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -35,10 +34,10 @@ public class Player implements IPlayer {
 	private Scene myScene;
 	private Menus myMenus;
 	private PlayerInfo myPlayerInfo;
-	private Button addMapButton;
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private ResourceBundle myResource;
-
+	private HBox buttonBox;
+	
 	public Player(Controller controller, Stage s) {
 		this.myController = controller;
 		this.myStage = s;
@@ -162,17 +161,18 @@ public class Player implements IPlayer {
 	}
 	
 	public Node topButtons(){
-		HBox result = new HBox();
+		buttonBox = new HBox();
+
 		Image pauseImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("pauseButton")));
 		ImageView pauseButton = new ImageView(pauseImage);
 		pauseButton.setFitHeight(30);
 		pauseButton.setPreserveRatio(true);
-
+		
 		Image playImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("playButton")));
 		ImageView playButton = new ImageView(playImage);
 		playButton.setFitHeight(30);
 		playButton.setPreserveRatio(true);
-		
+
 		Image fastForwardImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("fastForwardButton")));
 		ImageView fastForwardButton = new ImageView(fastForwardImage);
 		fastForwardButton.setFitHeight(30);
@@ -180,10 +180,17 @@ public class Player implements IPlayer {
 		
 		fastForwardButton.setOnMouseClicked(e->fastForwardClicked());
 		pauseButton.setOnMouseClicked(e->pauseClicked());
-		result.getChildren().addAll(pauseButton, fastForwardButton);
-		return result;
+		pauseButton.setOnMousePressed(e->changePic(pauseButton,playButton,fastForwardButton));
+		playButton.setOnMouseClicked(e->changePic(playButton,pauseButton,fastForwardButton));
+		buttonBox.getChildren().addAll(pauseButton, fastForwardButton);
+		return buttonBox;
 	}
 
+	private void changePic(ImageView initial, ImageView finalImg,ImageView fastForward){
+		getButtonBox().getChildren().removeAll(initial,fastForward);
+		getButtonBox().getChildren().addAll(finalImg,fastForward);
+	}
+	
 	private void pauseClicked() {
 		PauseRequest pause = new PauseRequest();
 		List<IRequest> requestSender = new ArrayList<IRequest>();
@@ -195,9 +202,15 @@ public class Player implements IPlayer {
 		TwiceSpeedRequest fast = new TwiceSpeedRequest();
 		List<IRequest> requestSender = new ArrayList<IRequest>();
 		requestSender.add(fast);
-		myController.update(requestSender);
-
-		
+		myController.update(requestSender);		
 	}
-	
+
+	public HBox getButtonBox() {
+		return buttonBox;
+	}
+
+	public void setButtonBox(HBox buttonBox) {
+		this.buttonBox = buttonBox;
+	}
+
 }
