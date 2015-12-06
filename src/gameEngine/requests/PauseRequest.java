@@ -1,7 +1,8 @@
 package gameEngine.requests;
 
-import controller.Controller;
-import gameEngine.environments.RuntimeEnvironment;
+import gameEngine.Engine;
+import javafx.animation.Animation.Status;
+import javafx.animation.Timeline;
 
 public class PauseRequest extends Request {
 
@@ -10,9 +11,13 @@ public class PauseRequest extends Request {
 	}
 
 	@Override
-	public void execute(RuntimeEnvironment re, Controller myController) {
+	public void execute(Engine e) {
 		// TODO Auto-generated method stub
-		
+		Timeline t = e.getTimeline();
+		if(t.getStatus() == Status.RUNNING)
+			t.stop();
+		else
+			t.play();
 	}
 
 }

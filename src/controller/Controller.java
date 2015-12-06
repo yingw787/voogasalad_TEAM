@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -8,8 +7,6 @@ import java.util.List;
 import gameEngine.Engine;
 import gamePlayer.Player;
 import interfaces.IRequest;
-import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.stage.Stage;
 import units.Path;
 import units.PlayerInfo;
@@ -22,7 +19,7 @@ public class Controller {
 	
 	public Controller(String s) throws IOException{
 		myGameTitle = s;
-		myEngine = new Engine(this, new Timeline());
+		myEngine = new Engine(this);
 		myPlayer = new Player(this, new Stage());
 		myEngine.writeEnvironment(myGameTitle);
 		myEngine.initialize();
