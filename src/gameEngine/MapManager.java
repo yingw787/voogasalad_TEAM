@@ -172,6 +172,7 @@ public class MapManager {
 		myPlayerInfo.setLives(numberOfLives);
 		
 		myController = myEngine.getController();
+		myController.updateUserInfo(myPlayerInfo);
 		myController.updateInfo(myPlayerInfo);
 		
 		myWalkManager.remove(unit);
