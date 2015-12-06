@@ -145,6 +145,8 @@ public class MapManager {
 			deltaX *= -1.0;
 			deltaY *= -1.0;
 		}
+		deltaX *= unit.getSpeed();
+		deltaY *= unit.getSpeed();
 		Point nextDestination = new Point(currX + deltaX, currY + deltaY);
 		unit.setPoint(nextDestination);
 		
