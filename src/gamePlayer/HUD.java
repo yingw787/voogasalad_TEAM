@@ -253,7 +253,6 @@ public class HUD extends Observable implements IViewNode{
 			requestSender.add(sell);
 			myController.update(requestSender);
 			//myView.sellItem();
-			System.out.println("abhishek");
 		}
 	}
 

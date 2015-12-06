@@ -1,8 +1,7 @@
 package interfaces;
 
-import controller.Controller;
-import gameEngine.environments.RuntimeEnvironment;
+import gameEngine.Engine;
 
 public interface IRequest {
-	public void execute(RuntimeEnvironment re, Controller myController);
+	public void execute(Engine e);
 }

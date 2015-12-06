@@ -1,15 +1,21 @@
 package gamePlayer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import controller.Controller;
+import gameEngine.requests.PauseRequest;
+import gameEngine.requests.TwiceSpeedRequest;
 import interfaces.IPlayer;
+import interfaces.IRequest;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -112,7 +118,7 @@ public class Player implements IPlayer {
 	
 	private Node topMenuBar(){
 		HBox result = new HBox();
-		result.getChildren().addAll(myMenus.initialize());
+		result.getChildren().addAll(myMenus.initialize(),topButtons());
 		return result;
 
 	}
@@ -153,6 +159,45 @@ public class Player implements IPlayer {
 
 	public void resetStore() {
 		myStore.resetStock();
+	}
+	
+	public Node topButtons(){
+		HBox result = new HBox();
+		Image pauseImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("pauseButton")));
+		ImageView pauseButton = new ImageView(pauseImage);
+		pauseButton.setFitHeight(30);
+		pauseButton.setPreserveRatio(true);
+
+		Image playImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("playButton")));
+		ImageView playButton = new ImageView(playImage);
+		playButton.setFitHeight(30);
+		playButton.setPreserveRatio(true);
+		
+		Image fastForwardImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("fastForwardButton")));
+		ImageView fastForwardButton = new ImageView(fastForwardImage);
+		fastForwardButton.setFitHeight(30);
+		fastForwardButton.setPreserveRatio(true);
+		
+		fastForwardButton.setOnMouseClicked(e->fastForwardClicked());
+		pauseButton.setOnMouseClicked(e->pauseClicked());
+		result.getChildren().addAll(pauseButton, fastForwardButton);
+		return result;
+	}
+
+	private void pauseClicked() {
+		PauseRequest pause = new PauseRequest();
+		List<IRequest> requestSender = new ArrayList<IRequest>();
+		requestSender.add(pause);
+		myController.update(requestSender);
+	}
+
+	private void fastForwardClicked() {
+		TwiceSpeedRequest fast = new TwiceSpeedRequest();
+		List<IRequest> requestSender = new ArrayList<IRequest>();
+		requestSender.add(fast);
+		myController.update(requestSender);
+
+		
 	}
 	
 }
