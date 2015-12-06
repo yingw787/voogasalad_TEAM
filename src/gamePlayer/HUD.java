@@ -49,7 +49,6 @@ public class HUD extends Observable implements IViewNode{
 	private Player myPlayer;
 	private ResourceBundle myResource;
 	private String buttonStyle;
-	private Environment env;
 	private Node myLives, myLevel, myGold;
 
 	public HUD(Controller c, Player p){
@@ -163,7 +162,6 @@ public class HUD extends Observable implements IViewNode{
 	 */
 	public Node waveButton(){
 		HBox myHBox = new HBox();
-		env = new Environment();
 		myHBox.setAlignment(Pos.CENTER);
 		myWaveButton = new Button("Start Wave");
 		myWaveButton.setStyle(buttonStyle);
@@ -256,6 +254,7 @@ public class HUD extends Observable implements IViewNode{
 			requestSender.add(sell);
 			myController.update(requestSender);
 			//myView.sellItem();
+			System.out.println("abhishek");
 		}
 	}
 
