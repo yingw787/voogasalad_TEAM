@@ -207,6 +207,8 @@ public class Map extends Observable implements IViewNode {
 		System.out.println(myPane.getChildren().size());
 		myPane.getChildren().add(myImage);
 		System.out.println("new gisize: " + myPane.getChildren().size());
+		
+		myController.redisplayPath();
 	}
 
 

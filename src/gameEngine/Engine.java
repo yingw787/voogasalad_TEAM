@@ -53,7 +53,8 @@ public class Engine implements IEngine {
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.populateStore(myRE.getStoreStock());
 		
-		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(0).getPathNames()));;
+		// render the path before the first level starts (upon initialization)
+		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(0).getPathNames()));
 		
 	}
 	
@@ -143,6 +144,16 @@ public class Engine implements IEngine {
 		playAnimation(true);
 	}
 	
-	
+	// THIS IS BROKEN RIGHT NOW
+	public void redisplayPath(){
+		// RIGHT NOW THIS IS BROKEN 
+		System.out.println("I am in Engine.java --> redisplayPath() right now");
+		
+		String level = myRE.getPlayerInfo().getLevel();
+		System.out.println(level);
+		int level_int = Integer.parseInt(level); 
+		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(level_int).getPathNames()));
+		
+	}
 
 }
