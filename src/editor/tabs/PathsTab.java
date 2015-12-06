@@ -91,5 +91,10 @@ public class PathsTab extends ATab implements IView, ITab{
 	@Override
 	public void setData(ITabData data) {
 		myData = (PathsData) data;
+		for (Object o : myData.getData()) {
+			Path path = (Path) o;
+			myEntriesToShow.add(path.getName() + ": " + myData.pointsToString("Path " + myPathID));
+			myPathID++;
+		}
 	}
 }

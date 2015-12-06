@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 /**  Abstract class for all editor tabs
  **/
 public abstract class ATab extends Observable implements IView, ITab {
-	protected ITabData myData;
+//	protected ITabData myData;
 	protected ScrollPane myTabView;
 	protected VBox myTabContent;
 	protected HBox myButtons;

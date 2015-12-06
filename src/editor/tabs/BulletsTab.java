@@ -62,6 +62,10 @@ public class BulletsTab extends ATab implements IView, ITab {
 	@Override
 	public void setData(ITabData data) {
 		myData = (BulletsData) data;
+		for (String id : myData.getBulletNamesArray()) {
+			myEntriesToShow.add(id);
+			myBulletID++;
+		}
 	}
 
 }

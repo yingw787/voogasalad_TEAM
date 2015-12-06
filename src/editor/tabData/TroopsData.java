@@ -7,7 +7,7 @@ import java.util.Map;
 
 import units.Troop;
 
-public class TroopsData implements ITabData {
+public class TroopsData extends ATabData {
 
 public static Map<String, Troop> myTroops;
 	
@@ -43,4 +43,11 @@ public static Map<String, Troop> myTroops;
 		return allTroops;
 	}
 
+	@Override
+	public void setData(List<Object> list) {
+		for (Object o : list) {
+			Troop troop = (Troop) o;
+			add(troop.getStringAttribute("Name"), troop);
+		}
+	}
 }

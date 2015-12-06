@@ -1,10 +1,12 @@
 package editor.tabs;
 
+import units.Tower;
 import units.Troop;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
 import editor.IView;
 import editor.tabData.ITabData;
+import editor.tabData.TowersData;
 import editor.tabData.TroopsData;
 
 /**  Editor tab for Troops
@@ -13,7 +15,7 @@ public class TroopsTab extends ATab implements IView, ITab {
 	private TroopsData myData;
 	private Button myAddButton;
 	private Button myDeleteButton;
-	private int myTroopsID;
+	private int myTroopID;
 	
 	/**  Constructor for editor tab for Troops
 	 **/
@@ -21,7 +23,7 @@ public class TroopsTab extends ATab implements IView, ITab {
 		initTab();
 		createButtons();
 		
-		myTroopsID = 0;
+		myTroopID = 0;
 
 		myEntriesList.getSelectionModel().selectedItemProperty().addListener(    
 				(ObservableValue<? extends String> ov, String old_val, String new_val) -> {
@@ -40,7 +42,7 @@ public class TroopsTab extends ATab implements IView, ITab {
 	
 	private void addTroop(){
 		Troop troop = new Troop();
-		String troopName = "Troop " + myTroopsID++;
+		String troopName = "Troop " + myTroopID++;
 		troop.setAttribute("Name", troopName);
 		troop.setAttribute("Image", "purpleminion.png");
 		myEntriesToShow.add(troopName);
@@ -63,6 +65,11 @@ public class TroopsTab extends ATab implements IView, ITab {
 	@Override
 	public void setData(ITabData data) {
 		myData = (TroopsData) data;
+		for (Object o : myData.getData()) {
+			Troop troop = (Troop) o;
+			myEntriesToShow.add(troop.getStringAttribute("Name"));
+			myTroopID++;
+		}
 	}
 
 }

@@ -51,7 +51,7 @@ public class XMLConverter {
 	 **/
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private List<Object> fromXML(String game, String type) throws IOException {
+	public List<Object> fromXML(String game, String type) throws IOException {
 		List<Object> myObjects = new ArrayList();
 		try {
 		 final File folder = new File("games/"+game+File.separator+type+File.separator);

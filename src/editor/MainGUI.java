@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import startup.Startup;
 
 public class MainGUI {
-
+	private String myName;
 	private Stage myStage;
 	private Scene myScene;
 	private BorderPane myPane;
@@ -33,8 +33,10 @@ public class MainGUI {
 	private DataController myDataController;
 	
 	/**  Constructor for MainGUI object which opens the default GUI for editor
+	 * @param name 
 	 **/
-	public MainGUI() {
+	public MainGUI(String name) {
+		myName = name;
 		myStage = new Stage();
 
 		initialize();
@@ -77,7 +79,7 @@ public class MainGUI {
 	
 	private void initialize() {
 		// intialize game data holders
-		myDataController = new DataController();
+		myDataController = new DataController(myName);
 		
 		// initialize tool bar
 		Header tb = new Header();
