@@ -30,10 +30,13 @@ public class Player implements IPlayer {
 	private Menus myMenus;
 	private PlayerInfo myPlayerInfo;
 	private Button addMapButton;
-	
+	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
+	private ResourceBundle myResource;
+
 	public Player(Controller controller, Stage s) {
 		this.myController = controller;
 		this.myStage = s;
+		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
 		Group root = new Group();
 		myHUD = new HUD(myController, this);
 		myMap = new Map(myController, myStage, this);
@@ -116,12 +119,12 @@ public class Player implements IPlayer {
 	
 	private void configure(){
 		myStore.setWidth(myWidth);
-		myStore.setHeight(myHeight*.2);
-		myHUD.setWidth(myWidth*.25);
-		myHUD.setHeight(myHeight*.7);
-		myMap.setWidth(myWidth*.75);
-		myMap.setHeight(myHeight*.7);
-		myMenus.setHeight(myHeight*.05);
+		myStore.setHeight(myHeight*Double.parseDouble(myResource.getString("storeHeightConstant")));
+		myHUD.setWidth(myWidth*Double.parseDouble(myResource.getString("hudWidthConstant")));
+		myHUD.setHeight(myHeight*Double.parseDouble(myResource.getString("hudHeightConstant")));
+		myMap.setWidth(myWidth*Double.parseDouble(myResource.getString("mapWidthConstant")));
+		myMap.setHeight(myHeight*Double.parseDouble(myResource.getString("mapHeightConstant")));
+		myMenus.setHeight(myHeight*Double.parseDouble(myResource.getString("menuHeightConstant")));
 	}
 
 	public int getMoney() {

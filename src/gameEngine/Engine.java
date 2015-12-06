@@ -29,9 +29,9 @@ public class Engine implements IEngine {
 
 	private RuntimeEnvironment myRE;
 	private MapManager myMapManager;
-	private IDGenerator myIDGenerator;
 	private int delay = 0;
 	private int spawnDelay = 60;
+	
 	
 	public Engine(Controller controller, Timeline timeline) {
 		myController = controller;
@@ -40,17 +40,19 @@ public class Engine implements IEngine {
 	}
 	
 	public void writeEnvironment(String gameTitle) throws IOException{
-		myIDGenerator = new IDGenerator();
 		XMLConverter myConverter = new XMLConverter();
 		myRE = new RuntimeEnvironment(myConverter.getUnits(gameTitle, "Tower"), 
 				myConverter.getUnits(gameTitle, "Troop"), myConverter.getLevels(gameTitle), myConverter.getPaths(gameTitle), 
-				myConverter.getPlayerInfo(gameTitle), new GameConfiguration(), new ArrayList<Rule>(), new Base(), myIDGenerator);
+				myConverter.getPlayerInfo(gameTitle), new GameConfiguration(), new ArrayList<Rule>(), new Base());
 	}
 	
 	public void initialize(){
 		myMapManager = new MapManager(this);
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.populateStore(myRE.getStoreStock());
+		
+		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(0).getPathNames()));;
+		
 	}
 	
 	public void playAnimation(boolean on){
@@ -141,8 +143,7 @@ public class Engine implements IEngine {
 		myRE.incrementLevel();
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
-		Level level = myRE.getLevel(i);
-//		spawnDelay = (int) (60.0 * level.getSpawnRate());
+		//		spawnDelay = (int) (60.0 * level.getSpawnRate());
 		spawnDelay = (int) (60.0 * 1);
 		myMapManager.startWave(myRE.getLevel(i), myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
 		playAnimation(true);

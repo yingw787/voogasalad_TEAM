@@ -3,6 +3,7 @@ package gamePlayer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
+import java.util.ResourceBundle;
 
 import javafx.scene.layout.VBox;
 import units.Unit;
@@ -14,9 +15,13 @@ public class Store extends Observable implements IViewNode {
 	private StoreManager myStoreManager;
 	private TabManager myTabManager;
 	private Player myPlayer;
-	
+	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
+	private ResourceBundle myResource;
+
 	public Store(Player p){
 		this.myPlayer = p;
+		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
+
 	}
 	
 	
@@ -35,8 +40,8 @@ public class Store extends Observable implements IViewNode {
 	 */
 	@Override
 	public void setHeight(double height){
-		myStoreManager.setHeight(height*.8);
-		myTabManager.setHeight(height*.2);
+		myStoreManager.setHeight(height*Double.parseDouble(myResource.getString("storeManagerHeightConstant")));
+		myTabManager.setHeight(height*Double.parseDouble(myResource.getString("tabManagerHeightConstant")));
 	}
 	
 	/*Sets the width of the elements of the Store
