@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 
 public class Selected {
 
+	@SuppressWarnings("unused")
 	private Player myPlayer;
 	private VBox myVBox;
 	private HBox myHBox;

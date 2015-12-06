@@ -22,7 +22,9 @@ public class Menus extends Observable implements IViewNode {
 	private FileMenu fileMenu;
 	private EditMenu editMenu;
 	private HelpMenu helpMenu;
+	@SuppressWarnings("unused")
 	private Controller myController;
+	@SuppressWarnings("unused")
 	private Player myPlayer;
 	private Map myMap;
 	private Stage myStage;
