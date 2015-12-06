@@ -1,12 +1,15 @@
 package gamePlayer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import controller.Controller;
-import gameEngine.requests.SellTowerRequest;
+import gameEngine.requests.PauseRequest;
+import gameEngine.requests.TwiceSpeedRequest;
 import interfaces.IPlayer;
+import interfaces.IRequest;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -168,12 +171,17 @@ public class Player implements IPlayer {
 	}
 
 	private void pauseClicked() {
-		// TODO Auto-generated method stub
+		PauseRequest pause = new PauseRequest();
+		List<IRequest> requestSender = new ArrayList<IRequest>();
+		requestSender.add(pause);
+		myController.update(requestSender);
 	}
 
 	private void fastForwardClicked() {
-		// TODO Auto-generated method stub
-	//	TwiceSpeed sell = new SellTowerRequest(tower);
+		TwiceSpeedRequest fast = new TwiceSpeedRequest();
+		List<IRequest> requestSender = new ArrayList<IRequest>();
+		requestSender.add(fast);
+		myController.update(requestSender);
 
 		
 	}
