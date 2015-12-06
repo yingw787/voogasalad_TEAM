@@ -33,6 +33,7 @@ public class Engine implements IEngine {
 	private int delay = 0;
 	private int spawnDelay = 60;
 	
+	
 	public Engine(Controller controller, Timeline timeline) {
 		myController = controller;
 		myTimeline = timeline;
@@ -51,6 +52,9 @@ public class Engine implements IEngine {
 		myMapManager = new MapManager(this);
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.populateStore(myRE.getStoreStock());
+		
+		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(0).getPathNames()));;
+		
 	}
 	
 	public void playAnimation(boolean on){
