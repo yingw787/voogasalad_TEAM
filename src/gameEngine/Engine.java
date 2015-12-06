@@ -97,6 +97,12 @@ public class Engine implements IEngine {
 			}
 		}
 		myController.updateMap(myRE.getUnits());
+		if (checkLose()) {
+			myController.showLose();
+		}
+		if (checkWin()) {
+			myController.showWin();
+		}
 	}
 
 	
@@ -107,12 +113,6 @@ public class Engine implements IEngine {
 		for (IRequest r : requests) {
 			r.execute(myRE,myController);
 
-		}
-		if (myRE.checkLose()) {
-			myController.showLose();
-		}
-		if (myRE.checkWin()) {
-			myController.showWin();
 		}
 	}
 	
@@ -148,6 +148,15 @@ public class Engine implements IEngine {
 		playAnimation(true);
 	}
 	
+	public boolean checkWin() {
+		int level = Integer.parseInt(myRE.getPlayerInfo().getLevel());
+		int totalLevel = myRE.getPlayerInfo().getMyLevelSize();
+		return level == totalLevel && myMapManager.noMoreEnemies();
+	}
 	
+	public boolean checkLose() {
+		int live = myRE.getPlayerInfo().getLives();
+		return (live <= 0);
+	}
 
 }
