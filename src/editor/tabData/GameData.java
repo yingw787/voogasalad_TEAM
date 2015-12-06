@@ -5,7 +5,7 @@ import java.util.List;
 
 import units.Game;
 
-public class GameData implements ITabData {
+public class GameData extends ATabData {
 	private Game myGame;
 	
 	public GameData(){
@@ -23,4 +23,11 @@ public class GameData implements ITabData {
 		return gameList;
 	}
 
+	@Override
+	public void setData(List<Object> list) {
+		for (Object o : list) {
+			Game game = (Game) o;
+			myGame = game;
+		}
+	}
 }

@@ -3,10 +3,13 @@ package units;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
-import rules.Rule;
-
+import actions.DisappearAction;
+import actions.IAction;
+import conditions.CheckAttributeCondition;
+import conditions.ICondition;
 import rules.Rule;
 
 public class Unit {
@@ -14,7 +17,7 @@ public class Unit {
 	protected Map<String, String> myStringAttributes;
 	protected Map<String, Rule> myRules;
 	protected Faction myFaction;
-	protected UnitType myType;
+//	private double mySpeed;
 	
 	/**  Constructor superclass for Tower and Troop objects
 	 *   @params Attributes of Unit object
@@ -33,10 +36,22 @@ public class Unit {
 		myStringAttributes = new HashMap<String, String>();
 		myStringAttributes.put("Name", name);
 		myStringAttributes.put("Image", img);
+		myAttributes.put("Speed", 1.0);
 		
 		myRules = new HashMap<String, Rule>();
+		
+		addDefaultRule(); 
+//		mySpeed = 1.0;
 	}
 	
+	private void addDefaultRule() {
+		// TODO Auto-generated method stub
+		ICondition  ic = new CheckAttributeCondition("Health",0,myAttributes.get("MaxHealth"));
+		IAction ia = new DisappearAction();
+		Rule rule = new Rule(ic,ia);
+		myRules.put("DeFault Disappear Rule", rule);
+	}
+
 	/**  Constructor for default Unit object
 	 *   @params Attributes of default Unit object
 	 **/
@@ -52,6 +67,7 @@ public class Unit {
 		myAttributes.put("SellCost", 5.0);
 		myStringAttributes.put("Name", "T");
 		myStringAttributes.put("Image", "");
+		addDefaultRule(); 
 	}
 	
 	/**  Constructor for Unit object clone
@@ -62,7 +78,8 @@ public class Unit {
 		myStringAttributes = u.myStringAttributes;
 		myRules = u.myRules;
 		myFaction = u.myFaction;
-		myType = u.myType;
+		if(!myRules.containsKey("DeFault Disappear Rule"))
+			addDefaultRule();
 	}
 	
 	public void setRule(String key, Rule rule){
@@ -77,11 +94,16 @@ public class Unit {
 		myRules.remove(key);
 	}
 	
+	public void removeRules(Rule rule) {
+		myRules.values().remove(this);
+	}
+	
 	public Set<String> getRuleSet(){
 		return myRules.keySet();
 	}
 	
 	public Collection<Rule> getRules() {
+		//System.out.println(myRules.size());
 		return myRules.values();
 	}
 	
@@ -146,11 +168,16 @@ public class Unit {
 	
 	public Unit clone(){
 		Unit unit = new Unit();
-		unit.myAttributes = new HashMap<String, Double>(this.myAttributes);
-		unit.myRules = new HashMap<String, Rule>(this.myRules);
-		unit.myStringAttributes = new HashMap<String, String>(this.myStringAttributes);
+		unit.myAttributes = (Map<String, Double>) ((HashMap<String, Double>)(this.myAttributes)).clone();
+		
+		unit.myRules = new HashMap<String,Rule>();
+		
+		for(Entry<String, Rule> e : this.myRules.entrySet()){
+			unit.myRules.put(e.getKey(),e.getValue().clone());
+		}
+		
+		unit.myStringAttributes = (Map<String, String>) ((HashMap<String, String>)(this.myStringAttributes)).clone();
 		unit.myAttributes.put("ID", (double)IDGenerator.getID());
-		unit.myType = this.myType;
 		return unit;
 	}
 
@@ -163,16 +190,16 @@ public class Unit {
 	}
 
 	public double getHealth() {
-		// TODO Auto-generated method stub
 		return myAttributes.get("Health");
 	}
-	
-	public UnitType getType() {
-		return myType;
+
+	public double getSpeed() {
+		// TODO Auto-generated method stub
+		return myAttributes.get("Speed");
 	}
 	
-	public void setType(UnitType ut) {
-		myType = ut;
+	public void setSpeed(double s) {
+		myAttributes.put("Speed", s);
 	}
-	
+
 }

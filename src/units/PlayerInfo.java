@@ -4,7 +4,7 @@ public class PlayerInfo {
 	private int myMoney;
 	private int myLives;
 	private String myCurrentLevel;
-	
+	private int myLevelSize;
 	
 	/**  Constructor for PlayerInfo object
 	 *   @params Properties of PlayerInfo object
@@ -13,12 +13,14 @@ public class PlayerInfo {
 		this.myMoney = 100;
 		this.myLives = 1;
 		this.myCurrentLevel = "0";
+		this.myLevelSize = 1;
 	}
 	
-	public PlayerInfo(int money, int lives, String lvl){
+	public PlayerInfo(int money, int lives, String lvl, int levelSize){
 		this.myMoney = money;
 		this.myLives = lives;
 		this.myCurrentLevel = lvl;
+		this.myLevelSize = levelSize;
 	}
 	
 	public int getMoney(){
@@ -44,4 +46,13 @@ public class PlayerInfo {
 	public void setLives(int Lives) {
 		this.myLives = Lives;
 	}
+
+	public int getMyLevelSize() {
+		return myLevelSize;
+	}
+
+	public void setMyLevelSize(int myLevelSize) {
+		this.myLevelSize = myLevelSize;
+	}
+	
 }

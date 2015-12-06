@@ -9,7 +9,7 @@ public class Game {
 	 **/
 	public Game(){
 		setHelpPage("");
-		setTitle("Game");
+		setTitle("");
 	}
 	
 	public void setHelpPage(String url){

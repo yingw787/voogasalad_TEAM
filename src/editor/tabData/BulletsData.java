@@ -7,7 +7,7 @@ import java.util.Map;
 
 import units.Bullet;
 
-public class BulletsData implements ITabData {
+public class BulletsData extends ATabData {
 	Map<String, Bullet> myBullets;
 	
 	public BulletsData () {
@@ -40,6 +40,14 @@ public class BulletsData implements ITabData {
 		List<Object> allBullets = new ArrayList<Object>();
 		allBullets.addAll(myBullets.values());
 		return allBullets;
+	}
+
+	@Override
+	public void setData(List<Object> list) {
+		for (Object o : list) {
+			Bullet bullet = (Bullet) o;
+			add(bullet.getStringAttribute("Name"), bullet);
+		}
 	}
 
 }

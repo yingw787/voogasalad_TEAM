@@ -8,7 +8,7 @@ import java.util.Map;
 import units.Bullet;
 import units.Level;
 
-public class LevelsData implements ITabData {
+public class LevelsData extends ATabData {
 
 	Map<String,Level> myLevels;
 	
@@ -35,4 +35,12 @@ public class LevelsData implements ITabData {
 		return allLevels;
 	}
 
+	@Override
+	public void setData(List<Object> list) {
+		System.out.println(list);
+		for (Object o : list) {
+			Level level = (Level) o;
+			add(level.getName(), level);
+		}
+	}
 }

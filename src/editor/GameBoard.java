@@ -17,6 +17,7 @@ public class GameBoard implements IView {
 		Image grassBG = new Image(getClass().getClassLoader().getResourceAsStream("grass.jpg"));
 		background = new ImageView(grassBG);
 		pane.getChildren().add(background);
+		myBoard.maxHeight(background.getFitHeight());
 	}
 	
 	@Override
