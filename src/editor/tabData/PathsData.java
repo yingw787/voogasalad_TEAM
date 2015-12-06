@@ -8,7 +8,7 @@ import java.util.Map;
 import units.Path;
 import units.Point;
 
-public class PathsData implements ITabData {
+public class PathsData extends ATabData {
 
 	public static Map<String, Path> myPaths;
 	
@@ -43,5 +43,13 @@ public class PathsData implements ITabData {
 		List<Object> allTowers = new ArrayList<Object>();
 		allTowers.addAll(myPaths.values());
 		return allTowers;
+	}
+
+	@Override
+	public void setData(List<Object> list) {
+		for (Object o : list) {
+			Path path = (Path) o;
+			addPath(path.getName(), path);
+		}
 	}
 }

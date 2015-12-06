@@ -7,7 +7,7 @@ import java.util.Map;
 
 import units.Tower;
 
-public class TowersData implements ITabData {
+public class TowersData extends ATabData {
 	private Map<String, Tower> myTowers;
 	
 	public TowersData(){
@@ -33,4 +33,11 @@ public class TowersData implements ITabData {
 		return allTowers;
 	}
 
+	@Override
+	public void setData(List<Object> list) {
+		for (Object o : list) {
+			Tower tower = (Tower) o;
+			add(tower.getStringAttribute("Name"), tower);
+		}
+	}
 }

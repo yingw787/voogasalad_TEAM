@@ -2,6 +2,8 @@ package editor.tabs;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import units.Path;
 import units.Tower;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
@@ -73,6 +75,11 @@ public class TowersTab extends ATab implements IView, ITab, Observer {
 	@Override
 	public void setData(ITabData data) {
 		myData = (TowersData) data;
+		for (Object o : myData.getData()) {
+			Tower tower = (Tower) o;
+			myEntriesToShow.add(tower.getStringAttribute("Name"));
+			myTowerID++;
+		}
 	}
 
 	@Override

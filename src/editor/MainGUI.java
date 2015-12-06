@@ -21,9 +21,7 @@ import javafx.stage.Stage;
 import startup.Startup;
 
 public class MainGUI {
-	
-	private final int width = 1125;
-	private final int height = 458;
+	private String myName;
 	private Stage myStage;
 	private Scene myScene;
 	private BorderPane myPane;
@@ -31,14 +29,14 @@ public class MainGUI {
 	private TabPane myTabs;
 	private ScrollPane myAttributes;
 	private ScrollPane myRules;
-	private Pane myBoardParent;
 	public static SubScene myBoard;
 	private DataController myDataController;
 	
-	
 	/**  Constructor for MainGUI object which opens the default GUI for editor
+	 * @param name 
 	 **/
-	public MainGUI() {
+	public MainGUI(String name) {
+		myName = name;
 		myStage = new Stage();
 
 		initialize();
@@ -80,26 +78,20 @@ public class MainGUI {
 	}
 	
 	private void initialize() {
-	//	String[] toolOptions = {"File", "Edit", "Options", "Help"};
 		// intialize game data holders
-		myDataController = new DataController();
+		myDataController = new DataController(myName);
 		
 		// initialize tool bar
 		Header tb = new Header();
 		SaveGame sv = new SaveGame(myDataController);
 		tb.getView().getItems().add(sv.getSaveButton());
 		myToolBar = (ToolBar) tb.getView();
-//		myToolBar.setPrefWidth(width);
 		
 		// initialize game board
-//		myBoardParent = new Pane();
 		GameBoard gb = new GameBoard(new Pane(), 675, 420);
 		myBoard = (SubScene) gb.getView();
 		
 		// initialize tabs list
-//		String[] tabOptions = {"Scenes", "Towers", "Bullets", "Troops", "Level", "Game"};
-//		TabsList tl = new TabsList(tabOptions);
-//		myTabs = (TabPane) tl.getView();
 		TabsListController tabController = new TabsListController(myDataController);
 		myTabs = (TabPane) tabController.getView();
 		
@@ -116,18 +108,6 @@ public class MainGUI {
 		tl.addObserver(ab);
 		tl.addObserver(rb);
 		ab.addObserver((Observer) tabController.getTab("Towers"));
-	}
-	
-	private void setConstraints() {
-//		myPane.getColumnConstraints().addAll(
-//				new ColumnConstraints(675),
-//				new ColumnConstraints(225),
-//				new ColumnConstraints(225));
-//		myPane.getRowConstraints().addAll(
-//				new RowConstraints(38),
-//				//new RowConstraints(38),
-//				//new RowConstraints(252),
-//				new RowConstraints(240));
 	}
 	
 }

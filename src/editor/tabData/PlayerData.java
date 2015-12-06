@@ -3,9 +3,10 @@ package editor.tabData;
 import java.util.ArrayList;
 import java.util.List;
 
+import units.Game;
 import units.PlayerInfo;
 
-public class PlayerData implements ITabData {
+public class PlayerData extends ATabData {
 	
 	private PlayerInfo myPlayerInfo;
 	
@@ -22,6 +23,15 @@ public class PlayerData implements ITabData {
 		List<Object> infoList = new ArrayList<Object>();
 		infoList.add(myPlayerInfo);
 		return infoList;
+	}
+
+	@Override
+	public void setData(List<Object> list) {
+		System.out.println(list);
+		for (Object o : list) {
+			PlayerInfo player = (PlayerInfo) o;
+			myPlayerInfo = player;
+		}
 	}
 
 }
