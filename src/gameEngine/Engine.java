@@ -58,7 +58,6 @@ public class Engine implements IEngine {
 	public void playAnimation(boolean on){
 		delay = 0;
 		if (on){
-			myMapManager.spawnNewEnemy();
 			KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 					e -> step());
 			myTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -80,6 +79,9 @@ public class Engine implements IEngine {
 				rule.run(unit, myRE,this.myController);
 			}
 		}
+		
+		
+		
 		if (!myMapManager.noMoreEnemies()){
 			if (delay % spawnDelay == 0) {
 				myMapManager.spawnNewEnemy();

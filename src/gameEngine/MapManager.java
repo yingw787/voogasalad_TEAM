@@ -104,7 +104,6 @@ public class MapManager {
 		Point currentPoint = myWalkManager.get(t).remove();
 		t.setAttribute("X", currentPoint.getX());
 		t.setAttribute("Y", currentPoint.getY());
-		System.out.println("ID:"+t.getID());
 		myRE.addUnit(t.getID(), t);
 		currentEnemy++;
 	}
