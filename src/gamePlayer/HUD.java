@@ -48,6 +48,7 @@ public class HUD extends Observable implements IViewNode{
 	private Player myPlayer;
 	private ResourceBundle myResource;
 	private String buttonStyle;
+	@SuppressWarnings("unused")
 	private Node myLives, myLevel, myGold;
 
 	public HUD(Controller c, Player p){
@@ -159,7 +160,7 @@ public class HUD extends Observable implements IViewNode{
 	 *
 	 * @return the node
 	 */
-	public Node waveButton(){
+	private Node waveButton(){
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
 		myWaveButton = new Button("Start Wave");
@@ -193,7 +194,7 @@ public class HUD extends Observable implements IViewNode{
 	 * @param player the player
 	 * @return the node
 	 */
-	public Node level(PlayerInfo player){
+	private Node level(PlayerInfo player){
 		HBox myHBox = new HBox();
 		myHBox.setAlignment(Pos.CENTER);
 		myHBox.setPrefHeight(30);
@@ -208,7 +209,7 @@ public class HUD extends Observable implements IViewNode{
 	 *
 	 * @return the node
 	 */
-	public Node buySellButton(){
+	private Node buySellButton(){
 
 		HBox myHBox = new HBox();
 		buttonStyle = myResource.getString("cssHUDButtonStyle");

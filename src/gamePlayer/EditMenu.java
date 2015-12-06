@@ -25,7 +25,7 @@ public class EditMenu extends Menu{
 	}
 
 	
-	public void uploadMap() {
+	private void uploadMap() {
 	    FileChooser fileChooser = new FileChooser();
 	    File selectedFile = fileChooser.showOpenDialog(null);
 	    Alert alert = new Alert(AlertType.INFORMATION);

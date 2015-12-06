@@ -40,6 +40,7 @@ public class Map extends Observable implements IViewNode {
 	private HashMap<Double, ProgressBar> myHealthMap;
 	private HashMap<Double, Circle> myTowerRangeMap;
 	private Player myPlayer;
+	@SuppressWarnings("unused")
 	private Stage myStage;
 	private Controller myController;
 	private boolean purchaseEnabled, clickEnabled;

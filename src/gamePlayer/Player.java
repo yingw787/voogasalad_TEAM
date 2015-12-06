@@ -168,7 +168,7 @@ public class Player implements IPlayer {
 		myStore.resetStock();
 	}
 
-	public Node topButtons(){
+	private Node topButtons(){
 		HBox buttonBox = new HBox();
 		pausePlay = new HBox();
 		
@@ -219,12 +219,8 @@ public class Player implements IPlayer {
 		myController.update(requestSender);		
 	}
 
-	public HBox getPausePlay() {
+	private HBox getPausePlay() {
 		return pausePlay;
-	}
-
-	public void setPausePlay(HBox pausePlay) {
-		this.pausePlay = pausePlay;
 	}
 
 }
