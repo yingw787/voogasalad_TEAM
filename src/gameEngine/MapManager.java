@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
+import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
 import units.Faction;
 import units.IDGenerator;
 import units.Level;
 import units.Path;
+import units.PlayerInfo;
 import units.Point;
 import units.Troop;
 import units.Unit;
@@ -44,6 +46,8 @@ public class MapManager {
 	private Point start, end;
 	private int currentEnemy;
 	private RuntimeEnvironment myRE;
+	private Engine myEngine; 
+	private Controller myController; 
 	
 	/**
 	 * Constructor for MapManager.java. 
@@ -53,10 +57,10 @@ public class MapManager {
 	 * 
 	 **/
 	public MapManager(Engine engine){
+		myEngine = engine; 
 		myRE = engine.getRuntimeEnvironment();	
 		currentEnemy = 0;
 		myWalkManager = new HashMap<Unit, Queue<Point>>();
-		
 		
 	}
 	
@@ -162,9 +166,15 @@ public class MapManager {
 	public void unitReachedEndOfPathSuccessfully(Unit unit){
 		System.out.println("Unit removed from the path and not ended by the tower bullet");
 		
-		int numberOfLives = myRE.getPlayerInfo().getLives(); 
+		
+		PlayerInfo myPlayerInfo = myRE.getPlayerInfo();
+		int numberOfLives = myPlayerInfo.getLives(); 
 		numberOfLives -= 1; 
-		myRE.getPlayerInfo().setLives(numberOfLives);
+		myPlayerInfo.setLives(numberOfLives);
+		
+		myController = myEngine.getController();
+		myController.updateInfo(myPlayerInfo);
+		
 		myWalkManager.remove(unit);
 		myRE.removeUnit(unit.getID());
 		
