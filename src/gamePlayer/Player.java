@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import controller.Controller;
+import gameEngine.requests.SellTowerRequest;
 import interfaces.IPlayer;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -112,7 +113,7 @@ public class Player implements IPlayer {
 	
 	private Node topMenuBar(){
 		HBox result = new HBox();
-		result.getChildren().addAll(myMenus.initialize());
+		result.getChildren().addAll(myMenus.initialize(),topButtons());
 		return result;
 
 	}
@@ -153,6 +154,28 @@ public class Player implements IPlayer {
 
 	public void resetStore() {
 		myStore.resetStock();
+	}
+	
+	public Node topButtons(){
+		HBox result = new HBox();
+		Button fastForward = new Button("2 x Fast");
+		Button pause = new Button("Play/Pause");
+
+		fastForward.setOnMouseClicked(e->fastForwardClicked());
+		pause.setOnMouseClicked(e->pauseClicked());
+		result.getChildren().addAll(myMenus.initialize(), pause, fastForward);
+		return result;
+	}
+
+	private void pauseClicked() {
+		// TODO Auto-generated method stub
+	}
+
+	private void fastForwardClicked() {
+		// TODO Auto-generated method stub
+	//	TwiceSpeed sell = new SellTowerRequest(tower);
+
+		
 	}
 	
 }
