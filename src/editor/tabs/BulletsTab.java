@@ -9,7 +9,7 @@ import editor.tabData.ITabData;
 
 /**  Editor tab for Bullets
  **/
-public class BulletsTab extends ATab implements IView, ITab {
+public class BulletsTab extends ATab {
 	private BulletsData myData;
 	private Button myAddButton;
 	private Button myDeleteButton;

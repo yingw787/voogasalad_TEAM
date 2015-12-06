@@ -11,7 +11,7 @@ import editor.tabData.TroopsData;
 
 /**  Editor tab for Troops
  **/
-public class TroopsTab extends ATab implements IView, ITab {
+public class TroopsTab extends ATab {
 	private TroopsData myData;
 	private Button myAddButton;
 	private Button myDeleteButton;

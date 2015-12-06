@@ -14,7 +14,7 @@ import editor.tabData.TowersData;
 
 /**  Editor tab for Towers
  **/
-public class TowersTab extends ATab implements IView, ITab, Observer {
+public class TowersTab extends ATab implements Observer {
 	private TowersData myData;
 	private Button myAddButton;
 	private Button myDeleteButton;
