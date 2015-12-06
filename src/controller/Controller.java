@@ -26,16 +26,8 @@ public class Controller {
 		myPlayer = new Player(this, new Stage());
 		myEngine.writeEnvironment(myGameTitle);
 		myEngine.initialize();
+		
 	}
-	
-//	public static void main(String[] args){
-//		launch(args);
-//	}
-
-//	@Override
-//	public void start(Stage primaryStage) throws Exception {
-//
-//	}
 	
 	// store is in-game purchases of towers and units and the like 
 	public void populateStore(HashMap<String, List<Unit>> myStoreStock) {
