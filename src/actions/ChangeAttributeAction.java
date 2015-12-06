@@ -1,5 +1,6 @@
 package actions;
 
+import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
 import units.Unit;
 
@@ -14,7 +15,7 @@ public class ChangeAttributeAction implements IAction{
 
 
 	@Override
-	public void act(Unit actor,RuntimeEnvironment re) {
+	public void act(Unit actor,RuntimeEnvironment re,Controller contronler) {
 		// TODO Implement attributes as a map in Unit
 		double currentValue = actor.getAttribute(myAttributeToChange);
 		actor.setAttribute(myAttributeToChange, currentValue + myChange);

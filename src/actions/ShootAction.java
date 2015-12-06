@@ -2,6 +2,7 @@ package actions;
 
 import java.util.Collection;
 
+import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
 import units.Bullet;
 import units.Faction;
@@ -20,22 +21,22 @@ public class ShootAction implements IAction{
 	}
 	
 	@Override
-	public void act(Unit unit, RuntimeEnvironment re) {
+	public void act(Unit unit, RuntimeEnvironment re,Controller contronler) {
 		// TODO Spawn a new instance of myBullet at the actor's location 
 		// with a target calculated from the actor's range
 		Point myPoint = unit.getPoint();
 		Point basePoint = re.getBase().getPoint();
 		Collection<Unit> units = re.getUnits();
 		Point target = null;
-		double mmin = Double.MAX_VALUE;
+		int mID = Integer.MAX_VALUE;
 		for (Unit i : units) {
 			if (i.getType() == UnitType.Troop && i.getFaction() == Faction.enemy) {
 				Point iPoint = i.getPoint();
 				double distance = myPoint.getDistance(iPoint);
-				double harmDistance = basePoint.getDistance(iPoint);
+				//double harmDistance = basePoint.getDistance(iPoint);
 				if (distance < myRange) {
-					if (mmin > harmDistance) {
-						mmin = harmDistance;
+					if (mID > i.getID()) {
+						mID = i.getID();
 						target = iPoint;
 					}
 				}
@@ -48,8 +49,8 @@ public class ShootAction implements IAction{
 			double x = target.getX() - myPoint.getX();
 			double y = target.getY() - myPoint.getY();
 			double d = Math.sqrt(x*x + y*y);
-			blt.setAttribute("SpedX", x/d);
-			blt.setAttribute("SpedY", y/d);
+			blt.setAttribute("SpedX", x/d*10);
+			blt.setAttribute("SpedY", y/d*10);
 			blt.setFaction(Faction.player);
 			blt.setPoint(myPoint);
 			re.addUnit(blt.getID(), blt);
