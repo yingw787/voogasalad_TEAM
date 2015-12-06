@@ -43,6 +43,15 @@ public class SaveGame {
 		
 		XMLConverter c = new XMLConverter();
 		String gameTitle = ((Game) myGame.get(0)).getTitle();
+		
+		if (gameTitle.equals("") || gameTitle == null) {
+			Alert noName = new Alert(AlertType.ERROR);
+			noName.setHeaderText("No Name");
+			noName.setContentText("You cannot save your game until you give it a name.");
+			noName.show();
+			return;
+		}
+		
 		for (Object tower : myTowers) {
 			try {
 				c.toXML(tower, gameTitle, "Tower", ((Tower) tower).getStringAttribute("Name"));
