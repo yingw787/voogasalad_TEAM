@@ -48,19 +48,10 @@ public class Engine implements IEngine {
 	}
 	
 	public void initialize(){
-		myMapManager = new MapManager(myRE, myIDGenerator);
+		myMapManager = new MapManager(this);
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.populateStore(myRE.getStoreStock());
 	}
-	
-	private void flush() {
-		myController.updateMap(myRE.getUnits());
-		
-		//UNCOMMENTING UPDATEUSERINFO WILL LAG OUT THE GUI!!!!!
-//		myController.updateUserInfo(myRE.getPlayerInfo());
-	}
-	
-
 	
 	public void playAnimation(boolean on){
 		delay = 0;
@@ -77,11 +68,14 @@ public class Engine implements IEngine {
 		}
 	}
 	
+	public Controller getController(){
+		return myController; 
+	}
 	
 	private void step(){
 		for (Unit unit : myRE.getUnits()) {
 			for(Rule rule : unit.getRules()){
-				rule.run(unit, myRE);
+				rule.run(unit, myRE,this.myController);
 			}
 		}
 		if (!myMapManager.noMoreEnemies()){
@@ -103,7 +97,6 @@ public class Engine implements IEngine {
 			}
 		}
 		myController.updateMap(myRE.getUnits());
-		flush();
 	}
 
 	
@@ -112,18 +105,16 @@ public class Engine implements IEngine {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
 		for (IRequest r : requests) {
-			r.execute(myRE);
-			if ((r.getClass().getSimpleName().equals("BuyTowerRequest"))||(r.getClass().getSimpleName().equals("SellTowerRequest"))){
-				myController.resetStore();
-				myController.updateUserInfo(myRE.getPlayerInfo());
-			}
-			if (r.getClass().getSimpleName().equals("CollisionRequest")){
-				myController.updateInfo(myRE.getPlayerInfo());
-			}
+			r.execute(myRE,myController);
+
 		}
 		
 	}
 
+	public RuntimeEnvironment getRuntimeEnvironment(){
+		return myRE; 
+	}
+	
 	@Override
 	public void loadNewGame(String title) {
 		// TODO Auto-generated method stub
@@ -149,13 +140,5 @@ public class Engine implements IEngine {
 	}
 	
 	
-//	public static void main(String[] args){
-//		Engine e = new Engine(null,new Timeline());
-//		List<IRequest> requestList = new ArrayList<IRequest>();
-//		Tower tower = null;
-//		tower = new Tower(e.getTBManager().myTowers.get(0));
-//		IRequest rq = new BuyTowerRequest(tower, null);
-//		requestList.add(rq);
-//		e.update(requestList);
-//	}
+
 }
