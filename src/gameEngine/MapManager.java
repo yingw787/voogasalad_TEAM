@@ -52,10 +52,12 @@ public class MapManager {
 	 * Initializes myWalkManager, which is a map of Units to a queue of Points (along the Path) in order to ensure each unit knows where it is going.  
 	 * 
 	 **/
-	public MapManager(RuntimeEnvironment re){
-		myRE = re;	
+	public MapManager(Engine engine){
+		myRE = engine.getRuntimeEnvironment();	
 		currentEnemy = 0;
 		myWalkManager = new HashMap<Unit, Queue<Point>>();
+		
+		
 	}
 	
 	/**
@@ -142,14 +144,29 @@ public class MapManager {
 		}
 		Point nextDestination = new Point(currX + deltaX, currY + deltaY);
 		unit.setPoint(nextDestination);
+		
+		// assuming that this function is the one that removes the unit from the end of the path given the unit reaches the end 
 		if ((((int) nextDestination.getX() == (int) target.getX())&&( (int) nextDestination.getY()== (int) target.getY()))
 		|| ((Math.abs(nextDestination.getX()-target.getX()) < 0.75) &&((Math.abs(nextDestination.getY()-target.getY()) < 0.75)))){
 			myWalkManager.get(unit).remove();
 			if (myWalkManager.get(unit).peek()==null){
-				myWalkManager.remove(unit);
-				myRE.removeUnit(unit.getID());
+				
+				
+				unitReachedEndOfPathSuccessfully(unit);
 			}
 		} 
+		
+	}
+	
+	// what to do when the unit makes it to the end of the path successfully 
+	public void unitReachedEndOfPathSuccessfully(Unit unit){
+		System.out.println("Unit removed from the path and not ended by the tower bullet");
+		
+		int numberOfLives = myRE.getPlayerInfo().getLives(); 
+		numberOfLives -= 1; 
+		myRE.getPlayerInfo().setLives(numberOfLives);
+		myWalkManager.remove(unit);
+		myRE.removeUnit(unit.getID());
 		
 	}
 	

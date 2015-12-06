@@ -48,7 +48,7 @@ public class Engine implements IEngine {
 	}
 	
 	public void initialize(){
-		myMapManager = new MapManager(myRE);
+		myMapManager = new MapManager(this);
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.populateStore(myRE.getStoreStock());
 	}
@@ -108,6 +108,10 @@ public class Engine implements IEngine {
 		
 	}
 
+	public RuntimeEnvironment getRuntimeEnvironment(){
+		return myRE; 
+	}
+	
 	@Override
 	public void loadNewGame(String title) {
 		// TODO Auto-generated method stub
