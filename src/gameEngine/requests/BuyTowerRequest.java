@@ -1,6 +1,7 @@
 package gameEngine.requests;
 
 import controller.Controller;
+import gameEngine.Engine;
 import gameEngine.environments.RuntimeEnvironment;
 import units.Faction;
 import units.IDGenerator;
@@ -33,9 +34,10 @@ public class BuyTowerRequest extends Request {
 	 * execute the buy tower logic
 	 */
 	@Override
-	public void execute(RuntimeEnvironment re,Controller myController) {
+	public void execute(Engine e) {
 		// TODO Auto-generated method stub
 		
+		RuntimeEnvironment re = e.getRuntimeEnvironment();
 		Unit t = myTower.clone();
 		t.setPoint(myPoint);
 		t.setID(IDGenerator.getID());
@@ -45,7 +47,7 @@ public class BuyTowerRequest extends Request {
 		int money = (new Double(re.getPlayerInfo().getMoney() - t.getAttribute("BuyCost"))).intValue();
 		re.getPlayerInfo().setMoney(money);
 		
-		super.update(re, myController);
+		super.update(re, e.getController());
 	}
 
 

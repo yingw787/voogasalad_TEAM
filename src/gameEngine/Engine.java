@@ -20,8 +20,8 @@ import units.Unit;
 public class Engine implements IEngine {
 	private Controller myController;
 	private Timeline myTimeline;
-	public static final int FRAMES_PER_SECOND = 120;
-	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+	private static final int FRAMES_PER_SECOND = 120;
+	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
 	private RuntimeEnvironment myRE;
@@ -30,9 +30,9 @@ public class Engine implements IEngine {
 	private int spawnDelay = 60;
 	
 	
-	public Engine(Controller controller, Timeline timeline) {
+	public Engine(Controller controller) {
 		myController = controller;
-		myTimeline = timeline;
+		myTimeline = new Timeline();
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 	}
 	
@@ -71,7 +71,7 @@ public class Engine implements IEngine {
 		return myController; 
 	}
 	
-	private void step(){
+	public void step(){
 		for (Unit unit : myRE.getUnits()) {
 			for(Rule rule : unit.getRules()){
 				rule.run(unit, myRE,this.myController);
@@ -113,7 +113,7 @@ public class Engine implements IEngine {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
 		for (IRequest r : requests) {
-			r.execute(myRE,myController);
+			r.execute(this);
 
 		}
 	}
@@ -160,15 +160,23 @@ public class Engine implements IEngine {
 		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(level_int).getPathNames()));
 	}
 		
-	public boolean checkWin() {
+	private boolean checkWin() {
 		int level = Integer.parseInt(myRE.getPlayerInfo().getLevel());
 		int totalLevel = myRE.getPlayerInfo().getMyLevelSize();
 		return level == totalLevel && myMapManager.noMoreEnemies();
 	}
 	
-	public boolean checkLose() {
+	private boolean checkLose() {
 		int live = myRE.getPlayerInfo().getLives();
 		return (live <= 0);
+	}
+
+	public Timeline getTimeline() {
+		return myTimeline;
+	}
+
+	public void setTimeline(Timeline myTimeline) {
+		this.myTimeline = myTimeline;
 	}
 
 }
