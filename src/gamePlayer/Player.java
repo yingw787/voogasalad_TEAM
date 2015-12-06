@@ -14,6 +14,8 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -161,12 +163,24 @@ public class Player implements IPlayer {
 	
 	public Node topButtons(){
 		HBox result = new HBox();
-		Button fastForward = new Button("2 x Fast");
-		Button pause = new Button("Play/Pause");
+		Image pauseImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("pauseButton")));
+		ImageView pauseButton = new ImageView(pauseImage);
+		pauseButton.setFitHeight(30);
+		pauseButton.setPreserveRatio(true);
 
-		fastForward.setOnMouseClicked(e->fastForwardClicked());
-		pause.setOnMouseClicked(e->pauseClicked());
-		result.getChildren().addAll(myMenus.initialize(), pause, fastForward);
+		Image playImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("playButton")));
+		ImageView playButton = new ImageView(playImage);
+		playButton.setFitHeight(30);
+		playButton.setPreserveRatio(true);
+		
+		Image fastForwardImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("fastForwardButton")));
+		ImageView fastForwardButton = new ImageView(fastForwardImage);
+		fastForwardButton.setFitHeight(30);
+		fastForwardButton.setPreserveRatio(true);
+		
+		fastForwardButton.setOnMouseClicked(e->fastForwardClicked());
+		pauseButton.setOnMouseClicked(e->pauseClicked());
+		result.getChildren().addAll(pauseButton, fastForwardButton);
 		return result;
 	}
 
