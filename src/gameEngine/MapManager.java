@@ -38,7 +38,6 @@ public class MapManager {
 	 * - Re-factoring the entire class in order to keep with extensible design patterns
 	 * 
 	 **/
-	private IDGenerator myIDGenerator;
 	private HashMap<Unit, Queue<Point>> myWalkManager;
 	private List<Path> myCurrentPaths;
 	private Level myCurrentLevel;
@@ -53,9 +52,8 @@ public class MapManager {
 	 * Initializes myWalkManager, which is a map of Units to a queue of Points (along the Path) in order to ensure each unit knows where it is going.  
 	 * 
 	 **/
-	public MapManager(RuntimeEnvironment re, IDGenerator id){
+	public MapManager(RuntimeEnvironment re){
 		myRE = re;	
-		myIDGenerator = id;
 		currentEnemy = 0;
 		myWalkManager = new HashMap<Unit, Queue<Point>>();
 	}
@@ -97,7 +95,7 @@ public class MapManager {
 		t.setFaction(Faction.enemy);
 		t.setType(UnitType.Troop);
 		myWalkManager.put(t, getRandomPath());
-		t.setAttribute("ID", myIDGenerator.getID());
+		t.setAttribute("ID", IDGenerator.getID());
 		Point currentPoint = myWalkManager.get(t).remove();
 		t.setAttribute("X", currentPoint.getX());
 		t.setAttribute("Y", currentPoint.getY());
