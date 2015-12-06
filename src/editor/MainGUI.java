@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import startup.Startup;
 
 public class MainGUI {
 	
@@ -69,6 +70,13 @@ public class MainGUI {
 		myStage.show();
 		myStage.setMinWidth(boardBox.getPrefWidth());
 		myStage.setMinHeight(myScene.getHeight()); // doesnt work right
+		
+		myStage.setOnCloseRequest(e -> {
+			myStage.close();
+			Stage stage = new Stage();
+			stage.setScene(new Startup(stage).getScene());
+			stage.show();
+		});
 	}
 	
 	private void initialize() {
