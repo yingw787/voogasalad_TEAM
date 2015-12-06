@@ -14,10 +14,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import rules.Rule;
 import units.Base;
-import units.IDGenerator;
-import units.Level;
 import units.Point;
-import units.Troop;
 import units.Unit;
 
 public class Engine implements IEngine {
