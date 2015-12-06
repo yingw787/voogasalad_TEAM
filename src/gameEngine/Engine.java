@@ -48,7 +48,7 @@ public class Engine implements IEngine {
 	}
 	
 	public void initialize(){
-		myMapManager = new MapManager(myRE, myIDGenerator);
+		myMapManager = new MapManager(myRE);
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.populateStore(myRE.getStoreStock());
 	}
