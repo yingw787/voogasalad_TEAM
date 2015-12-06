@@ -68,6 +68,9 @@ public class Engine implements IEngine {
 		}
 	}
 	
+	public Controller getController(){
+		return myController; 
+	}
 	
 	private void step(){
 		for (Unit unit : myRE.getUnits()) {
