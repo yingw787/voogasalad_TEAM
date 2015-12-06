@@ -104,6 +104,7 @@ public class MapManager {
 		Point currentPoint = myWalkManager.get(t).remove();
 		t.setAttribute("X", currentPoint.getX());
 		t.setAttribute("Y", currentPoint.getY());
+		System.out.println("ID:"+t.getID());
 		myRE.addUnit(t.getID(), t);
 		currentEnemy++;
 	}
@@ -163,7 +164,7 @@ public class MapManager {
 	
 	// what to do when the unit makes it to the end of the path successfully 
 	public void unitReachedEndOfPathSuccessfully(Unit unit){
-		System.out.println("Unit removed from the path and not ended by the tower bullet");
+		System.out.println("Unit removed from the path and not ended by the tower bullet"+unit.getID());
 		
 		
 		PlayerInfo myPlayerInfo = myRE.getPlayerInfo();

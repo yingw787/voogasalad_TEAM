@@ -62,6 +62,14 @@ public class Controller {
 	public void resetStore() {
 		myPlayer.resetStore();
 	}
+	
+	public void showWin() {
+		myPlayer.showWin();
+	}
+
+	public void showLose() {
+		myPlayer.showLose();
+	}
 }
 
 
