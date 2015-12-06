@@ -6,19 +6,32 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Optional;
 
+import com.sun.xml.internal.ws.dump.LoggingDumpTube.Position;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import units.Level;
 import units.Troop;
 import editor.IView;
@@ -70,7 +83,58 @@ public class LevelsTab extends Observable implements IView, ITab{
 	}
 	
 	private void addLevel() {
-		askSpawnRate();
+		Stage stage = new Stage();
+		BorderPane levelPane = new BorderPane();
+		Scene levelScene = new Scene(levelPane, 500, 300);
+		HBox instructions = new HBox(150);
+		ScrollPane troopOptions = new ScrollPane();
+		ScrollPane chosenTroops = new ScrollPane();
+		FlowPane possibleTroops = new FlowPane();
+		FlowPane selectedTroops = new FlowPane();
+		Label note = new Label("Choose troops to add to level:");
+		Button finish = new Button("Finalize Level");
+		finish.setOnAction(e -> finishLevel(stage));
+		instructions.getChildren().addAll(note, finish);
+		ArrayList<String> troopsList = new ArrayList<String>(TroopsData.myTroops.keySet());
+		Collections.sort(troopsList);
+		if (TroopsData.myTroops.keySet().size() == 0) {
+			Label alert = new Label("You have not created any troops yet!");
+			possibleTroops.getChildren().add(alert);
+		}
+		else {
+			for (String troop : troopsList) {
+				populateTroops(troop, possibleTroops, selectedTroops);
+			}
+		}
+		troopOptions.setContent(possibleTroops);
+		chosenTroops.setContent(selectedTroops);
+		levelPane.setPadding(new Insets(20, 20, 20, 20));
+		levelPane.setTop(instructions);
+		levelPane.setCenter(chosenTroops);
+		levelPane.setBottom(troopOptions);
+		stage.setScene(levelScene);
+		stage.show();
+	}
+	
+	private void populateTroops(String troop, FlowPane options, FlowPane selected) {
+		Image img = new Image(TroopsData.myTroops.get(troop).getStringAttribute("Image"));
+		ImageView troopImage = new ImageView(img);
+		troopImage.setFitWidth(20); 
+		troopImage.setFitHeight(20);
+		Button button = new Button(troop);
+		button.setContentDisplay(ContentDisplay.TOP);
+		button.setGraphic(troopImage);
+		button.setOnAction(e -> addTroopToLevel(selected, troop));
+		options.getChildren().add(button);
+	}
+	
+	private void addTroopToLevel(FlowPane selectedTroops, String troop) {
+		Troop selectedTroop = TroopsData.myTroops.get(troop);
+		ImageView troopImg = new ImageView(new Image(selectedTroop.getStringAttribute("Image")));
+		troopImg.setFitHeight(50);
+		troopImg.setFitWidth(50);
+		myWave.add(selectedTroop);
+		selectedTroops.getChildren().add(troopImg);
 	}
 	
 	private void deleteLevel() {
@@ -83,116 +147,7 @@ public class LevelsTab extends Observable implements IView, ITab{
 		myData.remove(selectedLevel);
 	}
 	
-	@SuppressWarnings("unchecked")
-	private void selectTroop() {
-		@SuppressWarnings("rawtypes")
-		ChoiceDialog dialog = new ChoiceDialog();
-		
-		// put existing troops into choice box, sorted alphabetically
-		List<String> troopsList = new ArrayList<String>();
-		troopsList.addAll(TroopsData.myTroops.keySet());
-		Collections.sort(troopsList);
-		for (String troop : troopsList) {
-			dialog.getItems().add(troop);
-		}
-		dialog.setTitle("Choose Enemy Troop");
-		dialog.setHeaderText("Choose Enemy Troop For Wave");
-		dialog.setContentText("Choose a created troop to add to the wave:");
-		Optional<String> result = dialog.showAndWait();
-		String ret = "cancelled";
-		if (result.isPresent()) {
-			ret = result.get();
-			selectTroopQuantity(ret);
-		}
-	}
-	
-	private void selectTroopQuantity(String troopName) {
-		// ask user to input the number of troops to add
-		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Choose Troop Quantity");
-		dialog.setHeaderText("Choose the number of " + troopName + " to add to wave");
-		dialog.setContentText("Please enter a new number:");
-		Optional<String> result = dialog.showAndWait();
-		result.ifPresent(newValue -> {
-			try{
-				for (int i = 0; i < Integer.parseInt(newValue); i++) {
-					myWave.add((Troop) TroopsData.myTroops.get(troopName));
-				}
-				addMoreTroops();
-			} catch(Exception excep){
-				Alert warning = new Alert(AlertType.INFORMATION);
-				warning.setTitle("Warning");
-				warning.setHeaderText("Invalid value");
-				warning.setContentText("Only numbers allowed.");
-				warning.show();
-			}
-		});
-	}
-	
-	@SuppressWarnings("unchecked")
-	private void addMoreTroops() {
-		@SuppressWarnings("rawtypes")
-		ChoiceDialog dialog = new ChoiceDialog();
-		dialog.getItems().addAll("Yes", "No");
-		dialog.setTitle("Add More Troops");
-		dialog.setHeaderText("Add more troops to wave");
-		dialog.setContentText("Would you like to add more troops to the wave?");
-		Optional<String> result = dialog.showAndWait();
-		String ret = "cancelled";
-		ret = result.get();
-		if (ret.equals("Yes")) selectTroop();
-		if (ret.equals("No")) finishLevel();
-		else {
-			Alert warning = new Alert(AlertType.INFORMATION);
-			warning.setTitle("Warning");
-			warning.setHeaderText("No troop chosen");
-			warning.setContentText("User must choose a troop.");
-			warning.show();
-		}
-	}
-	
-	private void askSpawnRate() {
-		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Choose Troop Spawn Rate");
-		dialog.setHeaderText("Choose the spawn rate");
-		dialog.setContentText("Please enter a new number (decimals are allowed):");
-		Optional<String> result = dialog.showAndWait();
-		result.ifPresent(newValue -> {
-			try{
-				mySpawnRate = Double.parseDouble(newValue);
-				askSpeed();
-			} catch(Exception excep){
-				Alert warning = new Alert(AlertType.INFORMATION);
-				warning.setTitle("Warning");
-				warning.setHeaderText("Invalid value");
-				warning.setContentText("Only numbers allowed.");
-				warning.show();
-			}
-		});
-	}
-	
-	private void askSpeed() {
-		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Choose Troop Speed");
-		dialog.setHeaderText("Choose the troop movement speed");
-		dialog.setContentText("Please enter a new number (decimals are allowed):");
-		Optional<String> result = dialog.showAndWait();
-		result.ifPresent(newValue -> {
-			try{
-				mySpeed = Double.parseDouble(newValue);
-				selectTroop();
-				
-			} catch(Exception excep){
-				Alert warning = new Alert(AlertType.INFORMATION);
-				warning.setTitle("Warning");
-				warning.setHeaderText("Invalid value");
-				warning.setContentText("Only numbers allowed.");
-				warning.show();
-			}
-		});
-	}
-	
-	private void finishLevel() {
+	private void finishLevel(Stage s) {
 		List<String> myPaths = new ArrayList<String>();
 		myPaths.addAll(PathsData.myPaths.keySet());
 		Collections.sort(myPaths);
@@ -203,11 +158,12 @@ public class LevelsTab extends Observable implements IView, ITab{
 		refresh();
 		Alert finishAlert = new Alert(Alert.AlertType.CONFIRMATION, "Level "+l.getName()+" has been created!");
 		finishAlert.show();
+		s.close();
 	}
 	
 	private void refresh() {
-		mySpawnRate = 0.0;
-		mySpeed = 0.0;
+		mySpawnRate = 1.0;
+		mySpeed = 1.0;
 		myWave.clear();
 	}
 	
