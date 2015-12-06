@@ -17,6 +17,7 @@ public class Unit {
 	protected Map<String, String> myStringAttributes;
 	protected Map<String, Rule> myRules;
 	protected Faction myFaction;
+//	private double mySpeed;
 	
 	/**  Constructor superclass for Tower and Troop objects
 	 *   @params Attributes of Unit object
@@ -35,11 +36,12 @@ public class Unit {
 		myStringAttributes = new HashMap<String, String>();
 		myStringAttributes.put("Name", name);
 		myStringAttributes.put("Image", img);
+		myAttributes.put("Speed", 1.0);
 		
 		myRules = new HashMap<String, Rule>();
 		
 		addDefaultRule(); 
-		
+//		mySpeed = 1.0;
 	}
 	
 	private void addDefaultRule() {
@@ -90,6 +92,10 @@ public class Unit {
 	
 	public void removeRules(String key){
 		myRules.remove(key);
+	}
+	
+	public void removeRules(Rule rule) {
+		myRules.values().remove(this);
 	}
 	
 	public Set<String> getRuleSet(){
@@ -186,6 +192,14 @@ public class Unit {
 	public double getHealth() {
 		return myAttributes.get("Health");
 	}
+
+	public double getSpeed() {
+		// TODO Auto-generated method stub
+		return myAttributes.get("Speed");
+	}
 	
+	public void setSpeed(double s) {
+		myAttributes.put("Speed", s);
+	}
 
 }
