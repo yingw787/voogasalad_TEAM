@@ -63,6 +63,10 @@ public class Controller {
 		myPlayer.resetStore();
 	}
 	
+	public void redisplayPath(){
+		myEngine.redisplayPath();
+	}
+	
 	public void showWin() {
 		myPlayer.showWin();
 	}
