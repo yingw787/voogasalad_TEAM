@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import startup.Startup;
 import units.Path;
 import units.PlayerInfo;
 import units.Unit;
@@ -53,6 +54,13 @@ public class Player implements IPlayer {
 		myScene = new Scene(root, myWidth, myHeight);
 		myStage.setScene(myScene);
 		initialize(s);
+		
+		myStage.setOnCloseRequest(e -> {
+			myStage.close();
+			Stage stage = new Stage();
+			stage.setScene(new Startup(stage).getScene());
+			stage.show();
+		});
 	}
 
 	public MapUnit getSelected(){
