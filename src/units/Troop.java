@@ -1,7 +1,7 @@
 package units;
 
 public class Troop extends Unit {
-	
+	private static final String DEFAULTS_FILE = "resources/DefaultTroop.properties";
 	/**  Constructor for Troop object
 	 *   @params Attributes of Troop object
 	 **/
@@ -15,16 +15,16 @@ public class Troop extends Unit {
 	 *   @params Attributes of default Troop object
 	 **/
 	public Troop(){
-		super();
+		super(DEFAULTS_FILE);
 		myStringAttributes.put("Name", "");
-		myAttributes.put("Health", 20.0);
-		myAttributes.put("CollisionDamage", 20.0);
+//		myAttributes.put("Health", 20.0);
+//		myAttributes.put("CollisionDamage", 20.0);
 		myStringAttributes.put("Image", "");
-		myAttributes.put("X", 0.0);
-		myAttributes.put("Y", 0.0);
-		myAttributes.put("ID", 0.0);
-		myAttributes.put("BuyCost", 100.0);
-		myAttributes.put("SellCost", 50.0);
+//		myAttributes.put("X", 0.0);
+//		myAttributes.put("Y", 0.0);
+//		myAttributes.put("ID", 0.0);
+//		myAttributes.put("BuyCost", 100.0);
+//		myAttributes.put("SellCost", 50.0);
 		myStringAttributes.put("Type", "Troop");
 	}
 	

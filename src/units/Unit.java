@@ -1,9 +1,13 @@
 package units;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Set;
 
 import actions.DisappearAction;
@@ -17,6 +21,7 @@ public class Unit {
 	protected Map<String, String> myStringAttributes;
 	protected Map<String, Rule> myRules;
 	protected Faction myFaction;
+	protected final static String DEFAULTS_FILE = "resources/DefaultUnit.properties";
 //	private double mySpeed;
 	
 	/**  Constructor superclass for Tower and Troop objects
@@ -52,21 +57,49 @@ public class Unit {
 		myRules.put("DeFault Disappear Rule", rule);
 	}
 
+	public Unit(){
+		this(DEFAULTS_FILE);
+	}
+	
+	
 	/**  Constructor for default Unit object
+	 * Reads in default values from resource file
 	 *   @params Attributes of default Unit object
 	 **/
-	public Unit(){
+	public Unit(String filePath){
 		myAttributes = new HashMap<String, Double>();
 		myStringAttributes = new HashMap<String, String>();
 		myRules = new HashMap<String, Rule>();
-		
-		// Default values
-		myAttributes.put("MaxHealth", 10.0);
-		myAttributes.put("CollisionDamage", 0.0);
-		myAttributes.put("BuyCost", 10.0);
-		myAttributes.put("SellCost", 5.0);
 		myStringAttributes.put("Name", "T");
 		myStringAttributes.put("Image", "");
+		// Read in defaults from a resource file
+		Properties prop = new Properties();
+		InputStream input = null;
+
+		try {
+			input = getClass().getClassLoader().getResourceAsStream(filePath);
+			if (input == null) {
+				System.out.println("Sorry, unable to find " + filePath);
+				return;
+			}
+			prop.load(input);
+			Enumeration<?> e = prop.propertyNames();
+			while (e.hasMoreElements()) {
+				String key = (String) e.nextElement();
+				String value = prop.getProperty(key);
+				myAttributes.put(key, Double.parseDouble(value));
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}	
 		addDefaultRule(); 
 	}
 	
