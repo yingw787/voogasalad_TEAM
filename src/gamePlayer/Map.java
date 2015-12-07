@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
+import java.util.ResourceBundle;
 
 import controller.Controller;
 import gameEngine.requests.BuyTowerRequest;
@@ -51,6 +52,8 @@ public class Map extends Observable implements IViewNode {
 	private ImageView myImage;
 	private Circle myRange;
 	private ImageView towerCursor;
+	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
+	private ResourceBundle myResource;
 
 	public Map(Controller c, Stage s, Player p){
 		this.myPlayer = p;
@@ -59,6 +62,7 @@ public class Map extends Observable implements IViewNode {
 		purchaseEnabled = false;
 		clickEnabled = false;
 		//myPane = new Pane();
+		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
 
 	}
 	
@@ -115,19 +119,19 @@ public class Map extends Observable implements IViewNode {
 			if (!myImageMap.containsKey(unit.getAttribute("ID"))){
 				MapUnit mapUnit = new MapUnit(new Image(unit.getStringAttribute("Image")),unit);
 				mapUnit.setPreserveRatio(true);
-				mapUnit.setFitHeight(30);
+				mapUnit.setFitHeight(Integer.parseInt(myResource.getString("nodesHeight")));
 				if (unit.getStringAttribute("Type").equals("Bullet")){
-					mapUnit.setFitHeight(10);
+					mapUnit.setFitHeight(Integer.parseInt(myResource.getString("bulletHeight")));
 				}
 				if (unit.getStringAttribute("Type").equals("Tower")){
-					mapUnit.setFitHeight(55);
+					mapUnit.setFitHeight(Integer.parseInt(myResource.getString("towerHeight")));
 				}
 				if (!unit.getStringAttribute("Type").equals("Bullet")){
 					ProgressBar health = mapUnit.getHealth();
 					myHealthMap.put(unit.getAttribute("ID"), health);
-					health.setLayoutX(unit.getAttribute("X")-7);
-					health.setLayoutY(unit.getAttribute("Y")-10);
-					health.setMaxWidth(40);
+					health.setLayoutX(unit.getAttribute("X")-Integer.parseInt(myResource.getString("healthXOffset")));
+					health.setLayoutY(unit.getAttribute("Y")-Integer.parseInt(myResource.getString("healthYOffset")));
+					health.setMaxWidth(Integer.parseInt(myResource.getString("healthWidth")));
 					myPane.getChildren().addAll(health);
 				}
 				myImageMap.put(unit.getAttribute("ID"), mapUnit);
@@ -146,7 +150,7 @@ public class Map extends Observable implements IViewNode {
 				if (!unit.getStringAttribute("Type").equals("Bullet")){
 					ProgressBar health = myHealthMap.get(unit.getAttribute("ID"));
 					health.setLayoutX(unit.getAttribute("X"));
-					health.setLayoutY(unit.getAttribute("Y")-10);
+					health.setLayoutY(unit.getAttribute("Y")-Integer.parseInt(myResource.getString("healthYOffset")));
 					health.setProgress(unit.getAttribute("Health")/unit.getAttribute("MaxHealth"));	
 				}
 				onMap.add(unit.getAttribute("ID"));
@@ -201,19 +205,12 @@ public class Map extends Observable implements IViewNode {
 
 	public void setBackgroundMap(Image image) {
 		myImage = new ImageView(image);
-		//myCurrentBackground.getImage();
-		System.out.println(myPane.getChildren().size());
 		myPane.getChildren().remove(background);
-        System.out.println(" selected");
-		System.out.println(myPane.getChildren().size());
 		myPane.getChildren().add(myImage);
-		System.out.println("new gisize: " + myPane.getChildren().size());
 		
 		myController.redisplayPath();
 	}
 
-
-	
 	private void enableSelling(MapUnit mapUnit){
 		myPlayer.enableSell(mapUnit);
 	}
@@ -235,10 +232,10 @@ public class Map extends Observable implements IViewNode {
 		purchaseEnabled = true;
 				myRange.setFill(Color.RED);
 				myRange.setStroke(Color.RED);
-				myRange.setOpacity(0.3);
+				myRange.setOpacity(Double.parseDouble(myResource.getString("rangeOpacity")));
 				myRange.setRadius(u.getHealth());
 				towerCursor.setPreserveRatio(true);
-				towerCursor.setFitHeight(55);
+				towerCursor.setFitHeight(Integer.parseInt(myResource.getString("towerHeight")));
 				myPane.getChildren().add(myRange);
 				myPane.getChildren().addAll(towerCursor);
 				myPane.setOnMouseMoved(new EventHandler<MouseEvent>() {
@@ -266,18 +263,18 @@ public class Map extends Observable implements IViewNode {
 	private Line drawPath(Point startLoc, Point endLoc){
 		Line path = new Line();
 		Line zone = new Line();
-		path.setStartX(startLoc.getX()+25);
-		path.setStartY(startLoc.getY()+25);
-		path.setEndX(endLoc.getX()+25);
-		path.setEndY(endLoc.getY()+25);
+		path.setStartX(startLoc.getX()+Integer.parseInt(myResource.getString("pathOffset")));
+		path.setStartY(startLoc.getY()+Integer.parseInt(myResource.getString("pathOffset")));
+		path.setEndX(endLoc.getX()+Integer.parseInt(myResource.getString("pathOffset")));
+		path.setEndY(endLoc.getY()+Integer.parseInt(myResource.getString("pathOffset")));
 		path.setStrokeLineCap(StrokeLineCap.ROUND);
-		path.setStrokeWidth(10);
-		zone.setStartX(startLoc.getX()+25);
-		zone.setStartY(startLoc.getY()+25);
-		zone.setEndX(endLoc.getX()+25);
-		zone.setEndY(endLoc.getY()+25);
+		path.setStrokeWidth(Integer.parseInt(myResource.getString("pathStrokeWidth")));
+		zone.setStartX(startLoc.getX()+Integer.parseInt(myResource.getString("pathOffset")));
+		zone.setStartY(startLoc.getY()+Integer.parseInt(myResource.getString("pathOffset")));
+		zone.setEndX(endLoc.getX()+Integer.parseInt(myResource.getString("pathOffset")));
+		zone.setEndY(endLoc.getY()+Integer.parseInt(myResource.getString("pathOffset")));
 		zone.setStrokeLineCap(StrokeLineCap.ROUND);
-		zone.setStrokeWidth(70);
+		zone.setStrokeWidth(Integer.parseInt(myResource.getString("zoneStrokeWidth")));
 		zone.setVisible(false);
 		myIllegalZones.add(zone);
 		return path;
