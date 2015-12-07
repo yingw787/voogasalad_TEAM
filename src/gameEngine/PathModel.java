@@ -21,7 +21,7 @@ import units.Point;
  *  
  *  
  */
-public class PathModel{
+public class PathModel implements IPathModel{
 	Set<PathPoint> myPathPoints; 
 	Set<PathEdge> myPathEdges; 
 	Set<PathPoint> myStartingPoints, myEndingPoints; 
@@ -34,6 +34,10 @@ public class PathModel{
 	boolean chooseDefault = true;
 	
 	
+	protected PathModel(){
+		this(new HashSet<PathPoint>(), new HashSet<PathPoint>(), new HashSet<PathEdge>());
+	}
+	
 	/**
 	 * Generates a new PathModel based on the point coordinates in the start and the end points. 
 	 */
@@ -41,6 +45,7 @@ public class PathModel{
 		
 		myStartingPoints = listOfStartingPoints; 
 		myEndingPoints = listOfEndingPoints; 
+		
 		myPathPoints.addAll(myStartingPoints);
 		myPathPoints.addAll(myEndingPoints);
 		myPathEdges.addAll(listOfPathEdges);

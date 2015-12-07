@@ -45,7 +45,8 @@ public class MapManager {
 	private HashMap<Unit, Queue<Point>> myWalkManager;
 	private List<Path> myLegacyPaths; // SHOULD BE DEPRECATED
 	
-	private PathModel myPathModel; 
+//	private PathModel myPathModel = new PathModel(); 
+	private boolean isRandom = true; // isRandom is set to be true; used for heuristics
 	
 	private Level myCurrentLevel;
 	private int currentEnemy;
@@ -76,6 +77,9 @@ public class MapManager {
 	public void startWave(Level level, List<Path> paths) {
 		currentEnemy = 0;
 		myCurrentLevel = level;
+		
+		
+		
 		myLegacyPaths = paths; 
 		
 //		myPathModel.generateCoordinatePathModel(paths);
@@ -133,20 +137,12 @@ public class MapManager {
 		}
 		return myPointsQueue;
 		
-		
-		
-		
 //		return myPathModel.generateCoordinatePath(isRandom);
+		
+		
+		
+		
 	}
-	
-	
-//		private Queue<Point> getRandomPath(){
-
-//		}
-//		
-//		private Queue<Point> generateHeuristicallyDeterminedPath(){
-//			return null; 
-//		}
 	
 	/**
 	 * Walks the unit on the map. 
