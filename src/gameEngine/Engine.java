@@ -14,58 +14,48 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import rules.Rule;
 import units.Base;
-import units.IDGenerator;
-import units.Level;
 import units.Point;
-import units.Troop;
 import units.Unit;
 
 public class Engine implements IEngine {
 	private Controller myController;
 	private Timeline myTimeline;
-	public static final int FRAMES_PER_SECOND = 120;
-	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+	private static final int FRAMES_PER_SECOND = 120;
+	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
 	private RuntimeEnvironment myRE;
 	private MapManager myMapManager;
-	private IDGenerator myIDGenerator;
 	private int delay = 0;
 	private int spawnDelay = 60;
 	
-	public Engine(Controller controller, Timeline timeline) {
+	
+	public Engine(Controller controller) {
 		myController = controller;
-		myTimeline = timeline;
+		myTimeline = new Timeline();
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 	}
 	
 	public void writeEnvironment(String gameTitle) throws IOException{
-		myIDGenerator = new IDGenerator();
 		XMLConverter myConverter = new XMLConverter();
 		myRE = new RuntimeEnvironment(myConverter.getUnits(gameTitle, "Tower"), 
 				myConverter.getUnits(gameTitle, "Troop"), myConverter.getLevels(gameTitle), myConverter.getPaths(gameTitle), 
-				myConverter.getPlayerInfo(gameTitle), new GameConfiguration(), new ArrayList<Rule>(), new Base(), myIDGenerator);
+				myConverter.getPlayerInfo(gameTitle), new GameConfiguration(), new ArrayList<Rule>(), new Base());
 	}
 	
 	public void initialize(){
-		myMapManager = new MapManager(myRE, myIDGenerator);
+		myMapManager = new MapManager(this);
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.populateStore(myRE.getStoreStock());
-	}
-	
-	private void flush() {
-		myController.updateMap(myRE.getUnits());
 		
-		//UNCOMMENTING UPDATEUSERINFO WILL LAG OUT THE GUI!!!!!
-//		myController.updateUserInfo(myRE.getPlayerInfo());
+		// render the path before the first level starts (upon initialization)
+		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(0).getPathNames()));
+		
 	}
-	
-
 	
 	public void playAnimation(boolean on){
 		delay = 0;
 		if (on){
-			myMapManager.spawnNewEnemy();
 			KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 					e -> step());
 			myTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -77,13 +67,19 @@ public class Engine implements IEngine {
 		}
 	}
 	
+	public Controller getController(){
+		return myController; 
+	}
 	
-	private void step(){
+	public void step(){
 		for (Unit unit : myRE.getUnits()) {
 			for(Rule rule : unit.getRules()){
-				rule.run(unit, myRE);
+				rule.run(unit, myRE,this.myController);
 			}
 		}
+		
+		
+		
 		if (!myMapManager.noMoreEnemies()){
 			if (delay % spawnDelay == 0) {
 				myMapManager.spawnNewEnemy();
@@ -103,7 +99,12 @@ public class Engine implements IEngine {
 			}
 		}
 		myController.updateMap(myRE.getUnits());
-		flush();
+		if (checkLose()) {
+			myController.showLose();
+		}
+		if (checkWin()) {
+			myController.showWin();
+		}
 	}
 
 	
@@ -112,18 +113,19 @@ public class Engine implements IEngine {
 		// TODO Auto-generated method stub
 		// request if a CollisionRequest
 		for (IRequest r : requests) {
-			r.execute(myRE);
-			if ((r.getClass().getSimpleName().equals("BuyTowerRequest"))||(r.getClass().getSimpleName().equals("SellTowerRequest"))){
-				myController.resetStore();
-				myController.updateUserInfo(myRE.getPlayerInfo());
-			}
-			if (r.getClass().getSimpleName().equals("CollisionRequest")){
-				myController.updateInfo(myRE.getPlayerInfo());
-			}
-		}
-		
-	}
+			r.execute(this);
 
+		}
+	}
+	
+	
+	//myPlayer.showWin();
+	
+
+	public RuntimeEnvironment getRuntimeEnvironment(){
+		return myRE; 
+	}
+	
 	@Override
 	public void loadNewGame(String title) {
 		// TODO Auto-generated method stub
@@ -141,21 +143,40 @@ public class Engine implements IEngine {
 		myRE.incrementLevel();
 		myController.updateUserInfo(myRE.getPlayerInfo());
 		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
-		Level level = myRE.getLevel(i);
-//		spawnDelay = (int) (60.0 * level.getSpawnRate());
+		//		spawnDelay = (int) (60.0 * level.getSpawnRate());
 		spawnDelay = (int) (60.0 * 1);
 		myMapManager.startWave(myRE.getLevel(i), myRE.getPathsForLevel(myRE.getLevel(i).getPathNames()));
 		playAnimation(true);
 	}
 	
+	// THIS IS BROKEN RIGHT NOW
+	public void redisplayPath(){
+		// RIGHT NOW THIS IS BROKEN 
+		System.out.println("I am in Engine.java --> redisplayPath() right now");
+		
+		String level = myRE.getPlayerInfo().getLevel();
+		System.out.println(level);
+		int level_int = Integer.parseInt(level); 
+		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(level_int).getPathNames()));
+	}
+		
+	private boolean checkWin() {
+		int level = Integer.parseInt(myRE.getPlayerInfo().getLevel());
+		int totalLevel = myRE.getPlayerInfo().getMyLevelSize();
+		return level == totalLevel && myMapManager.noMoreEnemies();
+	}
 	
-//	public static void main(String[] args){
-//		Engine e = new Engine(null,new Timeline());
-//		List<IRequest> requestList = new ArrayList<IRequest>();
-//		Tower tower = null;
-//		tower = new Tower(e.getTBManager().myTowers.get(0));
-//		IRequest rq = new BuyTowerRequest(tower, null);
-//		requestList.add(rq);
-//		e.update(requestList);
-//	}
+	private boolean checkLose() {
+		int live = myRE.getPlayerInfo().getLives();
+		return (live <= 0);
+	}
+
+	public Timeline getTimeline() {
+		return myTimeline;
+	}
+
+	public void setTimeline(Timeline myTimeline) {
+		this.myTimeline = myTimeline;
+	}
+
 }

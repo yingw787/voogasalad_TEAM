@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import units.Unit;
 import editor.tabData.DataController;
 import editor.tabData.ITabData;
+import editor.tabData.TroopsData;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;

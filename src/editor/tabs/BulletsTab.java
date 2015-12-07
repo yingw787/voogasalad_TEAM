@@ -9,7 +9,7 @@ import editor.tabData.ITabData;
 
 /**  Editor tab for Bullets
  **/
-public class BulletsTab extends ATab implements IView, ITab {
+public class BulletsTab extends ATab {
 	private BulletsData myData;
 	private Button myAddButton;
 	private Button myDeleteButton;
@@ -62,6 +62,10 @@ public class BulletsTab extends ATab implements IView, ITab {
 	@Override
 	public void setData(ITabData data) {
 		myData = (BulletsData) data;
+		for (String id : myData.getBulletNamesArray()) {
+			myEntriesToShow.add(id);
+			myBulletID++;
+		}
 	}
 
 }

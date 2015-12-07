@@ -1,15 +1,14 @@
 package gamePlayer;
 
-import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import startup.PlayerStartup;
 
 public class FileMenu extends Menu{
-	
+
 	private Stage myStage;
-	
+
 	public FileMenu(Stage stage){
 		super("File");
 		myStage = stage;
@@ -26,11 +25,10 @@ public class FileMenu extends Menu{
 
 	private void openGame() {
 		myStage.setScene(new PlayerStartup(myStage).getScene());
-		System.out.println("New File");
 	}
 
 	private void saveGame() {
-		System.out.println("Save");
+		//TODO: implement saving current game from Player
 	}
 
 }

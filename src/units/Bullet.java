@@ -10,26 +10,24 @@ public class Bullet extends Unit{
 			Point p, int ID, int bc, int sc){
 		super(name, health, cd, img, p, ID, bc, sc);
 	//Insert method to check collision condition and apply damage
+		BulletAttribute();
+
+	}
+	
+	private void BulletAttribute(){
 		this.setAttribute("Type", "Bullet");
 		this.setHealth(1);
-		this.setType(UnitType.Bullet);
 		this.setAttribute("Image", "bullet.gif");
 	}
 	
 	public Bullet(){
 		super();
-		this.setAttribute("Type", "Bullet");
-		this.setHealth(1);
-		this.setType(UnitType.Bullet);
-		this.setAttribute("Image", "bullet.gif");
+		BulletAttribute();
 	}
 	
 	public Bullet(Unit u) {
 		super(u);
-		this.setAttribute("Type", "Bullet");
-		this.setHealth(1);
-		this.setType(UnitType.Bullet);
-		this.setAttribute("Image", "bullet.gif");
+		BulletAttribute();
 	}
 	
 	/**  Constructor for copying Bullet object
@@ -38,10 +36,7 @@ public class Bullet extends Unit{
 	public Bullet(Bullet b){
 		super(b.getStringAttribute("Name"),b.getAttribute("Health"), b.getAttribute("CollisionDamage"),b.getStringAttribute("Image"),
 			new Point(0,0), (int) b.getAttribute("ID"), (int) b.getAttribute("BuyCost"), (int) b.getAttribute("SellCost"));
-		this.setHealth(1);
-		this.setAttribute("Type", "Bullet");
-		this.setType(UnitType.Bullet);
-		this.setAttribute("Image", "bullet.gif");
+		BulletAttribute();
 	}
 	
 	/**  Sets target of bullet to new path

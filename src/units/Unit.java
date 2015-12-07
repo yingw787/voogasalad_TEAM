@@ -1,13 +1,19 @@
 package units;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Set;
 
-import rules.Rule;
-
+import actions.DisappearAction;
+import actions.IAction;
+import conditions.CheckAttributeCondition;
+import conditions.ICondition;
 import rules.Rule;
 
 public class Unit {
@@ -15,7 +21,8 @@ public class Unit {
 	protected Map<String, String> myStringAttributes;
 	protected Map<String, Rule> myRules;
 	protected Faction myFaction;
-	protected UnitType myType;
+	protected final static String DEFAULTS_FILE = "resources/DefaultUnit.properties";
+//	private double mySpeed;
 	
 	/**  Constructor superclass for Tower and Troop objects
 	 *   @params Attributes of Unit object
@@ -34,25 +41,66 @@ public class Unit {
 		myStringAttributes = new HashMap<String, String>();
 		myStringAttributes.put("Name", name);
 		myStringAttributes.put("Image", img);
+		myAttributes.put("Speed", 1.0);
 		
 		myRules = new HashMap<String, Rule>();
+		
+		addDefaultRule(); 
+//		mySpeed = 1.0;
 	}
 	
+	private void addDefaultRule() {
+		// TODO Auto-generated method stub
+		ICondition  ic = new CheckAttributeCondition("Health",0,myAttributes.get("MaxHealth"));
+		IAction ia = new DisappearAction();
+		Rule rule = new Rule(ic,ia);
+		myRules.put("DeFault Disappear Rule", rule);
+	}
+
+	public Unit(){
+		this(DEFAULTS_FILE);
+	}
+	
+	
 	/**  Constructor for default Unit object
+	 * Reads in default values from resource file
 	 *   @params Attributes of default Unit object
 	 **/
-	public Unit(){
+	public Unit(String filePath){
 		myAttributes = new HashMap<String, Double>();
 		myStringAttributes = new HashMap<String, String>();
 		myRules = new HashMap<String, Rule>();
-		
-		// Default values
-		myAttributes.put("MaxHealth", 10.0);
-		myAttributes.put("CollisionDamage", 0.0);
-		myAttributes.put("BuyCost", 10.0);
-		myAttributes.put("SellCost", 5.0);
 		myStringAttributes.put("Name", "T");
 		myStringAttributes.put("Image", "");
+		// Read in defaults from a resource file
+		Properties prop = new Properties();
+		InputStream input = null;
+
+		try {
+			input = getClass().getClassLoader().getResourceAsStream(filePath);
+			if (input == null) {
+				System.out.println("Sorry, unable to find " + filePath);
+				return;
+			}
+			prop.load(input);
+			Enumeration<?> e = prop.propertyNames();
+			while (e.hasMoreElements()) {
+				String key = (String) e.nextElement();
+				String value = prop.getProperty(key);
+				myAttributes.put(key, Double.parseDouble(value));
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}	
+		addDefaultRule(); 
 	}
 	
 	/**  Constructor for Unit object clone
@@ -63,7 +111,8 @@ public class Unit {
 		myStringAttributes = u.myStringAttributes;
 		myRules = u.myRules;
 		myFaction = u.myFaction;
-		myType = u.myType;
+		if(!myRules.containsKey("DeFault Disappear Rule"))
+			addDefaultRule();
 	}
 	
 	public void setRule(String key, Rule rule){
@@ -76,6 +125,10 @@ public class Unit {
 	
 	public void removeRules(String key){
 		myRules.remove(key);
+	}
+	
+	public void removeRules(Rule rule) {
+		myRules.values().remove(this);
 	}
 	
 	public Set<String> getRuleSet(){
@@ -158,7 +211,6 @@ public class Unit {
 		
 		unit.myStringAttributes = (Map<String, String>) ((HashMap<String, String>)(this.myStringAttributes)).clone();
 		unit.myAttributes.put("ID", (double)IDGenerator.getID());
-		unit.myType = this.myType;
 		return unit;
 	}
 
@@ -171,16 +223,16 @@ public class Unit {
 	}
 
 	public double getHealth() {
-		// TODO Auto-generated method stub
 		return myAttributes.get("Health");
 	}
-	
-	public UnitType getType() {
-		return myType;
+
+	public double getSpeed() {
+		// TODO Auto-generated method stub
+		return myAttributes.get("Speed");
 	}
 	
-	public void setType(UnitType ut) {
-		myType = ut;
+	public void setSpeed(double s) {
+		myAttributes.put("Speed", s);
 	}
-	
+
 }

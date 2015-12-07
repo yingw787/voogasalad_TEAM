@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 /**  Abstract class for all editor tabs
  **/
 public abstract class ATab extends Observable implements IView, ITab {
-	protected ITabData myData;
+//	protected ITabData myData;
 	protected ScrollPane myTabView;
 	protected VBox myTabContent;
 	protected HBox myButtons;
@@ -49,7 +49,7 @@ public abstract class ATab extends Observable implements IView, ITab {
 	private void initList() {
 		myEntriesToShow = FXCollections.observableArrayList();
 		myEntriesList = new ListView<String>(myEntriesToShow);
-		myEntriesList.setMinWidth(432); // I don't like this magic number but it works for now
+		myEntriesList.prefWidthProperty().bind(myTabView.widthProperty());
 		myEntriesList.maxHeightProperty().bind(myTabView.heightProperty().subtract(myButtons.heightProperty()));
 		myTabContent.getChildren().add(myEntriesList);
 	}

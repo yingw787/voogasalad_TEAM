@@ -46,7 +46,7 @@ public class EditorStartup {
 		Button createButton = new Button("Create New Game");
 		createButton.setOnAction(e -> {
 			myStage.close();
-			new MainGUI();
+			new MainGUI(null);
 		});
 		editorVBox.getChildren().add(createButton);
 
@@ -70,10 +70,11 @@ public class EditorStartup {
 		editButton.disableProperty().bind(gameChoiceBox.getSelectionModel().selectedItemProperty().isNull());
 		editButton.setOnAction(e -> {
 			// TODO: implement edit ability for existing games
-			new Alert(AlertType.ERROR, "We still need to implement this lol").show();
+			myStage.close();
+			new MainGUI(gameChoiceBox.getSelectionModel().getSelectedItem());
+			
+//			new Alert(AlertType.ERROR, "We still need to implement this lol").show();
 		});
-//		gameChoiceBox.getSelectionModel().selectedItemProperty().addListener(									//dynamically change button text
-//				e -> {editButton.setText("Edit " + gameChoiceBox.getSelectionModel().getSelectedItem());});
 		buttonBox.getChildren().add(editButton);
 
 		return new Scene(editorPane, editorSceneWidth, editorPane.getPrefHeight());
