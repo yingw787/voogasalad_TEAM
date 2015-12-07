@@ -173,19 +173,13 @@ public class Player implements IPlayer {
 		pausePlay = new HBox();
 		
 		Image pauseImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("pauseButton")));
-		ImageView pauseButton = new ImageView(pauseImage);
-		pauseButton.setFitHeight(30);
-		pauseButton.setPreserveRatio(true);
+		ImageView pauseButton = getImageView(pauseImage);
 
 		Image playImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("playButton")));
-		ImageView playButton = new ImageView(playImage);
-		playButton.setFitHeight(30);
-		playButton.setPreserveRatio(true);
+		ImageView playButton = getImageView(playImage);
 
 		Image fastForwardImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("fastForwardButton")));
-		ImageView fastForwardButton = new ImageView(fastForwardImage);
-		fastForwardButton.setFitHeight(30);
-		fastForwardButton.setPreserveRatio(true);
+		ImageView fastForwardButton = getImageView(fastForwardImage);
 
 		fastForwardButton.setOnMouseClicked(e->fastForwardClicked());
 		getPausePlay().getChildren().add(pauseButton);
@@ -194,6 +188,13 @@ public class Player implements IPlayer {
 		return buttonBox;
 	}
 
+	private ImageView getImageView(Image image){
+		ImageView imageView = new ImageView(image);
+		imageView.setFitHeight(Integer.parseInt(myResource.getString("nodesHeight")));
+		imageView.setPreserveRatio(true);
+		return imageView;
+	}
+	
 	private void pausePlayClicked(ImageView initial, ImageView finalImg) {
 		PauseRequest pause = new PauseRequest();
 		List<IRequest> requestSender = new ArrayList<IRequest>();
