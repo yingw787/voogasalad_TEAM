@@ -50,11 +50,10 @@ public class Unit {
 	}
 	
 	private void addDefaultRule() {
-		// TODO Auto-generated method stub
 		ICondition  ic = new CheckAttributeCondition("Health",0,myAttributes.get("MaxHealth"));
 		IAction ia = new DisappearAction();
 		Rule rule = new Rule(ic,ia);
-		myRules.put("DeFault Disappear Rule", rule);
+		myRules.put("Default Disappear Rule", rule);
 	}
 
 	public Unit(){
@@ -111,7 +110,7 @@ public class Unit {
 		myStringAttributes = u.myStringAttributes;
 		myRules = u.myRules;
 		myFaction = u.myFaction;
-		if(!myRules.containsKey("DeFault Disappear Rule"))
+		if(!myRules.containsKey("Default Disappear Rule"))
 			addDefaultRule();
 	}
 	
@@ -136,7 +135,6 @@ public class Unit {
 	}
 	
 	public Collection<Rule> getRules() {
-		//System.out.println(myRules.size());
 		return myRules.values();
 	}
 	
