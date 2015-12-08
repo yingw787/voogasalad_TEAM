@@ -100,10 +100,13 @@ public class Engine implements IEngine {
 		}
 		myController.updateMap(myRE.getUnits());
 		if (checkLose()) {
+			myTimeline.stop();
 			myController.showLose();
 		}
 		if (checkWin()) {
+			myTimeline.stop();
 			myController.showWin();
+		
 		}
 	}
 

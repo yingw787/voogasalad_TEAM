@@ -1,27 +1,31 @@
 package editor;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import editor.tabData.DataController;
 import gamedata.xml.XMLConverter;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import units.Bullet;
 import units.Game;
 import units.Level;
 import units.Path;
-import units.PlayerInfo;
 import units.Tower;
 import units.Troop;
-import units.Unit;
 
 public class SaveGame {
 
-	Button mySaveButton;
-	DataController myDataController;
+	private Button mySaveButton;
+	private DataController myDataController;
+	private Optional<ButtonType> overwrite;
+	private boolean duplicate = false;
 	
 	/**  Constructor for SaveGame object which saves current state of editor
 	 *   @params DataController DataController to retrieve current state from
@@ -33,6 +37,7 @@ public class SaveGame {
 	}
 	
 	private void saveData() {
+		List<List<Object>> myGameObjects = new ArrayList<>();
 		List<Object> myTowers = myDataController.getData("Towers").getData();
 		List<Object> myTroops = myDataController.getData("Troops").getData();
 		List<Object> myBullets = myDataController.getData("Bullets").getData();
@@ -40,9 +45,14 @@ public class SaveGame {
 		List<Object> myLevels = myDataController.getData("Levels").getData();
 		List<Object> myGame = myDataController.getData("Game").getData();
 		List<Object> myPlayerInfo = myDataController.getData("Player").getData();
+		myGameObjects.addAll(Arrays.asList(myTowers, myTroops, myBullets, myPaths, myLevels, myGame, myPlayerInfo));
 		
 		XMLConverter c = new XMLConverter();
 		String gameTitle = ((Game) myGame.get(0)).getTitle();
+		
+		if (gameIsInvalid(myGameObjects)) {
+			return;
+		};
 		
 		if (gameTitle.equals("") || gameTitle == null) {
 			Alert noName = new Alert(AlertType.ERROR);
@@ -51,6 +61,17 @@ public class SaveGame {
 			noName.show();
 			return;
 		}
+		
+		File f = new File("games/"+gameTitle);
+		if(f.exists()) { 
+			Alert warning = new Alert(AlertType.WARNING, 
+					"An existing game with name " + gameTitle + " already exists. Overwrite?");
+			overwrite = warning.showAndWait();
+			duplicate = true;
+		}
+		
+		if (overwrite.get() == ButtonType.OK || duplicate == false) { 
+		if (duplicate == true) removeDirectory(f);
 		
 		for (Object tower : myTowers) {
 			try {
@@ -104,13 +125,42 @@ public class SaveGame {
 				
 		Alert confirmation = new Alert(AlertType.CONFIRMATION);
 		confirmation.setTitle("Success!");
-		confirmation.setHeaderText("Games Created");
-		confirmation.setContentText("Game Has Been Created!");
+		confirmation.setHeaderText("Game Created");
+		confirmation.setContentText("Game has been saved!");
 		confirmation.show();
+		
+		overwrite = null;
+		duplicate = false;
+	}
 	}
 	
 	public Button getSaveButton() {
 		return mySaveButton;
 	}
 	
+	public void removeDirectory(File dir) {
+	    if (dir.isDirectory()) {
+	        File[] files = dir.listFiles();
+	        if (files != null && files.length > 0) {
+	            for (File aFile : files) {
+	                removeDirectory(aFile);
+	            }
+	        }
+	        dir.delete();
+	    } else {
+	        dir.delete();
+	    }
+	}
+	
+	public boolean gameIsInvalid(List<List<Object>> allLists) {
+		for (List<Object> list : allLists) {
+			if (list.size() == 0) { 
+				Alert error = new Alert(AlertType.ERROR, 
+						"Your game is missing some components... Make sure all of the tabs are filled in.");
+				error.show();
+				return true;
+			}
+		}
+		return false;
+	}
 }

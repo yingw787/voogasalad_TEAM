@@ -7,8 +7,8 @@ import units.Unit;
 import gameEngine.environments.RuntimeEnvironment;
 
 public class Rule {
-	private ICondition myCondition;
-	private IAction myAction;
+	protected ICondition myCondition;
+	protected IAction myAction;
 	
 	public Rule(ICondition condition, IAction action){
 		this.myCondition = condition;
@@ -29,6 +29,10 @@ public class Rule {
 	public Rule clone(){
 		Rule rule = new Rule(this.myCondition.clone(),this.myAction);
 		return rule;
+	}
+	
+	public IAction getAction(){
+		return myAction;
 	}
 }
 

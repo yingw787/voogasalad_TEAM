@@ -16,7 +16,7 @@ public class Bullet extends Unit{
 	
 	private void BulletAttribute(){
 		this.setAttribute("Type", "Bullet");
-		this.setHealth(1);
+		this.setAttribute("Health", 1);
 		this.setAttribute("Image", "bullet.gif");
 	}
 	

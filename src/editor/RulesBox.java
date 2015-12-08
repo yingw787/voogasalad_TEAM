@@ -21,6 +21,7 @@ import rules.DisappearDialog;
 import rules.OneTimeRule;
 import rules.Rule;
 import rules.ShootDialog;
+import rules.StickDialog;
 import rules.TimerDialog;
 import units.Bullet;
 import units.Tower;
@@ -56,7 +57,7 @@ public class RulesBox implements IView, Observer {
 	private ObservableList<String> myEntriesToShow;
 	private Unit myCurrentUnit;
 	private final String[] conditionsArray = {"CheckAttribute", "Timer"};
-	private final String[] actionsArray = {"ChangeAttribute", "Disappear", "Shoot"};
+	private final String[] actionsArray = {"ChangeAttribute", "Disappear", "Shoot", "Shoot Sticky Bullet"};
 	private final String[] ruleTypeArray = {"Once", "Repeat Infinitely"};
 	private List<String> dialogData;
 	
@@ -189,6 +190,8 @@ public class RulesBox implements IView, Observer {
 				actionAsker = new ShootDialog();
 				((ShootDialog)actionAsker).setBullets((BulletsData) myDataController.getData("Bullets"));
 				break;
+			case "Shoot Sticky Bullet":
+				actionAsker = new StickDialog();
 			default:
 				break;
 		}

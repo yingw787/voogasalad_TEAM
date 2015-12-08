@@ -13,6 +13,8 @@ import interfaces.IRequest;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -105,13 +107,18 @@ public class Player implements IPlayer {
 
 	@Override
 	public void showWin() {
-		// TODO Auto-generated method stub
+		Alert win = new Alert(AlertType.INFORMATION);
+		win.setHeaderText("You win!");
+		win.setContentText("Congratulations, you win!");
+		win.show();
 	}
 
 	@Override
 	public void showLose() {
-		// TODO Auto-generated method stub
-
+		Alert lose = new Alert(AlertType.INFORMATION);
+		lose.setHeaderText("You lose.");
+		lose.setContentText("Sorry, you lost. :(");
+		lose.show();
 	}
 
 	public void startWave(int i){

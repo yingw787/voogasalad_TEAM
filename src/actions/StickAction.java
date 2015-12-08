@@ -1,6 +1,7 @@
 package actions;
 
 import java.util.Collection;
+import java.util.Set;
 
 import conditions.ICondition;
 import conditions.TimerCondition;
@@ -32,14 +33,22 @@ public class StickAction implements IAction {
 				Point iPoint = i.getPoint();
 				double distance = myPoint.getDistance(iPoint);
 				if (distance < myRange) {
-					ICondition tc = new TimerCondition(myLastTime); 
-					IAction cac = new ChangeAttributeAction("Speed", i.getSpeed());
-					i.setSpeed(i.getSpeed() * myRatio);
-					Rule myRule = new OneTimeRule(tc, cac);
-					i.setRule("stick", myRule);
+					Rule checkStick = i.getRule("Stick");
+					if (checkStick == null) {
+						ICondition tc = new TimerCondition(myLastTime); 
+						IAction cac = new ChangeAttributeAction("Speed", i.getAttribute("Speed"));
+						i.setAttribute("Speed", i.getAttribute("Speed") * myRatio);
+						Rule myRule = new OneTimeRule(tc, cac);
+						i.setRule("Stick", myRule);
+					}
 				}
 			}
 		}
+	}
+	
+	
+	public double getRange(){
+		return myRange;
 	}
 
 }

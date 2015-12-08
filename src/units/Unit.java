@@ -50,11 +50,10 @@ public class Unit {
 	}
 	
 	private void addDefaultRule() {
-		// TODO Auto-generated method stub
 		ICondition  ic = new CheckAttributeCondition("Health",0,myAttributes.get("MaxHealth"));
 		IAction ia = new DisappearAction();
 		Rule rule = new Rule(ic,ia);
-		myRules.put("DeFault Disappear Rule", rule);
+		myRules.put("Default Disappear Rule", rule);
 	}
 
 	public Unit(){
@@ -111,12 +110,15 @@ public class Unit {
 		myStringAttributes = u.myStringAttributes;
 		myRules = u.myRules;
 		myFaction = u.myFaction;
-		if(!myRules.containsKey("DeFault Disappear Rule"))
+		if(!myRules.containsKey("Default Disappear Rule"))
 			addDefaultRule();
 	}
 	
 	public void setRule(String key, Rule rule){
 		myRules.put(key, rule);
+		IAction a = rule.getAction();
+		if(a.getRange()!=0)
+			myAttributes.put("Range", a.getRange());
 	}
 	
 	public Rule getRule(String key){
@@ -136,7 +138,6 @@ public class Unit {
 	}
 	
 	public Collection<Rule> getRules() {
-		//System.out.println(myRules.size());
 		return myRules.values();
 	}
 	
@@ -187,10 +188,6 @@ public class Unit {
 		return p;
 	}
 	
-	public void setHealth(double h){
-		myAttributes.put("Health", h);
-	}
-	
 	public int getID(){
 		return (new Double(myAttributes.get("ID"))).intValue();
 	}
@@ -222,17 +219,5 @@ public class Unit {
 		this.myFaction = Faction;
 	}
 
-	public double getHealth() {
-		return myAttributes.get("Health");
-	}
-
-	public double getSpeed() {
-		// TODO Auto-generated method stub
-		return myAttributes.get("Speed");
-	}
-	
-	public void setSpeed(double s) {
-		myAttributes.put("Speed", s);
-	}
 
 }
