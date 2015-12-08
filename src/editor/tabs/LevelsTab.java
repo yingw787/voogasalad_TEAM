@@ -148,6 +148,11 @@ public class LevelsTab extends Observable implements IView, ITab{
 	}
 	
 	private void finishLevel(Stage s) {
+		if (myWave.size() == 0) {
+			Alert errorAlert = new Alert(Alert.AlertType.ERROR, "You cannot create a level with no troops!");
+			errorAlert.show();
+		}
+		else {
 		List<String> myPaths = new ArrayList<String>();
 		myPaths.addAll(PathsData.myPaths.keySet());
 		Collections.sort(myPaths);
@@ -158,6 +163,7 @@ public class LevelsTab extends Observable implements IView, ITab{
 		refresh();
 		Alert finishAlert = new Alert(Alert.AlertType.CONFIRMATION, "Level "+l.getName()+" has been created!");
 		finishAlert.show();
+		}
 		s.close();
 	}
 	
