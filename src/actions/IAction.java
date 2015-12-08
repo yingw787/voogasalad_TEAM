@@ -7,5 +7,8 @@ import units.Unit;
 public interface IAction {
 	public void act(Unit unit,RuntimeEnvironment re,Controller contronler);
 
+	public default double getRange(){
+		return 0;
+	}
 
 }

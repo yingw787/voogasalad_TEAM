@@ -116,6 +116,9 @@ public class Unit {
 	
 	public void setRule(String key, Rule rule){
 		myRules.put(key, rule);
+		IAction a = rule.getAction();
+		if(a.getRange()!=0)
+			myAttributes.put("Range", a.getRange());
 	}
 	
 	public Rule getRule(String key){
