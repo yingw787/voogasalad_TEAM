@@ -119,6 +119,7 @@ public class Map extends Observable implements IViewNode {
 	}
 	
 
+
 	public void enableTowerPurchase(Unit u){
 		myCursorHandler.enableTowerPurchase(u);
 	}
