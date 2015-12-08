@@ -187,10 +187,6 @@ public class Unit {
 		return p;
 	}
 	
-	public void setHealth(double h){
-		myAttributes.put("Health", h);
-	}
-	
 	public int getID(){
 		return (new Double(myAttributes.get("ID"))).intValue();
 	}
@@ -222,17 +218,5 @@ public class Unit {
 		this.myFaction = Faction;
 	}
 
-	public double getHealth() {
-		return myAttributes.get("Health");
-	}
-
-	public double getSpeed() {
-		// TODO Auto-generated method stub
-		return myAttributes.get("Speed");
-	}
-	
-	public void setSpeed(double s) {
-		myAttributes.put("Speed", s);
-	}
 
 }

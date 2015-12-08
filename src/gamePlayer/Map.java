@@ -233,7 +233,7 @@ public class Map extends Observable implements IViewNode {
 				myRange.setFill(Color.RED);
 				myRange.setStroke(Color.RED);
 				myRange.setOpacity(Double.parseDouble(myResource.getString("rangeOpacity")));
-				myRange.setRadius(u.getHealth());
+				myRange.setRadius(u.getAttribute("Health"));
 				towerCursor.setPreserveRatio(true);
 				towerCursor.setFitHeight(Integer.parseInt(myResource.getString("towerHeight")));
 				myPane.getChildren().add(myRange);
