@@ -11,7 +11,7 @@ import actions.IAction;
 import actions.ShootAction;
 
 public class ShootDialog extends AActionDialog {
-	private BulletsData myBullets;
+	protected BulletsData myBullets;
 	
 	
 	@Override
