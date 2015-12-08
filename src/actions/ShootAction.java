@@ -56,4 +56,9 @@ public class ShootAction implements IAction{
 		}
 	}
 
+	
+	
+	public double getRange(){
+		return myRange;
+	}
 }

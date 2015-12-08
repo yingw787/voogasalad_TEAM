@@ -41,5 +41,10 @@ public class StickAction implements IAction {
 			}
 		}
 	}
+	
+	
+	public double getRange(){
+		return myRange;
+	}
 
 }
