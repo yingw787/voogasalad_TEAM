@@ -17,29 +17,23 @@ import units.Unit;
 
 
 public class UnitHandler {
-	
-	private HashMap<Double, MapUnit> myImageMap;
-	private HashMap<Double, ProgressBar> myHealthMap;
-	private HashMap<Double, Circle> myTowerRangeMap;
+
 	private ResourceBundle myResource;
 	private MapUnit selectedUnit;
 	private Pane myPane;
 	private Map myMap;
 	
 	public UnitHandler(ResourceBundle rb, Pane p, Map m) {
-		myImageMap = new HashMap<Double, MapUnit>();
-		myHealthMap = new HashMap<Double, ProgressBar>();
-		myTowerRangeMap = new HashMap<Double, Circle>();
 		myResource = rb;
 		myMap = m;
 		myPane = p;
 	}
 	
-	public void updateMap(List<Unit> units) {
+	public void updateMap(List<Unit> units, MapHolder mapHolder) {
 		List<Double> onMap = new ArrayList<Double>();
 		List<Double> removeUnits = new ArrayList<Double>();
 		for (Unit unit : units) {
-			if (!myImageMap.containsKey(unit.getAttribute("ID"))){
+			if (!mapHolder.getImageMap().containsKey(unit.getAttribute("ID"))){
 				MapUnit mapUnit = new MapUnit(new Image(unit.getStringAttribute("Image")),unit);
 				mapUnit.setPreserveRatio(true);
 				mapUnit.setFitHeight(Integer.parseInt(myResource.getString("nodesHeight")));
@@ -51,13 +45,13 @@ public class UnitHandler {
 				}
 				if (!unit.getStringAttribute("Type").equals("Bullet")){
 					ProgressBar health = mapUnit.getHealth();
-					myHealthMap.put(unit.getAttribute("ID"), health);
+					mapHolder.getHealthMap().put(unit.getAttribute("ID"), health);
 					health.setLayoutX(unit.getAttribute("X")-Integer.parseInt(myResource.getString("healthXOffset")));
 					health.setLayoutY(unit.getAttribute("Y")-Integer.parseInt(myResource.getString("healthYOffset")));
 					health.setMaxWidth(Integer.parseInt(myResource.getString("healthWidth")));
 					myPane.getChildren().addAll(health);
 				}
-				myImageMap.put(unit.getAttribute("ID"), mapUnit);
+				mapHolder.getImageMap().put(unit.getAttribute("ID"), mapUnit);
 				myPane.getChildren().addAll(mapUnit);
 				mapUnit.setX(unit.getAttribute("X"));
 				mapUnit.setY(unit.getAttribute("Y"));
@@ -66,12 +60,12 @@ public class UnitHandler {
 					myMap.enableSelling(selectedUnit);
 				});
 				onMap.add(unit.getAttribute("ID"));
-			} else if (myImageMap.containsKey(unit.getAttribute("ID"))) {
-				ImageView imageview = myImageMap.get(unit.getAttribute("ID"));
+			} else if (mapHolder.getImageMap().containsKey(unit.getAttribute("ID"))) {
+				ImageView imageview = mapHolder.getImageMap().get(unit.getAttribute("ID"));
 				imageview.setX(unit.getAttribute("X"));
 				imageview.setY(unit.getAttribute("Y"));
 				if (!unit.getStringAttribute("Type").equals("Bullet")){
-					ProgressBar health = myHealthMap.get(unit.getAttribute("ID"));
+					ProgressBar health = mapHolder.getHealthMap().get(unit.getAttribute("ID"));
 					health.setLayoutX(unit.getAttribute("X"));
 					health.setLayoutY(unit.getAttribute("Y")-Integer.parseInt(myResource.getString("healthYOffset")));
 					health.setProgress(unit.getAttribute("Health")/unit.getAttribute("MaxHealth"));	
@@ -79,25 +73,21 @@ public class UnitHandler {
 				onMap.add(unit.getAttribute("ID"));
 			}
 		}
-		for (Entry<Double, MapUnit> entry : myImageMap.entrySet()){
+		for (Entry<Double, MapUnit> entry : mapHolder.getImageMap().entrySet()){
 			if (!onMap.contains(entry.getKey())){
 				removeUnits.add(entry.getKey());
 			}
 		}
 		for (double d : removeUnits) {
-			myPane.getChildren().remove(myImageMap.get(d));
-			myPane.getChildren().remove(myHealthMap.get(d));
-			myPane.getChildren().remove(myTowerRangeMap.get(d));
-			myImageMap.remove(d);
-			myHealthMap.remove(d);
-			myTowerRangeMap.remove(d);
+			myPane.getChildren().remove(mapHolder.getImageMap().get(d));
+			myPane.getChildren().remove(mapHolder.getHealthMap().get(d));
+			myPane.getChildren().remove(mapHolder.getTowerRangeMap().get(d));
+			mapHolder.getImageMap().remove(d);
+			mapHolder.getHealthMap().remove(d);
+			mapHolder.getTowerRangeMap().remove(d);
 		}
 		if(selectedUnit!=null)
 			myMap.updateSelected(selectedUnit);
-	}
-	
-	public HashMap<Double, MapUnit> getImageMap(){
-		return myImageMap;
 	}
 }
 

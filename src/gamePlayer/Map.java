@@ -37,20 +37,16 @@ public class Map extends Observable implements IViewNode {
  */
 	private Pane myPane;
 	private MapUnit selectedUnit;
+	private MapHolder myMapHolder;
+	private PathInfoHolder myPathInfoHolder;
+	private BooleanHolder myBooleanHolder;
+	private CursorHandler myCursorHandler;
 	private Player myPlayer;
-	private UnitHandler myUnitHandler;
-	private CollisionHandler myCollisionHandler;
 	@SuppressWarnings("unused")
 	private Stage myStage;
 	private Controller myController;
-	private boolean purchaseEnabled, clickEnabled;
-	private Unit potentialPurchase;
-	private List<Line> myCurrentPaths;
-	private List<Line> myIllegalZones;
 	private ImageView background;
 	private ImageView myImage;
-	private Circle myRange;
-	private ImageView towerCursor;
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private ResourceBundle myResource;
 
@@ -58,8 +54,6 @@ public class Map extends Observable implements IViewNode {
 		this.myPlayer = p;
 		this.myStage = s;
 		this.myController = c;
-		purchaseEnabled = false;
-		clickEnabled = false;
 		//myPane = new Pane();
 		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
 	}
@@ -68,29 +62,24 @@ public class Map extends Observable implements IViewNode {
 		myPane = new Pane();
 		Image grassBG = new Image(getClass().getClassLoader().getResourceAsStream("grass.jpg"));
 		background = new ImageView(grassBG);
+		myPathInfoHolder = new PathInfoHolder();
+		myBooleanHolder = new BooleanHolder();
 		myPane.getChildren().add(background);
+		myImage = new ImageView();
+		myMapHolder = new MapHolder();
+		myCursorHandler = new CursorHandler(myBooleanHolder, myPane, myController, myResource, myPathInfoHolder);
 		myPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent arg0) {
-				if (purchaseEnabled&&clickEnabled){
-					BuyTowerRequest buyRequest = new BuyTowerRequest((Tower) potentialPurchase, new Point(arg0.getX(), arg0.getY()));
-					List<IRequest> requestSender = new ArrayList<IRequest>();
-					requestSender.add(buyRequest);
-					myController.update(requestSender);
-					purchaseEnabled = false;
-					myPane.getChildren().remove(myRange);
-					myPane.getChildren().remove(towerCursor);
-				}
-			}
-
-			
+				myCursorHandler.paneClicked(arg0);
+			}			
 		});
-		myCurrentPaths = new ArrayList<Line>();
-		myIllegalZones = new ArrayList<Line>();
-		myImage = new ImageView();
-		myUnitHandler = new UnitHandler(myResource, myPane, this);
-		myCollisionHandler = new CollisionHandler(this);
 		return myPane;
+	}
+	
+	public void showPaths(List<Path> pathsForLevel){
+		PathHandler myPathHandler = new PathHandler(myPane, myPathInfoHolder, myResource);
+		myPathHandler.showPaths(pathsForLevel);
 	}
 
 	@Override
@@ -104,8 +93,10 @@ public class Map extends Observable implements IViewNode {
 	}
 
 	public void updateMap(List<Unit> myUnits){
-		myUnitHandler.updateMap(myUnits);
-		myCollisionHandler.checkCollisions(myUnitHandler.getImageMap());
+		UnitHandler myUnitHandler = new UnitHandler(myResource, myPane, this);
+		CollisionHandler myCollisionHandler = new CollisionHandler(this);
+		myUnitHandler.updateMap(myUnits, myMapHolder);
+		myCollisionHandler.checkCollisions(myMapHolder);
 	}
 	
 	public MapUnit getSelected(){
@@ -127,91 +118,11 @@ public class Map extends Observable implements IViewNode {
 		myPlayer.enableSell(mapUnit);
 	}
 	
-	private boolean validPlacement(MouseEvent me){
-		boolean valid = true;
-		for (Line l : myIllegalZones){
-			if (l.contains(me.getSceneX(), me.getSceneY())){
-				valid = false;
-			}
-		}
-		return valid;
-	}
 
-	public void enableTowerPurchase(Unit u) {
-		towerCursor = new ImageView(new Image(u.getStringAttribute("Image")));
-		myRange = new Circle();
-		clickEnabled = true;
-		purchaseEnabled = true;
-				myRange.setFill(Color.RED);
-				myRange.setStroke(Color.RED);
-				myRange.setOpacity(Double.parseDouble(myResource.getString("rangeOpacity")));
-				myRange.setRadius(u.getHealth());
-				towerCursor.setPreserveRatio(true);
-				towerCursor.setFitHeight(Integer.parseInt(myResource.getString("towerHeight")));
-				myPane.getChildren().add(myRange);
-				myPane.getChildren().addAll(towerCursor);
-				myPane.setOnMouseMoved(new EventHandler<MouseEvent>() {
-					public void handle(MouseEvent me) {
-						towerCursor.setLayoutX(me.getX());
-						towerCursor.setLayoutY(me.getY());
-						if (validPlacement(me)) {
-							clickEnabled = true;
-							towerCursor.setImage(new Image(u.getStringAttribute("Image")));
-							myRange.setCenterX(me.getX() + towerCursor.getFitWidth() + 10);
-							myRange.setCenterY(me.getY() + towerCursor.getFitHeight() / 2);
-							myRange.setVisible(true);
-						} else {
-							clickEnabled = false;
-							towerCursor.setImage(new Image("xmark.png"));
-							myRange.setVisible(false);
-						}
-					}
-				});
-		potentialPurchase = u;
-	}
-    	
-	
-	
-	private Line drawPath(Point startLoc, Point endLoc){
-		Line path = new Line();
-		Line zone = new Line();
-		path.setStartX(startLoc.getX()+Integer.parseInt(myResource.getString("pathOffset")));
-		path.setStartY(startLoc.getY()+Integer.parseInt(myResource.getString("pathOffset")));
-		path.setEndX(endLoc.getX()+Integer.parseInt(myResource.getString("pathOffset")));
-		path.setEndY(endLoc.getY()+Integer.parseInt(myResource.getString("pathOffset")));
-		path.setStrokeLineCap(StrokeLineCap.ROUND);
-		path.setStrokeWidth(Integer.parseInt(myResource.getString("pathStrokeWidth")));
-		zone.setStartX(startLoc.getX()+Integer.parseInt(myResource.getString("pathOffset")));
-		zone.setStartY(startLoc.getY()+Integer.parseInt(myResource.getString("pathOffset")));
-		zone.setEndX(endLoc.getX()+Integer.parseInt(myResource.getString("pathOffset")));
-		zone.setEndY(endLoc.getY()+Integer.parseInt(myResource.getString("pathOffset")));
-		zone.setStrokeLineCap(StrokeLineCap.ROUND);
-		zone.setStrokeWidth(Integer.parseInt(myResource.getString("zoneStrokeWidth")));
-		zone.setVisible(false);
-		myIllegalZones.add(zone);
-		return path;
+	public void enableTowerPurchase(Unit u){
+		myCursorHandler.enableTowerPurchase(u);
 	}
 	
-	public void showPaths(List<Path> pathsForLevel) {
-		myPane.getChildren().removeAll(myCurrentPaths);
-		myPane.getChildren().removeAll(myIllegalZones);
-		myIllegalZones.clear();
-		myCurrentPaths.clear();
-		for (Path p : pathsForLevel){
-			List<Point> myPoints = p.getPoints();
-			for (int i = 0; i < myPoints.size()-1; i++){
-				myCurrentPaths.add(drawPath(myPoints.get(i),myPoints.get(i+1)));
-			}
-		}
-		for (Line l : myCurrentPaths){
-			l.setStrokeType(StrokeType.OUTSIDE);
-			LinearGradient linearGradient = new LinearGradient(50-18d, 0d, 50+18d, 0d,
-					 false, CycleMethod.REFLECT,new Stop(0,Color.BURLYWOOD), new Stop(1,Color.PERU));
-			l.setStroke(linearGradient);
-		}
-		myPane.getChildren().addAll(myCurrentPaths);
-		myPane.getChildren().addAll(myIllegalZones);
-	}
 
 	public void sendRequest(List<IRequest> requestSender) {
 		myController.update(requestSender);
