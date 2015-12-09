@@ -24,8 +24,8 @@ public class BulletsTab extends ATab {
 		myBulletID = 0;
 		myEntriesList.getSelectionModel().selectedItemProperty().addListener(    
 				(ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-	                System.out.println(new_val);    
-	                System.out.println("clicked");
+	                //ln(new_val);    
+	                //ln("clicked");
 	                setChanged();
 	                notifyObservers(myData.get(new_val));
 	    });
@@ -54,9 +54,9 @@ public class BulletsTab extends ATab {
 		
 		// Check for deleted Bullets
 		for(Object t : myData.getData()){
-			System.out.print(((Bullet) t).getStringAttribute("Name") + ", ");
+			//(((Bullet) t).getStringAttribute("Name") + ", ");
 		}
-		System.out.println();
+		//ln();
 	}
 
 	@Override

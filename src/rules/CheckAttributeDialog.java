@@ -13,7 +13,7 @@ public class CheckAttributeDialog extends AConditionDialog {
 		// Ask for attribute to change
 		String[] availableAttributes = currentUnit.getAttributeArray();
 		String attribute = askUser(availableAttributes, "Attribute");
-		System.out.println(attribute + " chosen");
+		//ln(attribute + " chosen");
 
 		double lower = 0.0;
 		double higher = 0.0;

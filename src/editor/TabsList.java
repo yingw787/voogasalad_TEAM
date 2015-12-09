@@ -25,7 +25,7 @@ public class TabsList extends Observable implements IView, Observer {
 		
 		// Event listener for changing tabs, notify observers
 		myTabs.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-			System.out.println(newTab.getId());
+			//ln(newTab.getId());
 			setChanged();
 			notifyObservers(newTab.getId());
 		});

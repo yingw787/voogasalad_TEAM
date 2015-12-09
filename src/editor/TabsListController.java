@@ -33,7 +33,7 @@ public class TabsListController {
 				myTabs.put(tabName, tab);
 				tabContent = ((IView) tab).getView();
 			} catch (Exception e){
-				System.out.println(tabName);
+				//ln(tabName);
 				e.printStackTrace();
 			}
 			((Observable) tab).addObserver(myTabsList);

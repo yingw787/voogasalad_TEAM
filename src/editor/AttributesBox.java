@@ -81,12 +81,12 @@ public class AttributesBox extends Observable implements IView, Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
-//		System.out.println("Attributes box: tab changed to " + (String) arg1);
+//		//ln("Attributes box: tab changed to " + (String) arg1);
 		if(arg1 instanceof String){
 			clearAttributes();
 		}
 		else if(arg1 instanceof Unit){
-			//System.out.println("Attributes box: user selected Unit: " + ((Unit)arg1).getStringAttribute("Name"));
+			////ln("Attributes box: user selected Unit: " + ((Unit)arg1).getStringAttribute("Name"));
 			myCurrentUnit = (Unit) arg1;
 			clearAttributes();
 			showAttributes();
@@ -206,7 +206,7 @@ public class AttributesBox extends Observable implements IView, Observer {
 					warning.setHeaderText("Invalid value");
 					warning.setContentText("Only numbers allowed.");
 					warning.show();
-				//	System.out.println("fail");
+				//	//ln("fail");
 				}
 
 			});

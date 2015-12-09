@@ -43,7 +43,7 @@ public class XMLConverter {
 		}
 		
 		catch (Exception e) {
-//			System.out.println("Cannot convert parameter object into XML");
+//			//ln("Cannot convert parameter object into XML");
 		}
 	}
 	
@@ -62,7 +62,7 @@ public class XMLConverter {
 		    }
 		}
 		catch (Exception e) {
-			System.out.println("Cannot convert " + type + " from " + game + " from XML");
+			//ln("Cannot convert " + type + " from " + game + " from XML");
 		}
 		return myObjects;
 	}
