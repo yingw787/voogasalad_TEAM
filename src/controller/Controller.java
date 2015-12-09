@@ -60,8 +60,8 @@ public class Controller {
 		
 	}
 
-	public void showPaths(List<Path> pathsForLevel) {
-		myPlayer.showPaths(pathsForLevel);
+	public void showPaths(List<Path> pathsForLevel, boolean visible) {
+		myPlayer.showPaths(pathsForLevel, visible);
 	}
 
 	public void resetStore() {
@@ -79,6 +79,7 @@ public class Controller {
 	public void showLose() {
 		myPlayer.showLose();
 	}
+
 }
 
 

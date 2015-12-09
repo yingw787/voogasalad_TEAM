@@ -114,6 +114,7 @@ public class XMLConverter {
 				newPoints.add(new Point(point.getX()-10, point.getY()-50));
 			}
 			Path newPath = new Path(p.getName(),newPoints);
+			newPath.setRadius(p.getRadius());
 			myUnits.add(newPath);
 		}
 		return myUnits;
@@ -132,6 +133,23 @@ public class XMLConverter {
 			help = dgame.getHelpPage();
 		}
 		return help;
+	}
+	
+	public boolean getPathVisibility(String game){
+		List<Object> objects = null;
+		ResourceBundle myResource = ResourceBundle.getBundle("resources.Default");
+		boolean visible = true;
+		try {
+			objects = fromXML(game,"Game");
+			Game dgame = (Game) objects.get(0);
+			visible = dgame.getPathVisibility();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Game dgame = (Game) objects.get(0);
+			visible = dgame.getPathVisibility();
+		}
+		return visible;
 	}
 	
 	public String getDescription(String game){

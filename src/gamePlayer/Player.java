@@ -169,8 +169,8 @@ public class Player implements IPlayer {
 		myMap.enableTowerPurchase(u);
 	}
 
-	public void showPaths(List<Path> pathsForLevel) {
-		myMap.showPaths(pathsForLevel);
+	public void showPaths(List<Path> pathsForLevel, boolean visible) {
+		myMap.showPaths(pathsForLevel, visible);
 	}
 
 	public void resetStore() {
