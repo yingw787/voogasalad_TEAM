@@ -12,7 +12,7 @@ public class DisappearAction implements IAction{
 		re.removeUnit(unit.getID());
 
 		if (unit.getStringAttribute("Type").equals("Troop")){
-			re.increaseMoney(unit.getAttribute("SellCost"));
+			re.increaseMoney(unit.getAttribute("KillReward"));
 			contronler.resetStore();
 			contronler.updateUserInfo(re.getPlayerInfo());
 			contronler.updateInfo(re.getPlayerInfo());

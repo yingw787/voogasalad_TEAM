@@ -30,6 +30,10 @@ public class Rule {
 		Rule rule = new Rule(this.myCondition.clone(),this.myAction);
 		return rule;
 	}
+	
+	public IAction getAction(){
+		return myAction;
+	}
 }
 
 //collision request{unit ID1, unit ID2}

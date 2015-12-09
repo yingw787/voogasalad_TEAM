@@ -34,4 +34,5 @@ public class CollisionRequest extends Request {
 
 		}
 	}
+	
 }

@@ -1,5 +1,6 @@
 package gamePlayer;
 
+import java.io.IOException;
 import java.util.Observable;
 
 import controller.Controller;
@@ -39,12 +40,14 @@ public class Menus extends Observable implements IViewNode {
 	 * Initializes all the menus in menubar.
 	 *
 	 * @return the menu bar
+	 * @throws IOException 
 	 */
-	public MenuBar initialize(){
+	public MenuBar initialize() throws IOException{
 		myMenuBar = new MenuBar();
 		fileMenu = new FileMenu(myStage);
 		editMenu = new EditMenu(myMap);//, myPlayer, myController);
-		helpMenu = new HelpMenu();
+		String URL = myController.getHelp();
+		helpMenu = new HelpMenu(URL);
 		populate();
 		return myMenuBar;
 	}

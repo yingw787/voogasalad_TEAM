@@ -21,6 +21,7 @@ public class GameTab extends ATab implements IView, ITab {
 	private Button myTitleButton;
 	private Button myHelpButton;
 	private Button myTroopBuyingButton;
+	private Button myPathVisibilityButton;
 	
 	/**  Constructor for editor tab for Game data
 	 **/
@@ -43,9 +44,23 @@ public class GameTab extends ATab implements IView, ITab {
 		myTroopBuyingButton = makeButton("Player can buy troops: " + myData.getGame().getBuyTroopOption(), e -> changeTroopBuyingOption());
 		myTroopBuyingButton.setStyle("-fx-padding: 0 0 0 0;"
 				+ "-fx-background-color: transparent;");
-		myTabContent.getChildren().addAll(myTitleButton, myHelpButton, myTroopBuyingButton);
+		myPathVisibilityButton = makeButton("Player see path: " + myData.getGame().getPathVisibility(), e -> changePathVisibility());
+		myPathVisibilityButton.setStyle("-fx-padding: 0 0 0 0;"
+				+ "-fx-background-color: transparent;");
+		myTabContent.getChildren().addAll(myTitleButton, myHelpButton, myTroopBuyingButton, myPathVisibilityButton);
 	}
 	
+	private void changePathVisibility() {
+		String result = askUser(new String[]{"Yes", "No"}, "Can the user see the path the troops take?");
+		if(result.equals("Yes")){
+			myData.getGame().setPathVisibility(true);
+		}
+		else {
+			myData.getGame().setPathVisibility(false);
+		}
+		refresh();
+	}
+
 	private void changeTroopBuyingOption() {
 		String result = askUser(new String[]{"Yes", "No"}, "Can the user buy troops?");
 		if(result.equals("Yes")){
@@ -58,7 +73,7 @@ public class GameTab extends ATab implements IView, ITab {
 	}
 
 	private void clearAttributes(){
-		myTabContent.getChildren().removeAll(myTitleButton, myHelpButton, myTroopBuyingButton);
+		myTabContent.getChildren().removeAll(myTitleButton, myHelpButton, myTroopBuyingButton, myPathVisibilityButton);
 	}
 
 	private void refresh(){
