@@ -39,46 +39,30 @@ import editor.tabData.TroopsData;
 
 /**  Editor tab for Levels
  **/
-public class LevelsTab extends Observable implements IView, ITab{
-	private ScrollPane myTabView;
-	private VBox myTabContent;
+public class LevelsTab extends ATab implements IView, ITab{
 	private LevelsData myData;
-	private List<Troop> myWave;
-	private List<String> myPaths;
 	private Button myAddButton;
 	private Button myDeleteButton;
-	private ListView<String> myPathEntriesList;
-	private ObservableList<String> myEntriesToShow;
+	private List<Troop> myWave;
+	private List<String> myPaths;
 	private double mySpawnRate;
 	private double mySpeed;
-	private int myCurrentLevel = 1;
+	private int myLevelID;// = 1;
 
 	/**  Constructor for editor tab for Levels
 	 **/
 	public LevelsTab(){
-		myTabView = new ScrollPane();
-		myTabContent = new VBox();
-		myTabView.setContent(myTabContent);
+		initTab();
+		createButtons();
+		myLevelID = 0;
 		myWave = new ArrayList<Troop>();
 		myPaths = new ArrayList<String>();
 	}
 	
-	private void initializeButtons() {
-		HBox buttons = new HBox();
-		myAddButton = new Button("Add New Level");
-		myAddButton.setOnAction(e-> addLevel());
-		myDeleteButton = new Button("Delete Level");
-		myDeleteButton.setOnAction(e-> deleteLevel());
-		buttons.getChildren().addAll(myAddButton, myDeleteButton);
-		buttons.setAlignment(Pos.BOTTOM_RIGHT); 
-		myTabContent.getChildren().add(buttons);
-	}
-	
-	private void initializeLevels() {
-		myEntriesToShow = FXCollections.observableArrayList();
-		myPathEntriesList = new ListView<String>(myEntriesToShow);
-		myPathEntriesList.setMinWidth(432);
-		myTabContent.getChildren().add(myPathEntriesList);
+	private void createButtons() {
+		myAddButton = makeButton("Add New Level", e-> addLevel());
+		myDeleteButton = makeButton("Delete Level", e-> deleteLevel());
+		myButtons.getChildren().addAll(myAddButton, myDeleteButton);
 	}
 	
 	private void addLevel() {
@@ -137,7 +121,7 @@ public class LevelsTab extends Observable implements IView, ITab{
 	}
 	
 	private void deleteLevel() {
-		String selected = myPathEntriesList.getSelectionModel().getSelectedItem();
+		String selected = myEntriesList.getSelectionModel().getSelectedItem();
 		if (selected == null) {
 			return;
 		}
@@ -152,11 +136,11 @@ public class LevelsTab extends Observable implements IView, ITab{
 			errorAlert.show();
 		}
 		else {
-		Level l = new Level(Integer.toString(myCurrentLevel), new ArrayList<Troop>(myWave), 
+		Level l = new Level(Integer.toString(myLevelID), new ArrayList<Troop>(myWave), 
 				new ArrayList<String>(this.myPaths), mySpawnRate, mySpeed);
 		myEntriesToShow.add("Level "+l.getName() + " [" + myWave.size() + " troops]");
 		myData.add(l.getName(), l);
-		myCurrentLevel++;
+		myLevelID++;
 		refresh();
 		Alert finishAlert = new Alert(Alert.AlertType.CONFIRMATION, "Level "+l.getName()+" has been created!");
 		finishAlert.show();
@@ -245,8 +229,11 @@ public class LevelsTab extends Observable implements IView, ITab{
 	@Override
 	public void setData(ITabData data) {
 		myData = (LevelsData) data;
-		initializeButtons();
-		initializeLevels();
+		for (Object o : myData.getData()) {
+			Level level = (Level) o;
+			myEntriesToShow.add("Level "+ level.getName() + " [" + level.getTroops().size() + " troops]");
+			myLevelID++;
+		}
 	}
 
 }
