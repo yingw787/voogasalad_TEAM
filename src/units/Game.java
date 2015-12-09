@@ -5,6 +5,7 @@ public class Game {
 	private String myHelpPage;
 	private String myTitle;
 	private boolean myBuyTroopOption;
+	private boolean myPathVisibility;
 	
 	/**  Constructor for Game object
 	 **/
@@ -35,5 +36,13 @@ public class Game {
 
 	public void setBuyTroopOption(boolean b) {
 		this.myBuyTroopOption = b;
+	}
+
+	public boolean getPathVisibility() {
+		return myPathVisibility;
+	}
+
+	public void setPathVisibility(boolean b) {
+		this.myPathVisibility = b;
 	}
 }
