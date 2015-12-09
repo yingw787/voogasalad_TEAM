@@ -167,7 +167,7 @@ public class LevelsTab extends Observable implements IView, ITab{
 	private void setAttributes(Stage stage) {
 		VBox levelAttributes = new VBox(10);
 		HBox pathAttributes = new HBox(20);
-		Scene levelScene = new Scene(levelAttributes, 300, 150);
+		Scene levelScene = new Scene(levelAttributes, 300, 200);
 		Button spawnButton = new Button("Spawn Rate: ");
 		Button speedButton = new Button("Troop Speed: ");
 		Button confirmButton = new Button("Add Path");
@@ -226,6 +226,7 @@ public class LevelsTab extends Observable implements IView, ITab{
 		levelPaths.getItems().remove(levelPaths.getValue());
 		});
 		levelAttributes.getChildren().addAll(spawnButton, speedButton, selectPaths, pathAttributes, finishButton);
+		levelAttributes.setPadding(new Insets(20, 20, 20, 20));
 		stage.setScene(levelScene);
 		stage.show();
 	}
