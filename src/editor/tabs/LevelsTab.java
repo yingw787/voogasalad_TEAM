@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Optional;
 
-import com.sun.xml.internal.ws.dump.LoggingDumpTube.Position;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -17,13 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -157,7 +152,8 @@ public class LevelsTab extends Observable implements IView, ITab{
 			errorAlert.show();
 		}
 		else {
-		Level l = new Level(Integer.toString(myCurrentLevel), new ArrayList<Troop>(myWave), this.myPaths, mySpawnRate, mySpeed);
+		Level l = new Level(Integer.toString(myCurrentLevel), new ArrayList<Troop>(myWave), 
+				new ArrayList<String>(this.myPaths), mySpawnRate, mySpeed);
 		myEntriesToShow.add("Level "+l.getName() + " [" + myWave.size() + " troops]");
 		myData.add(l.getName(), l);
 		myCurrentLevel++;
