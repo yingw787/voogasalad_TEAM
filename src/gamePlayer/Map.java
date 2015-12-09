@@ -78,8 +78,8 @@ public class Map extends Observable implements IViewNode {
 		return myPane;
 	}
 	
-	public void showPaths(List<Path> pathsForLevel){
-		PathHandler myPathHandler = new PathHandler(myPane, myPathInfoHolder, myResource);
+	public void showPaths(List<Path> pathsForLevel, boolean visible){
+		PathHandler myPathHandler = new PathHandler(myPane, myPathInfoHolder, myResource, visible);
 		myPathHandler.showPaths(pathsForLevel);
 	}
 
@@ -129,5 +129,4 @@ public class Map extends Observable implements IViewNode {
 	public void sendRequest(List<IRequest> requestSender) {
 		myController.update(requestSender);
 	}
-
 }

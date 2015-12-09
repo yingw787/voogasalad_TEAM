@@ -103,7 +103,7 @@ public class LevelsTab extends ATab implements IView, ITab{
 	private void populateTroops(String troop, FlowPane options, FlowPane selected) {
 		Image img = ImageMaker.getImage(TroopsData.myTroops.get(troop).getStringAttribute("Image"));
 		ImageView troopImage = new ImageView(img);
-		troopImage.setFitWidth(20); 
+		troopImage.setPreserveRatio(true);
 		troopImage.setFitHeight(20);
 		Button button = new Button(troop);
 		button.setContentDisplay(ContentDisplay.TOP);
@@ -115,8 +115,8 @@ public class LevelsTab extends ATab implements IView, ITab{
 	private void addTroopToLevel(FlowPane selectedTroops, String troop) {
 		Troop selectedTroop = TroopsData.myTroops.get(troop);
 		ImageView troopImg = new ImageView(ImageMaker.getImage(selectedTroop.getStringAttribute("Image")));
+		troopImg.setPreserveRatio(true);
 		troopImg.setFitHeight(50);
-		troopImg.setFitWidth(50);
 		myWave.add(selectedTroop);
 		selectedTroops.getChildren().add(troopImg);
 	}
