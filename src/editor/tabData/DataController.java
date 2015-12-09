@@ -61,7 +61,7 @@ public class DataController {
 	}
 	
 	public ITabData getData(String type){
-		//System.out.println("Trying to get " + type + " data");
+		////ln("Trying to get " + type + " data");
 		
 		ITabData result = myData.get(type);
 		return result;

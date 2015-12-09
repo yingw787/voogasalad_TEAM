@@ -78,7 +78,7 @@ public class PathsTab extends ATab implements IView, ITab{
 			myBuildingPath = null;
 			myEntriesList.getSelectionModel().selectLast();
 		} catch (NullPointerException e) {
-			System.out.println("No checkpoints selected");
+			//ln("No checkpoints selected");
 		}
 	}
 	

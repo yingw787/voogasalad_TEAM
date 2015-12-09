@@ -56,7 +56,7 @@ public class Map extends Observable implements IViewNode {
 		background.setFitHeight(boardHeight);
 		try {
 			String bg = myController.getBackground();
-			System.out.println(bg);
+			//ln(bg);
 			background.setImage(ImageMaker.getImage(myController.getBackground()));
 		} catch (Exception e) {
 			background.setImage(ImageMaker.getImage(ResourceBundle.getBundle("resources/Default").getString("Background")));
