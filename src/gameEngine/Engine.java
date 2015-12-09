@@ -174,12 +174,22 @@ public class Engine implements IEngine {
 	private boolean checkWin() {
 		int level = Integer.parseInt(myRE.getPlayerInfo().getLevel());
 		int totalLevel = myRE.getPlayerInfo().getMyLevelSize();
-		return level == totalLevel && myMapManager.noMoreEnemies();
+		boolean isEnd = level == totalLevel && myMapManager.noMoreEnemies();
+		if (!isEnd) {
+			return false;
+		}
+		List<Unit> units = myRE.getUnits();
+		for (Unit i : units) {
+			if (i.getStringAttribute("Type") == "Troop") {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	private boolean checkLose() {
 		int live = myRE.getPlayerInfo().getLives();
-		return (live <= 0);
+		return (live < 0);
 	}
 
 	public Timeline getTimeline() {
