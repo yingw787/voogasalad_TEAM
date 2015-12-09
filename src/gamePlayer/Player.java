@@ -1,5 +1,6 @@
 package gamePlayer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,7 @@ public class Player implements IPlayer {
 	private ResourceBundle myResource;
 	private HBox pausePlay;
 
-	public Player(Controller controller, Stage s) {
+	public Player(Controller controller, Stage s) throws IOException {
 		this.myController = controller;
 		this.myStage = s;
 		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
@@ -73,7 +74,7 @@ public class Player implements IPlayer {
 		return myStage;
 	}
 
-	private void populate(BorderPane bp){
+	private void populate(BorderPane bp) throws IOException{
 		bp.setTop(topMenuBar());
 		bp.setLeft(myMap.initialize());
 		bp.setRight(myHUD.initialize());
@@ -130,7 +131,7 @@ public class Player implements IPlayer {
 		myStore.setStock(store);
 	}
 
-	private Node topMenuBar(){
+	private Node topMenuBar() throws IOException{
 		HBox result = new HBox();
 		result.getChildren().addAll(myMenus.initialize(),topButtons());
 		return result;
