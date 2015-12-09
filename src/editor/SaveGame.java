@@ -5,13 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import editor.tabData.DataController;
 import gamedata.xml.XMLConverter;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import units.Bullet;
 import units.Game;
@@ -24,7 +22,7 @@ public class SaveGame {
 
 	private Button mySaveButton;
 	private DataController myDataController;
-	private Optional<ButtonType> overwrite;
+	//private Optional<ButtonType> overwrite;
 	private boolean duplicate = false;
 	
 	/**  Constructor for SaveGame object which saves current state of editor
@@ -66,11 +64,12 @@ public class SaveGame {
 		if(f.exists()) { 
 			Alert warning = new Alert(AlertType.WARNING, 
 					"An existing game with name " + gameTitle + " already exists. Overwrite?");
-			overwrite = warning.showAndWait();
+			warning.showAndWait();
+		//	overwrite = warning.showAndWait();
 			duplicate = true;
 		}
 		
-		if (overwrite.get() == ButtonType.OK || duplicate == false) { 
+	//	if (overwrite.get() == ButtonType.OK || duplicate == false) { 
 		if (duplicate == true) removeDirectory(f);
 		
 		for (Object tower : myTowers) {
@@ -129,10 +128,10 @@ public class SaveGame {
 		confirmation.setContentText("Game has been saved!");
 		confirmation.show();
 		
-		overwrite = null;
+	//	overwrite = null;
 		duplicate = false;
 	}
-	}
+//	}
 	
 	public Button getSaveButton() {
 		return mySaveButton;

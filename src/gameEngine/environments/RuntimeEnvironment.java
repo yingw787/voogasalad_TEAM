@@ -32,6 +32,7 @@ public class RuntimeEnvironment  {
 	protected List<Rule> myRules;
 	protected Base myBase;
 	private Map<Integer,Unit> myUnitsMap;
+	private boolean myPathVisibility;
 
 	
 	/**
@@ -47,9 +48,7 @@ public class RuntimeEnvironment  {
 	 * @param id
 	 */
 	public RuntimeEnvironment(List<Unit> towers, List<Unit> troops, List<Level> levels, List<Path> paths, PlayerInfo playerInfo,
-			GameConfiguration config, List<Rule> rules, Base base) {
-
-		
+			GameConfiguration config, List<Rule> rules, Base base, boolean visible) {
 		myGameName = "Salad";
 		myTowerTypes = towers;
 		myTroopTypes = troops;
@@ -59,8 +58,8 @@ public class RuntimeEnvironment  {
 		myConfig = config;
 		myRules = rules;
 		myBase = base;
-		
 		myUnitsMap = new HashMap<Integer,Unit>();
+		myPathVisibility = visible;
 	}
 	
 	/**
@@ -290,6 +289,10 @@ public class RuntimeEnvironment  {
 			}
 		}
 		return ret;
+	}
+
+	public boolean getPathVisibility() {
+		return myPathVisibility;
 	}
 	
 	

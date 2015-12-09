@@ -35,6 +35,10 @@ public class Controller {
 		return myEngine.getHelp(myGameTitle);
 	}
 	
+	public String getBackground() throws IOException{
+		return myEngine.getBackground(myGameTitle);
+	}
+	
 	public void updateMap(List<Unit> mapUnits) {
 		myPlayer.updateMap(mapUnits);
 	}
@@ -56,8 +60,8 @@ public class Controller {
 		
 	}
 
-	public void showPaths(List<Path> pathsForLevel) {
-		myPlayer.showPaths(pathsForLevel);
+	public void showPaths(List<Path> pathsForLevel, boolean visible) {
+		myPlayer.showPaths(pathsForLevel, visible);
 	}
 
 	public void resetStore() {
@@ -75,6 +79,7 @@ public class Controller {
 	public void showLose() {
 		myPlayer.showLose();
 	}
+
 }
 
 

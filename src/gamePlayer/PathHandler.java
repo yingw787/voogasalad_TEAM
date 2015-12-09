@@ -18,14 +18,16 @@ public class PathHandler {
 	private Pane myPane;
 	private PathInfoHolder myPathInfoHolder;
 	private ResourceBundle myResource;
+	private boolean myPathVisibility;
 	
-	public PathHandler(Pane p, PathInfoHolder pih, ResourceBundle r){
+	public PathHandler(Pane p, PathInfoHolder pih, ResourceBundle r, boolean visible){
 		myPane = p;
 		myPathInfoHolder = pih;
 		myResource = r;
+		myPathVisibility = visible;
 	}
 	
-	private Line drawPath(Point startLoc, Point endLoc){
+	private Line drawPath(Point startLoc, Point endLoc, Double radius){
 		Line path = new Line();
 		Line zone = new Line();
 		path.setStartX(startLoc.getX()+Integer.parseInt(myResource.getString("pathOffset")));
@@ -34,12 +36,13 @@ public class PathHandler {
 		path.setEndY(endLoc.getY()+Integer.parseInt(myResource.getString("pathOffset")));
 		path.setStrokeLineCap(StrokeLineCap.ROUND);
 		path.setStrokeWidth(Integer.parseInt(myResource.getString("pathStrokeWidth")));
+		path.setVisible(myPathVisibility);
 		zone.setStartX(startLoc.getX()+Integer.parseInt(myResource.getString("pathOffset")));
 		zone.setStartY(startLoc.getY()+Integer.parseInt(myResource.getString("pathOffset")));
 		zone.setEndX(endLoc.getX()+Integer.parseInt(myResource.getString("pathOffset")));
 		zone.setEndY(endLoc.getY()+Integer.parseInt(myResource.getString("pathOffset")));
 		zone.setStrokeLineCap(StrokeLineCap.ROUND);
-		zone.setStrokeWidth(Integer.parseInt(myResource.getString("zoneStrokeWidth")));
+		zone.setStrokeWidth(radius);
 		zone.setVisible(false);
 		myPathInfoHolder.getIllegalZones().add(zone);
 		return path;
@@ -53,7 +56,7 @@ public class PathHandler {
 		for (Path p : pathsForLevel){
 			List<Point> myPoints = p.getPoints();
 			for (int i = 0; i < myPoints.size()-1; i++){
-				myPathInfoHolder.getCurrentPaths().add(drawPath(myPoints.get(i),myPoints.get(i+1)));
+				myPathInfoHolder.getCurrentPaths().add(drawPath(myPoints.get(i),myPoints.get(i+1),p.getRadius()));
 			}
 		}
 		for (Line l : myPathInfoHolder.getCurrentPaths()){

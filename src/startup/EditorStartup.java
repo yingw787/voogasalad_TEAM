@@ -69,11 +69,8 @@ public class EditorStartup {
 		Button editButton = new Button("Go ->");
 		editButton.disableProperty().bind(gameChoiceBox.getSelectionModel().selectedItemProperty().isNull());
 		editButton.setOnAction(e -> {
-			// TODO: implement edit ability for existing games
 			myStage.close();
 			new MainGUI(gameChoiceBox.getSelectionModel().getSelectedItem());
-			
-//			new Alert(AlertType.ERROR, "We still need to implement this lol").show();
 		});
 		buttonBox.getChildren().add(editButton);
 
