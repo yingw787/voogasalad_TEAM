@@ -165,6 +165,7 @@ public class LevelsTab extends ATab implements IView, ITab{
 			Optional<String> result = dialog.showAndWait();
 				try{
 					mySpawnRate = Double.parseDouble(result.get());
+					spawnButton.setText("Spawn Rate: "+mySpawnRate);
 				} catch(Exception excep){
 					Alert warning = new Alert(AlertType.INFORMATION);
 					warning.setTitle("Warning");
@@ -173,7 +174,7 @@ public class LevelsTab extends ATab implements IView, ITab{
 					warning.show();
 				}
 		});
-		spawnButton.setOnAction(e -> {
+		speedButton.setOnAction(e -> {
 			TextInputDialog dialog = new TextInputDialog();
 			dialog.setTitle("Change Troop Speed");
 			dialog.setHeaderText("Changing value for troop speed:");
@@ -181,6 +182,7 @@ public class LevelsTab extends ATab implements IView, ITab{
 			Optional<String> result = dialog.showAndWait();
 				try{
 					mySpeed = Double.parseDouble(result.get());
+					speedButton.setText("Troop Speed: "+mySpeed);
 				} catch(Exception excep){
 					Alert warning = new Alert(AlertType.INFORMATION);
 					warning.setTitle("Warning");
