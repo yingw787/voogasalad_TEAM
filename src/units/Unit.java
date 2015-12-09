@@ -130,7 +130,13 @@ public class Unit {
 	}
 	
 	public void removeRules(Rule rule) {
-		myRules.values().remove(this);
+		Entry<String, Rule> target = null;
+		for (Entry<String, Rule> entry : myRules.entrySet()) {
+			if (entry.getValue() == rule) {
+				target = entry;
+			}
+		}
+		myRules.remove(target);
 	}
 	
 	public Set<String> getRuleSet(){

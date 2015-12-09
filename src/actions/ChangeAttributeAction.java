@@ -17,8 +17,8 @@ public class ChangeAttributeAction implements IAction{
 	@Override
 	public void act(Unit actor,RuntimeEnvironment re,Controller contronler) {
 		// TODO Implement attributes as a map in Unit
-		double currentValue = actor.getAttribute(myAttributeToChange);
-		actor.setAttribute(myAttributeToChange, currentValue + myChange);
+//		double currentValue = actor.getAttribute(myAttributeToChange);
+		actor.setAttribute(myAttributeToChange, myChange);
 	}
 	
 }

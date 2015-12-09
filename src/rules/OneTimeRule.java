@@ -14,15 +14,12 @@ public class OneTimeRule extends Rule {
 	}
 
 	@Override
-	public void run(Unit unit,RuntimeEnvironment re,Controller controler){
-//		super.run(unit, re, contronler);
+	public void run(Unit unit,RuntimeEnvironment re,Controller controller){
+//		super.run(unit, re, controller);
 //		unit.removeRules(this);
 		if (super.myCondition.checkCondition(unit, re)) {
-			super.run(unit, re, controler);
+			super.getAction().act(unit, re, controller);
 			unit.removeRules(this);
 		}
 	}
-	
-	
-	
 }
