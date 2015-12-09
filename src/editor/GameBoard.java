@@ -1,5 +1,6 @@
 package editor;
 
+import image.ImageMaker;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
 import javafx.scene.image.Image;
@@ -14,7 +15,7 @@ public class GameBoard implements IView {
 	
 	public GameBoard(Pane pane, double width, double height) {
 		myBoard = new SubScene(pane, width, height);
-		Image grassBG = new Image(getClass().getClassLoader().getResourceAsStream("grass.jpg"));
+		Image grassBG = ImageMaker.getImage(("grass.jpg"));
 		background = new ImageView(grassBG);
 		pane.getChildren().add(background);
 		myBoard.maxHeight(background.getFitHeight());

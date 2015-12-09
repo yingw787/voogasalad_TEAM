@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import controller.Controller;
 import gameEngine.requests.PauseRequest;
 import gameEngine.requests.TwiceSpeedRequest;
+import image.ImageMaker;
 import interfaces.IPlayer;
 import interfaces.IRequest;
 import javafx.scene.Group;
@@ -180,13 +181,13 @@ public class Player implements IPlayer {
 		HBox buttonBox = new HBox();
 		pausePlay = new HBox();
 		
-		Image pauseImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("pauseButton")));
+		Image pauseImage = ImageMaker.getImage(myResource.getString("pauseButton"));
 		ImageView pauseButton = getImageView(pauseImage);
 
-		Image playImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("playButton")));
+		Image playImage = ImageMaker.getImage(myResource.getString("playButton"));
 		ImageView playButton = getImageView(playImage);
 
-		Image fastForwardImage = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("fastForwardButton")));
+		Image fastForwardImage = ImageMaker.getImage(myResource.getString("fastForwardButton"));
 		ImageView fastForwardButton = getImageView(fastForwardImage);
 
 		fastForwardButton.setOnMouseClicked(e->fastForwardClicked());

@@ -1,6 +1,8 @@
 package gamePlayer;
 
 import java.io.File;
+
+import image.ImageMaker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
@@ -37,7 +39,7 @@ public class EditMenu extends Menu{
 	    if (selectedFile != null) {
 	        fileName = selectedFile.getName();
 	        System.out.println(fileName + " selected");
-	        myMap.setBackgroundMap(new Image(getClass().getClassLoader().getResourceAsStream(fileName)));
+	        myMap.setBackgroundMap(ImageMaker.getImage(fileName));
 	        
 	    }
 	    else {
