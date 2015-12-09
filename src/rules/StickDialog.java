@@ -19,7 +19,7 @@ public class StickDialog extends AActionDialog {
 		double ratio = 0.0;
 
 		// Ask for range
-		range = askForDouble("Tower Range", "Please enter a range (pixels) for the tower to shoot this bullet", "Positive numbers only");
+		range = askForDouble("Tower Range", "Please enter a range (pixels) for the tower to slow troops", "Positive numbers only");
 		
 		// Ask for duration
 		duration = (int) askForDouble("Stick Duration", "Please enter a duration (seconds) for the troop to be slowed", "Positive integers only");

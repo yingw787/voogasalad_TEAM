@@ -3,6 +3,7 @@ package gameEngine;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
@@ -18,6 +19,7 @@ import units.Point;
 import units.Unit;
 
 public class Engine implements IEngine {
+	
 	private Controller myController;
 	private Timeline myTimeline;
 	private static final int FRAMES_PER_SECOND = 120;
@@ -36,7 +38,7 @@ public class Engine implements IEngine {
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 	}
 	
-	public String getHelp(String gameTitle) throws IOException{
+	public String getHelp(String gameTitle) {
 		XMLConverter myConverter = new XMLConverter();
 		helpPage = myConverter.getHelp(gameTitle);
 		return helpPage;
