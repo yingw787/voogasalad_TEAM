@@ -3,7 +3,6 @@ package gameEngine;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import controller.Controller;
 import gameEngine.environments.RuntimeEnvironment;
@@ -42,6 +41,11 @@ public class Engine implements IEngine {
 		XMLConverter myConverter = new XMLConverter();
 		helpPage = myConverter.getHelp(gameTitle);
 		return helpPage;
+	}
+	
+	public String getBackground(String gameTitle) {
+		XMLConverter myConverter = new XMLConverter();
+		return myConverter.getBackground(gameTitle);
 	}
 	
 	public void writeEnvironment(String gameTitle) throws IOException{
