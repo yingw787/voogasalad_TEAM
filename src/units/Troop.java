@@ -1,5 +1,7 @@
 package units;
 
+import java.util.ResourceBundle;
+
 public class Troop extends Unit {
 	private static final String DEFAULTS_FILE = "resources/DefaultTroop.properties";
 	/**  Constructor for Troop object
@@ -26,6 +28,7 @@ public class Troop extends Unit {
 //		myAttributes.put("BuyCost", 100.0);
 //		myAttributes.put("SellCost", 50.0);
 		myStringAttributes.put("Type", "Troop");
+		myAttributes.put("KillRewards", 10.0);
 	}
 	
 	/**  Constructor for Troop object clone
