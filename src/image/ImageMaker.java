@@ -46,9 +46,13 @@ public class ImageMaker {
 	public static Image getImage(String name) {
 		Image myImage;
 		try {
-			myImage = new Image(Startup.class.getClassLoader().getResourceAsStream(name));
-		} catch (Exception e) {
-			myImage = new Image(imageCache.get(name).toURI().toString());
+			try {
+				myImage = new Image(Startup.class.getClassLoader().getResourceAsStream(name));
+			} catch (Exception e) {
+				myImage = new Image(imageCache.get(name).toURI().toString());
+			}
+		} catch (Exception e1) {
+			myImage = new Image(Startup.class.getClassLoader().getResourceAsStream("questionmark.png"));
 		}
 		return myImage;
 	}

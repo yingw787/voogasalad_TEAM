@@ -1,11 +1,15 @@
 package units;
 
+import java.util.ResourceBundle;
+
 public class Game {
 //	private GameType myGameType;
+	private static ResourceBundle myDefaults = ResourceBundle.getBundle("resources/Default");
 	private String myHelpPage;
 	private String myTitle;
 	private String myDescription;
 	private String myImage;
+	private String myBackground;
 	private boolean myBuyTroopOption;
 	private boolean myPathVisibility;
 	
@@ -14,6 +18,7 @@ public class Game {
 	public Game(){
 		setHelpPage("");
 		setTitle("");
+		setBackground(myDefaults.getString("Background"));
 	}
 	
 	public void setHelpPage(String url){
@@ -62,6 +67,14 @@ public class Game {
 	
 	public void setImage(String image) {
 		this.myImage = image;
+	}
+	
+	public String getBackground() {
+		return myBackground;
+	}
+	
+	public void setBackground(String image) {
+		this.myBackground = image;
 	}
 
 }

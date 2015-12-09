@@ -148,8 +148,19 @@ public class XMLConverter {
 	public String getImage(String game){
 		try {
 			Game myGame = (Game) fromXML(game,"Game").get(0);
-			String description = myGame.getImage();
-			return description;
+			String image = myGame.getImage();
+			return image;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public String getBackground(String game){
+		try {
+			Game myGame = (Game) fromXML(game,"Game").get(0);
+			String background = myGame.getBackground();
+			return background;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
