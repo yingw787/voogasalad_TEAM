@@ -35,6 +35,10 @@ public class Controller {
 		return myEngine.getHelp(myGameTitle);
 	}
 	
+	public String getBackground() throws IOException{
+		return myEngine.getBackground(myGameTitle);
+	}
+	
 	public void updateMap(List<Unit> mapUnits) {
 		myPlayer.updateMap(mapUnits);
 	}

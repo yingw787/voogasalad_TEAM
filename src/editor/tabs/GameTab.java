@@ -22,7 +22,9 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
+import editor.GameBoard;
 import editor.IView;
+import editor.MainGUI;
 import editor.tabData.GameData;
 import editor.tabData.ITabData;
 import image.ImageMaker;
@@ -34,11 +36,16 @@ public class GameTab extends ATab implements IView, ITab {
 	private Text myLabel;
 	private VBox myButtonBox;
 	private List<Node> myButtons;
+	private List<String> imageSuffixList;
 
 	/**  Constructor for editor tab for Game data
 	 **/
 	public GameTab(){
 		initTab();
+		imageSuffixList = new ArrayList<String>();
+		for (String suffix : ImageIO.getReaderFileSuffixes()) {
+			imageSuffixList.add("*." + suffix);
+		}
 		myTabContent.getChildren().clear(); // find a better way to do this later
 		myLabel = new Text("Game Data");
 		myLabel.setFont(Font.font("Verdana", 30));
@@ -56,6 +63,9 @@ public class GameTab extends ATab implements IView, ITab {
 		myButtons.add(makeButton("Player can buy troops: " + myData.getGame().getBuyTroopOption(), e -> changeTroopBuyingOption()));
 		myButtons.add(makeButton("Player see path: " + myData.getGame().getPathVisibility(), e -> changePathVisibility()));
 		myButtons.add(makeButton("Game description: " + myData.getGame().getDescription(), e -> changeDescription()));
+		myButtons.add(makeButton("Background image: " + myData.getGame().getBackground(), e -> changeBackground()));
+//		GameBoard.setBackgroundImage(myData.getGame().getBackground());
+		MainGUI.myGameBoard.setBackgroundImage(myData.getGame().getBackground());
 		
 		for (Node button : myButtons) {
 			button.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-color: transparent;");
@@ -65,10 +75,6 @@ public class GameTab extends ATab implements IView, ITab {
 	
 	private Node makeImageButton(String imageName) {
 		Label label = new Label();
-		List<String> imageSuffixList = new ArrayList<String>();
-		for (String suffix : ImageIO.getReaderFileSuffixes()) {
-			imageSuffixList.add("*." + suffix);
-		}
 		Button imageButton = new Button("Game image:");
 		imageButton.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-color: transparent;");
 		if (imageName != null) {
@@ -96,6 +102,19 @@ public class GameTab extends ATab implements IView, ITab {
 		return imageButtonBox;
 	}
 	
+	private void changeBackground() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Load Image From File");
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image Files", imageSuffixList));
+		File selectedFile = fileChooser.showOpenDialog(new Stage());
+		if (selectedFile != null) {
+			ImageMaker.uploadImage(selectedFile);
+			myData.getGame().setBackground(selectedFile.getName());
+			MainGUI.myGameBoard.setBackgroundImage(myData.getGame().getBackground());
+		}
+		refresh();
+	}
+
 	private void changePathVisibility() {
 		String result = askUser(new String[]{"Yes", "No"}, "Can the user see the path the troops take?");
 		if(result.equals("Yes")){

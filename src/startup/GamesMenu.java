@@ -31,7 +31,12 @@ public class GamesMenu extends FlowPane {
 		GameItem(String name) {
 			super();
 			ImageView myIcon = new ImageView();
-			String imageName = xml.getImage(name);
+			String imageName;
+			try {
+				imageName = xml.getImage(name);
+			} catch (Exception e) {
+				imageName = null;
+			}
 			if (imageName != null)
 				myIcon.setImage(ImageMaker.getImage(imageName));
 			myIcon.setFitHeight(50);
