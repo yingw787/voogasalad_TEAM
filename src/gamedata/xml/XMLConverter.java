@@ -143,6 +143,16 @@ public class XMLConverter {
 			e.printStackTrace();
 			return "No description available";
 		}
-
+	}
+	
+	public String getImage(String game){
+		try {
+			Game myGame = (Game) fromXML(game,"Game").get(0);
+			String description = myGame.getImage();
+			return description;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

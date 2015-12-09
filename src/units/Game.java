@@ -5,6 +5,7 @@ public class Game {
 	private String myHelpPage;
 	private String myTitle;
 	private String myDescription;
+	private String myImage;
 	private boolean myBuyTroopOption;
 	private boolean myPathVisibility;
 	
@@ -53,6 +54,14 @@ public class Game {
 	
 	public void setDescription(String description) {
 		this.myDescription = description;
+	}
+	
+	public String getImage() {
+		return myImage;
+	}
+	
+	public void setImage(String image) {
+		this.myImage = image;
 	}
 
 }

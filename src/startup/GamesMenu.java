@@ -2,22 +2,22 @@ package startup;
 
 import java.io.File;
 
+import gamedata.xml.XMLConverter;
 import image.ImageMaker;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 
 public class GamesMenu extends FlowPane {
 	private SimpleStringProperty selected;
-	private Label testLabel;
+	private XMLConverter xml;
 
 	public GamesMenu() {
 		super();
+		xml = new XMLConverter();
 		this.setHgap(10);
 		this.setVgap(10);
 		selected = new SimpleStringProperty();
@@ -30,7 +30,10 @@ public class GamesMenu extends FlowPane {
 	private class GameItem extends Button {
 		GameItem(String name) {
 			super();
-			ImageView myIcon = new ImageView(ImageMaker.getImage("purpleminion.png"));
+			ImageView myIcon = new ImageView();
+			String imageName = xml.getImage(name);
+			if (imageName != null)
+				myIcon.setImage(ImageMaker.getImage(imageName));
 			myIcon.setFitHeight(50);
 			myIcon.setPreserveRatio(true);
 			this.setGraphic(myIcon);
