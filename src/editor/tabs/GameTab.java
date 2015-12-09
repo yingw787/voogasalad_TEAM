@@ -1,12 +1,15 @@
 package editor.tabs;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import editor.IView;
@@ -18,11 +21,10 @@ import editor.tabData.ITabData;
 public class GameTab extends ATab implements IView, ITab {
 	private GameData myData;
 	private Text myLabel;
-	private Button myTitleButton;
-	private Button myHelpButton;
-	private Button myTroopBuyingButton;
-	private Button myPathVisibilityButton;
-	
+//	private Button myTitleButton, myHelpButton, myTroopBuyingButton, myPathVisibilityButton, myDescriptionButton;
+	private VBox myButtonBox;
+	private List<Button> myButtons;
+
 	/**  Constructor for editor tab for Game data
 	 **/
 	public GameTab(){
@@ -30,24 +32,23 @@ public class GameTab extends ATab implements IView, ITab {
 		myTabContent.getChildren().clear(); // find a better way to do this later
 		myLabel = new Text("Game Data");
 		myLabel.setFont(Font.font("Verdana", 30));
-		myTabContent.getChildren().add(myLabel);
+		myButtons = new ArrayList<Button>();
+		myButtonBox = new VBox();
+		myButtonBox.getChildren().addAll(myButtons);
+		myTabContent.getChildren().addAll(myLabel, myButtonBox);
 		clearAttributes();
 	}
 
 	private void initializeAttributes(){
-		myTitleButton = makeButton("Game title: " + myData.getGame().getTitle(), e -> changeTitle());
-		myTitleButton.setStyle("-fx-padding: 0 0 0 0;"
-				+ "-fx-background-color: transparent;");
-		myHelpButton = makeButton("Game help page: " + myData.getGame().getHelpPage(), e -> changeHelpPage());
-		myHelpButton.setStyle("-fx-padding: 0 0 0 0;"
-				+ "-fx-background-color: transparent;");
-		myTroopBuyingButton = makeButton("Player can buy troops: " + myData.getGame().getBuyTroopOption(), e -> changeTroopBuyingOption());
-		myTroopBuyingButton.setStyle("-fx-padding: 0 0 0 0;"
-				+ "-fx-background-color: transparent;");
-		myPathVisibilityButton = makeButton("Player see path: " + myData.getGame().getPathVisibility(), e -> changePathVisibility());
-		myPathVisibilityButton.setStyle("-fx-padding: 0 0 0 0;"
-				+ "-fx-background-color: transparent;");
-		myTabContent.getChildren().addAll(myTitleButton, myHelpButton, myTroopBuyingButton, myPathVisibilityButton);
+		myButtons.add(makeButton("Game title: " + myData.getGame().getTitle(), e -> changeTitle()));
+		myButtons.add(makeButton("Game help page: " + myData.getGame().getHelpPage(), e -> changeHelpPage()));
+		myButtons.add(makeButton("Player can buy troops: " + myData.getGame().getBuyTroopOption(), e -> changeTroopBuyingOption()));
+		myButtons.add(makeButton("Player see path: " + myData.getGame().getPathVisibility(), e -> changePathVisibility()));
+		myButtons.add(makeButton("Game description: " + myData.getGame().getDescription(), e -> changeDescription()));
+		for (Button button : myButtons) {
+			button.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-color: transparent;");
+		}
+		myButtonBox.getChildren().addAll(myButtons);
 	}
 	
 	private void changePathVisibility() {
@@ -73,7 +74,8 @@ public class GameTab extends ATab implements IView, ITab {
 	}
 
 	private void clearAttributes(){
-		myTabContent.getChildren().removeAll(myTitleButton, myHelpButton, myTroopBuyingButton, myPathVisibilityButton);
+		myButtons.clear();
+		myButtonBox.getChildren().clear();
 	}
 
 	private void refresh(){
@@ -99,6 +101,16 @@ public class GameTab extends ATab implements IView, ITab {
 			newTitle = result.get();
 		} else return;
 		myData.getGame().setTitle(newTitle);
+		refresh();
+	}
+	
+	private void changeDescription() {
+		String newDescription = "";
+		Optional<String> result = askUserForText("Change Attribute", "Please Enter a New Description for this Game", "");
+		if (result.isPresent()){
+			newDescription = result.get();
+		} else return;
+		myData.getGame().setDescription(newDescription);
 		refresh();
 	}
 
