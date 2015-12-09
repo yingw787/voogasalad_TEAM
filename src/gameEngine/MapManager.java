@@ -1,7 +1,6 @@
 package gameEngine;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -39,11 +38,17 @@ public class MapManager {
 	 * - Communicating with the sprite utility in order to animate movable pieces on the board. 
 	 * - Re-factoring the entire class in order to keep with extensible design patterns
 	 * 
+	 * @author yw103, vanessawuhoo, wanning (yw103: that's all I know of so far) 
+	 * 
+	 * 
 	 **/
 	private HashMap<Unit, Queue<Point>> myWalkManager;
-	private List<Path> myCurrentPaths;
+	private List<Path> myLegacyPaths; // SHOULD BE DEPRECATED
+	
+//	private PathModel myPathModel = new PathModel(); 
+	private boolean isRandom = true; // isRandom is set to be true; used for heuristics
+	
 	private Level myCurrentLevel;
-	private Point start, end;
 	private int currentEnemy;
 	private RuntimeEnvironment myRE;
 	private Engine myEngine; 
@@ -72,8 +77,13 @@ public class MapManager {
 	public void startWave(Level level, List<Path> paths) {
 		currentEnemy = 0;
 		myCurrentLevel = level;
-		myCurrentPaths = paths;
 		
+		
+		
+		myLegacyPaths = paths; 
+		
+//		myPathModel.generateCoordinatePathModel(paths);
+				
 	}
 	
 	/**
@@ -99,7 +109,7 @@ public class MapManager {
 	public void spawnNewEnemy(){
 		Troop t = new Troop(myCurrentLevel.getTroops().get(currentEnemy));
 		t.setFaction(Faction.enemy);
-		myWalkManager.put(t, getRandomPath());
+		myWalkManager.put(t, getPath(true));
 		t.setAttribute("ID", IDGenerator.getID());
 		Point currentPoint = myWalkManager.get(t).remove();
 		t.setAttribute("X", currentPoint.getX());
@@ -115,14 +125,23 @@ public class MapManager {
 	 * - A Path is chosen using the random number generator out of all the paths that are available. 
 	 * - The points in the Path are added to a new queue of points, and the queue of points is returned. 
 	 **/
-	private Queue<Point> getRandomPath(){
+	
+	
+	private Queue<Point> getPath(boolean isRandom){
+		
 		Random randomGenerator = new Random();
-		Path myPath = myCurrentPaths.get(randomGenerator.nextInt(myCurrentPaths.size()));
+		Path myPath = myLegacyPaths.get(randomGenerator.nextInt(myLegacyPaths.size()));
 		Queue<Point> myPointsQueue = new LinkedList<Point>();
 		for (Point p : myPath.getPoints()) {
 			myPointsQueue.add(p);
 		}
 		return myPointsQueue;
+		
+//		return myPathModel.generateCoordinatePath(isRandom);
+		
+		
+		
+		
 	}
 	
 	/**
@@ -145,8 +164,8 @@ public class MapManager {
 			deltaX *= -1.0;
 			deltaY *= -1.0;
 		}
-		deltaX *= unit.getSpeed();
-		deltaY *= unit.getSpeed();
+		deltaX *= unit.getAttribute("Speed");
+		deltaY *= unit.getAttribute("Speed");
 		Point nextDestination = new Point(currX + deltaX, currY + deltaY);
 		unit.setPoint(nextDestination);
 		
@@ -182,183 +201,6 @@ public class MapManager {
 		
 	}
 	
-	/**
-	 * Request handling for collisions and setting of new towers on the board, and other events that happen in the front-end that affect the back-end map state. 
-	 **/
-	public void handleRequests(){
-		// TODO: when a request object comes into the map, pass it into this method 
-		
-	}
-	
-	/**
-	 * Converting the list of paths to the class used in the private class PathModel, for processing in convertToPathModel. 
-	 **/
-	public List<List<PathPoint>> convertToListOfListOfPathPoints(){
-		return null;
-		
-	}
-	
-	/**
-	 *  PRIVATE CLASS 
-	 *  convert the List<List<PathPoint>> into a graph PathModel for future reference
-	 *  TODO: 
-	 *  - implement; assume that the first and the last points of the list are the set start and end position of the path. 
-	 *  - Error checking for that will be done in another method. 
-	 **/
-	private void convertToPathModel(List<List<PathPoint>> allAvailablePaths){
-		for(List<PathPoint> path : allAvailablePaths){
-			for(int i = 0; i < path.size(); i++){
-				
-			}
-			
-		}
-		
-		
-	}
-	
-	
-	
-	
-	/**
-	 *  PathModel is an extremely basic graph implementation for storing a path model. 
-	 *  Currently it is not being used, as the model for the path is stored as a list of paths, which is itself a list of points. 
-	 *  However, yw103 
-	 *  
-	 *  PathModel must be initialized with a start PathPoint and an end PathPoint. 
-	 *  There should never be a need to make PathModel, PathPoint, or PathEdge public or protected because units need to be added to the MapManager anyways 
-	 *  
-	 *  TODO: 
-	 *  Implement direction in the graph (because unless the enemies have some AI built into them, they need 
-	 *  Be able to convert the 
-	 */
-	private class PathModel{
-		HashSet<PathPoint> points; 
-		HashSet<PathEdge> edges; 
-		PathPoint start, end; 
-		
-		/**
-		 * Generates a new PathModel based on the point coordinates in the start and the end points. 
-		 */
-		public PathModel(double myStartXCoordinate, double myStartYCoordinate, double myEndXCoordinate, double myEndYCoordinate){
-			start = new PathPoint(myStartXCoordinate, myStartYCoordinate); 
-			end = new PathPoint(myEndXCoordinate, myEndYCoordinate);
-			points.add(start);
-			points.add(end);
-			
-			PathEdge primaryEdge = new PathEdge(start, end);
-			edges.add(primaryEdge);
-		}
-		
-		/**
-		 * Add a path point to the graph. 
-		 */
-		public void addPathPoint(PathPoint newPoint){
-			points.add(newPoint);
-		}
-		
-		/**
-		 * Remove a path point from the graph. 
-		 */
-		public void deletePathPoint(PathPoint point){
-			points.remove(point);
-		}
-		
-		/**
-		 * Add an edge to the graph. 
-		 */
-		public void addPathEdge(PathEdge newEdge){
-			edges.add(newEdge);
-		}
-		
-		/**
-		 * Delete an edge to the graph. 
-		 */
-		public void deletePathEdge(PathEdge edge){
-			edges.remove(edge);
-		}
-		
-		/**
-		 * Checks whether there is a valid path between two path points. 
-		 */
-		public boolean isValidPath(PathPoint a, PathPoint b){
-			for(PathEdge edge : edges){
-				if(edge.getVertices().contains(a) && edge.getVertices().contains(b)){
-					return true;
-				}
-			}
-			return false; 
-			
-		}
-		
-		/**
-		 * retrieves the starting point of the pathModel. 
-		 * TODO: 
-		 * - Not sure whether multiple starting points should be supported. 
-		 */
-		public PathPoint getStartPoint(){
-			return start; 
-		}
-		
-		/**
-		 * retrieves the ending point of the pathModel. 
-		 * TODO: 
-		 * - Not sure whether multiple ending points should be supported. 
-		 */
-		public PathPoint getEndPoint(){
-			return end; 
-		}
-		
-	}
-	
-	private class PathEdge{
-		PathPoint a, b; 
-		
-		/**
-		 * generates a PathEdge object, an edge in the PathModel graph model of the paths available. 
-		 * @param a
-		 * @param b
-		 */
-		public PathEdge(PathPoint a, PathPoint b){
-			this.a = a; 
-			this.b = b; 
-		}
-		
-		/**
-		 * gets the vertices of a particular edge. 
-		 * @return a HashSet of PathPoints that describe the endpoints of these edges.
-		 */
-		public HashSet<PathPoint> getVertices(){
-			HashSet<PathPoint> edge = new HashSet<PathPoint>();
-			edge.add(a);
-			edge.add(b);
-			return edge; 
-		}	
-	}
-	
-	private class PathPoint{
-		
-		double myXPosition, myYPosition; 
-		
-		/**
-		 * Generates a new PathPoint, a tuple of doubles. 
-		 * @param x
-		 * @param y
-		 */
-		public PathPoint(double x, double y){
-			myXPosition = x; 
-			myYPosition = y; 
-		}
-		
-		/**
-		 * 
-		 * @return double[] of size 2, with x and y double coordinates. 
-		 */
-		public double[] getPosition(){
-			return new double[] {myXPosition, myYPosition}; 
-		}
-	}
-
-
 
 	
 }

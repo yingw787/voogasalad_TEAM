@@ -29,9 +29,10 @@ public class CollisionRequest extends Request {
 	@Override
 	public void execute(Engine e) {
 		if(myUnit1.getFaction() != myUnit2.getFaction()){
-			myUnit1.setHealth(myUnit1.getHealth() - myUnit2.getAttribute("CollisionDamage"));
-			myUnit2.setHealth(myUnit2.getHealth() - myUnit1.getAttribute("CollisionDamage"));
+			myUnit1.setAttribute("Health", myUnit1.getAttribute("Health") - myUnit2.getAttribute("CollisionDamage"));
+			myUnit2.setAttribute("Health", myUnit2.getAttribute("Health") - myUnit1.getAttribute("CollisionDamage"));
 
 		}
 	}
+	
 }

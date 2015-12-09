@@ -1,5 +1,7 @@
 package gamePlayer;
 
+import java.util.ResourceBundle;
+
 import javafx.scene.Node;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -18,15 +20,18 @@ public class Selected {
 	private Player myPlayer;
 	private VBox myVBox;
 	private HBox myHBox;
+	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	
 	private Text unit;
 	private Text health;
 	private ProgressBar healthbar;
 	private Text sell;
 	private ImageView image;
+	private ResourceBundle myResource;
 	
 	public Selected(Player p){
 		this.myPlayer = p;
+		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
 		myVBox = new VBox();
 		myHBox = new HBox();
 		
@@ -34,11 +39,11 @@ public class Selected {
 		health = new Text("Health: ");
 		healthbar = new ProgressBar(0);
 		sell = new Text ("Sell for: ");
-		unit.setStyle("-fx-font: 14px Tahoma;");
-		health.setStyle("-fx-font: 14px Tahoma;");
-		sell.setStyle("-fx-font: 14px Tahoma;");
+		unit.setStyle(myResource.getString("selectedStyle"));
+		health.setStyle(myResource.getString("selectedStyle"));
+		sell.setStyle(myResource.getString("selectedStyle"));
 		image = new ImageView();
-		myVBox.setStyle("-fx-border-width: 5px; -fx-padding: 10; -fx-spacing: 8;");
+		myVBox.setStyle(myResource.getString("selectedVBoxStyle"));
 		myVBox.getChildren().addAll(unit, health, healthbar, sell);
 		myHBox.getChildren().addAll(myVBox,image);
 	}

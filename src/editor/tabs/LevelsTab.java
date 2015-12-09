@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
@@ -33,6 +34,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import units.Level;
+import units.Path;
 import units.Troop;
 import editor.IView;
 import editor.tabData.ITabData;
@@ -47,6 +49,7 @@ public class LevelsTab extends Observable implements IView, ITab{
 	private VBox myTabContent;
 	private LevelsData myData;
 	private List<Troop> myWave;
+	private List<String> myPaths;
 	private Button myAddButton;
 	private Button myDeleteButton;
 	private ListView<String> myPathEntriesList;
@@ -62,6 +65,7 @@ public class LevelsTab extends Observable implements IView, ITab{
 		myTabContent = new VBox();
 		myTabView.setContent(myTabContent);
 		myWave = new ArrayList<Troop>();
+		myPaths = new ArrayList<String>();
 	}
 	
 	private void initializeButtons() {
@@ -93,7 +97,7 @@ public class LevelsTab extends Observable implements IView, ITab{
 		FlowPane selectedTroops = new FlowPane();
 		Label note = new Label("Choose troops to add to level:");
 		Button finish = new Button("Finalize Level");
-		finish.setOnAction(e -> finishLevel(stage));
+		finish.setOnAction(e -> setAttributes(stage));
 		instructions.getChildren().addAll(note, finish);
 		ArrayList<String> troopsList = new ArrayList<String>(TroopsData.myTroops.keySet());
 		Collections.sort(troopsList);
@@ -148,23 +152,93 @@ public class LevelsTab extends Observable implements IView, ITab{
 	}
 	
 	private void finishLevel(Stage s) {
-		List<String> myPaths = new ArrayList<String>();
-		myPaths.addAll(PathsData.myPaths.keySet());
-		Collections.sort(myPaths);
-		Level l = new Level(Integer.toString(myCurrentLevel), new ArrayList<Troop>(myWave), myPaths, mySpawnRate, mySpeed);
+		if (myWave.size() == 0) {
+			Alert errorAlert = new Alert(Alert.AlertType.ERROR, "You cannot create a level with no troops!");
+			errorAlert.show();
+		}
+		else {
+		Level l = new Level(Integer.toString(myCurrentLevel), new ArrayList<Troop>(myWave), this.myPaths, mySpawnRate, mySpeed);
 		myEntriesToShow.add("Level "+l.getName() + " [" + myWave.size() + " troops]");
 		myData.add(l.getName(), l);
 		myCurrentLevel++;
 		refresh();
 		Alert finishAlert = new Alert(Alert.AlertType.CONFIRMATION, "Level "+l.getName()+" has been created!");
 		finishAlert.show();
+		}
 		s.close();
+	}
+	
+	private void setAttributes(Stage stage) {
+		VBox levelAttributes = new VBox(10);
+		HBox pathAttributes = new HBox(20);
+		Scene levelScene = new Scene(levelAttributes, 250, 300);
+		Button spawnButton = new Button("Spawn Rate: ");
+		Button speedButton = new Button("Troop Speed: ");
+		Button confirmButton = new Button("Add Path");
+		Button finishButton = new Button("Finish Level");
+		spawnButton.setOnAction(e -> {
+			TextInputDialog dialog = new TextInputDialog();
+			dialog.setTitle("Change Spawn Rate");
+			dialog.setHeaderText("Changing value for spawn rate:");
+			dialog.setContentText("Please enter a new value:");
+			Optional<String> result = dialog.showAndWait();
+				try{
+					mySpawnRate = Double.parseDouble(result.get());
+				} catch(Exception excep){
+					Alert warning = new Alert(AlertType.INFORMATION);
+					warning.setTitle("Warning");
+					warning.setHeaderText("Invalid value");
+					warning.setContentText("Only numbers allowed.");
+					warning.show();
+				}
+		});
+		spawnButton.setOnAction(e -> {
+			TextInputDialog dialog = new TextInputDialog();
+			dialog.setTitle("Change Troop Speed");
+			dialog.setHeaderText("Changing value for troop speed:");
+			dialog.setContentText("Please enter a new value:");
+			Optional<String> result = dialog.showAndWait();
+				try{
+					mySpeed = Double.parseDouble(result.get());
+				} catch(Exception excep){
+					Alert warning = new Alert(AlertType.INFORMATION);
+					warning.setTitle("Warning");
+					warning.setHeaderText("Invalid value");
+					warning.setContentText("Only numbers allowed.");
+					warning.show();
+				}
+		});
+		spawnButton.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-color: transparent;");
+		speedButton.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-color: transparent;");
+		finishButton.setOnAction(e-> {
+				if (myPaths.size() == 0) {
+					Alert error = new Alert(AlertType.ERROR, "You must select at least one path for this level!");
+					error.show();
+				}
+				else {
+				finishLevel(stage);
+				}
+		});
+		Label selectPaths = new Label("Choose the paths for this level:");
+		ChoiceBox<String> levelPaths = new ChoiceBox<String>();
+		for (String path : PathsData.myPaths.keySet()) {
+			levelPaths.getItems().add(path);
+		}
+		pathAttributes.getChildren().addAll(levelPaths, confirmButton);
+		confirmButton.setOnAction(e-> {
+		myPaths.add(levelPaths.getValue());
+		levelPaths.getItems().remove(levelPaths.getValue());
+		});
+		levelAttributes.getChildren().addAll(spawnButton, speedButton, selectPaths, pathAttributes, finishButton);
+		stage.setScene(levelScene);
+		stage.show();
 	}
 	
 	private void refresh() {
 		mySpawnRate = 1.0;
 		mySpeed = 1.0;
 		myWave.clear();
+		myPaths.clear();
 	}
 	
 	@Override

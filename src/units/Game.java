@@ -4,6 +4,7 @@ public class Game {
 //	private GameType myGameType;
 	private String myHelpPage;
 	private String myTitle;
+	private boolean myBuyTroopOption;
 	
 	/**  Constructor for Game object
 	 **/
@@ -26,5 +27,13 @@ public class Game {
 	
 	public String getHelpPage(){
 		return myHelpPage;
+	}
+
+	public boolean getBuyTroopOption() {
+		return myBuyTroopOption;
+	}
+
+	public void setBuyTroopOption(boolean b) {
+		this.myBuyTroopOption = b;
 	}
 }

@@ -9,6 +9,7 @@ public class Tower extends Unit {
 			Point p, int ID, int bc, int sc){
 		super(name, health, cd, img, p, ID, bc, sc);
 		myStringAttributes.put("Type", "Tower");
+		myAttributes.put("Range", 0.0);
 	}
 	
 	/**  Constructor for Tower object cloning
@@ -19,10 +20,12 @@ public class Tower extends Unit {
 			new Point(0,0), (int) t.getAttribute("ID"), (int) t.getAttribute("BuyCost"), (int) t.getAttribute("SellCost"));
 
 		myStringAttributes.put("Type", "Tower");
+		myAttributes.put("Range", 0.0);
 	}
 	
 	public Tower(Unit u) {
 		super(u);
+		myAttributes.put("Range", 0.0);
 	}
 
 	/**  Constructor for default Tower object
@@ -33,7 +36,11 @@ public class Tower extends Unit {
 		myStringAttributes.put("Name", "");
 		myStringAttributes.put("Image", "");
 		myStringAttributes.put("Type", "Tower");
+		myAttributes.put("Range", 0.0);
 	}
+	
+	
+	
 }
 
 

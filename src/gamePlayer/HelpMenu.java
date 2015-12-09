@@ -11,18 +11,18 @@ import javafx.stage.Stage;
 
 public class HelpMenu extends Menu{
 
-	public HelpMenu(){
+	public HelpMenu(String URL){
 		super("Help");
-		addViews();
+		addViews(URL);
 	}
 
-	private void addViews() {
+	private void addViews(String URL) {
 		MenuItem helpContents = new MenuItem("Help Contents");
-		helpContents.setOnAction(e -> loadHelpPage());
+		helpContents.setOnAction(e -> loadHelpPage(URL));
 		this.getItems().addAll(helpContents);
 	}
 
-	private void loadHelpPage() {
+	private void loadHelpPage(String URL) {
 		Group rootMain = new Group();
 		Stage stage = new Stage();
 		stage.setTitle("Help Page");
@@ -34,7 +34,7 @@ public class HelpMenu extends Menu{
 		stage.show();
 
 		WebView browser = new WebView();
-		String url = "http://www.cs.duke.edu/courses/fall15/compsci308/assign/04_voogasalad/part5.php"; //hard coded; need to change this
+		String url = URL; //hard coded; need to change this
 
 		WebEngine webEngine = browser.getEngine();
 		webEngine.load(url); 
