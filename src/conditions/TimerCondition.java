@@ -34,6 +34,7 @@ public class TimerCondition implements ICondition{
 	public TimerCondition clone(){
 		TimerCondition tc = new TimerCondition(myInterval);
 		return tc;
+		
 	}
 
 }

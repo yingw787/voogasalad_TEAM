@@ -18,10 +18,10 @@ public class CheckAttributeCondition implements ICondition{
 	public boolean checkCondition(Unit actor,RuntimeEnvironment re) {
 		// TODO Implement storing attributes in a map in Unit
 		double currentValue = actor.getAttribute(myAttributeToCheck);
-		if(currentValue >= myLowerBound && currentValue <= myUpperBound){
-			return false;
+		if (currentValue >= myLowerBound && currentValue <= myUpperBound){
+			return actor.getStringAttribute("Type").equals("Tower");
 		}
-		return true;
+		return !actor.getStringAttribute("Type").equals("Tower");
 	}
 	
 	public CheckAttributeCondition clone(){

@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import controller.Controller;
 import gameEngine.requests.BuyTowerRequest;
+import image.ImageMaker;
 import interfaces.IRequest;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -40,7 +41,7 @@ public class CursorHandler {
 	}
 	
 	public void enableTowerPurchase(Unit u) {
-		towerCursor = new ImageView(new Image(u.getStringAttribute("Image")));
+		towerCursor = new ImageView(ImageMaker.getImage(u.getStringAttribute("Image")));
 		myRange = new Circle();
 		myBooleanHolder.setPurchaseEnabled(true);
 		myBooleanHolder.setClickEnabled(true);
@@ -58,13 +59,13 @@ public class CursorHandler {
 						towerCursor.setLayoutY(me.getY());
 						if (validPlacement(me)) {
 							myBooleanHolder.setClickEnabled(true);
-							towerCursor.setImage(new Image(u.getStringAttribute("Image")));
+							towerCursor.setImage(ImageMaker.getImage(u.getStringAttribute("Image")));
 							myRange.setCenterX(me.getX() + towerCursor.getFitWidth() + 10);
 							myRange.setCenterY(me.getY() + towerCursor.getFitHeight() / 2);
 							myRange.setVisible(true);
 						} else {
 							myBooleanHolder.setClickEnabled(false);
-							towerCursor.setImage(new Image("xmark.png"));
+							towerCursor.setImage(ImageMaker.getImage("xmark.png"));
 							myRange.setVisible(false);
 						}
 					}

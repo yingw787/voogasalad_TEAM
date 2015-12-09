@@ -1,6 +1,7 @@
 package editor;
 
 import java.util.Observer;
+import java.util.ResourceBundle;
 
 import editor.tabData.DataController;
 import javafx.scene.Group;
@@ -10,12 +11,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import startup.Startup;
@@ -30,6 +28,7 @@ public class MainGUI {
 	private ScrollPane myAttributes;
 	private ScrollPane myRules;
 	public static SubScene myBoard;
+	public static GameBoard myGameBoard;
 	private DataController myDataController;
 	
 	/**  Constructor for MainGUI object which opens the default GUI for editor
@@ -57,8 +56,11 @@ public class MainGUI {
 		grid.prefWidthProperty().bind(myPane.widthProperty());
 		boardBox.setPrefWidth(myBoard.getWidth());
 		editBox.prefWidthProperty().bind(grid.widthProperty().subtract(boardBox.getWidth()));
+		editBox.prefHeightProperty().bind(grid.heightProperty());
 		myTabs.prefWidthProperty().bind(editBox.widthProperty());
+		myTabs.prefHeightProperty().bind(editBox.heightProperty().divide(2));
 		rulesAttributes.prefWidthProperty().bind(editBox.widthProperty());
+		rulesAttributes.prefHeightProperty().bind(editBox.heightProperty().divide(2));
 		myRules.prefWidthProperty().bind(rulesAttributes.widthProperty().divide(2));
 		myAttributes.prefWidthProperty().bind(rulesAttributes.widthProperty().divide(2));
 
@@ -88,8 +90,9 @@ public class MainGUI {
 		myToolBar = (ToolBar) tb.getView();
 		
 		// initialize game board
-		GameBoard gb = new GameBoard(new Pane(), 675, 420);
-		myBoard = (SubScene) gb.getView();
+		myGameBoard = new GameBoard(myName, new Pane());
+//		myGameBoard = gb;
+		myBoard = (SubScene) myGameBoard.getView();
 		
 		// initialize tabs list
 		TabsListController tabController = new TabsListController(myDataController);
