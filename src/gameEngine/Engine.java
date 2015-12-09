@@ -28,12 +28,18 @@ public class Engine implements IEngine {
 	private MapManager myMapManager;
 	private int delay = 0;
 	private int spawnDelay = 60;
-	
+	private String helpPage;
 	
 	public Engine(Controller controller) {
 		myController = controller;
 		myTimeline = new Timeline();
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
+	}
+	
+	public String getHelp(String gameTitle) throws IOException{
+		XMLConverter myConverter = new XMLConverter();
+		helpPage = myConverter.getHelp(gameTitle);
+		return helpPage;
 	}
 	
 	public void writeEnvironment(String gameTitle) throws IOException{

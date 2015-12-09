@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -23,14 +24,17 @@ public class Controller {
 		myPlayer = new Player(this, new Stage());
 		myEngine.writeEnvironment(myGameTitle);
 		myEngine.initialize();
-		
 	}
 	
 	// store is in-game purchases of towers and units and the like 
 	public void populateStore(HashMap<String, List<Unit>> myStoreStock) {
 		myPlayer.populate(myStoreStock);
 	}
-
+	
+	public String getHelp() throws IOException{
+		return myEngine.getHelp(myGameTitle);
+	}
+	
 	public void updateMap(List<Unit> mapUnits) {
 		myPlayer.updateMap(mapUnits);
 	}

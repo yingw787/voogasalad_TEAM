@@ -10,6 +10,7 @@ import java.util.List;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
+import units.Game;
 import units.Level;
 import units.Path;
 import units.PlayerInfo;
@@ -115,5 +116,12 @@ public class XMLConverter {
 			myUnits.add(newPath);
 		}
 		return myUnits;
+	}
+	
+	public String getHelp(String game) throws IOException{
+		List<Object> objects = fromXML(game,"Game");
+		Game dgame = (Game) objects.get(0);
+		String help = dgame.getHelpPage();
+		return help;
 	}
 }
