@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
+import image.ImageMaker;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -34,7 +35,7 @@ public class UnitHandler {
 		List<Double> removeUnits = new ArrayList<Double>();
 		for (Unit unit : units) {
 			if (!mapHolder.getImageMap().containsKey(unit.getAttribute("ID"))){
-				MapUnit mapUnit = new MapUnit(new Image(unit.getStringAttribute("Image")),unit);
+				MapUnit mapUnit = new MapUnit(ImageMaker.getImage(unit.getStringAttribute("Image")),unit);
 				mapUnit.setPreserveRatio(true);
 				mapUnit.setFitHeight(Integer.parseInt(myResource.getString("nodesHeight")));
 				if (unit.getStringAttribute("Type").equals("Bullet")){

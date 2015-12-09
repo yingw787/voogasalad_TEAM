@@ -19,6 +19,7 @@ import units.Unit;
 import editor.tabData.DataController;
 import editor.tabData.ITabData;
 import editor.tabData.TroopsData;
+import image.ImageMaker;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -40,7 +41,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 public class AttributesBox extends Observable implements IView, Observer {
 	
 
-	private Map<String, File> imageCache; // where to keep this??
+//	private Map<String, File> imageCache; // where to keep this??
 	
 	private ScrollPane myAttributesBox;
 
@@ -61,7 +62,7 @@ public class AttributesBox extends Observable implements IView, Observer {
 		myBoxContent = new VBox();
 		myAttributesBox.setContent(myBoxContent);
 		addHeader();
-		imageCache = new HashMap<String, File>();
+//		imageCache = new HashMap<String, File>();
 	}
 	
 	private void addHeader() {
@@ -150,12 +151,13 @@ public class AttributesBox extends Observable implements IView, Observer {
 		}
 		myCurrentAttributes.getChildren().add(new Label(attribute + ": "));
 		ImageView myImage;
-		try {
-			myImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(label)));
-		} catch (Exception runtime) {
-			myImage = new ImageView(new Image(imageCache.get(label).toURI().toString()));
-		}
-
+//		try {
+//			myImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(label)));
+//		} catch (Exception runtime) {
+//			myImage = new ImageView(new Image(imageCache.get(label).toURI().toString()));
+//		}
+		
+		myImage = new ImageView(ImageMaker.getImage(label));
 		myImage.setFitHeight(50);
 		myImage.setPreserveRatio(true);
 		attributeButton.setGraphic(myImage);
@@ -168,22 +170,14 @@ public class AttributesBox extends Observable implements IView, Observer {
 			File selectedFile = fileChooser.showOpenDialog(new Stage());
 
 			if (selectedFile != null) {
-				try {
-					File file = new File("images/" + selectedFile.getName());
-					file.getParentFile().mkdirs();
-					file.createNewFile();
-					FileOutputStream fos = new FileOutputStream(file);
-					Path path = Paths.get(selectedFile.getPath());
-					byte[] data = Files.readAllBytes(path);
-					fos.write(data);
-					fos.close();
+//				try {
+					ImageMaker.uploadImage(selectedFile);
 					myCurrentUnit.setAttribute(attribute, selectedFile.getName());
-					imageCache.put(selectedFile.getName(), selectedFile);
 					clearAttributes();
 					showAttributes();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
+//				} catch (Exception e1) {
+//					e1.printStackTrace();
+//				}
 			}
 		});
 		attributeButton.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-color: transparent;");

@@ -2,6 +2,7 @@ package startup;
 
 import java.io.File;
 
+import image.ImageMaker;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Button;
@@ -29,7 +30,7 @@ public class GamesMenu extends FlowPane {
 	private class GameItem extends Button {
 		GameItem(String name) {
 			super();
-			ImageView myIcon = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("purpleminion.png")));
+			ImageView myIcon = new ImageView(ImageMaker.getImage("purpleminion.png"));
 			myIcon.setFitHeight(50);
 			myIcon.setPreserveRatio(true);
 			this.setGraphic(myIcon);

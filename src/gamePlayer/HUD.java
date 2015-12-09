@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import controller.Controller;
 import gameEngine.requests.SellTowerRequest;
+import image.ImageMaker;
 import interfaces.IRequest;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -89,7 +90,7 @@ public class HUD extends Observable implements IViewNode{
 	 * @return the node
 	 */
 	public Node gold(PlayerInfo player){
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("goldImage")));
+		Image image = ImageMaker.getImage(myResource.getString("goldImage"));
 		ImageView imageView = new ImageView(image);
 		imageView.setFitHeight(Integer.parseInt(myResource.getString("nodesHeight")));
 		imageView.setPreserveRatio(true);
@@ -120,7 +121,7 @@ public class HUD extends Observable implements IViewNode{
 	 * @return the node
 	 */
 	public Node lives(PlayerInfo player){
-		Image image = new Image(getClass().getClassLoader().getResourceAsStream(myResource.getString("lives")));
+		Image image = ImageMaker.getImage(myResource.getString("lives"));
 		ImageView[] livesImages = new ImageView[3];
 
 		for (int i=0; i<livesImages.length;i++){
