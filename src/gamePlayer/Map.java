@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import controller.Controller;
 import gameEngine.requests.BuyTowerRequest;
 import gameEngine.requests.CollisionRequest;
+import image.ImageMaker;
 import interfaces.IRequest;
 import javafx.event.EventHandler;
 import javafx.scene.control.ProgressBar;
@@ -60,7 +61,7 @@ public class Map extends Observable implements IViewNode {
 	
 	public Pane initialize(){
 		myPane = new Pane();
-		Image grassBG = new Image(getClass().getClassLoader().getResourceAsStream("grass.jpg"));
+		Image grassBG = ImageMaker.getImage("grass.jpg");
 		background = new ImageView(grassBG);
 		myPathInfoHolder = new PathInfoHolder();
 		myBooleanHolder = new BooleanHolder();

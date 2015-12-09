@@ -2,6 +2,7 @@ package gamePlayer;
 
 import java.util.ResourceBundle;
 
+import image.ImageMaker;
 import javafx.scene.Node;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -62,7 +63,7 @@ public class Selected {
 	}
 	
 	public void setImage(MapUnit myUnit){
-		image.setImage(new Image(myUnit.getUnit().getStringAttribute("Image")));
+		image.setImage(ImageMaker.getImage(myUnit.getUnit().getStringAttribute("Image")));
 		image.setPreserveRatio(true);
 		image.setFitHeight(55);
 	}

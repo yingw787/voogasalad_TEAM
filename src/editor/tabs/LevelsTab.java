@@ -36,6 +36,7 @@ import editor.tabData.ITabData;
 import editor.tabData.LevelsData;
 import editor.tabData.PathsData;
 import editor.tabData.TroopsData;
+import image.ImageMaker;
 
 /**  Editor tab for Levels
  **/
@@ -100,7 +101,7 @@ public class LevelsTab extends ATab implements IView, ITab{
 	}
 	
 	private void populateTroops(String troop, FlowPane options, FlowPane selected) {
-		Image img = new Image(TroopsData.myTroops.get(troop).getStringAttribute("Image"));
+		Image img = ImageMaker.getImage(TroopsData.myTroops.get(troop).getStringAttribute("Image"));
 		ImageView troopImage = new ImageView(img);
 		troopImage.setFitWidth(20); 
 		troopImage.setFitHeight(20);
@@ -113,7 +114,7 @@ public class LevelsTab extends ATab implements IView, ITab{
 	
 	private void addTroopToLevel(FlowPane selectedTroops, String troop) {
 		Troop selectedTroop = TroopsData.myTroops.get(troop);
-		ImageView troopImg = new ImageView(new Image(selectedTroop.getStringAttribute("Image")));
+		ImageView troopImg = new ImageView(ImageMaker.getImage(selectedTroop.getStringAttribute("Image")));
 		troopImg.setFitHeight(50);
 		troopImg.setFitWidth(50);
 		myWave.add(selectedTroop);
