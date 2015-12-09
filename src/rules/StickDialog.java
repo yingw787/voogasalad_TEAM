@@ -22,7 +22,7 @@ public class StickDialog extends AActionDialog {
 		range = askForDouble("Tower Range", "Please enter a range (pixels) for the tower to slow troops", "Positive numbers only");
 		
 		// Ask for duration
-		duration = (int) askForDouble("Stick Duration", "Please enter a duration (seconds) for the troop to be slowed", "Positive integers only");
+		duration = (int) askForDouble("Stick Duration", "Please enter a duration (frames) for the troop to be slowed", "Positive integers only");
 		
 		// Ask for ratio
 		ratio = askForDouble("Slow Ratio", "Please enter a ratio for the troop to be slowed", "Numbers between 0 and 1 only");
@@ -31,7 +31,7 @@ public class StickDialog extends AActionDialog {
 			return null;
 		}
 		myAction = new StickAction(range, duration, ratio);
-		myDescription = "shoot a sticky bullet that slows troops for " + duration + " seconds by " + ratio + " with range " + range;
+		myDescription = "shoot a sticky bullet that slows troops for " + duration + " frames by " + ratio + " with range " + range;
 		return myAction;
 	}
 
