@@ -8,27 +8,15 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 
 import controller.Controller;
-import gameEngine.requests.BuyTowerRequest;
-import gameEngine.requests.CollisionRequest;
+import image.ImageMaker;
 import interfaces.IRequest;
 import javafx.event.EventHandler;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 import units.Path;
-import units.Point;
-import units.Tower;
 import units.Unit;
 
 public class Map extends Observable implements IViewNode {
@@ -46,26 +34,36 @@ public class Map extends Observable implements IViewNode {
 	private Stage myStage;
 	private Controller myController;
 	private ImageView background;
-	private ImageView myImage;
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private ResourceBundle myResource;
+	private double boardWidth;
+	private double boardHeight;
 
 	public Map(Controller c, Stage s, Player p){
 		this.myPlayer = p;
 		this.myStage = s;
 		this.myController = c;
-		//myPane = new Pane();
 		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
+		this.boardWidth = Double.parseDouble(ResourceBundle.getBundle("resources/Default").getString("BoardWidth"));
+		this.boardHeight = Double.parseDouble(ResourceBundle.getBundle("resources/Default").getString("BoardHeight"));
 	}
 	
 	public Pane initialize(){
 		myPane = new Pane();
-		Image grassBG = new Image(getClass().getClassLoader().getResourceAsStream("grass.jpg"));
-		background = new ImageView(grassBG);
+
+		background = new ImageView();
+		background.setFitWidth(boardWidth);
+		background.setFitHeight(boardHeight);
+		try {
+			String bg = myController.getBackground();
+			System.out.println(bg);
+			background.setImage(ImageMaker.getImage(myController.getBackground()));
+		} catch (Exception e) {
+			background.setImage(ImageMaker.getImage(ResourceBundle.getBundle("resources/Default").getString("Background")));
+		}
+		myPane.getChildren().add(background);
 		myPathInfoHolder = new PathInfoHolder();
 		myBooleanHolder = new BooleanHolder();
-		myPane.getChildren().add(background);
-		myImage = new ImageView();
 		myMapHolder = new MapHolder();
 		myCursorHandler = new CursorHandler(myBooleanHolder, myPane, myController, myResource, myPathInfoHolder);
 		myPane.setOnMouseClicked(new EventHandler<MouseEvent>(){
@@ -77,8 +75,8 @@ public class Map extends Observable implements IViewNode {
 		return myPane;
 	}
 	
-	public void showPaths(List<Path> pathsForLevel){
-		PathHandler myPathHandler = new PathHandler(myPane, myPathInfoHolder, myResource);
+	public void showPaths(List<Path> pathsForLevel, boolean visible){
+		PathHandler myPathHandler = new PathHandler(myPane, myPathInfoHolder, myResource, visible);
 		myPathHandler.showPaths(pathsForLevel);
 	}
 
@@ -108,10 +106,8 @@ public class Map extends Observable implements IViewNode {
 	}
 
 	public void setBackgroundMap(Image image) {
-		myImage = new ImageView(image);
-		myPane.getChildren().remove(background);
-		myPane.getChildren().add(myImage);
-		myController.redisplayPath();
+		background.setImage(image);
+//		myController.redisplayPath();
 	}
 
 	public void enableSelling(MapUnit mapUnit){
@@ -128,5 +124,4 @@ public class Map extends Observable implements IViewNode {
 	public void sendRequest(List<IRequest> requestSender) {
 		myController.update(requestSender);
 	}
-
 }

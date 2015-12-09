@@ -1,6 +1,8 @@
 package editor.tabs;
 
 import java.util.ArrayList;
+import java.util.Optional;
+
 import editor.IView;
 import editor.MainGUI;
 import editor.PathView;
@@ -8,7 +10,10 @@ import editor.tabData.ITabData;
 import editor.tabData.PathsData;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import units.Path;
 import units.Point;
@@ -22,6 +27,7 @@ public class PathsTab extends ATab implements IView, ITab{
 	private Button myDeleteButton;
 	private Button myFinishButton;
 	private int myPathID;
+	private double myPathRadius;
 	private Path myBuildingPath;
 	private PathView myPathView;
 	
@@ -47,7 +53,7 @@ public class PathsTab extends ATab implements IView, ITab{
 	private void createButtons() {
 		myAddButton = makeButton("Add New Path", e-> selectPaths());
 		myDeleteButton = makeButton("Delete Path", e-> deleteButton());
-		myFinishButton = makeButton("Finalize Path", e-> finishPath());
+		myFinishButton = makeButton("Finalize Path", e-> setRadius());
 		myButtons.getChildren().addAll(myAddButton, myDeleteButton, myFinishButton);
 	}
 
@@ -86,6 +92,24 @@ public class PathsTab extends ATab implements IView, ITab{
 				myBuildingPath.getPoints().add(new Point(arg0.getSceneX(), arg0.getSceneY()));
 			}
 		});
+	}
+	
+	private void setRadius() {
+		TextInputDialog dialogBox = new TextInputDialog();
+		dialogBox.setContentText("Select a radius for the path:");
+		dialogBox.setHeaderText("Choose Radius");
+		Optional<String> result = dialogBox.showAndWait();
+		if (result.isPresent()) {
+		     try {
+		    	 myPathRadius = Double.parseDouble(result.get());
+		    	 myBuildingPath.setRadius(myPathRadius);
+		    	 finishPath();
+		     }
+		     catch(Exception e) {
+		    	 Alert warning = new Alert(AlertType.ERROR, "You must select a valid number!");
+		    	 warning.show();
+		     }
+		 }
 	}
 
 	@Override

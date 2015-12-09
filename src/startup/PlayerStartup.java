@@ -1,6 +1,7 @@
 package startup;
 
 import controller.Controller;
+import gamedata.xml.XMLConverter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -46,8 +47,15 @@ public class PlayerStartup {
 		Label description = new Label();
 //		description.prefWidthProperty().bind(playerPane.widthProperty());
 		description.setWrapText(true);
-		selected.addListener(e -> {description.setText("Description for " + selected.getValue() + " would go here");});
-
+		XMLConverter converter = new XMLConverter();
+		selected.addListener(e -> {
+			try {
+				description.setText(converter.getDescription(selected.getValue()));
+			} catch (Exception excep) {
+				description.setText("No description available");
+			}
+		});
+		
 		Button loadButton = new Button("Load");
 		loadButton.disableProperty().bind(selected.isNull());
 		loadButton.setOnAction(e-> {

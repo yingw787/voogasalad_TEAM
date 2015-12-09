@@ -2,6 +2,8 @@ package editor;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import image.ImageMaker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -25,7 +27,7 @@ public class PathView {
 	public PathView() {
 		myPaint = Color.AZURE;
 		myThickness = 5;
-		myFlagImage = new Image("flag.png");
+		myFlagImage = ImageMaker.getImage("flag.png");
 		myFlags = new ArrayList<ImageView>();
 	}
 
@@ -81,29 +83,3 @@ public class PathView {
 		myFlags.clear();
 	}
 }
-
-
-/*	private void selectPaths() {
-		myBuildingPath = new Path("Path "+ myPathID, new ArrayList<Point>());
-		MainGUI.myBoard.setOnMouseClicked(new EventHandler<MouseEvent>(){
-			@Override
-			public void handle(MouseEvent arg0) {
-				// add flag to board
-				Image flag = new Image("flag.png");
-				ImageView myFlag = new ImageView(flag);
-				myFlag.setLayoutX(arg0.getSceneX());
-				myFlag.setLayoutY(arg0.getSceneY() - 50);
-				myFlags.add(myFlag);
-				//add line
-				if (myFlags.size()>1) {
-					Line line = new Line(lastFlag.getX(),lastFlag.getY()-25,arg0.getSceneX(),arg0.getSceneY()-25);
-					line.setStrokeWidth(5);
-					line.setStroke(Color.AZURE);
-					((Pane) MainGUI.myBoard.getRoot()).getChildren().add(line);
-				}
-
-				((Pane) MainGUI.myBoard.getRoot()).getChildren().add(myFlag);
-				myBuildingPath.getPoints().add(new Point(arg0.getSceneX(), arg0.getSceneY()));
-			}
-		});
-		*/

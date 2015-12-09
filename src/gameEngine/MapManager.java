@@ -128,7 +128,6 @@ public class MapManager {
 	
 	
 	private Queue<Point> getPath(boolean isRandom){
-		
 		Random randomGenerator = new Random();
 		Path myPath = myLegacyPaths.get(randomGenerator.nextInt(myLegacyPaths.size()));
 		Queue<Point> myPointsQueue = new LinkedList<Point>();

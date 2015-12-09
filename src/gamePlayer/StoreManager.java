@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import image.ImageMaker;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -68,7 +69,7 @@ public class StoreManager {
 	}
 
 	private StoreButton buttonFactory(Unit unit){
-		Image image = new Image(unit.getStringAttribute("Image"));
+		Image image = ImageMaker.getImage(unit.getStringAttribute("Image"));
 		ImageView imageview = new ImageView(image);
 		imageview.setFitHeight(73);
 		imageview.setPreserveRatio(true);

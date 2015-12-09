@@ -42,7 +42,7 @@ public class Unit {
 		myStringAttributes.put("Name", name);
 		myStringAttributes.put("Image", img);
 		myAttributes.put("Speed", 1.0);
-		
+		myAttributes.put("KillReward", (double)sc);
 		myRules = new HashMap<String, Rule>();
 		
 		addDefaultRule(); 
