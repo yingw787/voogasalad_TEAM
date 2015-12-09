@@ -17,7 +17,6 @@ public class Path {
 		myCheckPoints = p;
 	}
 	
-	//temporary for testing purposes
 	public void setRadius(Double d){
 		myRadius = d;
 	}
