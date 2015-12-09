@@ -57,8 +57,11 @@ public class MainGUI {
 		grid.prefWidthProperty().bind(myPane.widthProperty());
 		boardBox.setPrefWidth(myBoard.getWidth());
 		editBox.prefWidthProperty().bind(grid.widthProperty().subtract(boardBox.getWidth()));
+		editBox.prefHeightProperty().bind(grid.heightProperty());
 		myTabs.prefWidthProperty().bind(editBox.widthProperty());
+		myTabs.prefHeightProperty().bind(editBox.heightProperty().divide(2));
 		rulesAttributes.prefWidthProperty().bind(editBox.widthProperty());
+		rulesAttributes.prefHeightProperty().bind(editBox.heightProperty().divide(2));
 		myRules.prefWidthProperty().bind(rulesAttributes.widthProperty().divide(2));
 		myAttributes.prefWidthProperty().bind(rulesAttributes.widthProperty().divide(2));
 
