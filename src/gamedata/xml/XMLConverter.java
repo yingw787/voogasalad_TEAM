@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -42,7 +43,7 @@ public class XMLConverter {
 		}
 		
 		catch (Exception e) {
-			System.out.println("Cannot convert parameter object into XML");
+//			System.out.println("Cannot convert parameter object into XML");
 		}
 	}
 	
@@ -118,10 +119,18 @@ public class XMLConverter {
 		return myUnits;
 	}
 	
-	public String getHelp(String game) throws IOException{
-		List<Object> objects = fromXML(game,"Game");
-		Game dgame = (Game) objects.get(0);
-		String help = dgame.getHelpPage();
+	public String getHelp(String game){
+		List<Object> objects = null;
+		ResourceBundle myResource = ResourceBundle.getBundle("resources.Default");
+		String help = myResource.getString("URL");
+		try {
+			objects = fromXML(game,"Game");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Game dgame = (Game) objects.get(0);
+			help = dgame.getHelpPage();
+		}
 		return help;
 	}
 }
