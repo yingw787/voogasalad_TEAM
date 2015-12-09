@@ -133,4 +133,16 @@ public class XMLConverter {
 		}
 		return help;
 	}
+	
+	public String getDescription(String game){
+		try {
+			Game myGame = (Game) fromXML(game,"Game").get(0);
+			String description = myGame.getDescription();
+			return (description != null) ? description : "No description available";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "No description available";
+		}
+
+	}
 }

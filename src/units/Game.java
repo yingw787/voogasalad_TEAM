@@ -4,6 +4,7 @@ public class Game {
 //	private GameType myGameType;
 	private String myHelpPage;
 	private String myTitle;
+	private String myDescription;
 	private boolean myBuyTroopOption;
 	private boolean myPathVisibility;
 	
@@ -45,4 +46,13 @@ public class Game {
 	public void setPathVisibility(boolean b) {
 		this.myPathVisibility = b;
 	}
+	
+	public String getDescription() {
+		return myDescription;
+	}
+	
+	public void setDescription(String description) {
+		this.myDescription = description;
+	}
+
 }
