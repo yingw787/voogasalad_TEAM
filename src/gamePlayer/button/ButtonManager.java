@@ -42,7 +42,7 @@ public class ButtonManager {
 
 	public void createButtons(){
 		String[] buttons = myResource.getString("buttons").split(",");
-		HashMap<String, EventHandler<ActionEvent>> buttonEventHandle = new HashMap<String, EventHandler<ActionEvent>>();
+		Map<String, EventHandler<ActionEvent>> buttonEventHandle = new HashMap<String, EventHandler<ActionEvent>>();
 		buttonEventHandle.put(buttons[0], event->buyUnitsButtonEvent());
 		buttonEventHandle.put(buttons[1], event->sellUnitsButtonEvent());
 		for(String buttonClassName: buttons){
