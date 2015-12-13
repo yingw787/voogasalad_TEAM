@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// Jaidev Satish
+
 package units;
 
 import java.io.IOException;
@@ -8,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import actions.DisappearAction;
@@ -16,19 +20,21 @@ import conditions.CheckAttributeCondition;
 import conditions.ICondition;
 import rules.Rule;
 
-public class Unit {
+public class Unit{
 	protected Map<String, Double> myAttributes;
 	protected Map<String, String> myStringAttributes;
 	protected Map<String, Rule> myRules;
 	protected Faction myFaction;
 	protected final static String DEFAULTS_FILE = "resources/DefaultUnit.properties";
+	protected static final String DEFAULT_RESOURCE = "resources.DefaultUnit";
+	ResourceBundle myResource = ResourceBundle.getBundle(DEFAULT_RESOURCE);
 //	private double mySpeed;
 	
 	/**  Constructor superclass for Tower and Troop objects
 	 *   @params Attributes of Unit object
 	 **/
 	public Unit(String name, double health, double cd, String img, 
-			Point p, int ID, int bc, int sc){		
+			Point p, int ID, int bc, int sc) {		
 		myAttributes = new HashMap<String, Double>();
 		myAttributes.put("Health", health);
 		myAttributes.put("MaxHealth", health);
@@ -41,7 +47,6 @@ public class Unit {
 		myStringAttributes = new HashMap<String, String>();
 		myStringAttributes.put("Name", name);
 		myStringAttributes.put("Image", img);
-		myAttributes.put("Speed", 1.0);
 		myAttributes.put("KillReward", (double)sc);
 		myRules = new HashMap<String, Rule>();
 		

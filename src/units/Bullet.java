@@ -1,8 +1,18 @@
+// This entire file is part of my masterpiece.
+// Jaidev Satish
+
 package units;
 
-public class Bullet extends Unit{
-	public Point myDirection; 
+import java.util.ResourceBundle;
 
+import interfaces.IMovable;
+
+public class Bullet extends Unit implements IMovable{
+
+	public Point myDirection; 
+	protected static final String DEFAULT_RESOURCE = "resources.DefaultTroop";
+	ResourceBundle myResource = ResourceBundle.getBundle(DEFAULT_RESOURCE);
+	
 	/**  Constructor for Bullet object
 	 *   @params Attributes of Bullet object
 	 **/
@@ -18,6 +28,7 @@ public class Bullet extends Unit{
 		this.setAttribute("Type", "Bullet");
 		this.setAttribute("Health", 1);
 		this.setAttribute("Image", "bullet.gif");
+		addMovableAttributes(Double.parseDouble(myResource.getString("Speed")));
 	}
 	
 	public Bullet(){
@@ -44,5 +55,11 @@ public class Bullet extends Unit{
 	 **/
 	public void setDirection(Point p) {
 		myDirection = p;
+	}
+
+	@Override
+	public int addMovableAttributes(double x) {
+		myAttributes.put("Speed", x);
+		return 0;
 	}
 }
