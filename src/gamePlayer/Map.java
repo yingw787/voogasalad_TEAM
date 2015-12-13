@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// Vanessa Wu
+
 package gamePlayer;
 
 import java.util.ArrayList;
@@ -114,13 +117,10 @@ public class Map extends Observable implements IViewNode {
 		myPlayer.enableSell(mapUnit);
 	}
 	
-
-
 	public void enableTowerPurchase(Unit u){
 		myCursorHandler.enableTowerPurchase(u);
 	}
 	
-
 	public void sendRequest(List<IRequest> requestSender) {
 		myController.update(requestSender);
 	}

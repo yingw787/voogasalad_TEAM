@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// Vanessa Wu
+
 package gamePlayer;
 
 import java.util.ArrayList;
