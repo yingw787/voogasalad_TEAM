@@ -5,14 +5,14 @@ package gamePlayer;
 
 import java.util.Map;
 import java.util.ResourceBundle;
-
 import controller.Controller;
 import gamePlayer.button.AButton;
-import gamePlayer.button.ButtonFactory;
+import gamePlayer.button.ButtonManager;
 import image.ImageMaker;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -35,43 +35,44 @@ import units.Unit;
 public class HUD implements IViewNode{
 
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
-	private VBox myVBox;
+	private VBox hudBox;
 	private PlayerInfo myPlayerInfo;
 	private Selected selectedDisplay;
-	@SuppressWarnings("unused")
 	private Controller myController;
 	private Player myPlayer;
 	private ResourceBundle myResource;
 	@SuppressWarnings("unused")
-	private Node myLives, myLevel, myGold;
+	private Node myLives, myLevel, myTotalGold;
 	private Map<String, AButton> myButtons;
 
 	public HUD(Controller controller, Player player){
 		this.myController = controller;
 		this.myPlayer = player;
 		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
-		myPlayerInfo = new PlayerInfo();
-		ButtonFactory buttonFactory = new ButtonFactory(controller, myPlayerInfo, player);
+		ButtonManager buttonFactory = new ButtonManager(controller, player);
 		myButtons = buttonFactory.getButtons();
-
 	}
 
 	/**
-	 * Initialize v box
+	 * Initializes v box
 	 * @return the v box
 	 */
 	public VBox initialize(){
-		myVBox = new VBox(Integer.parseInt(myResource.getString("vboxSpacing")));
-		myVBox.setStyle("-fx-background-color: linear-gradient(#FEF0C9, #61a2b1);");
-		return myVBox;
+		hudBox = new VBox(Integer.parseInt(myResource.getString("vboxSpacing")));
+		hudBox.setStyle("-fx-background-color: linear-gradient(#FEF0C9, #61a2b1);");
+		return hudBox;
 	}
 
+	/**
+	 * Updates playerinfo in HUD
+	 * @param playerInfo the player info
+	 */
 	public void update(PlayerInfo playerInfo){
 		if (myPlayerInfo.getLevel()!=playerInfo.getLevel()){
 			myLevel = level(playerInfo);
 		}
 		if (myPlayerInfo.getMoney()!=playerInfo.getMoney()){
-			myGold = gold(playerInfo);
+			myTotalGold = totalGold(playerInfo);
 		}
 		if (myPlayerInfo.getLives()!=playerInfo.getLives()){
 			myLives = lives(playerInfo);
@@ -84,19 +85,18 @@ public class HUD implements IViewNode{
 	 * @param player the player
 	 * @return the node
 	 */
-	public Node gold(PlayerInfo player){
+	public Node totalGold(PlayerInfo player){
 		Image image = ImageMaker.getImage(myResource.getString("goldImage"));
 		ImageView imageView = new ImageView(image);
 		imageView.setFitHeight(Integer.parseInt(myResource.getString("nodesHeight")));
 		imageView.setPreserveRatio(true);
 
-		HBox myHBox = new HBox();
-		myHBox.setAlignment(Pos.CENTER);
-		myHBox.setPrefHeight(Integer.parseInt(myResource.getString("nodesHeight")));
+		HBox totalMoney = new HBox();
+		setHBoxProperties(totalMoney);
 		Text money = new Text(" " + player.getMoney());
 		money.setStyle("-fx-font: 25px Tahoma;");
-		myHBox.getChildren().addAll(imageView,money);
-		return myHBox;
+		totalMoney.getChildren().addAll(imageView,money);
+		return totalMoney;
 	}
 
 	/**
@@ -124,58 +124,56 @@ public class HUD implements IViewNode{
 			livesImages[i].setPreserveRatio(true);
 		}
 
-		HBox myHBox = new HBox();
-		myHBox.setAlignment(Pos.CENTER);
-		myHBox.setPrefHeight(Integer.parseInt(myResource.getString("nodesHeight")));
+		HBox numberOfLives = new HBox();
+		setHBoxProperties(numberOfLives);
+		
 		Text lives = new Text("Lives: ");
 		lives.setStyle("-fx-font: 25px Tahoma;");
+		
 		Text livesMinusThree = new Text(" + " + String.valueOf((player.getLives()-3)));
 		livesMinusThree.setStyle("-fx-font: 25px Tahoma;");
 		if(player.getLives() > 3){
-			myHBox.getChildren().addAll(lives,livesImages[0],livesImages[1],livesImages[2],livesMinusThree);
+			numberOfLives.getChildren().addAll(lives,livesImages[0],livesImages[1],livesImages[2],livesMinusThree);
 		}else if(player.getLives() == 3){
-			myHBox.getChildren().addAll(lives,livesImages[0],livesImages[1],livesImages[2]);
+			numberOfLives.getChildren().addAll(lives,livesImages[0],livesImages[1],livesImages[2]);
 		}else if (player.getLives() == 2){
-			myHBox.getChildren().addAll(lives,livesImages[0],livesImages[1]);
+			numberOfLives.getChildren().addAll(lives,livesImages[0],livesImages[1]);
 		}else if (player.getLives() == 1){
-			myHBox.getChildren().addAll(lives,livesImages[0]);
+			numberOfLives.getChildren().addAll(lives,livesImages[0]);
 		}else{
-			myHBox.getChildren().add(lives);
+			numberOfLives.getChildren().add(lives);
 		}
-		return myHBox;		
+		return numberOfLives;		
 	}
 
 	/**
 	 * creates Wave button in the HUD.
 	 * @return the node
 	 */
-//	private Node waveButton(){
-//		HBox myHBox = new HBox();
-//		myHBox.setAlignment(Pos.CENTER);
-//		buttonStyle = myResource.getString("cssHUDButtonStyle");
-//		myWaveButton = new Button("Start Wave");
-//		myWaveButton.setStyle(buttonStyle);
-//		if(Integer.parseInt(myPlayerInfo.getLevel()) < myPlayerInfo.getMyLevelSize()){
-//			myWaveButton.setOnMouseClicked(e->myController.startWave(
-//					Integer.parseInt(myPlayerInfo.getLevel())));	
-//		}else{
-//			myWaveButton.setOnMouseClicked(e->startWaveAlert());
-//		}
-//		myHBox.getChildren().add(myWaveButton);
-//		return myHBox;
-//	}
+	private Node waveButton(){
+		HBox startWave = new HBox();
+		startWave.setAlignment(Pos.CENTER);
+		if(Integer.parseInt(myPlayerInfo.getLevel()) < myPlayerInfo.getMyLevelSize()){
+			myButtons.get("StartWaveButton").setOnMouseClicked(e->myController.startWave(
+					Integer.parseInt(myPlayerInfo.getLevel())));	
+		}else{
+			myButtons.get("StartWaveButton").setOnMouseClicked(e->startWaveAlert());
+		}
+		startWave.getChildren().add(myButtons.get("StartWaveButton"));
+		return startWave;
+	}
 
 	/**
 	 * shows alert message for Start wave.
 	 */
-//	private void startWaveAlert() {
-//		Alert alert = new Alert(AlertType.WARNING);
-//		alert.setTitle("Alert Message");
-//		String label = null;
-//		label = "You have exceeded the total number of levels for this game";
-//		alert.setContentText(label);
-//		alert.showAndWait();
-//	}
+	private void startWaveAlert() {
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle("Alert Message");
+		String label = null;
+		label = "You have exceeded the total number of levels for this game";
+		alert.setContentText(label);
+		alert.showAndWait();
+	}
 
 	/**
 	 * creates HBox for game Level.
@@ -183,85 +181,60 @@ public class HUD implements IViewNode{
 	 * @return the node
 	 */
 	private Node level(PlayerInfo player){
-		HBox myHBox = new HBox();
-		myHBox.setAlignment(Pos.CENTER);
-		myHBox.setPrefHeight(Integer.parseInt(myResource.getString("nodesHeight")));
+		HBox numberOfLevels = new HBox();
+		setHBoxProperties(numberOfLevels);
 		Text level = new Text("Level: " + player.getLevel());
 		level.setStyle("-fx-font: 25px Tahoma;");
-		myHBox.getChildren().add(level);
-		return myHBox;
+		numberOfLevels.getChildren().add(level);
+		return numberOfLevels;
 	}
 
 	/**
+	 * Sets the HBox properties.
+	 * @param label the label
+	 * @return the HBox
+	 */
+	private HBox setHBoxProperties(HBox label){
+		label.setAlignment(Pos.CENTER);
+		label.setPrefHeight(Integer.parseInt(myResource.getString("nodesHeight")));
+		return label;
+	}
+	
+	/**
 	 * creates HBox for Buy and Sell buttons.
-	 *
 	 * @return the node
 	 */
 	private Node buySellButton(){
-//
-		HBox myHBox = new HBox();
-//		myBuyButton = new Button("Buy");
-//		myBuyButton.setDisable(true);
-//		myBuyButton.setPrefSize(150,Integer.parseInt(myResource.getString("nodesHeight")));
-//		myBuyButton.setStyle(buttonStyle);
-//		myBuyButton.setOnMouseClicked(e->buyButtonClicked());
-//
-//		mySellButton = new Button("Sell");
-//		mySellButton.setDisable(true);
-//		mySellButton.setOnMouseClicked(e->sellButtonClicked());
-//		mySellButton.setPrefSize(150,Integer.parseInt(myResource.getString("nodesHeight")));
-//		mySellButton.setStyle(buttonStyle);
-//
-		myHBox.getChildren().addAll(myButtons.get("BuyButton"),myButtons.get("SellButton"));
-		return myHBox;
-
+		HBox buySellButtons = new HBox();
+		buySellButtons.getChildren().addAll(myButtons.get("BuyButton"),myButtons.get("SellButton"));
+		return buySellButtons;
 	}
 
 	/**
 	 * Populates all the Nodes in HUD's VBox.
-	 *
 	 * @param player the player
 	 */
 	public void populate(PlayerInfo player){
 		myPlayerInfo = player;
-		myVBox.getChildren().clear();
-		myGold = gold(player);
+		hudBox.getChildren().clear();
+		myTotalGold = totalGold(player);
 		myLives = lives(player);
 		myLevel = level(player);
-		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton(), myButtons.get("StartWaveButton"), selectedDisplay());
+		hudBox.getChildren().addAll(totalGold(player), lives(player), level(player), buySellButton(), waveButton(), selectedDisplay());
 	}
-
-//	private void sellButtonClicked(){
-//		Unit selectedUnit = myPlayer.getSelected().getUnit();
-//		if(selectedUnit.getStringAttribute("Type").equals("Tower")){
-//			Tower tower = new Tower(selectedUnit);
-//			mySellButton.setDisable(true);
-//			SellTowerRequest sell = new SellTowerRequest(tower);
-//			List<IRequest> requestSender = new ArrayList<IRequest>();
-//			requestSender.add(sell);
-//			myController.update(requestSender);
-//			//myView.sellItem();
-//		}
-//	}
-
-//	private void buyButtonClicked() {
-//		myBuyButton.setDisable(true);
-//		//		myView.purchaseItem();
-//	}
 
 	@Override
 	public void setHeight(double height){
-		myVBox.setPrefHeight(height);
+		hudBox.setPrefHeight(height);
 	}
 
 	@Override
 	public void setWidth(double width){
-		myVBox.setPrefWidth(width);
+		hudBox.setPrefWidth(width);
 	}
 
 	/**
 	 * Enables buy button.
-	 *
 	 * @param unit the unit
 	 */
 	public void enableBuyButton(Unit unit) {
@@ -270,7 +243,6 @@ public class HUD implements IViewNode{
 
 	/**
 	 * Updates selected unit.
-	 *
 	 * @param myUnit the my unit
 	 */
 	public void updateSelected(MapUnit myUnit){
@@ -279,13 +251,11 @@ public class HUD implements IViewNode{
 
 	/**
 	 * Enables selling of unit.
-	 *
 	 * @param myUnit the my unit
 	 */
 	public void enableSell(MapUnit myUnit) {
-//		mySellButton.setDisable(false);
+		myButtons.get("SellButton").setDisable(false);
 		selectedDisplay.setImage(myUnit);
 		updateSelected(myUnit);
 	}
-
 }

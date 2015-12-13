@@ -1,6 +1,3 @@
-// This entire file is part of my masterpiece.
-// Abhishek Upadhyaya Ghimire
-
 package gamePlayer.menu;
 
 import javafx.scene.control.Menu;

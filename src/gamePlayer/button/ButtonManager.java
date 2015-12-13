@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// Abhishek Upadhyaya Ghimire
+
 package gamePlayer.button;
 
 import java.lang.reflect.Constructor;
@@ -13,30 +16,26 @@ import gamePlayer.Player;
 import interfaces.IRequest;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import units.PlayerInfo;
 import units.Tower;
 import units.Unit;
 
-public class ButtonFactory {
+/**
+ * A class for creating and holding Button objects.
+ * @see			Controller
+ * @see         Player
+ * @see 		AButton
+ */
+public class ButtonManager {
 	private static final String DEFAULT_RESOURCE_BUTTON = "gamePlayer.gamePlayer";
 	private ResourceBundle myResource;
-
 	private Map<String, AButton> myButtons;
-	private Controller myController; 
-	private PlayerInfo myPlayerInfo;
+	private Controller myController;
 	private Player myPlayer;
-	//private TurtleGroupObserver myTurtleGroup;
-	//private UserInput myUserInputObservable;
 
-	public ButtonFactory (Controller controller, PlayerInfo playerinfo, Player player) {
+	public ButtonManager (Controller controller, Player player) {
 		myResource = ResourceBundle.getBundle(DEFAULT_RESOURCE_BUTTON);
 		this.myController = controller;
-		this.myPlayerInfo = playerinfo;
 		this.myPlayer = player;
-		//				this.myTurtleGroup = turtleGroup;
-		//		this.myUserInputObservable = userInputObservable;
 		myButtons = new HashMap<String, AButton>();
 		createButtons();
 	}
@@ -44,9 +43,8 @@ public class ButtonFactory {
 	public void createButtons(){
 		String[] buttons = myResource.getString("buttons").split(",");
 		HashMap<String, EventHandler<ActionEvent>> buttonEventHandle = new HashMap<String, EventHandler<ActionEvent>>();
-		buttonEventHandle.put(buttons[0], event->startWaveButtonEvent());
-		buttonEventHandle.put(buttons[1], event->buyUnitsButtonEvent());
-		buttonEventHandle.put(buttons[2], event->sellUnitsButtonEvent());
+		buttonEventHandle.put(buttons[0], event->buyUnitsButtonEvent());
+		buttonEventHandle.put(buttons[1], event->sellUnitsButtonEvent());
 		for(String buttonClassName: buttons){
 			try {
 				Constructor<?> c =
@@ -64,6 +62,9 @@ public class ButtonFactory {
 		return myButtons;
 	}
 
+	/**
+	 * Sell units button event.
+	 */
 	private void sellUnitsButtonEvent(){
 		Unit selectedUnit = myPlayer.getSelected().getUnit();
 		if(selectedUnit.getStringAttribute("Type").equals("Tower")){
@@ -76,30 +77,11 @@ public class ButtonFactory {
 		}
 	}
 
+	/**
+	 * Buy units button event.
+	 */
 	private void buyUnitsButtonEvent(){
 		myButtons.get("BuyButton").setDisable(true);
-	}
-
-	private void startWaveButtonEvent() {
-		System.out.println("Abhishek: "+ myPlayerInfo.getMyLevelSize() + " " + myPlayerInfo.getLevel());
-		if(Integer.parseInt(myPlayerInfo.getLevel()) < myPlayerInfo.getMyLevelSize()){
-			myButtons.get("StartWaveButton").setOnMouseClicked(e->myController.startWave(
-					Integer.parseInt(myPlayerInfo.getLevel())));	
-		}else{
-			myButtons.get("StartWaveButton").setOnMouseClicked(e->startWaveAlert());
-		}
-	}
-
-	/**
-	 * shows alert message for Start wave.
-	 */
-	private void startWaveAlert() {
-		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("Alert Message");
-		String label = null;
-		label = "You have exceeded the total number of levels for this game";
-		alert.setContentText(label);
-		alert.showAndWait();
 	}
 
 }

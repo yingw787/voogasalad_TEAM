@@ -7,5 +7,6 @@ public class BuyButton extends AButton{
 
 	public BuyButton (EventHandler<ActionEvent> event) {
 		super("Buy", event);
+		setDisable(true);
 	}
 }

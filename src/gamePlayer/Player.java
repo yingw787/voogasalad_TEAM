@@ -154,9 +154,9 @@ public class Player implements IPlayer {
 		return myPlayerInfo.getMoney();
 	}
 
-//	public void enableBuyButton(Unit unit) {
-//		myHUD.enableBuyButton(unit);
-//	}
+	public void enableBuyButton(Unit unit) {
+		myHUD.enableBuyButton(unit);
+	}
 
 	public void enableSell(MapUnit mapUnit) {
 		myHUD.enableSell(mapUnit);

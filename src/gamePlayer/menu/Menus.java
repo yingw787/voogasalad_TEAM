@@ -4,7 +4,6 @@
 package gamePlayer.menu;
 
 import java.io.IOException;
-import java.util.Observable;
 
 import controller.Controller;
 import gamePlayer.IViewNode;
@@ -24,7 +23,7 @@ import javafx.stage.Stage;
  * @see         IViewNode
  */
 
-public class Menus extends Observable implements IViewNode {
+public class Menus implements IViewNode {
 	private MenuBar myMenuBar;
 	private FileMenu fileMenu;
 	private HelpMenu helpMenu;

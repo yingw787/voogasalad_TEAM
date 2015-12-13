@@ -14,6 +14,10 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
+/**
+ * The class to create HelpMenu and related methods.
+ * @see Menu
+ */
 public class HelpMenu extends Menu{
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private ResourceBundle myResource;
