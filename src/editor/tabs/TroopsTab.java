@@ -27,8 +27,8 @@ public class TroopsTab extends ATab {
 
 		myEntriesList.getSelectionModel().selectedItemProperty().addListener(    
 				(ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-	                System.out.println(new_val);    
-	                System.out.println("clicked");
+	                //ln(new_val);    
+	                //ln("clicked");
 	                setChanged();
 	                notifyObservers(myData.get(new_val));
 	    });
@@ -56,9 +56,9 @@ public class TroopsTab extends ATab {
 		
 		// Check for deleted Troops
 		for(Object t : myData.getData()){
-			System.out.print(((Troop) t).getStringAttribute("Name") + ", ");
+			//(((Troop) t).getStringAttribute("Name") + ", ");
 		}
-		System.out.println();
+		//ln();
 	}
 
 

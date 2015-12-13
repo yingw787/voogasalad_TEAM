@@ -253,7 +253,7 @@ public class RuntimeEnvironment  {
 	public List<Unit> getUnits() {
 		// TODO Auto-generated method stub
 		List<Unit> ret = new ArrayList<Unit>(myUnitsMap.values());
-		//System.out.println("unit size:" + ret.size());
+		////ln("unit size:" + ret.size());
 		return ret;
 	}
 

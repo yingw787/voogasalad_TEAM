@@ -1,9 +1,11 @@
 package startup;
 
+import image.ImageMaker;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -11,7 +13,6 @@ import javafx.stage.Stage;
 public class Startup {
 	private Stage myStage;
 	private GridPane myStartPane;
-	private double startSceneWidth = 400;
 	
 	public Startup(Stage stage) {
 		myStage = stage;
@@ -22,23 +23,26 @@ public class Startup {
 		startVBox.setSpacing(20.0);
 		startPane.getChildren().add(startVBox);
 		
+		ImageView title = new ImageView(ImageMaker.getImage("voogasaladflames.gif")); //voogasaladglitter.gif
+		
 		Button editorButton = new Button("Create/Edit a Game");
-		editorButton.setMaxWidth(Double.MAX_VALUE);
 		editorButton.setOnAction(e-> {
 			myStage.setScene(new EditorStartup(myStage).getScene());
 		});
 
 		Button playButton = new Button("Play a Game");
-		playButton.setMaxWidth(Double.MAX_VALUE);
 		playButton.setOnAction(e-> {
 			myStage.setScene(new PlayerStartup(myStage).getScene());
 		});
 
-		startVBox.getChildren().addAll(editorButton, playButton);
+		startVBox.getChildren().addAll(title, editorButton, playButton);
+		editorButton.setAlignment(Pos.CENTER);
+		playButton.setAlignment(Pos.CENTER);
+		startVBox.setAlignment(Pos.CENTER);
 		myStartPane = startPane;
 	}
 	
 	public Scene getScene() {
-		return new Scene(myStartPane, startSceneWidth, myStartPane.getPrefHeight());
+		return new Scene(myStartPane, myStartPane.getPrefWidth(), myStartPane.getPrefHeight());
 	}
 }

@@ -93,7 +93,7 @@ public class RulesBox implements IView, Observer {
 		myEntriesToShow.remove(selected);
 		myCurrentUnit.removeRules(selected);
 		for(String rule : myCurrentUnit.getRuleSet()){
-			System.out.println(rule);
+			//ln(rule);
 		}
 	}
 	
@@ -108,7 +108,7 @@ public class RulesBox implements IView, Observer {
 		ICondition condition = null;;
 		IAction action = null;
 		cond = askUser(conditionsArray, "Condition");
-		System.out.println("Condition: " + cond);
+		//ln("Condition: " + cond);
 		AConditionDialog conditionAsker = askForCondition(cond);
 		if(conditionAsker == null){
 			return;
@@ -145,8 +145,8 @@ public class RulesBox implements IView, Observer {
 		
 		ruleKey += conditionDescription + actionDescription;
 		
-		System.out.println("Action: " + act);
-		System.out.println(ruleKey);
+		//ln("Action: " + act);
+		//ln(ruleKey);
 		
 		myEntriesToShow.add(ruleKey);
 		myCurrentUnit.setRule(ruleKey, rule);
@@ -243,12 +243,12 @@ public class RulesBox implements IView, Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-//		System.out.println("Rules box: tab changed to " + (String) arg);
+//		//ln("Rules box: tab changed to " + (String) arg);
 		if(arg instanceof String){
 			clearRules();
 		}
 		else if(arg instanceof Unit){
-			System.out.println("Rules box: user selected Unit: " + ((Unit)arg).getStringAttribute("Name"));
+			//ln("Rules box: user selected Unit: " + ((Unit)arg).getStringAttribute("Name"));
 			clearRules();
 			myCurrentUnit = (Unit) arg;
 			showRules((Unit) arg);

@@ -168,10 +168,10 @@ public class Engine implements IEngine {
 	// THIS IS BROKEN RIGHT NOW
 	public void redisplayPath(){
 		// RIGHT NOW THIS IS BROKEN 
-		System.out.println("I am in Engine.java --> redisplayPath() right now");
+		//ln("I am in Engine.java --> redisplayPath() right now");
 		
 		String level = myRE.getPlayerInfo().getLevel();
-		System.out.println(level);
+		//ln(level);
 		int level_int = Integer.parseInt(level); 
 		myController.showPaths(myRE.getPathsForLevel(myRE.getLevel(level_int).getPathNames()), myRE.getPathVisibility());
 	}
