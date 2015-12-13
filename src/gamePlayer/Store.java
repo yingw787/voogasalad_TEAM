@@ -81,7 +81,7 @@ public class Store extends Observable implements IViewNode {
 	 */
 	public void enableBuyButton(Unit unit) {
 		// TODO Auto-generated method stub
-		myPlayer.enableBuyButton(unit);
+//		myPlayer.enableBuyButton(unit);
 	}
 
 }

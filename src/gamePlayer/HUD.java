@@ -1,21 +1,17 @@
-/*
- * 
- */
+// This entire file is part of my masterpiece.
+// Abhishek Upadhyaya Ghimire
+
 package gamePlayer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import controller.Controller;
-import gameEngine.requests.SellTowerRequest;
+import gamePlayer.button.AButton;
+import gamePlayer.button.ButtonFactory;
 import image.ImageMaker;
-import interfaces.IRequest;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,7 +19,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import units.PlayerInfo;
-import units.Tower;
 import units.Unit;
 
 /**
@@ -37,36 +32,37 @@ import units.Unit;
  * @see 		IViewNode
  */
 
-
-public class HUD extends Observable implements IViewNode{
+public class HUD implements IViewNode{
 
 	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
 	private VBox myVBox;
 	private PlayerInfo myPlayerInfo;
 	private Selected selectedDisplay;
-	private Button myBuyButton, mySellButton, myWaveButton; 
+	@SuppressWarnings("unused")
 	private Controller myController;
 	private Player myPlayer;
 	private ResourceBundle myResource;
-	private String buttonStyle;
 	@SuppressWarnings("unused")
 	private Node myLives, myLevel, myGold;
+	private Map<String, AButton> myButtons;
 
-	public HUD(Controller c, Player p){
-		this.myController = c;
-		this.myPlayer = p;
+	public HUD(Controller controller, Player player){
+		this.myController = controller;
+		this.myPlayer = player;
 		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
+		myPlayerInfo = new PlayerInfo();
+		ButtonFactory buttonFactory = new ButtonFactory(controller, myPlayerInfo, player);
+		myButtons = buttonFactory.getButtons();
+
 	}
 
 	/**
 	 * Initialize v box
-	 * 
 	 * @return the v box
 	 */
 	public VBox initialize(){
-		myVBox = new VBox(20);
+		myVBox = new VBox(Integer.parseInt(myResource.getString("vboxSpacing")));
 		myVBox.setStyle("-fx-background-color: linear-gradient(#FEF0C9, #61a2b1);");
-
 		return myVBox;
 	}
 
@@ -85,7 +81,6 @@ public class HUD extends Observable implements IViewNode{
 
 	/**
 	 * create HBox for amount of Gold.
-	 *
 	 * @param player the player
 	 * @return the node
 	 */
@@ -106,7 +101,6 @@ public class HUD extends Observable implements IViewNode{
 
 	/**
 	 * creates a Node for Selected display.
-	 *
 	 * @return the node
 	 */
 	public Node selectedDisplay(){
@@ -116,7 +110,6 @@ public class HUD extends Observable implements IViewNode{
 
 	/**
 	 * Creates Node for number of Lives left.
-	 *
 	 * @param player the player
 	 * @return the node
 	 */
@@ -154,40 +147,38 @@ public class HUD extends Observable implements IViewNode{
 
 	/**
 	 * creates Wave button in the HUD.
-	 *
 	 * @return the node
 	 */
-	private Node waveButton(){
-		HBox myHBox = new HBox();
-		myHBox.setAlignment(Pos.CENTER);
-		myWaveButton = new Button("Start Wave");
-		myWaveButton.setStyle(buttonStyle);
-		if(Integer.parseInt(myPlayerInfo.getLevel()) < myPlayerInfo.getMyLevelSize()){
-			myWaveButton.setOnMouseClicked(e->myController.startWave(
-					Integer.parseInt(myPlayerInfo.getLevel())));	
-		}else{
-			myWaveButton.setOnMouseClicked(e->startWaveAlert());
-		}
-		myHBox.getChildren().add(myWaveButton);
-		return myHBox;
-	}
-
+//	private Node waveButton(){
+//		HBox myHBox = new HBox();
+//		myHBox.setAlignment(Pos.CENTER);
+//		buttonStyle = myResource.getString("cssHUDButtonStyle");
+//		myWaveButton = new Button("Start Wave");
+//		myWaveButton.setStyle(buttonStyle);
+//		if(Integer.parseInt(myPlayerInfo.getLevel()) < myPlayerInfo.getMyLevelSize()){
+//			myWaveButton.setOnMouseClicked(e->myController.startWave(
+//					Integer.parseInt(myPlayerInfo.getLevel())));	
+//		}else{
+//			myWaveButton.setOnMouseClicked(e->startWaveAlert());
+//		}
+//		myHBox.getChildren().add(myWaveButton);
+//		return myHBox;
+//	}
 
 	/**
 	 * shows alert message for Start wave.
 	 */
-	private void startWaveAlert() {
-		Alert alert = new Alert(AlertType.WARNING);
-		alert.setTitle("Alert Message");
-		String label = null;
-		label = "You have exceeded the total number of levels for this game";
-		alert.setContentText(label);
-		alert.showAndWait();
-	}
+//	private void startWaveAlert() {
+//		Alert alert = new Alert(AlertType.WARNING);
+//		alert.setTitle("Alert Message");
+//		String label = null;
+//		label = "You have exceeded the total number of levels for this game";
+//		alert.setContentText(label);
+//		alert.showAndWait();
+//	}
 
 	/**
 	 * creates HBox for game Level.
-	 *
 	 * @param player the player
 	 * @return the node
 	 */
@@ -207,22 +198,21 @@ public class HUD extends Observable implements IViewNode{
 	 * @return the node
 	 */
 	private Node buySellButton(){
-
+//
 		HBox myHBox = new HBox();
-		buttonStyle = myResource.getString("cssHUDButtonStyle");
-		myBuyButton = new Button("Buy");
-		myBuyButton.setDisable(true);
-		myBuyButton.setPrefSize(150,Integer.parseInt(myResource.getString("nodesHeight")));
-		myBuyButton.setStyle(buttonStyle);
-		myBuyButton.setOnMouseClicked(e->buyButtonClicked());
-
-		mySellButton = new Button("Sell");
-		mySellButton.setDisable(true);
-		mySellButton.setOnMouseClicked(e->sellButtonClicked());
-		mySellButton.setPrefSize(150,Integer.parseInt(myResource.getString("nodesHeight")));
-		mySellButton.setStyle(buttonStyle);
-
-		myHBox.getChildren().addAll(myBuyButton,mySellButton);
+//		myBuyButton = new Button("Buy");
+//		myBuyButton.setDisable(true);
+//		myBuyButton.setPrefSize(150,Integer.parseInt(myResource.getString("nodesHeight")));
+//		myBuyButton.setStyle(buttonStyle);
+//		myBuyButton.setOnMouseClicked(e->buyButtonClicked());
+//
+//		mySellButton = new Button("Sell");
+//		mySellButton.setDisable(true);
+//		mySellButton.setOnMouseClicked(e->sellButtonClicked());
+//		mySellButton.setPrefSize(150,Integer.parseInt(myResource.getString("nodesHeight")));
+//		mySellButton.setStyle(buttonStyle);
+//
+		myHBox.getChildren().addAll(myButtons.get("BuyButton"),myButtons.get("SellButton"));
 		return myHBox;
 
 	}
@@ -238,38 +228,32 @@ public class HUD extends Observable implements IViewNode{
 		myGold = gold(player);
 		myLives = lives(player);
 		myLevel = level(player);
-		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton(), waveButton(), selectedDisplay());
+		myVBox.getChildren().addAll(gold(player), lives(player), level(player), buySellButton(), myButtons.get("StartWaveButton"), selectedDisplay());
 	}
 
-	private void sellButtonClicked(){
-		Unit selectedUnit = myPlayer.getSelected().getUnit();
-		if(selectedUnit.getStringAttribute("Type").equals("Tower")){
-			Tower tower = new Tower(selectedUnit);
-			mySellButton.setDisable(true);
-			SellTowerRequest sell = new SellTowerRequest(tower);
-			List<IRequest> requestSender = new ArrayList<IRequest>();
-			requestSender.add(sell);
-			myController.update(requestSender);
-			//myView.sellItem();
-		}
-	}
+//	private void sellButtonClicked(){
+//		Unit selectedUnit = myPlayer.getSelected().getUnit();
+//		if(selectedUnit.getStringAttribute("Type").equals("Tower")){
+//			Tower tower = new Tower(selectedUnit);
+//			mySellButton.setDisable(true);
+//			SellTowerRequest sell = new SellTowerRequest(tower);
+//			List<IRequest> requestSender = new ArrayList<IRequest>();
+//			requestSender.add(sell);
+//			myController.update(requestSender);
+//			//myView.sellItem();
+//		}
+//	}
 
-	private void buyButtonClicked() {
-		myBuyButton.setDisable(true);
-		//		myView.purchaseItem();
-	}
+//	private void buyButtonClicked() {
+//		myBuyButton.setDisable(true);
+//		//		myView.purchaseItem();
+//	}
 
-	/* (non-Javadoc)
-	 * @see gamePlayer.IViewNode#setHeight(double)
-	 */
 	@Override
 	public void setHeight(double height){
 		myVBox.setPrefHeight(height);
 	}
 
-	/* (non-Javadoc)
-	 * @see gamePlayer.IViewNode#setWidth(double)
-	 */
 	@Override
 	public void setWidth(double width){
 		myVBox.setPrefWidth(width);
@@ -281,7 +265,7 @@ public class HUD extends Observable implements IViewNode{
 	 * @param unit the unit
 	 */
 	public void enableBuyButton(Unit unit) {
-		myBuyButton.setDisable(false);
+		myButtons.get("BuyButton").setDisable(false);
 	}
 
 	/**
@@ -299,9 +283,7 @@ public class HUD extends Observable implements IViewNode{
 	 * @param myUnit the my unit
 	 */
 	public void enableSell(MapUnit myUnit) {
-		//		if (myUnit.getUnit().getClass().toString().equals("class units.Tower")){
-		mySellButton.setDisable(false);
-		//		}
+//		mySellButton.setDisable(false);
 		selectedDisplay.setImage(myUnit);
 		updateSelected(myUnit);
 	}

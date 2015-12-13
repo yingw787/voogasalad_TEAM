@@ -1,9 +1,15 @@
-package gamePlayer;
+// This entire file is part of my masterpiece.
+// Abhishek Upadhyaya Ghimire
+
+package gamePlayer.menu;
 
 import java.io.IOException;
 import java.util.Observable;
 
 import controller.Controller;
+import gamePlayer.IViewNode;
+import gamePlayer.Map;
+import gamePlayer.Player;
 import javafx.scene.control.MenuBar;
 import javafx.stage.Stage;
 
@@ -21,12 +27,11 @@ import javafx.stage.Stage;
 public class Menus extends Observable implements IViewNode {
 	private MenuBar myMenuBar;
 	private FileMenu fileMenu;
-	private EditMenu editMenu;
 	private HelpMenu helpMenu;
-	@SuppressWarnings("unused")
 	private Controller myController;
 	@SuppressWarnings("unused")
 	private Player myPlayer;
+	@SuppressWarnings("unused")
 	private Map myMap;
 	private Stage myStage;
 	
@@ -45,7 +50,6 @@ public class Menus extends Observable implements IViewNode {
 	public MenuBar initialize() throws IOException{
 		myMenuBar = new MenuBar();
 		fileMenu = new FileMenu(myStage);
-		editMenu = new EditMenu(myMap);//, myPlayer, myController);
 		String URL = myController.getHelp();
 		helpMenu = new HelpMenu(URL);
 		populate();
@@ -53,21 +57,14 @@ public class Menus extends Observable implements IViewNode {
 	}
 
 	private void populate(){		
-		myMenuBar.getMenus().addAll(fileMenu, editMenu, helpMenu);
+		myMenuBar.getMenus().addAll(fileMenu, helpMenu);
 	}
 
-	/* (non-Javadoc)
-	 * @see gamePlayer.IViewNode#setWidth(double)
-	 */
 	@Override
 	public void setWidth(double width) {
-		// TODO Auto-generated method stub
 		myMenuBar.setPrefWidth(width);
 	}
 
-	/* (non-Javadoc)
-	 * @see gamePlayer.IViewNode#setHeight(double)
-	 */
 	@Override
 	public void setHeight(double height) {
 		myMenuBar.setPrefHeight(height);		

@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import controller.Controller;
 import gameEngine.requests.PauseRequest;
 import gameEngine.requests.TwiceSpeedRequest;
+import gamePlayer.menu.Menus;
 import image.ImageMaker;
 import interfaces.IPlayer;
 import interfaces.IRequest;
@@ -153,9 +154,9 @@ public class Player implements IPlayer {
 		return myPlayerInfo.getMoney();
 	}
 
-	public void enableBuyButton(Unit unit) {
-		myHUD.enableBuyButton(unit);
-	}
+//	public void enableBuyButton(Unit unit) {
+//		myHUD.enableBuyButton(unit);
+//	}
 
 	public void enableSell(MapUnit mapUnit) {
 		myHUD.enableSell(mapUnit);

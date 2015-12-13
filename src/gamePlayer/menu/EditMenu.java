@@ -1,14 +1,7 @@
-package gamePlayer;
+package gamePlayer.menu;
 
-import java.io.File;
-
-import image.ImageMaker;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import gamePlayer.Map;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.stage.FileChooser;
 
 public class EditMenu extends Menu{
 	private Map myMap;

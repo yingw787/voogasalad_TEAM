@@ -1,4 +1,9 @@
-package gamePlayer;
+// This entire file is part of my masterpiece.
+// Abhishek Upadhyaya Ghimire
+
+package gamePlayer.menu;
+
+import java.util.ResourceBundle;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -10,10 +15,14 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 public class HelpMenu extends Menu{
+	private static final String DEFAULT_GAMEPLAYER_RESOURCE = "gamePlayer.gamePlayer";
+	private ResourceBundle myResource;
 
 	public HelpMenu(String URL){
 		super("Help");
 		addViews(URL);
+		this.myResource = ResourceBundle.getBundle(DEFAULT_GAMEPLAYER_RESOURCE);
+
 	}
 
 	private void addViews(String URL) {
@@ -29,19 +38,19 @@ public class HelpMenu extends Menu{
 		Scene scene = new Scene(new Group());
 
 		stage.setResizable(false);
-		stage.setWidth(1200);
-		stage.setHeight(700);
+		stage.setWidth(Integer.parseInt(myResource.getString("helpPageWidth")));
+		stage.setHeight(Integer.parseInt(myResource.getString("helpPageHeight")));
 		stage.show();
 
 		WebView browser = new WebView();
-		String url = URL; //hard coded; need to change this
+		String url = URL;
 
 		WebEngine webEngine = browser.getEngine();
 		webEngine.load(url); 
 
 		ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setContent(browser);
-		scrollPane.setPrefSize(1200, 700);
+		scrollPane.setPrefSize(Integer.parseInt(myResource.getString("helpPageWidth")), Integer.parseInt(myResource.getString("helpPageHeight")));
 		scrollPane.setFitToHeight(true);
 		scrollPane.setFitToWidth(true);
 		
