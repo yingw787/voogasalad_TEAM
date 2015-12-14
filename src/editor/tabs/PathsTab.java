@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// Dennis Xu
+
 package editor.tabs;
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import units.Point;
 /**  Editor tab for Paths
  **/
 public class PathsTab extends ATab implements IView, ITab{
+	
 	private PathsData myData;
 	private Button myAddButton;
 	private Button myDeleteButton;
@@ -32,7 +36,9 @@ public class PathsTab extends ATab implements IView, ITab{
 	private PathView myPathView;
 	
 	/**  Constructor for editor tab for Paths
+	 * 	 Sets up observer relationships in entry list
 	 **/
+	
 	public PathsTab(){
 		initTab();
 		createButtons();
@@ -41,8 +47,6 @@ public class PathsTab extends ATab implements IView, ITab{
 		
 		myEntriesList.getSelectionModel().selectedItemProperty().addListener(    
 				(ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-//	                setChanged();
-//	                notifyObservers(myData.get(new_val.split(":")[0]));
 	                myPathView.clear();
 	                if (new_val != null) {
 		                myPathView.drawAll(myData.get(new_val.split(":")[0]).getPoints());
@@ -67,6 +71,10 @@ public class PathsTab extends ATab implements IView, ITab{
 		myData.remove(selectedPath);
 	}
 	
+	/** 
+	 * 	Finalizes current path and adds it to the list of created paths 
+	 */
+	
 	private void finishPath() {
 		MainGUI.myBoard.setOnMouseClicked(e -> {});
 		// remove all existing flags
@@ -78,10 +86,13 @@ public class PathsTab extends ATab implements IView, ITab{
 			myBuildingPath = null;
 			myEntriesList.getSelectionModel().selectLast();
 		} catch (NullPointerException e) {
-			//ln("No checkpoints selected");
+			System.out.println("No checkpoints selected");
 		}
 	}
 	
+	/**
+	 * Allows the user to begin selecting points, then collects them in list
+	 */
 	private void selectPaths() {
 		myBuildingPath = new Path("Path "+ myPathID, new ArrayList<Point>());
 		myPathView.clear();
@@ -94,6 +105,9 @@ public class PathsTab extends ATab implements IView, ITab{
 		});
 	}
 	
+	/**
+	 *	 Ask user for radius of path
+	 */
 	private void setRadius() {
 		TextInputDialog dialogBox = new TextInputDialog();
 		dialogBox.setContentText("Select a radius for the path:");
@@ -112,6 +126,10 @@ public class PathsTab extends ATab implements IView, ITab{
 		 }
 	}
 
+	/** 
+	 * 	Updates PathData with updated path creations/modifications
+	 */
+	
 	@Override
 	public void setData(ITabData data) {
 		myData = (PathsData) data;
