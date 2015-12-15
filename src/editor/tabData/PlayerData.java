@@ -27,7 +27,7 @@ public class PlayerData extends ATabData {
 
 	@Override
 	public void setData(List<Object> list) {
-		System.out.println(list);
+		//ln(list);
 		for (Object o : list) {
 			PlayerInfo player = (PlayerInfo) o;
 			myPlayerInfo = player;

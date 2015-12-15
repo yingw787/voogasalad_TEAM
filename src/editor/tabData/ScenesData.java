@@ -12,7 +12,7 @@ public class ScenesData extends ATabData {
 
 	@Override
 	public void setData(List<Object> list) {
-//		System.out.println(list);
+//		//ln(list);
 	}
 
 }

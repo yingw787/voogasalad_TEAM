@@ -35,8 +35,8 @@ public class TowersTab extends ATab implements Observer {
 
 		myEntriesList.getSelectionModel().selectedItemProperty().addListener(    
 				(ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-//	                System.out.println(new_val);    
-//	                System.out.println("clicked");
+//	                //ln(new_val);    
+//	                //ln("clicked");
 	                setChanged();
 	                notifyObservers(myData.get(new_val));
 	    });
@@ -66,9 +66,9 @@ public class TowersTab extends ATab implements Observer {
 		
 		// Check for deleted towers
 //		for(Object t : myData.getData()){
-//			System.out.print(((Tower) t).getStringAttribute("Name") + ", ");
+//			//(((Tower) t).getStringAttribute("Name") + ", ");
 //		}
-	//	System.out.println();
+	//	//ln();
 	}
 
 
