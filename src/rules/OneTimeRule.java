@@ -1,3 +1,5 @@
+// This entire file is part of my masterpiece.
+// cw272
 package rules;
 
 import actions.IAction;

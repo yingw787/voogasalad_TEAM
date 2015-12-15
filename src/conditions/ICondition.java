@@ -1,3 +1,6 @@
+// This entire file is part of my masterpiece.
+// cw272
+
 package conditions;
 
 import gameEngine.environments.RuntimeEnvironment;

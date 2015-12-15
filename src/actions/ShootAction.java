@@ -1,3 +1,5 @@
+// This entire file is part of my masterpiece.
+// cw272
 package actions;
 
 import java.util.Collection;
